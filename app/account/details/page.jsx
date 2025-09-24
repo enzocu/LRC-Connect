@@ -228,6 +228,7 @@ export default function AccountDetails() {
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
 													required
+													disabled={editMode == ""}
 												/>
 											</div>
 											<div className="grid grid-cols-2 gap-4">
@@ -243,6 +244,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 
@@ -258,6 +260,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 											</div>
@@ -274,6 +277,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 
@@ -288,6 +292,7 @@ export default function AccountDetails() {
 														placeholder="Jr., Sr., III (optional)"
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
+														disabled={editMode == ""}
 													/>
 												</div>
 											</div>
@@ -303,6 +308,7 @@ export default function AccountDetails() {
 														onChange={(e) => handleChange(e, setFormData)}
 														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 														required
+														disabled={editMode == ""}
 													>
 														<option value="Male">Male</option>
 														<option value="Female">Female</option>
@@ -320,6 +326,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 											</div>
@@ -338,6 +345,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 												<div>
@@ -354,6 +362,7 @@ export default function AccountDetails() {
 														required
 														pattern="^\+639\d{9}$"
 														title="Enter a valid Philippine mobile number (e.g., +639123456789)"
+														disabled={editMode == ""}
 													/>
 												</div>
 											</div>
@@ -383,6 +392,7 @@ export default function AccountDetails() {
 												className="hidden"
 												onChange={(e) => handleChange(e, setFormData)}
 												id="cover-image-upload"
+												disabled={editMode == ""}
 											/>
 											{formData.us_photoURL ? (
 												<div className="w-full h-[250px] bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
@@ -534,6 +544,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 												<div>
@@ -548,6 +559,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 
@@ -563,6 +575,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 												<div>
@@ -577,6 +590,7 @@ export default function AccountDetails() {
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
 														required
+														disabled={editMode == ""}
 													/>
 												</div>
 											</div>
@@ -643,6 +657,7 @@ export default function AccountDetails() {
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
 													required
+													disabled={editMode == ""}
 												/>
 											</div>
 											<select
@@ -651,6 +666,7 @@ export default function AccountDetails() {
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 mt-6 text-[12px]"
 												required
+												disabled={editMode == ""}
 											>
 												<option value={addressData.us_province || ""}>
 													{extractProvinceName(addressData.us_province)}
@@ -668,6 +684,7 @@ export default function AccountDetails() {
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 												required
+												disabled={editMode == ""}
 											>
 												<option value={addressData.us_municipal || ""}>
 													{extractProvinceName(addressData.us_municipal)}
@@ -684,6 +701,7 @@ export default function AccountDetails() {
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 												required
+												disabled={editMode == ""}
 											>
 												<option value={addressData.us_barangay || ""}>
 													{extractProvinceName(addressData.us_barangay)}

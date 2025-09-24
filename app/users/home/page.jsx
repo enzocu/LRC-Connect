@@ -136,10 +136,10 @@ export default function HomePage() {
 	const handleQuickActionMessage = async (prompt, action) => {
 		if (!prompt.trim() || !userDetails) return;
 
-		const usID = ["USR-5", "USR-6"].includes(userDetails.us_level)
+		const usID = ["USR-5", "USR-6"].includes(userDetails?.us_level)
 			? userDetails.uid
 			: null;
-		const liID = !["USR-5", "USR-6"].includes(userDetails.us_level)
+		const liID = !["USR-5", "USR-6"].includes(userDetails?.us_level)
 			? userDetails.us_liID
 			: null;
 
@@ -386,7 +386,7 @@ export default function HomePage() {
 	}, [messages, inChatMode]);
 
 	const getQuickActions = (userdetails) => {
-		const isPatron = ["USR-5", "USR-6"].includes(userDetails.us_level);
+		const isPatron = ["USR-5", "USR-6"].includes(userDetails?.us_level);
 
 		const quickActions = [
 			!isPatron && {
