@@ -397,16 +397,16 @@ const guideMessage = (saveTag, type) => {
 					![Barcode](https://barcode.tec-it.com/barcode.ashx?data={currentReadingID}&code=Code128)
 
 					LINKS FOR WEB PLATFORM:
-					LRC WEBSITE LINKS  (as of now localhost):
-					Visit LRC Website- https://lrcconnect.com
+					LRC WEBSITE LINKS:
+					Visit LRC Website- https://lrc-connect.vercel.app
 
-					Material Details Link -	http://localhost:3000/resources/material/details?id=
-					Discussion Room Details Link -	http://localhost:3000/resources/discussion/details?id=
-					Computer Details Link -	http://localhost:3000/resources/computer/details?id=
+					Material Details Link -	https://lrc-connect.vercel.app/resources/material/details?id=
+					Discussion Room Details Link -	https://lrc-connect.vercel.app/resources/discussion/details?id=
+					Computer Details Link -	https://lrc-connect.vercel.app/resources/computer/details?id=
 
-					Library Details Link -	http://localhost:3000/library/details?id=
-					Users/Profile Details Link -	http://localhost:3000/account/details?id=
-					Transaction Details Link -	http://localhost:3000/transaction/details?id=
+					Library Details Link -	https://lrc-connect.vercel.app/library/details?id=
+					Users/Profile Details Link -	https://lrc-connect.vercel.app/account/details?id=
+					Transaction Details Link -	https://lrc-connect.vercel.app/transaction/details?id=
 
 
 					LINK WITHOUT ID:
