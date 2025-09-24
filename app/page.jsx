@@ -12,12 +12,13 @@ export default function HomePage() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	const handleDownload = () => {
-		const link = document.createElement("a");
-		link.href = "/files/my-app.apk";
-		link.download = "MyLibraryApp.apk";
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
+		// const link = document.createElement("a");
+		// link.href = "/files/my-app.apk";
+		// link.download = "MyLibraryApp.apk";
+		// document.body.appendChild(link);
+		// link.click();
+		// document.body.removeChild(link);
+		alert("wait pre");
 	};
 
 	return (
