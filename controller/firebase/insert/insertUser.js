@@ -1,0 +1,128 @@
+import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import {
+	createUserWithEmailAndPassword,
+	sendPasswordResetEmail,
+	getAuth,
+	fetchSignInMethodsForEmail,
+} from "firebase/auth";
+import { db, firebaseConfig, storage } from "../../../server/firebaseConfig";
+import { initializeApp, getApps } from "firebase/app";
+import { generateQrID } from "../get/getGeneratedQR";
+import { getUserLevel } from "../../../controller/custom/getUserLevel";
+import { convertDateToTimestamp } from "../../custom/customFunction";
+
+import { insertAudit } from "../insert/insertAudit";
+
+export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
+	setBtnLoading(true);
+
+	try {
+		let secondaryApp;
+		if (!getApps().some((app) => app.name === "Secondary")) {
+			secondaryApp = initializeApp(firebaseConfig, "Secondary");
+		} else {
+			secondaryApp = getApps().find((app) => app.name === "Secondary");
+		}
+		const secondaryAuth = getAuth(secondaryApp);
+
+		const existingMethods = await fetchSignInMethodsForEmail(
+			secondaryAuth,
+			userData.us_email
+		);
+		if (existingMethods.length > 0) {
+			Alert.showDanger(
+				"Email already registered! You may check it under its associated library."
+			);
+			return;
+		}
+
+		const randomPassword = generatePassword();
+		const userCredential = await createUserWithEmailAndPassword(
+			secondaryAuth,
+			userData.us_email,
+			randomPassword
+		);
+		await sendPasswordResetEmail(secondaryAuth, userData.us_email);
+
+		let us_photoURL = "";
+		if (userData.us_photoURL && userData.us_photoURL !== "") {
+			const photoRef = ref(storage, `users/photo_${Date.now()}`);
+			const snapshot = await uploadBytes(photoRef, userData.us_photoURL);
+			us_photoURL = await getDownloadURL(snapshot.ref);
+		}
+
+		const userDocRef = doc(db, "users", userCredential.user.uid);
+
+		const [_, us_province = ""] = userData.us_province?.split("|") || [];
+		const [__, us_municipal = ""] = userData.us_municipal?.split("|") || [];
+		const [___, us_barangay = ""] = userData.us_barangay?.split("|") || [];
+
+		const userDocData = {
+			us_qr: await generateQrID("users", "USR"),
+			us_schoolID: userData.us_schoolID || "",
+			us_status: "Active",
+			us_fname: userData.us_fname || "",
+			us_mname: userData.us_mname || "",
+			us_lname: userData.us_lname || "",
+			us_suffix: userData.us_suffix || "",
+			us_sex: userData.us_sex || "",
+			us_birthday: convertDateToTimestamp(userData.us_birthday),
+			us_email: userData.us_email || "",
+			email: userData.us_email || "",
+			us_phoneNumber: userData.us_phoneNumber || "",
+			us_street: userData.us_street || "",
+			us_barangay,
+			us_municipal,
+			us_province,
+			us_section: userData.us_section || "",
+			us_year: userData.us_year || "",
+			us_program: userData.us_program || "",
+			us_school: userData.us_school || "",
+			us_photoURL,
+			us_createdAt: serverTimestamp(),
+			us_type: userData.us_type || "",
+		};
+
+		const newLevel = getUserLevel(userData.us_type);
+
+		if (["USR-5", "USR-6"].includes(newLevel)) {
+			userDocData.us_level = newLevel;
+			userDocData.us_liID = doc(db, "library", li_id);
+		} else {
+			userDocData.us_type = "Personnel";
+			userDocData.us_library = [
+				{
+					us_liID: doc(db, "library", li_id),
+					us_level: newLevel,
+					us_type: userData.us_type,
+				},
+			];
+		}
+
+		await setDoc(userDocRef, {
+			...userDocData,
+			uid: userCredential.user.uid,
+		});
+
+		await insertAudit(
+			li_id,
+			us_id,
+			"Create",
+			`A new user account for "${userData.us_fname} ${userData.us_mname} ${userData.us_lname}" was registered in the library.`,
+			Alert
+		);
+
+		Alert.showSuccess("Account registered successfully!");
+	} catch (error) {
+		console.error(error);
+		Alert.showDanger(error.message);
+	} finally {
+		setBtnLoading(false);
+	}
+}
+
+// Password generator
+const generatePassword = () =>
+	Math.random().toString(36).slice(-5) +
+	Math.random().toString(36).toUpperCase().slice(-5);
