@@ -40,7 +40,7 @@ import {
 	toggleTextToSpeech,
 	toggleSpeechRecognition,
 } from "../../../controller/custom/customFunction";
-import callGemini from "../../../controller/custom/geminiAPI";
+import callGemini from "../../../controller/api/geminiAPI";
 
 import { getDefault } from "@/controller/firebase/get/ai-report/default";
 import { getMaterialList } from "@/controller/firebase/get/ai-report/material/getMaterialList";

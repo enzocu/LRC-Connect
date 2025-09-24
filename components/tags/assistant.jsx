@@ -20,7 +20,7 @@ import remarkGfm from "remark-gfm";
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
 
-import callGemini from "../../controller/custom/geminiAPI";
+import callGemini from "../../controller/api/geminiAPI";
 import extractTextFromPdfUrl from "../../controller/custom/extractTextFromPdfUrl";
 import { getDefault } from "../../controller/firebase/get/ai-report/default";
 import {

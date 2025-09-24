@@ -9,7 +9,7 @@ import { LoadingSpinner } from "@/components/loading";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 
 import { useAlertActions } from "@/contexts/AlertContext";
-import { fetchAddress } from "../../controller/custom/fetchAddress";
+import { fetchAddress } from "../../controller/api/fetchAddress";
 
 export function PinLocation({ isOpen, onClose, setFormData }) {
 	const Alert = useAlertActions();

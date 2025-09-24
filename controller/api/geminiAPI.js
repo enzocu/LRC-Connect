@@ -6,7 +6,7 @@ const callGemini = async (chatHistory, setChat, saveTag, setThinking, type) => {
 
 		const fullMessages = [guideMessage(saveTag, type), ...limitedChat];
 
-		const res = await fetch("http://localhost:3000/api/gemini", {
+		const res = await fetch("/api/gemini", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
