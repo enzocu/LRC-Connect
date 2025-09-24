@@ -7,7 +7,11 @@ import {
 	doc,
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
-import { formatDate, formatTime } from "../../custom/customFunction";
+import {
+	formatDate,
+	formatTime,
+	isSameDate,
+} from "../../custom/customFunction";
 
 export async function getAffectedList(
 	transaction,
@@ -106,7 +110,8 @@ export async function getAffectedList(
 						data.tr_useDate?.toDate() < transaction.tr_dateDue?.toDate()) ||
 					(transaction.tr_type !== "Material" &&
 						data.tr_sessionStart?.toDate() <
-							transaction.tr_sessionEnd?.toDate());
+							transaction.tr_sessionEnd?.toDate() &&
+						isSameDate(data.tr_sessionStart, transaction.tr_sessionEnd));
 
 				if (shouldInclude) {
 					allAffected.push({

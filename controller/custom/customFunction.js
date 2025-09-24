@@ -362,3 +362,13 @@ export const isLate = (t, now) => {
 export const toSafeString = (value, defaultValue = null) => {
 	return value != null && value !== "" ? String(value) : defaultValue;
 };
+
+export const isSameDate = (d1, d2) => {
+	const date1 = d1?.toDate();
+	const date2 = d2?.toDate();
+	return (
+		date1?.getFullYear() === date2?.getFullYear() &&
+		date1?.getMonth() === date2?.getMonth() &&
+		date1?.getDate() === date2?.getDate()
+	);
+};

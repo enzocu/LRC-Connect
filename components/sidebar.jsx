@@ -7,7 +7,6 @@ import {
 	FiHome,
 	FiUsers,
 	FiSettings,
-	FiHelpCircle,
 	FiMoon,
 	FiSun,
 	FiChevronDown,
@@ -273,8 +272,6 @@ export function Sidebar() {
 						{users && (
 							<SidebarItem href="/users/about" icon={FiInfo} label="About" />
 						)}
-
-						<SidebarItem href="/" icon={FiHelpCircle} label="Help" />
 
 						<button
 							onClick={toggleDarkMode}

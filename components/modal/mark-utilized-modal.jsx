@@ -119,7 +119,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 					<div className="space-y-3">
 						<div className="flex items-center space-x-2">
 							<AlertTriangle className="w-4 h-4 text-amber-500" />
-							<p className="font-medium text-gray-900 text-[12px]">
+							<p className="font-medium text-foreground text-[12px]">
 								The following transactions will be cancelled:
 							</p>
 						</div>

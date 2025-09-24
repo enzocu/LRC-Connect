@@ -39,6 +39,7 @@ export default function TransactionDetailsPage() {
 	const id = searchParams.get("id");
 
 	const [transactionData, setTransactionData] = useState({});
+	const qrRef = useRef(null);
 
 	useEffect(() => {
 		if (!id) return;
@@ -142,6 +143,7 @@ export default function TransactionDetailsPage() {
 								<div className="text-center">
 									<div className="w-48 h-48 mx-auto mb-4 bg-white rounded-lg border border-border  flex items-center justify-center">
 										<GenerateQrBarcode
+											ref={qrRef}
 											value={transactionData?.tr_qr}
 											type="qr"
 										/>
@@ -153,6 +155,7 @@ export default function TransactionDetailsPage() {
 										variant="outline"
 										size="sm"
 										className="w-full h-9 border-border text-foreground hover:bg-accent bg-transparent text-[12px]"
+										onClick={() => qrRef.current?.download()}
 									>
 										<FiDownload className="w-3 h-3 mr-1" />
 										Download QR Code
