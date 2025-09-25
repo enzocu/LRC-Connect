@@ -16,7 +16,7 @@ export async function updateUser(
 	try {
 		setBtnLoading(true);
 
-		let us_photoURL;
+		let us_photoURL = null;
 		if (userData.us_photoURL instanceof File) {
 			const photoRef = ref(storage, `users/photo_${Date.now()}`);
 			const snapshot = await uploadBytes(photoRef, userData.us_photoURL);
