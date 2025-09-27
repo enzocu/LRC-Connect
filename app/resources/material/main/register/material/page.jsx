@@ -1234,7 +1234,7 @@ export default function MaterialRegistrationPage() {
 													)}
 												</div>
 												<div className="flex-1 space-y-1">
-													<h2 className="font-semibold text-foreground text-[16px]">
+													<h2 className="font-semibold text-foreground text-[16px] ">
 														{formData.ma_status === "Active"
 															? "Deactivate Material"
 															: "Activate Material"}

@@ -122,7 +122,7 @@ export default function RegisterDiscussionRoom() {
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-1 items-start">
 							<Card className="bg-card border-border transition-colors duration-300">
 								<CardContent className="p-6">
-									<h2 className="font-semibold text-foreground text-[16px]">
+									<h2 className="font-semibold text-foreground text-[16px] mb-2">
 										Discussion Room Information
 									</h2>
 									<p className="text-muted-foreground text-[12px] mb-4">

@@ -121,7 +121,7 @@ export default function RegisterComputer() {
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-1 items-start">
 							<Card className="bg-card border-border transition-colors duration-300">
 								<CardContent className="p-6">
-									<h2 className="font-semibold text-foreground text-[16px]">
+									<h2 className="font-semibold text-foreground text-[16px] mb-2">
 										Computer Information
 									</h2>
 									<p className="text-muted-foreground text-[12px] mb-4">
@@ -328,8 +328,8 @@ export default function RegisterComputer() {
 														<IoMdCheckmarkCircleOutline className="w-4 h-4 text-green-500" />
 													)}
 												</div>
-												<div className="flex-1 space-y-1">
-													<h2 className="font-semibold text-foreground text-[16px]">
+												<div className="flex-1">
+													<h2 className="font-semibold text-foreground text-[16px] mb-2">
 														{formData?.co_status === "Active"
 															? "Deactivate Material"
 															: "Activate Material"}

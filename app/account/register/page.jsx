@@ -128,7 +128,7 @@ export default function RegisterAccount() {
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-1">
 							<Card className="bg-card border-border transition-colors duration-300">
 								<CardContent className="p-6">
-									<h2 className="font-semibold text-foreground text-[16px]">
+									<h2 className="font-semibold text-foreground text-[16px] mb-2">
 										Account Information
 									</h2>
 									<p className="text-muted-foreground text-[12px] mb-4">
@@ -324,7 +324,7 @@ export default function RegisterAccount() {
 
 										{type && type == "patron" && (
 											<div className="pt-8">
-												<h2 className="font-semibold text-foreground text-[16px]">
+												<h2 className="font-semibold text-foreground text-[16px] mb-2">
 													Academic
 												</h2>
 												<p className="text-muted-foreground text-[12px] mb-4">
@@ -446,7 +446,7 @@ export default function RegisterAccount() {
 									</label>
 
 									<div className="mb-6">
-										<h2 className="font-semibold text-foreground text-[16px]">
+										<h2 className="font-semibold text-foreground text-[16px] mb-2">
 											Address
 										</h2>
 										<p className="text-muted-foreground text-[12px] mb-4">

@@ -186,7 +186,7 @@ export default function AccountDetails() {
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-2">
 								<Card className="h-fit bg-card border-border transition-colors duration-300">
 									<CardContent className="p-6">
-										<h2 className="font-semibold text-foreground text-[16px]">
+										<h2 className="font-semibold text-foreground text-[16px] mb-2">
 											Basic Information
 										</h2>
 										<p className="text-muted-foreground text-[12px] mb-4">
@@ -350,7 +350,7 @@ export default function AccountDetails() {
 
 								<Card className="bg-card border-border transition-colors duration-300 h-fit">
 									<CardHeader className="pb-4">
-										<CardTitle className="text-foreground flex items-center gap-2 text-[16px]">
+										<CardTitle className="text-foreground flex items-center gap-2 text-[16px] m">
 											<FiImage className="w-4 h-4" />
 											Profile Picture
 										</CardTitle>
@@ -432,7 +432,7 @@ export default function AccountDetails() {
 											formData?.us_level != "USR-1" && (
 												<div className="mt-8">
 													<div className="flex items-center justify-between">
-														<h2 className="font-semibold text-foreground text-[16px]">
+														<h2 className="font-semibold text-foreground text-[16px] mb-2">
 															Associated{" "}
 															{associatedLibraries?.length === 1
 																? "Library"
@@ -509,7 +509,7 @@ export default function AccountDetails() {
 								<form onSubmit={handleSubmitAcademic}>
 									<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
 										<CardContent className="p-6">
-											<h2 className="font-semibold text-foreground text-[16px]">
+											<h2 className="font-semibold text-foreground text-[16px] mb-2">
 												Academic
 											</h2>
 											<p className="text-muted-foreground text-[12px] mb-4">
@@ -624,7 +624,7 @@ export default function AccountDetails() {
 							<form onSubmit={handleSubmitAddress}>
 								<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
 									<CardContent className="p-6">
-										<h2 className="font-semibold text-foreground text-[16px]">
+										<h2 className="font-semibold text-foreground text-[16px] mb-2">
 											Address
 										</h2>
 										<p className="text-muted-foreground text-[12px] mb-4">
