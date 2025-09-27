@@ -336,388 +336,388 @@ const ListenPage = () => {
 						focusAI ? "grid grid-cols-1 lg:grid-cols-3 gap-14" : ""
 					}`}
 				>
-					{focusAI && (
-						<div className="lg:col-span-2">
-							<Card className="bg-card border-border overflow-hidden min-h-[600px]">
-								<CardHeader className="pb-4 border-b border-border">
-									<div className="flex items-start justify-between">
-										<div className="flex flex-col gap-1">
-											<div className="flex items-center gap-2">
-												<Hash className="w-4 h-4 text-muted-foreground" />
-												<h2 className="font-semibold text-foreground text-[16px]">
-													{transactionData?.tr_qr || "Transaction ID"}
-												</h2>
-											</div>
-											<div className="flex items-center gap-2">
-												<Calendar className="w-4 h-4 text-muted-foreground" />
-												<span className="text-muted-foreground text-[12px]">
-													Due: {transactionData?.tr_dateDueFormatted}
-												</span>
-											</div>
+					<div
+						className={`lg:col-span-2 transition-all duration-300 ${
+							focusAI ? "opacity-100" : "opacity-0 pointer-events-none absolute"
+						}`}
+					>
+						<Card className="bg-card border-border overflow-hidden min-h-[600px]">
+							<CardHeader className="pb-4 border-b border-border">
+								<div className="flex items-start justify-between">
+									<div className="flex flex-col gap-1">
+										<div className="flex items-center gap-2">
+											<Hash className="w-4 h-4 text-muted-foreground" />
+											<h2 className="font-semibold text-foreground text-[16px]">
+												{transactionData?.tr_qr || "Transaction ID"}
+											</h2>
 										</div>
 										<div className="flex items-center gap-2">
-											<div className="px-3 py-1 rounded-full  font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 text-[12px]">
-												Utilized
-											</div>
+											<Calendar className="w-4 h-4 text-muted-foreground" />
+											<span className="text-muted-foreground text-[12px]">
+												Due: {transactionData?.tr_dateDueFormatted}
+											</span>
 										</div>
 									</div>
-								</CardHeader>
-
-								{transactionData?.tr_format == "Soft Copy" && (
-									<div className="p-4 flex items-center max-sm:flex-wrap md:justify-between  gap-4 border-b border-border">
-										<div className="flex items-center gap-4">
-											<div className="flex items-center gap-2">
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={handlePreviousPage}
-													disabled={currentPage === 1}
-													className="h-8 w-8 p-0 bg-transparent"
-												>
-													<ChevronLeft className="w-4 h-4" />
-												</Button>
-
-												<div className="flex items-center gap-2">
-													<input
-														type="number"
-														value={currentPage}
-														onChange={(e) => {
-															const page = Number.parseInt(e.target.value);
-															if (page >= 1 && page <= numPages) {
-																setCurrentPage(page);
-															}
-														}}
-														className="w-16 h-8 px-2 text-center border border-border rounded  bg-background text-[12px]"
-														min="1"
-														max={numPages}
-													/>
-													<span className="text-muted-foreground text-[12px]">
-														of {numPages}
-													</span>
-												</div>
-
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={handleNextPage}
-													disabled={currentPage === numPages}
-													className="h-8 w-8 p-0 bg-transparent"
-												>
-													<ChevronRight className="w-3 h-3" />
-												</Button>
-											</div>
-
-											<div className="flex items-center gap-2 border-l border-border pl-4">
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={handleZoomOut}
-													disabled={zoom === 50}
-													className="h-8 w-8 p-0 bg-transparent"
-												>
-													<ZoomOut className="w-3 h-3" />
-												</Button>
-
-												<span className=" text-muted-foreground min-w-[50px] text-center text-[12px]">
-													{zoom}%
-												</span>
-
-												<Button
-													variant="outline"
-													size="sm"
-													onClick={handleZoomIn}
-													disabled={zoom === 200}
-													className="h-8 w-8 p-0 bg-transparent"
-												>
-													<ZoomIn className="w-3 h-3" />
-												</Button>
-											</div>
+									<div className="flex items-center gap-2">
+										<div className="px-3 py-1 rounded-full  font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400 text-[12px]">
+											Utilized
 										</div>
+									</div>
+								</div>
+							</CardHeader>
 
+							{transactionData?.tr_format == "Soft Copy" && (
+								<div className="p-4 flex items-center max-sm:flex-wrap md:justify-between  gap-4 border-b border-border">
+									<div className="flex items-center gap-4">
 										<div className="flex items-center gap-2">
 											<Button
 												variant="outline"
 												size="sm"
-												onClick={handleFullscreen}
-												className="h-8 px-3 flex items-center gap-2 bg-transparent"
+												onClick={handlePreviousPage}
+												disabled={currentPage === 1}
+												className="h-8 w-8 p-0 bg-transparent"
 											>
-												{isFullscreen ? (
-													<Minimize2 className="w-4 h-4" />
-												) : (
-													<Maximize2 className="w-4 h-4" />
-												)}
-												<span className="text-[12px]">
-													{isFullscreen ? "Collapse View" : "Fullscreen"}
+												<ChevronLeft className="w-4 h-4" />
+											</Button>
+
+											<div className="flex items-center gap-2">
+												<input
+													type="number"
+													value={currentPage}
+													onChange={(e) => {
+														const page = Number.parseInt(e.target.value);
+														if (page >= 1 && page <= numPages) {
+															setCurrentPage(page);
+														}
+													}}
+													className="w-16 h-8 px-2 text-center border border-border rounded  bg-background text-[12px]"
+													min="1"
+													max={numPages}
+												/>
+												<span className="text-muted-foreground text-[12px]">
+													of {numPages}
 												</span>
+											</div>
+
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={handleNextPage}
+												disabled={currentPage === numPages}
+												className="h-8 w-8 p-0 bg-transparent"
+											>
+												<ChevronRight className="w-3 h-3" />
+											</Button>
+										</div>
+
+										<div className="flex items-center gap-2 border-l border-border pl-4">
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={handleZoomOut}
+												disabled={zoom === 50}
+												className="h-8 w-8 p-0 bg-transparent"
+											>
+												<ZoomOut className="w-3 h-3" />
+											</Button>
+
+											<span className=" text-muted-foreground min-w-[50px] text-center text-[12px]">
+												{zoom}%
+											</span>
+
+											<Button
+												variant="outline"
+												size="sm"
+												onClick={handleZoomIn}
+												disabled={zoom === 200}
+												className="h-8 w-8 p-0 bg-transparent"
+											>
+												<ZoomIn className="w-3 h-3" />
 											</Button>
 										</div>
 									</div>
-								)}
 
-								{/* Content */}
-								{transactionData?.tr_format == "Audio Copy" && (
-									<div className="p-8 flex flex-col items-center justify-center min-h-[520px]">
-										{audioSrc && (
-											<audio ref={audioRef} preload="metadata">
-												<source src={audioSrc} type="audio/mpeg" />
-												<source src={audioSrc} type="audio/mp3" />
-												<source src={audioSrc} type="audio/wav" />
+									<div className="flex items-center gap-2">
+										<Button
+											variant="outline"
+											size="sm"
+											onClick={handleFullscreen}
+											className="h-8 px-3 flex items-center gap-2 bg-transparent"
+										>
+											{isFullscreen ? (
+												<Minimize2 className="w-4 h-4" />
+											) : (
+												<Maximize2 className="w-4 h-4" />
+											)}
+											<span className="text-[12px]">
+												{isFullscreen ? "Collapse View" : "Fullscreen"}
+											</span>
+										</Button>
+									</div>
+								</div>
+							)}
 
-												<EmptyState
-													data={[]}
-													loading={loading}
-													message="Your browser does not support the audio element."
-												/>
-											</audio>
-										)}
-										{audioError || !audioLoaded ? (
+							{/* Content */}
+							{transactionData?.tr_format == "Audio Copy" && (
+								<div className="p-8 flex flex-col items-center justify-center min-h-[520px]">
+									{audioSrc && (
+										<audio ref={audioRef} preload="metadata">
+											<source src={audioSrc} type="audio/mpeg" />
+											<source src={audioSrc} type="audio/mp3" />
+											<source src={audioSrc} type="audio/wav" />
+
 											<EmptyState
 												data={[]}
 												loading={loading}
-												message={
-													audioError
-														? `Error loading audio: ${audioError}`
-														: "Loading content, please wait..."
-												}
+												message="Your browser does not support the audio element."
 											/>
-										) : (
-											<>
-												<div className="mb-6">
-													<div className="rounded-lg overflow-hidden shadow-lg border border-border">
-														<img
-															src={
-																transactionData?.tr_resource?.ma_coverURL ||
-																"/placeholder.svg?height=320&width=240&query=book-cover"
-															}
-															alt="Material"
-															className="w-[280px] h-[380px] object-cover"
-														/>
+										</audio>
+									)}
+									{audioError || !audioLoaded ? (
+										<EmptyState
+											data={[]}
+											loading={loading}
+											message={
+												audioError
+													? `Error loading audio: ${audioError}`
+													: "Loading content, please wait..."
+											}
+										/>
+									) : (
+										<>
+											<div className="mb-6">
+												<div className="rounded-lg overflow-hidden shadow-lg border border-border">
+													<img
+														src={
+															transactionData?.tr_resource?.ma_coverURL ||
+															"/placeholder.svg?height=320&width=240&query=book-cover"
+														}
+														alt="Material"
+														className="w-[280px] h-[380px] object-cover"
+													/>
+												</div>
+											</div>
+
+											<div className="text-center mb-8">
+												<h1 className="text-[24px] font-bold  leading-tight tracking-tight">
+													{transactionData?.tr_resource?.ma_title || "Title"}
+												</h1>
+												<p className="text-muted-foreground text-[16px]">
+													by{" "}
+													{transactionData?.tr_resource?.ma_author || "Author"}
+												</p>
+											</div>
+
+											{audioSrc && (
+												<div className="w-full max-w-md">
+													<div className="mb-6">
+														<div className="flex items-center justify-between mb-3">
+															<span className="text-muted-foreground text-[12px] font-medium">
+																{formattedCurrent}
+															</span>
+															<span className="text-muted-foreground  text-[12px] font-medium">
+																{formattedDuration}
+															</span>
+														</div>
+														<div className="relative">
+															<input
+																type="range"
+																min={0}
+																max={Math.max(0, duration)}
+																step={0.1}
+																value={currentTime}
+																onChange={(e) => seek(Number(e.target.value))}
+																disabled={!audioLoaded}
+																className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer slider disabled:cursor-not-allowed disabled:opacity-50"
+																style={{
+																	background: `linear-gradient(to right, hsl(var(--primary)) 0%, hsl(var(--primary)) ${
+																		(currentTime / Math.max(duration, 1)) * 100
+																	}%, hsl(var(--muted)) ${
+																		(currentTime / Math.max(duration, 1)) * 100
+																	}%, hsl(var(--muted)) 100%)`,
+																}}
+															/>
+														</div>
 													</div>
-												</div>
 
-												<div className="text-center mb-8">
-													<h1 className="text-[24px] font-bold  leading-tight tracking-tight">
-														{transactionData?.tr_resource?.ma_title || "Title"}
-													</h1>
-													<p className="text-muted-foreground text-[16px]">
-														by{" "}
-														{transactionData?.tr_resource?.ma_author ||
-															"Author"}
-													</p>
-												</div>
+													<div className="flex items-center justify-center gap-4 mb-6">
+														<Button
+															variant="outline"
+															size="lg"
+															className="h-12 w-12 rounded-full border-border hover:bg-accent bg-transparent"
+															onClick={() => skip(-15)}
+															disabled={!audioLoaded || !!audioError}
+														>
+															<SkipBack className="w-5 h-5" />
+														</Button>
 
-												{audioSrc && (
-													<div className="w-full max-w-md">
-														<div className="mb-6">
-															<div className="flex items-center justify-between mb-3">
-																<span className="text-muted-foreground text-[12px] font-medium">
-																	{formattedCurrent}
-																</span>
-																<span className="text-muted-foreground  text-[12px] font-medium">
-																	{formattedDuration}
-																</span>
-															</div>
-															<div className="relative">
+														<Button
+															size="lg"
+															className="h-16 w-16 rounded-full bg-primary-custom text-white hover:bg-secondary-custom shadow-lg disabled:opacity-50"
+															onClick={togglePlay}
+															disabled={!audioLoaded || !!audioError}
+														>
+															{isPlaying ? (
+																<Pause className="w-6 h-6" />
+															) : (
+																<Play className="w-6 h-6 ml-1" />
+															)}
+														</Button>
+
+														<Button
+															variant="outline"
+															size="lg"
+															className="h-12 w-12 rounded-full border-border hover:bg-accent bg-transparent"
+															onClick={() => skip(15)}
+															disabled={!audioLoaded || !!audioError}
+														>
+															<SkipForward className="w-5 h-5" />
+														</Button>
+													</div>
+
+													<div className="flex items-center justify-between">
+														<div className="flex items-center gap-1">
+															{[0.75, 1, 1.25, 1.5].map((r) => (
+																<button
+																	key={r}
+																	onClick={() => changeRate(r)}
+																	disabled={!audioLoaded || !!audioError}
+																	className={`h-8 px-3 rounded-full  font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed  text-[11px] ${
+																		rate === r
+																			? "bg-primary-custom text-white shadow-md"
+																			: "bg-muted text-muted-foreground border border-border hover:bg-accent"
+																	}`}
+																	aria-label={`Playback speed ${r}x`}
+																>
+																	{r}x
+																</button>
+															))}
+														</div>
+
+														<div className="flex items-center gap-3">
+															<button
+																onClick={toggleMute}
+																disabled={!audioLoaded || !!audioError}
+																className="h-8 w-8 rounded-full bg-muted hover:bg-accent text-muted-foreground border border-border flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+																aria-label={muted ? "Unmute" : "Mute"}
+															>
+																{muted ? (
+																	<VolumeX className="w-4 h-4" />
+																) : (
+																	<Volume2 className="w-4 h-4" />
+																)}
+															</button>
+															<div className="w-20">
 																<input
 																	type="range"
 																	min={0}
-																	max={Math.max(0, duration)}
-																	step={0.1}
-																	value={currentTime}
-																	onChange={(e) => seek(Number(e.target.value))}
-																	disabled={!audioLoaded}
-																	className="w-full h-2 bg-muted rounded-lg appearance-none cursor-pointer slider disabled:cursor-not-allowed disabled:opacity-50"
+																	max={1}
+																	step={0.05}
+																	value={muted ? 0 : volume}
+																	onChange={(e) =>
+																		changeVolume(Number(e.target.value))
+																	}
+																	disabled={!audioLoaded || !!audioError}
+																	className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
 																	style={{
 																		background: `linear-gradient(to right, hsl(var(--primary)) 0%, hsl(var(--primary)) ${
-																			(currentTime / Math.max(duration, 1)) *
-																			100
+																			(muted ? 0 : volume) * 100
 																		}%, hsl(var(--muted)) ${
-																			(currentTime / Math.max(duration, 1)) *
-																			100
+																			(muted ? 0 : volume) * 100
 																		}%, hsl(var(--muted)) 100%)`,
 																	}}
 																/>
 															</div>
 														</div>
-
-														<div className="flex items-center justify-center gap-4 mb-6">
-															<Button
-																variant="outline"
-																size="lg"
-																className="h-12 w-12 rounded-full border-border hover:bg-accent bg-transparent"
-																onClick={() => skip(-15)}
-																disabled={!audioLoaded || !!audioError}
-															>
-																<SkipBack className="w-5 h-5" />
-															</Button>
-
-															<Button
-																size="lg"
-																className="h-16 w-16 rounded-full bg-primary-custom text-white hover:bg-secondary-custom shadow-lg disabled:opacity-50"
-																onClick={togglePlay}
-																disabled={!audioLoaded || !!audioError}
-															>
-																{isPlaying ? (
-																	<Pause className="w-6 h-6" />
-																) : (
-																	<Play className="w-6 h-6 ml-1" />
-																)}
-															</Button>
-
-															<Button
-																variant="outline"
-																size="lg"
-																className="h-12 w-12 rounded-full border-border hover:bg-accent bg-transparent"
-																onClick={() => skip(15)}
-																disabled={!audioLoaded || !!audioError}
-															>
-																<SkipForward className="w-5 h-5" />
-															</Button>
-														</div>
-
-														<div className="flex items-center justify-between">
-															<div className="flex items-center gap-1">
-																{[0.75, 1, 1.25, 1.5].map((r) => (
-																	<button
-																		key={r}
-																		onClick={() => changeRate(r)}
-																		disabled={!audioLoaded || !!audioError}
-																		className={`h-8 px-3 rounded-full  font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed  text-[11px] ${
-																			rate === r
-																				? "bg-primary-custom text-white shadow-md"
-																				: "bg-muted text-muted-foreground border border-border hover:bg-accent"
-																		}`}
-																		aria-label={`Playback speed ${r}x`}
-																	>
-																		{r}x
-																	</button>
-																))}
-															</div>
-
-															<div className="flex items-center gap-3">
-																<button
-																	onClick={toggleMute}
-																	disabled={!audioLoaded || !!audioError}
-																	className="h-8 w-8 rounded-full bg-muted hover:bg-accent text-muted-foreground border border-border flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-																	aria-label={muted ? "Unmute" : "Mute"}
-																>
-																	{muted ? (
-																		<VolumeX className="w-4 h-4" />
-																	) : (
-																		<Volume2 className="w-4 h-4" />
-																	)}
-																</button>
-																<div className="w-20">
-																	<input
-																		type="range"
-																		min={0}
-																		max={1}
-																		step={0.05}
-																		value={muted ? 0 : volume}
-																		onChange={(e) =>
-																			changeVolume(Number(e.target.value))
-																		}
-																		disabled={!audioLoaded || !!audioError}
-																		className="w-full h-1 bg-muted rounded-lg appearance-none cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
-																		style={{
-																			background: `linear-gradient(to right, hsl(var(--primary)) 0%, hsl(var(--primary)) ${
-																				(muted ? 0 : volume) * 100
-																			}%, hsl(var(--muted)) ${
-																				(muted ? 0 : volume) * 100
-																			}%, hsl(var(--muted)) 100%)`,
-																		}}
-																	/>
-																</div>
-															</div>
-														</div>
 													</div>
-												)}
-											</>
-										)}
-									</div>
-								)}
+												</div>
+											)}
+										</>
+									)}
+								</div>
+							)}
 
-								{transactionData?.tr_format == "Soft Copy" && (
-									<>
-										<CardContent className="p-6 flex-1 flex flex-col items-center justify-center">
-											<div
-												className="relative  w-full flex items-center justify-center border border-border rounded-sm"
-												style={{
-													height: isFullscreen ? "100%" : "75vh",
-													overflowY: "auto",
-												}}
-											>
-												{pdfUrl ? (
-													<div
-														className=" transition-transform duration-200 "
-														style={{
-															maxWidth: "100%",
-															maxHeight: "100%",
-															position: "relative",
-														}}
+							{transactionData?.tr_format == "Soft Copy" && (
+								<>
+									<CardContent className="p-6 flex-1 flex flex-col items-center justify-center">
+										<div
+											className="relative  w-full flex items-center justify-center border border-border rounded-sm"
+											style={{
+												height: isFullscreen ? "100%" : "75vh",
+												overflowY: "auto",
+											}}
+										>
+											{pdfUrl ? (
+												<div
+													className=" transition-transform duration-200 "
+													style={{
+														maxWidth: "100%",
+														maxHeight: "100%",
+														position: "relative",
+													}}
+												>
+													<Document
+														file={pdfUrl}
+														onLoadSuccess={onDocumentLoadSuccess}
+														loading={
+															<EmptyState
+																data={[]}
+																loading={loading}
+																message="Loading PDF, please wait..."
+															/>
+														}
+														error={
+															<EmptyState
+																data={[]}
+																loading={loading}
+																message="Failed to load PDF."
+															/>
+														}
+														noData={
+															<EmptyState
+																data={[]}
+																loading={loading}
+																message="No PDF file specified."
+															/>
+														}
 													>
-														<Document
-															file={pdfUrl}
-															onLoadSuccess={onDocumentLoadSuccess}
-															loading={
-																<EmptyState
-																	data={[]}
-																	loading={loading}
-																	message="Loading PDF, please wait..."
-																/>
-															}
-															error={
-																<EmptyState
-																	data={[]}
-																	loading={loading}
-																	message="Failed to load PDF."
-																/>
-															}
-															noData={
-																<EmptyState
-																	data={[]}
-																	loading={loading}
-																	message="No PDF file specified."
-																/>
-															}
-														>
-															{Array.from(new Array(numPages), (el, index) => (
-																<Page
-																	key={`page_${index + 1}`}
-																	pageNumber={currentPage}
-																	width={(baseWidth * zoom) / 100}
-																/>
-															))}
-														</Document>
-													</div>
-												) : (
-													<div className="w-full h-full bg-muted rounded flex items-center justify-center">
-														<p className="text-muted-foreground text-sm">
-															No PDF source available for this item.
-														</p>
-													</div>
-												)}
-											</div>
-										</CardContent>
-
-										{/* Footer Info */}
-										<div className="flex items-center flex-wrap lg:justify-between gap-1 text-[11px] text-muted-foreground pt-4 px-6 pb-4 border-t border-border">
-											<div className="flex items-center gap-4">
-												<span>Format: PDF</span>
-												<span>Size: 2.4 MB</span>
-											</div>
-											<div>
-												<span>
-													© {new Date().getFullYear()} Dalubhasaang Politekniko
-													ng Lungsod ng Baliwag
-												</span>
-											</div>
+														{Array.from(new Array(numPages), (el, index) => (
+															<Page
+																key={`page_${index + 1}`}
+																pageNumber={currentPage}
+																width={(baseWidth * zoom) / 100}
+															/>
+														))}
+													</Document>
+												</div>
+											) : (
+												<div className="w-full h-full bg-muted rounded flex items-center justify-center">
+													<p className="text-muted-foreground text-sm">
+														No PDF source available for this item.
+													</p>
+												</div>
+											)}
 										</div>
-									</>
-								)}
-							</Card>
-						</div>
-					)}
+									</CardContent>
+
+									{/* Footer Info */}
+									<div className="flex items-center flex-wrap lg:justify-between gap-1 text-[11px] text-muted-foreground pt-4 px-6 pb-4 border-t border-border">
+										<div className="flex items-center gap-4">
+											<span>Format: PDF</span>
+											<span>Size: 2.4 MB</span>
+										</div>
+										<div>
+											<span>
+												© {new Date().getFullYear()} Dalubhasaang Politekniko ng
+												Lungsod ng Baliwag
+											</span>
+										</div>
+									</div>
+								</>
+							)}
+						</Card>
+					</div>
+
 					<AssistantPage
 						transactionData={transactionData}
 						handleFocusAI={handleFocusAI}

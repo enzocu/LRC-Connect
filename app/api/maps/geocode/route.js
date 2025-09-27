@@ -14,6 +14,7 @@ export async function GET(req) {
 		}
 
 		const url = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.MAP_KEY}`;
+		console.log("Google API URL:", url);
 		const response = await fetch(url);
 		const data = await response.json();
 
