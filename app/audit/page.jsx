@@ -298,6 +298,7 @@ export default function AuditPage() {
 				<thead className="bg-muted/30">
 					<tr className="border-b border-border">
 						{[
+							"Timestamp",
 							"School ID",
 							"Type",
 							"Fullname",
@@ -307,7 +308,6 @@ export default function AuditPage() {
 							"Status",
 							"IP Address",
 							"Device",
-							"Timestamp",
 						].map((header) => (
 							<th
 								key={header}
@@ -325,30 +325,27 @@ export default function AuditPage() {
 							key={index}
 							className={`border-b border-border hover:bg-accent/30 transition-colors `}
 						>
+							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
+								{audit.au_createdAtFormatted}
+							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
 								{audit.au_schoolId}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[100px]">
 								{audit.au_userType}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[180px]">
 								{audit.au_fullname}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
 								{audit.au_library}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[130px]">
 								{audit.au_actionType}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[350px] max-w-[600px]">
 								{audit.au_description}
 							</td>
-
 							<td className="py-4 px-6 text-left text-[12px] min-w-[80px]">
 								<Badge
 									className={getStatusColor(audit.au_status)}
@@ -357,18 +354,12 @@ export default function AuditPage() {
 									{audit.au_status}
 								</Badge>
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
 								{audit.au_ipAddress}
 							</td>
-
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[140px]">
 								{audit.au_device}
-							</td>
-
-							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
-								{audit.au_createdAtFormatted}
-							</td>
+							</td>{" "}
 						</tr>
 					))}
 				</tbody>
