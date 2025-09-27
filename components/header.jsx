@@ -29,11 +29,11 @@ export function Header() {
 	}, [scannedCode]);
 
 	useEffect(() => {
-		if (!userDetails || !userDetails?.us_liID) return;
+		if (!userDetails) return;
 
 		const unsubscribe = getScannerCode(
 			userDetails?.us_level == "USR-1",
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			userDetails.uid,
 			router,
 			Alert
