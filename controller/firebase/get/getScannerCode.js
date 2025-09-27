@@ -13,14 +13,25 @@ import {
 	resetScannerLock,
 } from "@/controller/firebase/get/getScanner";
 
-export function getScannerCode(li_id, us_id, router, Alert) {
+export function getScannerCode(
+	isSuperadmin = false,
+	li_id,
+	us_id,
+	router,
+	Alert
+) {
 	try {
 		const faRef = collection(db, "scanner");
 
+		const scanner = [where("sc_usID", "==", doc(db, "users", us_id))];
+
+		if (!isSuperadmin) {
+			scanner.push(where("sc_liID", "==", li_id));
+		}
+
 		const finalQuery = query(
 			faRef,
-			where("sc_liID", "==", li_id),
-			where("sc_usID", "==", doc(db, "users", us_id)),
+			...scanner,
 			orderBy("sc_createdAt", "desc")
 		);
 
@@ -45,14 +56,14 @@ export function getScannerCode(li_id, us_id, router, Alert) {
 			},
 			(error) => {
 				Alert.showDanger(error.message);
-				console.log(error.message);
+				console.error(error.message);
 			}
 		);
 
 		return unsubscribe;
 	} catch (error) {
 		Alert.showDanger(error.message);
-		console.log(error.message);
+		console.error(error.message);
 		return () => {};
 	}
 }
