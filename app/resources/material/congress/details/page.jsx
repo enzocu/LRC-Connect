@@ -72,7 +72,7 @@ export default function CongressDetailsPage() {
 							style={{ fontSize: "11px" }}
 						>
 							<FiArrowLeft className="w-4 h-4" />
-							Back to Library of Congress
+							Back to Previous page
 						</button>
 					</div>
 

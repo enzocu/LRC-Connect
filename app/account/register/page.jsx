@@ -110,7 +110,7 @@ export default function RegisterAccount() {
 							className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors w-fit text-[11px]"
 						>
 							<FiArrowLeft className="w-4 h-4" />
-							Back to Library Details
+							Back to Previous page
 						</button>
 					</div>
 
@@ -405,7 +405,7 @@ export default function RegisterAccount() {
 								<CardHeader className="pb-4">
 									<CardTitle className="text-foreground flex items-center gap-2 text-[16px]">
 										<FiImage className="w-4 h-4" />
-										Cover Image
+										Profile Picture
 									</CardTitle>
 									<p className="text-muted-foreground text-[12px]">
 										Note: Format photos SVG, PNG, or JPG Max size 2mb

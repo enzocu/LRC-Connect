@@ -198,7 +198,7 @@ export default function AccountList() {
 									<div className="relative flex-1 max-w-md">
 										<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
 										<Input
-											placeholder="Search user?..."
+											placeholder="Search user..."
 											value={searchQuery}
 											onChange={(e) => setSearchQuery(e.target.value)}
 											className="pl-10 pr-24 h-9 bg-background border-none text-foreground rounded-md shadow-sm"

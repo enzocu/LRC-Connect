@@ -350,7 +350,7 @@ export default function AccountDetails() {
 									<CardHeader className="pb-4">
 										<CardTitle className="text-foreground flex items-center gap-2 text-[16px]">
 											<FiImage className="w-4 h-4" />
-											Cover Image
+											Profile Picture
 										</CardTitle>
 										<p className="text-muted-foreground text-[12px] mb-4">
 											Note: Format photos SVG, PNG, or JPG Max size 2mb
