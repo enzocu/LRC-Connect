@@ -581,7 +581,7 @@ export default function AuditPage() {
 													style={{ fontSize: "12px" }}
 													required
 												>
-													<option value="">Select User Type</option>
+													<option value="All">Select User Type</option>
 													{userTypes.map((group, idx) => (
 														<optgroup key={idx} label={group.group}>
 															{group.options.map((option, i) => (
