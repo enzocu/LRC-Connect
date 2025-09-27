@@ -681,6 +681,7 @@ export default function MaterialRegistrationPage() {
 																											ho_index: idx,
 																										})
 																									}
+																									title="Edit Accession"
 																								>
 																									<FiEdit className="w-3 h-3" />
 																								</Button>
@@ -701,6 +702,7 @@ export default function MaterialRegistrationPage() {
 																											setHoldings
 																										)
 																									}
+																									title="Delete Accession"
 																								>
 																									<FiX className="w-3 h-3" />
 																								</Button>
@@ -804,6 +806,7 @@ export default function MaterialRegistrationPage() {
 																											su_index: idx,
 																										})
 																									}
+																									title="Edit Subject"
 																								>
 																									<FiEdit className="w-3 h-3" />
 																								</Button>
@@ -824,6 +827,7 @@ export default function MaterialRegistrationPage() {
 																											setSubjects
 																										)
 																									}
+																									title="Delete Subject"
 																								>
 																									<FiX className="w-3 h-3" />
 																								</Button>
