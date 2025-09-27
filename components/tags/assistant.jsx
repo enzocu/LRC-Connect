@@ -188,7 +188,7 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 				<div>
 					<div className="flex items-start justify-between gap-6">
 						<div>
-							<h2 className="font-semibold text-foreground text-[16px] mb-2">
+							<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 								{transactionData?.tr_format === "Audio Copy"
 									? "Audio Assistant"
 									: "Reading Assistant"}

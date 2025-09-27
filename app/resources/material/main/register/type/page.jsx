@@ -451,7 +451,7 @@ export default function MaterialTypeRegistrationPage() {
 
 										<div>
 											<div className="mb-2">
-												<h2 className="font-semibold text-foreground text-[16px] mb-2">
+												<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 													Add Section
 												</h2>
 												<p className="text-muted-foreground text-[12px]">

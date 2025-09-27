@@ -186,7 +186,7 @@ export default function AccountDetails() {
 							<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-2">
 								<Card className="h-fit bg-card border-border transition-colors duration-300">
 									<CardContent className="p-6">
-										<h2 className="font-semibold text-foreground text-[16px] mb-2">
+										<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 											Basic Information
 										</h2>
 										<p className="text-muted-foreground text-[12px] mb-4">
@@ -432,7 +432,7 @@ export default function AccountDetails() {
 											formData?.us_level != "USR-1" && (
 												<div className="mt-8">
 													<div className="flex items-center justify-between">
-														<h2 className="font-semibold text-foreground text-[16px] mb-2">
+														<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 															Associated{" "}
 															{associatedLibraries?.length === 1
 																? "Library"
@@ -509,7 +509,7 @@ export default function AccountDetails() {
 								<form onSubmit={handleSubmitAcademic}>
 									<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
 										<CardContent className="p-6">
-											<h2 className="font-semibold text-foreground text-[16px] mb-2">
+											<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 												Academic
 											</h2>
 											<p className="text-muted-foreground text-[12px] mb-4">
@@ -624,7 +624,7 @@ export default function AccountDetails() {
 							<form onSubmit={handleSubmitAddress}>
 								<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
 									<CardContent className="p-6">
-										<h2 className="font-semibold text-foreground text-[16px] mb-2">
+										<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 											Address
 										</h2>
 										<p className="text-muted-foreground text-[12px] mb-4">

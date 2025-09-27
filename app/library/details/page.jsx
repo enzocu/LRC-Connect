@@ -94,7 +94,7 @@ export default function LibraryDetails() {
 				<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-2">
 					<Card className="h-fit bg-card border-border transition-colors duration-300">
 						<CardContent className="p-6">
-							<h2 className="font-semibold text-foreground text-[16px] mb-2">
+							<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 								Library Information
 							</h2>
 							<p className="text-muted-foreground text-[12px] mb-4">
@@ -349,7 +349,7 @@ export default function LibraryDetails() {
 												)}
 											</div>
 											<div className="flex-1">
-												<h2 className="font-semibold text-foreground text-[16px] mb-2">
+												<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 													{formData?.li_status === "Active"
 														? "Deactivate Library"
 														: "Activate Library"}

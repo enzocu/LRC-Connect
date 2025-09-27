@@ -122,7 +122,7 @@ export default function RegisterDiscussionRoom() {
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-1 items-start">
 							<Card className="bg-card border-border transition-colors duration-300">
 								<CardContent className="p-6">
-									<h2 className="font-semibold text-foreground text-[16px] mb-2">
+									<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 										Discussion Room Information
 									</h2>
 									<p className="text-muted-foreground text-[12px] mb-4">
@@ -316,16 +316,16 @@ export default function RegisterDiscussionRoom() {
 														<IoMdCheckmarkCircleOutline className="w-4 h-4 text-green-500" />
 													)}
 												</div>
-												<div className="flex-1 space-y-1">
-													<h2 className="font-semibold text-foreground text-[16px]">
+												<div className="flex-1">
+													<h2 className="font-semibold text-foreground text-[16px] mb-[5px]">
 														{formData?.dr_status === "Active"
-															? "Deactivate Material"
-															: "Activate Material"}
+															? "Deactivate Discussion Room"
+															: "Activate Discussion Room"}
 													</h2>
 													<p className="text-muted-foreground leading-relaxed text-[12px]">
 														{formData?.dr_status === "Active"
-															? "This will remove the material from search results and circulation. The material can be reactivated later by an administrator."
-															: "This will restore the material to be available again in search results and circulation."}
+															? "This will remove the discussion room from search results and circulation. The discussion room can be reactivated later by an administrator."
+															: "This will restore the discussion room to be available again in search results and circulation."}
 													</p>
 												</div>
 											</div>
@@ -347,8 +347,8 @@ export default function RegisterDiscussionRoom() {
 														<IoMdCheckmarkCircleOutline className="w-4 h-4 mr-2" />
 													)}
 													{formData?.dr_status === "Active"
-														? "Deactivate Material"
-														: "Activate Material"}
+														? "Deactivate Discussion Room"
+														: "Activate Discussion Room"}
 												</Button>
 											</div>
 										</div>
