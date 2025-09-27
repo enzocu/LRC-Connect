@@ -433,11 +433,10 @@ export default function AccountDetails() {
 												<div className="mt-8">
 													<div className="flex items-center justify-between">
 														<h2 className="font-semibold text-foreground text-[16px]">
+															Associated{" "}
 															{associatedLibraries?.length === 1
-																? "1 Library"
-																: `${
-																		associatedLibraries?.length || 0
-																  } Libraries`}
+																? "Library"
+																: "Libraries"}
 														</h2>
 													</div>
 													<p className="text-muted-foreground text-[12px] mb-4">
