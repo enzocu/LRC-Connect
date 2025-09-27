@@ -266,7 +266,7 @@ export default function AccountList() {
 														onClick={() => setShowExcelImportModal(true)}
 													>
 														<FiFileText className="w-4 h-4" />
-														Import Excel
+														Import Account from Excel
 													</DropdownMenuItem>
 												</DropdownMenuContent>
 											</DropdownMenu>

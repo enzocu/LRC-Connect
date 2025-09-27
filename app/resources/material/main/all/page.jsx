@@ -203,7 +203,7 @@ export default function MaterialsPage() {
 											}
 											className="cursor-pointer text-[12px]"
 										>
-											Material Type
+											Material Type Registration
 										</DropdownMenuItem>
 										<DropdownMenuItem
 											onClick={() =>
@@ -213,14 +213,14 @@ export default function MaterialsPage() {
 											}
 											className="cursor-pointer text-[12px]"
 										>
-											Material
+											Material Registration
 										</DropdownMenuItem>
 
 										<DropdownMenuItem
 											className="cursor-pointer text-[12px]"
 											onClick={() => setShowExcelImportModal(true)}
 										>
-											Import Material Excel
+											Import Material from Excel
 										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
