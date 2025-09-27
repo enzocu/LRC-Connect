@@ -29,46 +29,21 @@ import { SiGoogleclassroom } from "react-icons/si";
 
 import { cn } from "@/lib/utils";
 import { useColor } from "@/contexts/ColorContext";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useLoading } from "@/contexts/LoadingProvider";
 import LogoutConfirmationModal from "@/components/modal/logout-confirmation-modal";
 import { PiStudent } from "react-icons/pi";
 import { MdOutlinePerson3 } from "react-icons/md";
 
-import { EnterExit } from "@/controller/firebase/update/updateEnterExit";
-
 export function Sidebar() {
 	const router = useRouter();
-	const pathname = usePathname();
-	const Alert = useAlertActions();
 	const { userDetails } = useUserAuth();
 	const { toggleDarkMode, isDarkMode } = useColor();
-	const { setLoading, setPath } = useLoading();
 	const [showLogoutModal, setShowLogoutModal] = useState(false);
-
 	const users = ["USR-2", "USR-3", "USR-4", "USR-5", "USR-6"].includes(
 		userDetails?.us_level
 	);
 
 	const superadmin = userDetails?.us_level === "USR-1";
-
-	const handleBack = async () => {
-		setPath(pathname);
-		if (userDetails && userDetails?.uid && userDetails?.us_liID) {
-			await EnterExit(
-				userDetails?.uid,
-				userDetails?.us_liID,
-				userDetails?.uid,
-				null,
-				"onApp",
-				"Inactive",
-				setLoading,
-				Alert
-			);
-		}
-		router.push("/users");
-	};
 
 	return (
 		<>
@@ -76,7 +51,7 @@ export function Sidebar() {
 				<div className="flex-1 px-3 py-4  md:mt-[75px] sm:mt-[95px]">
 					{users && !["USR-5", "USR-6"].includes(userDetails.us_level) && (
 						<button
-							onClick={() => handleBack()}
+							onClick={() => router.push("/users")}
 							className="flex items-center gap-3 px-3 py-2 text-foreground rounded-lg hover:bg-accent transition-colors w-full text-left text-xs mb-4"
 						>
 							<FiArrowLeft className="w-4 h-4" />

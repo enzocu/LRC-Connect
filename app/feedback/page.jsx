@@ -179,6 +179,7 @@ export default function FeedbackAndFAQs() {
 																)
 															}
 															className="mt-1"
+															title="Mark as read"
 														/>
 													)}
 												<Avatar className="h-10 w-10">

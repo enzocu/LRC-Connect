@@ -340,7 +340,7 @@ export default function NewsAnnouncementPage() {
 																		variant="ghost"
 																		size="icon"
 																		className="h-8 w-8 p-0 text-muted-foreground hover:text-foreground hover:bg-accent"
-																		title="Edit"
+																		title={`Edit ${focusMode}`}
 																		onClick={() => {
 																			setSelectedNewsAnnouncements(item);
 																			setIsModalOpen(true);
@@ -352,7 +352,7 @@ export default function NewsAnnouncementPage() {
 																		variant="ghost"
 																		size="icon"
 																		className="h-8 w-8 p-0 text-muted-foreground hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20"
-																		title="Delete"
+																		title={`Delete ${focusMode}`}
 																		onClick={() => {
 																			setSelectedNewsAnnouncements(item);
 																			setDeleteOpen(true);

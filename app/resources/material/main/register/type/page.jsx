@@ -535,6 +535,7 @@ export default function MaterialTypeRegistrationPage() {
 																			setShowMaterialTypeModal(true);
 																		}
 																	}}
+																	title="Insert a new material type field"
 																>
 																	<FiPlus className="w-3 h-3" />
 																</Button>
@@ -553,6 +554,7 @@ export default function MaterialTypeRegistrationPage() {
 																			setShowMaterialTypeModal(true);
 																		}
 																	}}
+																	title="Edit material type section name"
 																>
 																	<FiEdit className="w-3 h-3" />
 																</Button>
@@ -570,6 +572,7 @@ export default function MaterialTypeRegistrationPage() {
 																			"DeleteSection"
 																		);
 																	}}
+																	title="Delete material type section"
 																>
 																	<FiX className="w-3 h-3" />{" "}
 																</Button>
@@ -651,6 +654,7 @@ export default function MaterialTypeRegistrationPage() {
 																							setShowMaterialTypeModal(true);
 																						}
 																					}}
+																					title="Edit material type field"
 																				>
 																					<FiEdit className="w-3 h-3" />
 																				</Button>
@@ -673,6 +677,7 @@ export default function MaterialTypeRegistrationPage() {
 																								"DeleteField"
 																							);
 																						}}
+																						title="Delete material type field"
 																					>
 																						<FiX className="w-3 h-3" />
 																					</Button>
@@ -759,6 +764,7 @@ export default function MaterialTypeRegistrationPage() {
 															setMaterialTypeName(item.mt_name);
 															setMaterialTypeData(item.mt_section);
 														}}
+														title="Edit material type"
 													>
 														<FiEdit className="w-3 h-3" />
 													</Button>
@@ -769,6 +775,7 @@ export default function MaterialTypeRegistrationPage() {
 														onClick={() =>
 															handleInactiveMaterial(item.mt_id, item.mt_name)
 														}
+														title="Delete material type"
 													>
 														<FiX className="w-3 h-3" />
 													</Button>
@@ -841,6 +848,7 @@ export default function MaterialTypeRegistrationPage() {
 																	ca_name: category.ca_name,
 																})
 															}
+															title="Edit category"
 														>
 															<FiEdit className="w-3 h-3" />
 														</Button>
@@ -855,6 +863,7 @@ export default function MaterialTypeRegistrationPage() {
 																	category.ca_name
 																)
 															}
+															title="Delete category"
 														>
 															<FiX className="w-3 h-3" />
 														</Button>

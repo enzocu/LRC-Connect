@@ -7,7 +7,7 @@ import {
 	addDoc,
 	updateDoc,
 	serverTimestamp,
-	getDoc
+	getDoc,
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
 
@@ -75,19 +75,21 @@ export async function EnterExit(
 		const logSnap = await getDocs(logQuery);
 		const hasActive = !logSnap.empty;
 		const activeLog = hasActive ? logSnap.docs[0] : null;
+		const activeLibrary = hasActive ? activeLog.data().lo_liID : null;
 
 		if (status === null) {
 			if (hasActive) {
 				await markLogAsInactive(
 					activeLog.id,
-					li_id,
+					activeLibrary,
 					type,
 					usFullname,
 					usqr,
 					modifiedBy,
 					Alert
 				);
-			} else {
+			}
+			if (!hasActive || activeLibrary?.id != li_id?.id) {
 				await createLogEntry(
 					li_id,
 					usRef,
@@ -99,10 +101,10 @@ export async function EnterExit(
 				);
 			}
 		} else if (status === "Active") {
-			if (hasActive) {
+			if (hasActive && activeLibrary?.id != li_id?.id) {
 				await markLogAsInactive(
 					activeLog.id,
-					li_id,
+					activeLibrary,
 					type,
 					usFullname,
 					usqr,
@@ -110,6 +112,9 @@ export async function EnterExit(
 					Alert
 				);
 			}
+
+			if (hasActive && activeLibrary?.id == li_id?.id) return;
+
 			await createLogEntry(
 				li_id,
 				usRef,
@@ -123,7 +128,7 @@ export async function EnterExit(
 			if (hasActive) {
 				await markLogAsInactive(
 					activeLog.id,
-					li_id,
+					activeLibrary,
 					type,
 					usFullname,
 					usqr,

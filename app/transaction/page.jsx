@@ -828,7 +828,7 @@ export default function TransactionPage() {
 																		`/transaction/details?id=${transaction.id}`
 																	)
 																}
-																title="View Details"
+																title="View Transaction Details"
 															>
 																<ExternalLink className="w-4 h-4" />
 															</Button>
@@ -922,7 +922,7 @@ export default function TransactionPage() {
 																{renderResource(transaction, true)}
 															</td>
 
-															{!isPersonnel && (
+															{isPersonnel && (
 																<td className="py-4 px-6 min-w-[250px]">
 																	{renderPatron(transaction.tr_patron, true)}
 																</td>
@@ -949,7 +949,7 @@ export default function TransactionPage() {
 																				`/transaction/details?id=${transaction.id}`
 																			)
 																		}
-																		title="View Details"
+																		title="View Trasanction Details"
 																	>
 																		<ExternalLink className="w-3 h-3" />
 																	</Button>

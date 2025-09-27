@@ -322,7 +322,7 @@ export default function About() {
 								alt="Library"
 								className="w-full h-full object-cover"
 							/>
-							<div className="absolute inset-0 bg-black/40"></div>
+							<div className="absolute inset-0 bg-black/50"></div>
 							<div className="absolute top-6 left-6">
 								<h2 className="font-semibold text-white text-[18px]">
 									{libraryData.li_name || ""}

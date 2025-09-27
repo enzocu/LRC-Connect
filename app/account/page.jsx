@@ -444,6 +444,7 @@ export default function AccountList() {
 															onClick={() =>
 																router.push(`/account/details?id=${user.us_id}`)
 															}
+															title="View Profile"
 														>
 															<ExternalLink className="w-3 h-3" />
 														</Button>
@@ -459,6 +460,7 @@ export default function AccountList() {
 																			setShowTypeModal(true),
 																				setSelectedAccount(user);
 																		}}
+																		title="Change user type"
 																	>
 																		<FiRepeat className="w-4 h-4 text-blue-500" />
 																	</Button>
@@ -471,6 +473,7 @@ export default function AccountList() {
 																			setShowRemoveModal(true),
 																				setSelectedAccount(user);
 																		}}
+																		title="Deactivate account / Transfer to another library"
 																	>
 																		<FiTrash2 className="w-4 h-4 text-red-500" />
 																	</Button>
