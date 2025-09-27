@@ -204,8 +204,7 @@ export function MaterialTypeModal({
 					</Button>
 					<Button
 						type="submit"
-						variant="destructive"
-						className="h-10 text-[12px]"
+						className="h-10 bg-primary-custom hover:bg-secondary-custom text-[12px]"
 					>
 						{transferToOtherSection ? "Transfer" : actionType} {type}
 					</Button>

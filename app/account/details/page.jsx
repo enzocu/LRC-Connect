@@ -175,7 +175,9 @@ export default function AccountDetails() {
 							Details
 						</TabsTrigger>
 						<TabsTrigger value="Academic & Address" className="text-[12px]">
-							Academic & Address
+							{["USR-6", "USR-5"].includes(formData?.us_level)
+								? "Academic & Address"
+								: "Address"}
 						</TabsTrigger>
 					</TabsList>
 
@@ -431,12 +433,17 @@ export default function AccountDetails() {
 												<div className="mt-8">
 													<div className="flex items-center justify-between">
 														<h2 className="font-semibold text-foreground text-[16px]">
-															Associated Libraries
+															{associatedLibraries?.length === 1
+																? "1 Library"
+																: `${
+																		associatedLibraries?.length || 0
+																  } Libraries`}
 														</h2>
 													</div>
 													<p className="text-muted-foreground text-[12px] mb-4">
-														View the list of libraries this account is linked
-														with, including their type.
+														{associatedLibraries?.length === 1
+															? "View the library this account is linked with, including its type."
+															: "View the list of libraries this account is linked with, including their type."}
 													</p>
 
 													<div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
