@@ -32,7 +32,7 @@ export function AddFaqModal({ isOpen, onClose, selectedFaqs = null }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!userDetails.uid) return;
+		if (!userDetails?.uid) return;
 
 		if (!formData.fa_question.trim() || !formData.fa_answer.trim()) {
 			Alert.showWarning("Both question and answer are required.");
@@ -41,8 +41,8 @@ export function AddFaqModal({ isOpen, onClose, selectedFaqs = null }) {
 
 		if (isEmpty) {
 			await insertFaqs(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				formData,
 				setBtnLoading,
 				Alert
@@ -50,9 +50,9 @@ export function AddFaqModal({ isOpen, onClose, selectedFaqs = null }) {
 		} else {
 			await updateFaqs(
 				selectedFaqs.id,
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				formData,
-				userDetails.uid,
+				userDetails?.uid,
 				setBtnLoading,
 				Alert
 			);

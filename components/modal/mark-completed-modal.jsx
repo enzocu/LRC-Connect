@@ -24,15 +24,15 @@ const MarkCompletedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 	const [isPersonnel, setIsPersonnel] = useState(false);
 
 	const handleConfirm = async () => {
-		if (userDetails && userDetails.uid && transaction && transaction?.id) {
-			await markCompleted(userDetails.uid, transaction, setBtnLoading, Alert);
+		if (userDetails && userDetails?.uid && transaction && transaction?.id) {
+			await markCompleted(userDetails?.uid, transaction, setBtnLoading, Alert);
 			onClose();
 			setActiveTab("Completed");
 		}
 	};
 
 	useEffect(() => {
-		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails.us_level));
+		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails?.us_level));
 	}, [userDetails]);
 
 	if (!isOpen) return null;

@@ -29,10 +29,10 @@ export async function updateNewsAnnouncement(
 
 		await updateDoc(doc(db, "news_announcements", naID), {
 			na_author: doc(db, "users", modifiedBy),
-			na_title: formData.na_title || "",
-			na_content: formData.na_content || "",
-			na_category: formData.na_category || "",
-			na_visibility: formData.na_visibility || "",
+			na_title: formData.na_title || null,
+			na_content: formData.na_content || null,
+			na_category: formData.na_category || null,
+			na_visibility: formData.na_visibility || null,
 			na_urgent: formData.na_urgent || false,
 			na_photoURL: na_photoURL,
 			na_updatedAt: serverTimestamp(),

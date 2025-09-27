@@ -108,9 +108,9 @@ export default function MaterialsPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getMaterialList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				selectedType,
 				selectedCategory,
 				selectedShelf,
@@ -149,9 +149,9 @@ export default function MaterialsPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getMaterialFilter(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setMaterialTypes,
 				setCategory,
 				setShelves,

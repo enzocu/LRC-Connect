@@ -30,10 +30,10 @@ export function ReservationSummaryModal({
 	const [success, setSuccess] = useState(false);
 
 	const handleReserve = async () => {
-		if (!userDetails.uid) null;
+		if (!userDetails?.uid) null;
 
 		await insertTransaction(
-			userDetails.uid,
+			userDetails?.uid,
 			resourceType,
 			transactionDetails,
 			resourceData,

@@ -111,10 +111,10 @@ export default function EntryExitReports() {
 		setPath(pathname);
 		const section = sections.find((s) => s.id === activeSection);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			if (section.key == "visitorBreakdownByType") {
 				getTypeBreakdown(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					accessMode,
 					filters.a_status,
@@ -128,7 +128,7 @@ export default function EntryExitReports() {
 				);
 			} else if (section.key == "visitorBreakdownByUser") {
 				getUserBreakdown(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					accessMode,
@@ -180,17 +180,17 @@ export default function EntryExitReports() {
 	]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getUserBreakdownFilter(setLibraryList, Alert);
 		}
 	}, [userDetails]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			setFilters((prev) => ({
 				...prev,
-				a_libraryList: userDetails.us_liID.id,
-				b_libraryList: userDetails.us_liID.id,
+				a_libraryList: userDetails?.us_liID.id,
+				b_libraryList: userDetails?.us_liID.id,
 			}));
 		}
 	}, [userDetails]);
@@ -199,7 +199,7 @@ export default function EntryExitReports() {
 		if (!userDetails) return;
 
 		getUserAttributeFilters(
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			null,
 			null,
 			setSectionData,

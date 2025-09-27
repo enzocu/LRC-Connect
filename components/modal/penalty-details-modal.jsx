@@ -49,7 +49,7 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 
 	const handleSelectAll = (checked) => {
 		if (checked) {
-			setSelectedPenalties(reportData.map((p) => p.id));
+			setSelectedPenalties(reportData?.map((p) => p.id));
 		} else {
 			setSelectedPenalties([]);
 		}
@@ -64,11 +64,11 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 	};
 
 	const handleStatus = async (status, report, reportID) => {
-		if (reportID.length === 0 || !userDetails || !userDetails.uid) return;
+		if (reportID.length === 0 || !userDetails || !userDetails?.uid) return;
 		setBtnLoadingType(status);
 		await updateReportStatus(
-			userDetails.us_liID,
-			userDetails.uid,
+			userDetails?.us_liID,
+			userDetails?.uid,
 			status,
 			report,
 			reportID,
@@ -85,18 +85,18 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 	};
 
 	useEffect(() => {
-		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails.us_level));
+		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails?.us_level));
 	}, [userDetails]);
 
 	useEffect(() => {
 		let unsubscribe;
 		setPath(pathname);
 
-		if (isOpen && userDetails && userDetails.us_liID) {
+		if (isOpen && userDetails && userDetails?.us_liID) {
 			unsubscribe = getReportListRealtime(
-				!["USR-5", "USR-6"].includes(userDetails.us_level),
+				!["USR-5", "USR-6"].includes(userDetails?.us_level),
 				patronId,
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				activeTab,
 				searchQuery,
 				selectedType,
@@ -258,11 +258,11 @@ const PenaltyTable = ({
 		switch (activeTab) {
 			case "Active":
 				return [
-					...(isPersonnel && ["USR-2", "USR-3"].includes(userDetails.us_level)
+					...(isPersonnel && ["USR-2", "USR-3"].includes(userDetails?.us_level)
 						? ["Check Box"]
 						: []),
 					...common,
-					...(isPersonnel && ["USR-2", "USR-3"].includes(userDetails.us_level)
+					...(isPersonnel && ["USR-2", "USR-3"].includes(userDetails?.us_level)
 						? ["Actions"]
 						: []),
 				];
@@ -300,8 +300,8 @@ const PenaltyTable = ({
 								{col === "Check Box" ? (
 									<Checkbox
 										checked={
-											selectedPenalties.length === reportData.length &&
-											reportData.length > 0
+											selectedPenalties.length === reportData?.length &&
+											reportData?.length > 0
 										}
 										onCheckedChange={(checked) => handleSelectAll(checked)}
 									/>
@@ -313,7 +313,7 @@ const PenaltyTable = ({
 					</tr>
 				</thead>
 				<tbody className="align-top">
-					{reportData.map((report, index) => (
+					{reportData?.map((report, index) => (
 						<tr
 							key={report.id}
 							className={`border-b border-border hover:bg-accent/30 transition-colors ${

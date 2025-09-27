@@ -63,13 +63,13 @@ export default function FeedbackAndFAQs() {
 	});
 
 	const handleCheckboxChange = async (id, type, checked) => {
-		if (!userDetails.uid) return;
+		if (!userDetails?.uid) return;
 		await updateFeedbackRead(
 			id,
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			type,
 			checked,
-			userDetails.uid,
+			userDetails?.uid,
 			Alert
 		);
 	};
@@ -78,9 +78,9 @@ export default function FeedbackAndFAQs() {
 		setPath(pathname);
 		let unsubscribe;
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			unsubscribe = getFeedbackList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setFeedbackData,
 				searchQuery,
 				setLoading,
@@ -94,14 +94,14 @@ export default function FeedbackAndFAQs() {
 		return () => {
 			if (unsubscribe) unsubscribe();
 		};
-	}, [userDetails?.us_liID, searchQuery, pagination.feedback.currentPage]);
+	}, [userDetails?.us_liID, searchQuery, pagination.feedback?.currentPage]);
 
 	useEffect(() => {
 		let unsubscribe;
 
 		if (userDetails?.us_liID) {
 			unsubscribe = getFaqsList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setFaqData,
 				setLoading,
 				Alert,
@@ -148,7 +148,7 @@ export default function FeedbackAndFAQs() {
 										<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 										<Input
 											type="text"
-											placeholder="Search feedback..."
+											placeholder="Search feedback?..."
 											value={searchQuery}
 											onChange={(e) => setSearchQuery(e.target.value)}
 											className="pl-10 bg-card border-border text-foreground h-9"
@@ -157,25 +157,27 @@ export default function FeedbackAndFAQs() {
 									</div>
 
 									<div className="space-y-4">
-										{feedbackData.map((feedback) => (
+										{feedbackData?.map((feedback) => (
 											<div
-												key={feedback.id}
+												key={feedback?.id}
 												className={`flex items-start gap-4 p-4 rounded-lg border ${
-													feedback.fe_isRead
+													feedback?.fe_isRead
 														? "bg-muted/20 border-border"
 														: "bg-card border-primary/20 shadow-sm"
 												} hover:border-primary/50 transition-colors`}
 											>
 												{userDetails &&
-													["USR-2", "USR-3"].includes(userDetails.us_level) && (
+													["USR-2", "USR-3"].includes(
+														userDetails?.us_level
+													) && (
 														<Checkbox
-															id={`feedback-${feedback.id}`}
-															checked={feedback.fe_isRead}
+															id={`feedback-${feedback?.id}`}
+															checked={feedback?.fe_isRead}
 															onCheckedChange={(checked) =>
 																handleCheckboxChange(
-																	feedback.id,
-																	feedback.fe_type,
-																	feedback.fe_isRead
+																	feedback?.id,
+																	feedback?.fe_type,
+																	feedback?.fe_isRead
 																)
 															}
 															className="mt-1"
@@ -184,49 +186,49 @@ export default function FeedbackAndFAQs() {
 													)}
 												<Avatar className="h-10 w-10">
 													<AvatarImage
-														src={feedback.fe_avatar || "/placeholder.svg"}
-														alt={feedback.fe_sender}
+														src={feedback?.fe_avatar || "/placeholder.svg"}
+														alt={feedback?.fe_sender}
 													/>
 													<AvatarFallback>
-														{feedback.fe_sender.charAt(0)}
+														{feedback?.fe_sender.charAt(0)}
 													</AvatarFallback>
 												</Avatar>
 												<div className="flex-1 space-y-2">
 													<div className="flex items-start justify-between ">
 														<div>
 															<p className="text-foreground font-medium text-[14px]">
-																{feedback.fe_sender}
+																{feedback?.fe_sender}
 															</p>
 
 															<p className="text-primary-custom text-[12px]">
-																{feedback.fe_ustype}
+																{feedback?.fe_ustype}
 																<span className="text-muted-foreground">
 																	{" • "}
-																	{feedback.fe_schoolID}
+																	{feedback?.fe_schoolID}
 																</span>
 															</p>
 														</div>
 														<span className="text-muted-foreground text-[11px]">
-															{feedback.fe_createdAtFormatted}
+															{feedback?.fe_createdAtFormatted}
 														</span>
 													</div>
 
 													<span className="inline-block px-2 py-0.5 bg-primary/10 text-primary rounded-full text-[11px]">
-														{feedback.fe_type}
+														{feedback?.fe_type}
 													</span>
 
 													<p className="text-muted-foreground text-[12px]">
-														{feedback.fe_content}
+														{feedback?.fe_content}
 													</p>
 
-													{feedback.fe_screenshot && (
+													{feedback?.fe_screenshot && (
 														<div>
 															<p className="text-foreground font-medium mt-4 mb-2 text-[12px]">
 																Screenshot:
 															</p>
 															<img
 																src={
-																	feedback.fe_screenshot || "/placeholder.svg"
+																	feedback?.fe_screenshot || "/placeholder.svg"
 																}
 																alt="Feedback screenshot"
 																className="w-full max-h-40 object-cover rounded-md border border-border"
@@ -241,8 +243,8 @@ export default function FeedbackAndFAQs() {
 									</div>
 
 									<PaginationControls
-										ctrPages={pagination.feedback.ctrPages}
-										currentPage={pagination.feedback.currentPage}
+										ctrPages={pagination.feedback?.ctrPages}
+										currentPage={pagination.feedback?.currentPage}
 										setCurrentPage={(val) =>
 											setPagination((prev) => ({
 												...prev,
@@ -250,7 +252,7 @@ export default function FeedbackAndFAQs() {
 													...prev.feedback,
 													currentPage:
 														typeof val === "function"
-															? val(prev.feedback.currentPage)
+															? val(prev.feedback?.currentPage)
 															: val,
 												},
 											}))
@@ -271,7 +273,7 @@ export default function FeedbackAndFAQs() {
 											</p>
 										</div>
 										{userDetails &&
-											["USR-2", "USR-3"].includes(userDetails.us_level) && (
+											["USR-2", "USR-3"].includes(userDetails?.us_level) && (
 												<Button
 													className="bg-primary-custom hover:bg-secondary-custom text-white h-9 px-3 text-[12px]"
 													onClick={() => {
@@ -286,22 +288,22 @@ export default function FeedbackAndFAQs() {
 									</div>
 
 									<Accordion type="single" collapsible className="w-full">
-										{faqData.map((faq) => (
+										{faqData?.map((faq) => (
 											<AccordionItem
-												key={faq.id}
-												value={faq.id}
+												key={faq?.id}
+												value={faq?.id}
 												className="border-b border-border"
 											>
 												<AccordionTrigger className="text-left text-foreground hover:no-underline py-3 relative text-[12px]">
-													<span>{faq.fa_question}</span>
+													<span>{faq?.fa_question}</span>
 												</AccordionTrigger>
 
 												<AccordionContent className="text-muted-foreground pb-4 text-[12px]">
 													<div className="flex justify-between items-start gap-2">
-														<div className="flex-1">{faq.fa_answer}</div>
+														<div className="flex-1">{faq?.fa_answer}</div>
 														{userDetails &&
 															["USR-2", "USR-3"].includes(
-																userDetails.us_level
+																userDetails?.us_level
 															) && (
 																<div className="flex gap-2">
 																	<Button

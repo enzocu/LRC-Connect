@@ -83,7 +83,7 @@ export default function LoginPage() {
 												id="email"
 												type="email"
 												placeholder="Enter your email"
-												value={formData.email}
+												value={formData?.email}
 												onChange={(e) =>
 													handleInputChange("email", e.target.value)
 												}
@@ -106,7 +106,7 @@ export default function LoginPage() {
 												id="password"
 												type="password"
 												placeholder="Enter your password"
-												value={formData.password}
+												value={formData?.password}
 												onChange={(e) =>
 													handleInputChange("password", e.target.value)
 												}

@@ -44,18 +44,7 @@ export default function About() {
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 
-	const [libraryData, setLibraryData] = useState({
-		li_status: "Active",
-		li_schoolID: "",
-		li_name: "",
-		li_schoolname: "",
-		li_description: "",
-		li_email: "",
-		li_phone: "",
-		li_address: "",
-		li_photoURL: "",
-	});
-
+	const [libraryData, setLibraryData] = useState({});
 	const [openHours, setOpenHours] = useState({
 		oh_monday: {
 			enabled: false,
@@ -136,11 +125,11 @@ export default function About() {
 	};
 
 	const handleSave = async () => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			await updateOperating(
-				userDetails.us_liID,
-				userDetails.uid,
-				libraryData.li_name,
+				userDetails?.us_liID,
+				userDetails?.uid,
+				libraryData?.li_name,
 				openHours,
 				setBtnLoading,
 				Alert
@@ -260,11 +249,11 @@ export default function About() {
 
 			setResourceSettings(newSettings);
 
-			if (userDetails && userDetails.us_liID) {
+			if (userDetails && userDetails?.us_liID) {
 				await updateResources(
-					userDetails.us_liID,
-					userDetails.uid,
-					libraryData.li_name,
+					userDetails?.us_liID,
+					userDetails?.uid,
+					libraryData?.li_name,
 					resourceName,
 					newSettings,
 					setBtnLoading,
@@ -283,10 +272,10 @@ export default function About() {
 	}, [userDetails]);
 
 	useEffect(() => {
-		if (!userDetails || !userDetails.us_liID) return;
+		if (!userDetails || !userDetails?.us_liID) return;
 		setPath(pathname);
 		const unsubscribe = getLibrary(
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			setLibraryData,
 			setLoading,
 			Alert,
@@ -318,17 +307,17 @@ export default function About() {
 					<div className="mb-8 animate-slide-up">
 						<div className="relative h-64 rounded-lg overflow-hidden mb-6">
 							<img
-								src={libraryData.li_photoURL || "/placeholder.jpg"}
+								src={libraryData?.li_photoURL || "/placeholder.jpg"}
 								alt="Library"
 								className="w-full h-full object-cover"
 							/>
 							<div className="absolute inset-0 bg-black/50"></div>
 							<div className="absolute top-6 left-6">
 								<h2 className="font-semibold text-white text-[18px]">
-									{libraryData.li_name || ""}
+									{libraryData?.li_name || ""}
 								</h2>
 								<p className="text-white text-[14px]">
-									{libraryData.li_schoolname || ""}
+									{libraryData?.li_schoolname || ""}
 								</p>
 							</div>
 						</div>
@@ -345,13 +334,13 @@ export default function About() {
 									<div>
 										<p className="text-foreground text-[12px]">School ID</p>
 										<p className="text-muted-foreground font-medium break-words text-[12px]">
-											{libraryData.li_schoolID}
+											{libraryData?.li_schoolID}
 										</p>
 									</div>
 									<div>
 										<p className="text-foreground text-[12px]">Description</p>
 										<p className="text-muted-foreground break-words text-[12px]">
-											{libraryData.li_description}
+											{libraryData?.li_description}
 										</p>
 									</div>
 								</CardContent>
@@ -368,13 +357,13 @@ export default function About() {
 									<div>
 										<p className="text-foreground text-[12px]">Phone</p>
 										<p className="text-muted-foreground  break-words text-[12px]">
-											{libraryData.li_phone}
+											{libraryData?.li_phone}
 										</p>
 									</div>
 									<div>
 										<p className="text-foreground text-[12px]">Email</p>
 										<p className="text-muted-foreground  break-words text-[12px]">
-											{libraryData.li_email}
+											{libraryData?.li_email}
 										</p>
 									</div>
 								</CardContent>
@@ -390,7 +379,7 @@ export default function About() {
 								<CardContent>
 									<div>
 										<p className="text-foreground text-[12px]">
-											{libraryData.li_address}
+											{libraryData?.li_address}
 										</p>
 									</div>
 								</CardContent>

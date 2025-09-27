@@ -18,7 +18,7 @@ export default function ProtectedRoute({ allowedRoles = [], children }) {
 
 			if (
 				allowedRoles.length > 0 &&
-				!allowedRoles.includes(userDetails.us_level)
+				!allowedRoles.includes(userDetails?.us_level)
 			) {
 				router.push("/");
 			}

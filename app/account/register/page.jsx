@@ -75,8 +75,8 @@ export default function RegisterAccount() {
 	}, []);
 
 	useEffect(() => {
-		if (formData.us_province) {
-			const provinceCode = formData.us_province.split("|")[0];
+		if (formData?.us_province) {
+			const provinceCode = formData?.us_province.split("|")[0];
 			fetchCitiesOrMunicipalities(provinceCode, setMunicipals);
 			setFormData((prev) => ({
 				...prev,
@@ -84,11 +84,11 @@ export default function RegisterAccount() {
 				us_barangay: "",
 			}));
 		}
-	}, [formData.us_province]);
+	}, [formData?.us_province]);
 
 	useEffect(() => {
-		if (formData.us_municipal) {
-			const municipalCode = formData.us_municipal.split("|")[0];
+		if (formData?.us_municipal) {
+			const municipalCode = formData?.us_municipal.split("|")[0];
 			fetchBarangays(municipalCode).then((barangayList) => {
 				setBarangays(barangayList);
 				setFormData((prev) => ({
@@ -97,7 +97,7 @@ export default function RegisterAccount() {
 				}));
 			});
 		}
-	}, [formData.us_municipal]);
+	}, [formData?.us_municipal]);
 
 	return (
 		<ProtectedRoute allowedRoles={["USR-1"]}>
@@ -143,7 +143,7 @@ export default function RegisterAccount() {
 												</label>
 												<select
 													name="us_type"
-													value={formData.us_type || ""}
+													value={formData?.us_type || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9"
 													style={{ fontSize: "12px" }}
@@ -187,7 +187,7 @@ export default function RegisterAccount() {
 												</label>
 												<Input
 													name="us_schoolID"
-													value={formData.us_schoolID || ""}
+													value={formData?.us_schoolID || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="Enter school ID"
 													className="bg-card border-border text-foreground h-9"
@@ -203,7 +203,7 @@ export default function RegisterAccount() {
 											</label>
 											<Input
 												name="us_fname"
-												value={formData.us_fname || ""}
+												value={formData?.us_fname || ""}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Enter your first name"
 												className="bg-card border-border text-foreground h-9"
@@ -218,7 +218,7 @@ export default function RegisterAccount() {
 											</label>
 											<Input
 												name="us_mname"
-												value={formData.us_mname || ""}
+												value={formData?.us_mname || ""}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Enter your middle name"
 												className="bg-card border-border text-foreground h-9"
@@ -232,7 +232,7 @@ export default function RegisterAccount() {
 											</label>
 											<Input
 												name="us_lname"
-												value={formData.us_lname || ""}
+												value={formData?.us_lname || ""}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Enter your last name"
 												className="bg-card border-border text-foreground h-9"
@@ -247,7 +247,7 @@ export default function RegisterAccount() {
 											</label>
 											<Input
 												name="us_suffix"
-												value={formData.us_suffix || ""}
+												value={formData?.us_suffix || ""}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Jr., Sr., III (optional)"
 												className="bg-card border-border text-foreground h-9"
@@ -262,7 +262,7 @@ export default function RegisterAccount() {
 												</label>
 												<select
 													name="us_sex"
-													value={formData.us_sex || ""}
+													value={formData?.us_sex || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 													required
@@ -279,7 +279,7 @@ export default function RegisterAccount() {
 												<Input
 													name="us_birthday"
 													type="date"
-													value={formData.us_birthday || ""}
+													value={formData?.us_birthday || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
@@ -295,7 +295,7 @@ export default function RegisterAccount() {
 												</label>
 												<Input
 													name="us_phoneNumber"
-													value={formData.us_phoneNumber || ""}
+													value={formData?.us_phoneNumber || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="+639xxxxxxxxx"
 													className="bg-card border-border text-foreground h-9"
@@ -312,7 +312,7 @@ export default function RegisterAccount() {
 												<Input
 													name="us_email"
 													type="email"
-													value={formData.us_email || ""}
+													value={formData?.us_email || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="@gmail.com"
 													className="bg-card border-border text-foreground h-9"
@@ -340,7 +340,7 @@ export default function RegisterAccount() {
 															</label>
 															<Input
 																name="us_section"
-																value={formData.us_section || ""}
+																value={formData?.us_section || ""}
 																onChange={(e) => handleChange(e, setFormData)}
 																placeholder="Enter section"
 																className="bg-card border-border text-foreground h-9"
@@ -354,7 +354,7 @@ export default function RegisterAccount() {
 															</label>
 															<Input
 																name="us_year"
-																value={formData.us_year || ""}
+																value={formData?.us_year || ""}
 																onChange={(e) => handleChange(e, setFormData)}
 																placeholder="e.g., 1st Year"
 																className="bg-card border-border text-foreground h-9"
@@ -371,7 +371,7 @@ export default function RegisterAccount() {
 															</label>
 															<Input
 																name="us_program"
-																value={formData.us_program || ""}
+																value={formData?.us_program || ""}
 																onChange={(e) => handleChange(e, setFormData)}
 																placeholder="e.g., BSCS, BSIT"
 																className="bg-card border-border text-foreground h-9"
@@ -385,7 +385,7 @@ export default function RegisterAccount() {
 															</label>
 															<Input
 																name="us_school"
-																value={formData.us_school || ""}
+																value={formData?.us_school || ""}
 																onChange={(e) => handleChange(e, setFormData)}
 																placeholder="e.g., SET, CICS"
 																className="bg-card border-border text-foreground h-9"
@@ -425,12 +425,12 @@ export default function RegisterAccount() {
 											onChange={(e) => handleChange(e, setFormData)}
 											id="cover-image-upload"
 										/>
-										{formData.us_photoURL ? (
+										{formData?.us_photoURL ? (
 											<img
 												src={
-													formData.us_photoURL instanceof File
-														? URL.createObjectURL(formData.us_photoURL)
-														: formData.us_photoURL
+													formData?.us_photoURL instanceof File
+														? URL.createObjectURL(formData?.us_photoURL)
+														: formData?.us_photoURL
 												}
 												alt="Profile preview"
 												className="w-full h-full object-cover rounded-full"
@@ -462,7 +462,7 @@ export default function RegisterAccount() {
 													</label>
 													<Input
 														name="us_street"
-														value={formData.us_street || ""}
+														value={formData?.us_street || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="e.g., 123 Sampaguita St."
 														className="bg-card border-border text-foreground h-9"
@@ -473,7 +473,7 @@ export default function RegisterAccount() {
 
 												<select
 													name="us_province"
-													value={formData.us_province}
+													value={formData?.us_province}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 mt-6 text-[12px]"
 													required
@@ -488,7 +488,7 @@ export default function RegisterAccount() {
 
 												<select
 													name="us_municipal"
-													value={formData.us_municipal}
+													value={formData?.us_municipal}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 													required
@@ -502,7 +502,7 @@ export default function RegisterAccount() {
 												</select>
 												<select
 													name="us_barangay"
-													value={formData.us_barangay}
+													value={formData?.us_barangay}
 													onChange={(e) => handleChange(e, setFormData)}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 													required

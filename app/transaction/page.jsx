@@ -120,7 +120,7 @@ export default function TransactionPage() {
 	const [ctrPages, setCtrPage] = useState(1);
 
 	useEffect(() => {
-		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails.us_level));
+		setIsPersonnel(!["USR-5", "USR-6"].includes(userDetails?.us_level));
 	}, [userDetails]);
 
 	useEffect(() => {
@@ -133,17 +133,17 @@ export default function TransactionPage() {
 
 		let unsubscribe;
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			unsubscribe = getTransactionList(
-				!["USR-5", "USR-6"].includes(userDetails.us_level),
-				userDetails.us_liID,
+				!["USR-5", "USR-6"].includes(userDetails?.us_level),
+				userDetails?.us_liID,
 				setTransactionData,
 				activeTab,
 				searchQuery,
 				selectedLibrary,
-				!["USR-5", "USR-6"].includes(userDetails.us_level)
+				!["USR-5", "USR-6"].includes(userDetails?.us_level)
 					? paID
-					: userDetails.uid,
+					: userDetails?.uid,
 				selectedResourceType,
 				selectedMaterialList,
 				selectedMaterialFormat,
@@ -187,9 +187,9 @@ export default function TransactionPage() {
 	]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getTransactionFilter(
-				selectedLibrary == "All" ? userDetails.us_liID : selectedLibrary,
+				selectedLibrary == "All" ? userDetails?.us_liID : selectedLibrary,
 				selectedResourceType,
 				setLibraries,
 				setMaterialTypes,
@@ -204,7 +204,7 @@ export default function TransactionPage() {
 
 	//BUTTON
 	const getActionButtons = (transaction, isPersonnel) => {
-		switch (transaction.tr_status) {
+		switch (transaction?.tr_status) {
 			case "Reserved":
 				return (
 					<div className="flex gap-2">
@@ -213,7 +213,7 @@ export default function TransactionPage() {
 							size="sm"
 							className="h-9 text-[12px]"
 							onClick={() => {
-								setTransactionID(transaction.id);
+								setTransactionID(transaction?.id);
 								setShowCancelModal(true);
 							}}
 						>
@@ -243,7 +243,7 @@ export default function TransactionPage() {
 								size="sm"
 								className="h-9 text-[12px]"
 								onClick={() => {
-									setTransactionID(transaction.id);
+									setTransactionID(transaction?.id);
 									setShowDamageReportModal(true);
 								}}
 							>
@@ -251,7 +251,7 @@ export default function TransactionPage() {
 							</Button>
 						)}
 
-						{isPersonnel && transaction.tr_type == "Material" && (
+						{isPersonnel && transaction?.tr_type == "Material" && (
 							<Button
 								size="sm"
 								className="bg-orange-500 hover:bg-orange-600 text-white h-9 text-[12px]"
@@ -265,8 +265,8 @@ export default function TransactionPage() {
 						)}
 
 						{(isPersonnel ||
-							(transaction.tr_type == "Material" &&
-								transaction.tr_format != "Hard Copy")) && (
+							(transaction?.tr_type == "Material" &&
+								transaction?.tr_format != "Hard Copy")) && (
 							<Button
 								className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white h-9 text-[12px]"
 								size="sm"
@@ -803,7 +803,7 @@ export default function TransactionPage() {
 							<div className="animate-slide-up-delay-3 overflow-x-auto">
 								{viewType === "grid" && (
 									<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
-										{transactionData.map((transaction, index) => (
+										{transactionData?.map((transaction, index) => (
 											<Card
 												key={index}
 												className="bg-card border-none shadow-sm transition-colors duration-300 hover:shadow-md rounded-lg h-fit"
@@ -812,10 +812,10 @@ export default function TransactionPage() {
 													<div className="flex items-start justify-between pb-4 border-b border-border">
 														<div>
 															<h4 className="font-medium text-foreground text-[14px]">
-																{transaction.tr_qr}
+																{transaction?.tr_qr}
 															</h4>
 															<p className="text-muted-foreground text-[12px]">
-																{transaction.tr_createdAt}
+																{transaction?.tr_createdAt}
 															</p>
 														</div>
 														<div className="flex items-center gap-2">
@@ -825,7 +825,7 @@ export default function TransactionPage() {
 																className="hover:bg-accent h-8 w-8 p-0 rounded-full"
 																onClick={() =>
 																	router.push(
-																		`/transaction/details?id=${transaction.id}`
+																		`/transaction/details?id=${transaction?.id}`
 																	)
 																}
 																title="View Transaction Details"
@@ -848,7 +848,7 @@ export default function TransactionPage() {
 															<h5 className="font-medium text-foreground mb-4 text-[13px]">
 																Patron Details
 															</h5>
-															{renderPatron(transaction.tr_patron)}
+															{renderPatron(transaction?.tr_patron)}
 														</div>
 													)}
 
@@ -896,7 +896,7 @@ export default function TransactionPage() {
 													</tr>
 												</thead>
 												<tbody className="align-top">
-													{transactionData.map((transaction, index) => (
+													{transactionData?.map((transaction, index) => (
 														<tr
 															key={index}
 															className={`border-b border-border hover:bg-accent/30 transition-colors ${
@@ -907,13 +907,13 @@ export default function TransactionPage() {
 														>
 															<td className="py-4 px-6 min-w-[250px]">
 																<p className="font-medium text-foreground text-[12px]">
-																	{transaction.tr_qr}
+																	{transaction?.tr_qr}
 																</p>
 																<p
 																	className="text-muted-foreground mb-2"
 																	style={{ fontSize: "11px" }}
 																>
-																	{transaction.tr_createdAt}
+																	{transaction?.tr_createdAt}
 																</p>
 																{renderStatusBadge(transaction, "left")}
 															</td>
@@ -924,7 +924,7 @@ export default function TransactionPage() {
 
 															{isPersonnel && (
 																<td className="py-4 px-6 min-w-[250px]">
-																	{renderPatron(transaction.tr_patron, true)}
+																	{renderPatron(transaction?.tr_patron, true)}
 																</td>
 															)}
 
@@ -946,7 +946,7 @@ export default function TransactionPage() {
 																		className="hover:bg-accent h-7 w-7 p-0"
 																		onClick={() =>
 																			router.push(
-																				`/transaction/details?id=${transaction.id}`
+																				`/transaction/details?id=${transaction?.id}`
 																			)
 																		}
 																		title="View Trasanction Details"

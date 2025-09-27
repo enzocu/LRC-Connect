@@ -67,7 +67,7 @@ export async function markUtilized(
 						await sendEmail(
 							"Reservation Cancelled",
 							userName,
-							`Hi ${userName}, your reservation (ID: ${affectedTrData.tr_qr}) was cancelled due to conflict with a higher-priority booking. We follow a first-come, first-served policy.`,
+							`Hi ${userName}, Reservation (ID: ${affectedTrData.tr_qr}) was cancelled due to conflict with a higher-priority booking. We follow a first-come, first-served policy.`,
 							userEmail,
 							Alert
 						);

@@ -26,21 +26,21 @@ const DeleteConfirmationModal = ({
 
 	const handleConfirm = async (e) => {
 		e.preventDefault();
-		if (!userDetails.uid) return;
+		if (!userDetails?.uid) return;
 
 		if (type === "Feedback") {
 			await updateFaqsStatus(
 				id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				setBtnLoading,
 				Alert
 			);
 		} else {
 			await updateNewsAnnouncementStatus(
 				id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				setBtnLoading,
 				Alert
 			);

@@ -34,20 +34,7 @@ export default function DiscussionRoomDetailsPage() {
 	const [isCodeOpen, setCodeOpen] = useState(false);
 	const [patronSelectionOpen, setPatronSelectionOpen] = useState(false);
 
-	const [formData, setFormData] = useState({
-		id: "",
-		dr_liID: null,
-		dr_status: "NA",
-		dr_name: "NA",
-		dr_capacity: "NA",
-		dr_description: "NA",
-		dr_minDurationFormatted: "NA",
-		dr_maxDurationFormatted: "NA",
-		dr_equipment: "NA",
-		dr_photoURL: null,
-		dr_createdAtDATE: null,
-		dr_operation: false,
-	});
+	const [formData, setFormData] = useState({});
 
 	useEffect(() => {
 		setPath(pathname);
@@ -88,7 +75,7 @@ export default function DiscussionRoomDetailsPage() {
 								<div className="relative">
 									<img
 										src={
-											formData.dr_photoURL ||
+											formData?.dr_photoURL ||
 											"/placeholder.svg?height=600&width=400"
 										}
 										alt="Computer"
@@ -101,10 +88,10 @@ export default function DiscussionRoomDetailsPage() {
 
 									<Badge
 										className={`absolute -top-2 -right-2 px-3 py-1 text-xs ${getStatusColor(
-											formData.dr_status
+											formData?.dr_status
 										)}`}
 									>
-										{formData.dr_status}
+										{formData?.dr_status}
 									</Badge>
 								</div>
 							</div>
@@ -114,30 +101,30 @@ export default function DiscussionRoomDetailsPage() {
 					<div className="lg:col-span-3 space-y-8">
 						<div className="space-y-2">
 							<h1 className="text-[28px] font-bold  leading-tight tracking-tight">
-								{formData.dr_name}
+								{formData?.dr_name}
 							</h1>
 							<p className="text-[16px] text-foreground-700 font-medium">
-								{formData.dr_createdAtDATE}
+								{formData?.dr_createdAtDATE}
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-[14px]">
-								{formData.dr_description}
+								{formData?.dr_description}
 							</p>
 
 							<div className="flex gap-3 pt-2">
-								{formData.dr_operation &&
+								{formData?.dr_operation &&
 									userDetails?.us_level != "USR-1" &&
-									formData.dr_status == "Active" &&
+									formData?.dr_status == "Active" &&
 									userDetails?.us_status == "Active" && (
 										<Button
 											className="bg-primary-custom text-white hover:bg-secondary-custom  text-[12px] h-10 px-6 transition-colors duration-200 flex items-center gap-2 shimmer"
 											onClick={() => {
-												!["USR-5", "USR-6"].includes(userDetails.us_level)
+												!["USR-5", "USR-6"].includes(userDetails?.us_level)
 													? setPatronSelectionOpen(true)
 													: handleProceedWithReservation(
 															router,
 															"Discussion Room",
-															formData.id,
-															userDetails.uid
+															formData?.id,
+															userDetails?.uid
 													  );
 											}}
 										>
@@ -165,7 +152,7 @@ export default function DiscussionRoomDetailsPage() {
 											Capacity
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.dr_capacity}
+											{formData?.dr_capacity}
 										</p>
 									</div>
 									<div className="flex flex-col sm:flex-row sm:items-start gap-2">
@@ -173,7 +160,7 @@ export default function DiscussionRoomDetailsPage() {
 											Min Duration
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.dr_minDurationFormatted}
+											{formData?.dr_minDurationFormatted}
 										</p>
 									</div>
 									<div className="flex flex-col sm:flex-row sm:items-start gap-2">
@@ -181,7 +168,7 @@ export default function DiscussionRoomDetailsPage() {
 											Max Duration
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.dr_maxDurationFormatted}
+											{formData?.dr_maxDurationFormatted}
 										</p>
 									</div>
 								</div>
@@ -202,7 +189,7 @@ export default function DiscussionRoomDetailsPage() {
 												School Name
 											</label>
 											<p className="text-[12px] text-muted-foreground">
-												{formData.dr_school}
+												{formData?.dr_school}
 											</p>
 										</div>
 									</div>
@@ -216,7 +203,7 @@ export default function DiscussionRoomDetailsPage() {
 												Library Name
 											</label>
 											<p className="text-[12px] text-muted-foreground">
-												{formData.dr_library}
+												{formData?.dr_library}
 											</p>
 										</div>
 									</div>
@@ -229,7 +216,7 @@ export default function DiscussionRoomDetailsPage() {
 									</Button>
 									{userDetails &&
 										["USR-2", "USR-3", "USR-4"].includes(
-											userDetails.us_level
+											userDetails?.us_level
 										) && (
 											<Button
 												onClick={() =>
@@ -256,16 +243,16 @@ export default function DiscussionRoomDetailsPage() {
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}
 				resourceType="Discussion Room"
-				resourceID={formData.id}
+				resourceID={formData?.id}
 				libraryID={userDetails?.us_liID}
 			/>
 
 			<CodeModal
 				isOpen={isCodeOpen}
 				onClose={() => setCodeOpen(false)}
-				value={formData.dr_qr}
+				value={formData?.dr_qr}
 				showQR={true}
-				title={`Discussion Code: ${formData.dr_qr}`}
+				title={`Discussion Code: ${formData?.dr_qr}`}
 			/>
 		</div>
 	);

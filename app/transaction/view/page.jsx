@@ -162,41 +162,45 @@ const ListenPage = () => {
 		setAudioError(null);
 	};
 
-	useEffect(() => {
-		const audio = audioRef.current;
-		if (!audio || !audioSrc || transactionData?.tr_format != "Audio Copy")
-			return;
+	useEffect(
+		() => {
+			const audio = audioRef.current;
+			if (!audio || !audioSrc || transactionData?.tr_format != "Audio Copy")
+				return;
 
-		setAudioLoaded(false);
-		setAudioError(null);
-		setIsPlaying(false);
-		setCurrentTime(0);
-		setDuration(0);
+			setAudioLoaded(false);
+			setAudioError(null);
+			setIsPlaying(false);
+			setCurrentTime(0);
+			setDuration(0);
 
-		audio.addEventListener("loadedmetadata", onLoadedMetadata);
-		audio.addEventListener("canplay", onCanPlay);
-		audio.addEventListener("play", onPlay);
-		audio.addEventListener("pause", onPause);
-		audio.addEventListener("ended", onEnded);
-		audio.addEventListener("timeupdate", onTimeUpdate);
-		audio.addEventListener("error", onError);
+			audio.addEventListener("loadedmetadata", onLoadedMetadata);
+			audio.addEventListener("canplay", onCanPlay);
+			audio.addEventListener("play", onPlay);
+			audio.addEventListener("pause", onPause);
+			audio.addEventListener("ended", onEnded);
+			audio.addEventListener("timeupdate", onTimeUpdate);
+			audio.addEventListener("error", onError);
 
-		audio.volume = volume;
-		audio.muted = muted;
-		audio.playbackRate = rate;
+			audio.volume = volume;
+			audio.muted = muted;
+			audio.playbackRate = rate;
 
-		audio.load();
+			audio.load();
 
-		return () => {
-			audio.removeEventListener("loadedmetadata", onLoadedMetadata);
-			audio.removeEventListener("canplay", onCanPlay);
-			audio.removeEventListener("play", onPlay);
-			audio.removeEventListener("pause", onPause);
-			audio.removeEventListener("ended", onEnded);
-			audio.removeEventListener("timeupdate", onTimeUpdate);
-			audio.removeEventListener("error", onError);
-		};
-	}, [audioSrc, transactionData?.tr_format]);
+			return () => {
+				audio.removeEventListener("loadedmetadata", onLoadedMetadata);
+				audio.removeEventListener("canplay", onCanPlay);
+				audio.removeEventListener("play", onPlay);
+				audio.removeEventListener("pause", onPause);
+				audio.removeEventListener("ended", onEnded);
+				audio.removeEventListener("timeupdate", onTimeUpdate);
+				audio.removeEventListener("error", onError);
+			};
+		},
+		[audioSrc, transactionData?.tr_format],
+		focusAI
+	);
 
 	//PDF Controll
 
@@ -268,10 +272,10 @@ const ListenPage = () => {
 	}, [id]);
 
 	useEffect(() => {
-		if (transactionData.tr_format == "Audio Copy") {
-			setAudioSrc(transactionData.tr_resource.ma_audioURL);
-		} else if (transactionData.tr_format == "Soft Copy") {
-			setPdfUrl(transactionData.tr_resource.ma_softURL);
+		if (transactionData?.tr_format == "Audio Copy") {
+			setAudioSrc(transactionData?.tr_resource.ma_audioURL);
+		} else if (transactionData?.tr_format == "Soft Copy") {
+			setPdfUrl(transactionData?.tr_resource.ma_softURL);
 		}
 	}, [transactionData]);
 

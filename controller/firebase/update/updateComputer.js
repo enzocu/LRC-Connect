@@ -39,14 +39,14 @@ export async function updateComputer(
 		const computerRef = doc(db, "computers", coID);
 
 		await updateDoc(computerRef, {
-			co_name: formData.co_name || "",
+			co_name: formData.co_name || null,
 			co_date,
-			co_assetTag: formData.co_assetTag || "",
-			co_description: formData.co_description || "",
+			co_assetTag: formData.co_assetTag || null,
+			co_description: formData.co_description || null,
 			co_minDuration,
 			co_maxDuration,
-			co_specifications: formData.co_specifications || "",
-			co_photoURL: co_photoURL || "",
+			co_specifications: formData.co_specifications || null,
+			co_photoURL: co_photoURL || null,
 			co_updatedAt: serverTimestamp(),
 		});
 

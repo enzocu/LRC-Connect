@@ -81,7 +81,7 @@ export async function markCompleted(us_id, transaction, setBtnLoading, Alert) {
 				await sendEmail(
 					"Reservation Completed",
 					patronName,
-					`Your reservation (ID: ${targetData.tr_qr}) has been marked as *Completed*.\n\nThank you for using our library services! If you have any questions or concerns, feel free to contact us.`,
+					`Reservation (ID: ${targetData.tr_qr}) has been marked as *Completed*.\n\nThank you for using our library services! If you have any questions or concerns, feel free to contact us.`,
 					patronEmail,
 					Alert
 				);

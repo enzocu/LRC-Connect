@@ -8,17 +8,17 @@ export const renderResource = (transaction, isTable = false) => {
 			{/* Image */}
 			<img
 				src={
-					transaction.tr_type === "Material"
-						? transaction.tr_resource.ma_coverURL
-						: transaction.tr_type === "Discussion Room"
-						? transaction.tr_resource.dr_photoURL
-						: transaction.tr_type === "Computer"
-						? transaction.tr_resource.co_photoURL
+					transaction?.tr_type === "Material"
+						? transaction?.tr_resource.ma_coverURL
+						: transaction?.tr_type === "Discussion Room"
+						? transaction?.tr_resource.dr_photoURL
+						: transaction?.tr_type === "Computer"
+						? transaction?.tr_resource.co_photoURL
 						: "/placeholder.svg?height=112&width=80"
 				}
-				alt={transaction.tr_qr}
+				alt={transaction?.tr_qr}
 				className={`h-28 object-cover rounded-lg bg-gray-100 flex-shrink-0 ${
-					transaction.tr_type !== "Material" ? "w-28" : "w-20"
+					transaction?.tr_type !== "Material" ? "w-28" : "w-20"
 				}`}
 			/>
 
@@ -29,39 +29,39 @@ export const renderResource = (transaction, isTable = false) => {
 						isTable ? "text-[12px]" : "text-[14px]"
 					}`}
 				>
-					{transaction.tr_type === "Material"
-						? transaction.tr_resource.ma_title
-						: transaction.tr_type === "Discussion Room"
-						? transaction.tr_resource.dr_name
-						: transaction.tr_type === "Computer"
-						? transaction.tr_resource.co_name
+					{transaction?.tr_type === "Material"
+						? transaction?.tr_resource.ma_title
+						: transaction?.tr_type === "Discussion Room"
+						? transaction?.tr_resource.dr_name
+						: transaction?.tr_type === "Computer"
+						? transaction?.tr_resource.co_name
 						: "NA"}
 				</h4>
 
 				<p className="text-muted-foreground text-[12px] mb-2">
-					{transaction.tr_type === "Material"
-						? "by " + transaction.tr_resource.ma_author
-						: transaction.tr_type === "Discussion Room"
-						? transaction.tr_resource.dr_createdAt
-						: transaction.tr_type === "Computer"
-						? transaction.tr_resource.co_createdAt
+					{transaction?.tr_type === "Material"
+						? "by " + transaction?.tr_resource.ma_author
+						: transaction?.tr_type === "Discussion Room"
+						? transaction?.tr_resource.dr_createdAt
+						: transaction?.tr_type === "Computer"
+						? transaction?.tr_resource.co_createdAt
 						: "NA"}
 				</p>
 
 				<div className="flex flex-wrap items-center gap-2">
 					<span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-[11px]">
-						{transaction.tr_type}
+						{transaction?.tr_type}
 					</span>
-					{transaction.tr_type === "Material" && (
+					{transaction?.tr_type === "Material" && (
 						<>
-							{transaction.tr_format == "Hard Copy" &&
+							{transaction?.tr_format == "Hard Copy" &&
 								transaction?.tr_accession && (
 									<span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-[11px]">
-										{transaction.tr_accession}
+										{transaction?.tr_accession}
 									</span>
 								)}
 							<span className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-[11px]">
-								{transaction.tr_format}
+								{transaction?.tr_format}
 							</span>
 						</>
 					)}
@@ -85,7 +85,7 @@ export const renderPatron = (transaction, isTable) => {
 		<div className="flex items-start gap-4">
 			{/* Patron Image */}
 			<img
-				src={transaction.us_photoURL || "/placeholder.svg"}
+				src={transaction?.us_photoURL || "/placeholder.svg"}
 				alt="Avatar"
 				className="w-10 h-10 rounded-full object-cover bg-gray-100 flex-shrink-0"
 			/>
@@ -97,28 +97,28 @@ export const renderPatron = (transaction, isTable) => {
 						isTable ? "text-[12px]" : "text-[14px]"
 					}`}
 				>
-					{transaction.us_name}
+					{transaction?.us_name}
 				</h4>
 
 				<p className="text-primary-custom text-[12px] mb-2">
-					{transaction.us_type}
+					{transaction?.us_type}
 					<span className="text-muted-foreground">
 						{" • "}
-						{transaction.us_schoolID}
+						{transaction?.us_schoolID}
 					</span>
 				</p>
 
 				<div className="mb-2">
 					<p className="text-foreground text-[12px]">Email</p>
 					<p className="text-muted-foreground text-[12px]">
-						{transaction.us_email}
+						{transaction?.us_email}
 					</p>
 				</div>
 
 				<div>
 					<p className="text-foreground text-[12px]">Library</p>
 					<p className="text-muted-foreground text-[12px]">
-						{transaction.us_library}
+						{transaction?.us_library}
 					</p>
 				</div>
 			</div>
@@ -136,19 +136,19 @@ export const renderSchedule = (transaction) => {
 					<FaRegCalendarAlt className="text-foreground text-[15px]  mt-[2px" />
 					<div>
 						<p className="text-foreground  text-[12px]">
-							{transaction.tr_dateFormatted}
+							{transaction?.tr_dateFormatted}
 						</p>
 						<p className="text-muted-foreground text-[12px]">Date</p>
 					</div>
 				</div>
 
 				{/* Date Due (only for Material) */}
-				{transaction.tr_type === "Material" && (
+				{transaction?.tr_type === "Material" && (
 					<div className="flex items-start gap-3">
 						<FaRegCalendarAlt className="text-foreground text-[15px]  mt-[2px]" />
 						<div>
 							<p className="text-foreground  text-[12px]">
-								{transaction.tr_dateDueFormatted}
+								{transaction?.tr_dateDueFormatted}
 							</p>
 							<p className="text-muted-foreground text-[12px]">Due Date</p>
 						</div>
@@ -157,14 +157,14 @@ export const renderSchedule = (transaction) => {
 			</div>
 
 			{/* Session Start & End (only if not Material) */}
-			{transaction.tr_type !== "Material" && (
+			{transaction?.tr_type !== "Material" && (
 				<div className="grid grid-cols-2 gap-4 mt-4">
 					{/* Session Start */}
 					<div className="flex items-start gap-3">
 						<FaRegClock className="text-foreground text-[15px] mt-[2px]" />
 						<div>
 							<p className="text-foreground text-[12px]">
-								{transaction.tr_sessionStartFormatted}
+								{transaction?.tr_sessionStartFormatted}
 							</p>
 							<p className="text-muted-foreground text-[12px]">Session Start</p>
 						</div>
@@ -175,7 +175,7 @@ export const renderSchedule = (transaction) => {
 						<FaRegClock className="text-foreground text-[15px] mt-[2px]" />
 						<div>
 							<p className="text-foreground text-[12px]">
-								{transaction.tr_sessionEndFormatted}
+								{transaction?.tr_sessionEndFormatted}
 							</p>
 							<p className="text-muted-foreground text-[12px]">Session End</p>
 						</div>
@@ -207,14 +207,14 @@ export const renderStatusBadge = (transaction, tooltipAlign = "right") => {
 	const toDate = (ts) =>
 		ts && typeof ts.toDate === "function" ? ts.toDate() : ts;
 
-	const status = transaction.tr_status;
-	const type = transaction.tr_type;
-	const dateUse = toDate(transaction.tr_date);
-	const dateDue = toDate(transaction.tr_dateDue);
-	const sessionStart = toDate(transaction.tr_sessionStart);
-	const sessionEnd = toDate(transaction.tr_sessionEnd);
-	const actualEnd = toDate(transaction.tr_actualEnd);
-	const updateAt = toDate(transaction.tr_updatedAt);
+	const status = transaction?.tr_status;
+	const type = transaction?.tr_type;
+	const dateUse = toDate(transaction?.tr_date);
+	const dateDue = toDate(transaction?.tr_dateDue);
+	const sessionStart = toDate(transaction?.tr_sessionStart);
+	const sessionEnd = toDate(transaction?.tr_sessionEnd);
+	const actualEnd = toDate(transaction?.tr_actualEnd);
+	const updateAt = toDate(transaction?.tr_updatedAt);
 
 	const now = new Date();
 

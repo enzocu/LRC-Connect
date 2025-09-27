@@ -153,7 +153,7 @@ export function PatronSelectionModal({
 
 				<div className="flex items-center justify-between mb-4">
 					<p className="text-primary text-[11px]">
-						{userData.length} patrons found
+						{userData?.length} patrons found
 						{selectedPatron && ` • ${selectedPatron.us_name} selected`}
 					</p>
 
@@ -193,7 +193,7 @@ export function PatronSelectionModal({
 							</tr>
 						</thead>
 						<tbody className="align-top">
-							{userData.map((patron, index) => (
+							{userData?.map((patron, index) => (
 								<tr
 									key={index}
 									className={`border-b border-border hover:bg-accent/30 transition-colors ${
@@ -202,7 +202,7 @@ export function PatronSelectionModal({
 								>
 									<td className="py-4 px-6">
 										<Checkbox
-											checked={selectedPatron?.us_id === patron.us_id}
+											checked={selectedPatron?.us_id === patron?.us_id}
 											onCheckedChange={() =>
 												selectedPatron
 													? setSelectedPatron(null)
@@ -212,39 +212,39 @@ export function PatronSelectionModal({
 									</td>
 									<td className="py-4 px-6 flex">
 										<img
-											src={patron.us_photoURL || "/placeholder.svg"}
+											src={patron?.us_photoURL || "/placeholder.svg"}
 											alt="avatar"
 											className="w-12 h-12 rounded-full object-cover bg-gray-100 flex-shrink-0"
 										/>
 									</td>
 									<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
-										{patron.us_name}
+										{patron?.us_name}
 									</td>
 									<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
 										<Badge
-											className={getTypeColor(patron.us_type)}
+											className={getTypeColor(patron?.us_type)}
 											style={{ fontSize: "10px" }}
 										>
-											{patron.us_type}
+											{patron?.us_type}
 										</Badge>
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_schoolID}
+										{patron?.us_schoolID}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_email}
+										{patron?.us_email}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_section}
+										{patron?.us_section}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_year}
+										{patron?.us_year}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_program}
+										{patron?.us_program}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron.us_school}
+										{patron?.us_school}
 									</td>
 								</tr>
 							))}

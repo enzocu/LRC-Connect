@@ -29,18 +29,18 @@ export function RemoveAccountModal({ isOpen, onClose, li_id, userData }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (userData && userData.us_id) {
+		if (userData && userData?.us_id) {
 			if (transferToOtherLibrary) {
 				if (!selectedLibrary || !userDetails?.uid) return;
 				await transferUserLibrary(
 					li_id,
 					userDetails?.uid,
 					selectedLibrary,
-					userData.us_id,
-					userData.us_name,
-					userData.us_level,
-					userData.us_type,
-					userData.us_library,
+					userData?.us_id,
+					userData?.us_name,
+					userData?.us_level,
+					userData?.us_type,
+					userData?.us_library,
 					setBtnLoading,
 					Alert
 				);
@@ -48,10 +48,10 @@ export function RemoveAccountModal({ isOpen, onClose, li_id, userData }) {
 				if (!userDetails?.uid) return;
 				await changeUserStatus(
 					li_id,
-					userData.us_id,
-					userData.us_name,
-					userData.us_level,
-					userData.us_library,
+					userData?.us_id,
+					userData?.us_name,
+					userData?.us_level,
+					userData?.us_library,
 					userDetails?.uid,
 					"Inactive",
 					reason,
@@ -99,7 +99,7 @@ export function RemoveAccountModal({ isOpen, onClose, li_id, userData }) {
 							{["USR-6"].includes(userData?.us_level) ? "Patron" : "Personnel"}
 						</h4>
 						<p className="text-red-700 text-[11px]">
-							You are about to deactivate <strong>{userData.us_name}</strong>{" "}
+							You are about to deactivate <strong>{userData?.us_name}</strong>{" "}
 							from this library.
 							{!transferToOtherLibrary &&
 								" This action will permanently remove their access to this library."}

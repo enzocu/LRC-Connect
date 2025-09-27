@@ -97,10 +97,10 @@ export default function MaterialReports() {
 		setPath(pathname);
 		const section = sections.find((s) => s.id === activeSection);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			if (section.key == "summary") {
 				getMaterialSummary(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.a_type,
@@ -118,7 +118,7 @@ export default function MaterialReports() {
 				);
 			} else if (section.key == "totalMaterial") {
 				getMaterialList(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					filters.b_materialType,
 					filters.b_category,
 					filters.b_shelf,
@@ -167,9 +167,9 @@ export default function MaterialReports() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getMaterialFilter(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setMaterialTypes,
 				setCategory,
 				setShelves,

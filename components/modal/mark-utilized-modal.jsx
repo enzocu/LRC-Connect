@@ -31,10 +31,10 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 	const [hasAffectedTransactions, setAffectedTransactions] = useState([]);
 
 	const handleConfirm = async () => {
-		if (userDetails && userDetails.uid && transaction?.id) {
+		if (userDetails && userDetails?.uid && transaction?.id) {
 			await markUtilized(
 				transaction?.id,
-				userDetails.uid,
+				userDetails?.uid,
 				transaction?.tr_type,
 				transaction?.tr_format,
 				selectedAccession,
@@ -66,7 +66,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
-			title={`Mark As Utilized - ${transaction.tr_qr} `}
+			title={`Mark As Utilized - ${transaction?.tr_qr} `}
 			size="md"
 		>
 			<div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -81,7 +81,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 					<h5 className="font-medium text-foreground mb-4 text-[13px]">
 						Patron Details
 					</h5>
-					{renderPatron(transaction.tr_patron)}
+					{renderPatron(transaction?.tr_patron)}
 				</div>
 				<div>
 					<h5 className="font-medium text-foreground mb-4 text-[13px]">
@@ -90,10 +90,10 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 					{renderSchedule(transaction)}
 				</div>
 
-				{transaction.tr_type === "Material" &&
-					transaction.tr_format === "Hard Copy" &&
+				{transaction?.tr_type === "Material" &&
+					transaction?.tr_format === "Hard Copy" &&
 					available &&
-					transaction.tr_resource?.ma_holdings?.length > 0 && (
+					transaction?.tr_resource?.ma_holdings?.length > 0 && (
 						<div>
 							<h5 className="font-medium text-foreground mb-2 text-[13px]">
 								Select Accession
@@ -106,7 +106,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 								<option value="" disabled>
 									Choose accession...
 								</option>
-								{transaction.tr_resource.ma_holdings.map((holding) => (
+								{transaction?.tr_resource.ma_holdings.map((holding) => (
 									<option key={holding} value={holding}>
 										{holding}
 									</option>
@@ -115,7 +115,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 						</div>
 					)}
 
-				{hasAffectedTransactions.length > 0 && (
+				{hasAffectedTransactions?.length > 0 && (
 					<div className="space-y-3">
 						<div className="flex items-center space-x-2">
 							<AlertTriangle className="w-4 h-4 text-amber-500" />
@@ -141,7 +141,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 											>
 												Use Date
 											</th>
-											{transaction.tr_type == "Material" && (
+											{transaction?.tr_type == "Material" && (
 												<th
 													scope="col"
 													className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
@@ -149,7 +149,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 													Date Due
 												</th>
 											)}
-											{transaction.tr_type !== "Material" && (
+											{transaction?.tr_type !== "Material" && (
 												<>
 													<th
 														scope="col"
@@ -169,26 +169,26 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 										</tr>
 									</thead>
 									<tbody className="bg-white divide-y divide-gray-200">
-										{hasAffectedTransactions.map((transaction) => (
-											<tr key={transaction.id}>
+										{hasAffectedTransactions?.map((transaction) => (
+											<tr key={transaction?.id}>
 												<td className="px-4 py-2 whitespace-nowrap text-gray-900 text-[12px]">
-													{transaction.tr_qr}
+													{transaction?.tr_qr}
 												</td>
 												<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
-													{transaction.tr_date}
+													{transaction?.tr_date}
 												</td>
-												{transaction.tr_type == "Material" && (
+												{transaction?.tr_type == "Material" && (
 													<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
-														{transaction.tr_dateDue}
+														{transaction?.tr_dateDue}
 													</td>
 												)}
-												{transaction.tr_type !== "Material" && (
+												{transaction?.tr_type !== "Material" && (
 													<>
 														<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
-															{transaction.tr_sessionStart}
+															{transaction?.tr_sessionStart}
 														</td>
 														<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
-															{transaction.tr_sessionEnd}
+															{transaction?.tr_sessionEnd}
 														</td>
 													</>
 												)}
@@ -214,7 +214,7 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 						style={{ fontSize: "12px" }}
 					>
 						<strong>Note:</strong>{" "}
-						{hasAffectedTransactions && hasAffectedTransactions.length > 0
+						{hasAffectedTransactions && hasAffectedTransactions?.length > 0
 							? "Marking this transaction as utilized will automatically cancel the listed transactions due to limited quantity (1)."
 							: "This action will mark the transaction as utilized and cannot be undone."}
 					</p>
@@ -236,8 +236,8 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 					disabled={
 						!available ||
 						(selectedAccession == "" &&
-							transaction.tr_type === "Material" &&
-							transaction.tr_format === "Hard Copy")
+							transaction?.tr_type === "Material" &&
+							transaction?.tr_format === "Hard Copy")
 					}
 				>
 					<LoadingSpinner loading={btnLoading} />

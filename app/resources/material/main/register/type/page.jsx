@@ -141,11 +141,11 @@ export default function MaterialTypeRegistrationPage() {
 	});
 
 	const handleSave = () => {
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 		if (!mt_id) {
 			insertMaterialtype(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				materialTypeName,
 				materialTypeData,
 				setBtnLoading,
@@ -154,8 +154,8 @@ export default function MaterialTypeRegistrationPage() {
 		} else if (mt_id) {
 			updateMaterialtype(
 				mt_id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				materialTypeName,
 				materialTypeData,
 				setBtnLoading,
@@ -168,11 +168,11 @@ export default function MaterialTypeRegistrationPage() {
 	};
 
 	const handleInactiveMaterial = async (mt_id, materialTypeName) => {
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 		await updateMaterialtypeStatus(
 			mt_id,
-			userDetails.us_liID,
-			userDetails.uid,
+			userDetails?.us_liID,
+			userDetails?.uid,
 			materialTypeName,
 			"Inactive",
 			Alert
@@ -321,11 +321,11 @@ export default function MaterialTypeRegistrationPage() {
 	};
 
 	const handleCategory = () => {
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 		if (!newCategory.ca_id) {
 			insertCategory(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				newCategory.ca_name,
 				setBtnCategory,
 				Alert
@@ -333,8 +333,8 @@ export default function MaterialTypeRegistrationPage() {
 		} else {
 			updateCategory(
 				newCategory.ca_id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				newCategory.ca_name,
 				setBtnCategory,
 				Alert
@@ -345,11 +345,11 @@ export default function MaterialTypeRegistrationPage() {
 	};
 
 	const handleInactiveCategory = (ca_id, ca_name) => {
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 		updateCategoryStatus(
 			ca_id,
-			userDetails.us_liID,
-			userDetails.uid,
+			userDetails?.us_liID,
+			userDetails?.uid,
 			ca_name,
 			"Inactive",
 			setBtnCategory,
@@ -359,9 +359,9 @@ export default function MaterialTypeRegistrationPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			const unsubscribe = getMaterialtypelistRealtime(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setRegisteredMaterialTypes,
 				setLoading,
 				Alert
@@ -373,9 +373,9 @@ export default function MaterialTypeRegistrationPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			const unsubscribe = getCategoryListRealtime(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setCategory,
 				setLoading,
 				Alert

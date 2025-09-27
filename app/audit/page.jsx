@@ -131,7 +131,7 @@ export default function AuditPage() {
 			unsubscribe = getAudittrail(
 				userDetails?.us_level == "USR-1"
 					? selectedLibrary
-					: userDetails.us_liID,
+					: userDetails?.us_liID,
 				setAuditData,
 				searchQuery,
 				selectedStudLibrary,
@@ -320,45 +320,45 @@ export default function AuditPage() {
 				</thead>
 
 				<tbody className="align-top">
-					{auditData.map((audit, index) => (
+					{auditData?.map((audit, index) => (
 						<tr
 							key={index}
 							className={`border-b border-border hover:bg-accent/30 transition-colors `}
 						>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
-								{audit.au_createdAtFormatted}
+								{audit?.au_createdAtFormatted}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
-								{audit.au_schoolId}
+								{audit?.au_schoolId}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[100px]">
-								{audit.au_userType}
+								{audit?.au_userType}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[180px]">
-								{audit.au_fullname}
+								{audit?.au_fullname}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
-								{audit.au_library}
+								{audit?.au_library}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[130px]">
-								{audit.au_actionType}
+								{audit?.au_actionType}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[350px] max-w-[600px]">
-								{audit.au_description}
+								{audit?.au_description}
 							</td>
 							<td className="py-4 px-6 text-left text-[12px] min-w-[80px]">
 								<Badge
-									className={getStatusColor(audit.au_status)}
+									className={getStatusColor(audit?.au_status)}
 									style={{ fontSize: "11px" }}
 								>
-									{audit.au_status}
+									{audit?.au_status}
 								</Badge>
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
-								{audit.au_ipAddress}
+								{audit?.au_ipAddress}
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[140px]">
-								{audit.au_device}
+								{audit?.au_device}
 							</td>{" "}
 						</tr>
 					))}
@@ -371,7 +371,7 @@ export default function AuditPage() {
 		<ProtectedRoute allowedRoles={["USR-1", "USR-2", "USR-3"]}>
 			{viewMode === "export" ? (
 				<DocumentPreviewPage
-					title={`System Activity Log (${auditData.length} events)`}
+					title={`System Activity Log (${auditData?.length} events)`}
 					activeFilters={getActiveFilters()}
 					renderTable={renderTableContent}
 					setViewMode={setViewMode}
@@ -399,7 +399,7 @@ export default function AuditPage() {
 							<Card className="p-6 bg-card border-border transition-colors duration-300 animate-slide-up animation-delay-400 ">
 								<CardHeader className="p-0">
 									<CardTitle className="font-semibold text-foreground text-[18px] mb-6">
-										{`System Activity Log (${auditData.length} events)`}
+										{`System Activity Log (${auditData?.length} events)`}
 									</CardTitle>
 									<div className="flex items-left justify-between flex-col sm:flex-row gap-4">
 										<div className="relative flex-1 max-w-md">

@@ -146,9 +146,9 @@ export function RenewTransactionModal({ isOpen, onClose, transaction }) {
 	};
 
 	const handleConfirm = async () => {
-		if (userDetails && userDetails.uid && transaction && transaction?.id) {
+		if (userDetails && userDetails?.uid && transaction && transaction?.id) {
 			await renewTransaction(
-				userDetails.uid,
+				userDetails?.uid,
 				transaction,
 				selectedDate,
 				setBtnLoading,

@@ -65,7 +65,7 @@ export async function markCancelled(
 				await sendEmail(
 					"Reservation Cancelled",
 					patronName,
-					`Your reservation (ID: ${
+					`Reservation (ID: ${
 						targetData.tr_qr
 					}) has been cancelled for the following reason(s):\n\n- ${sanitizedReasons.join(
 						"\n- "

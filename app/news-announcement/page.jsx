@@ -103,8 +103,8 @@ export default function NewsAnnouncementPage() {
 
 		if (userDetails?.us_liID) {
 			unsubscribe = getNewsAnnouncementList(
-				userDetails.us_level != "USR-6",
-				userDetails.us_liID,
+				userDetails?.us_level != "USR-6",
+				userDetails?.us_liID,
 				setNewsData,
 				"News",
 				searchQuery,
@@ -128,8 +128,8 @@ export default function NewsAnnouncementPage() {
 
 		if (userDetails?.us_liID) {
 			unsubscribe = getNewsAnnouncementList(
-				userDetails.us_level,
-				userDetails.us_liID,
+				userDetails?.us_level != "USR-6",
+				userDetails?.us_liID,
 				setAnnouncementsData,
 				"Announcements",
 				searchQuery,
@@ -204,7 +204,7 @@ export default function NewsAnnouncementPage() {
 
 								{userDetails &&
 									["USR-2", "USR-3", "USR-4"].includes(
-										userDetails.us_level
+										userDetails?.us_level
 									) && (
 										<Button
 											onClick={() => {
@@ -234,7 +234,7 @@ export default function NewsAnnouncementPage() {
 										variant="secondary"
 										className="text-muted-foreground text-[12px] font-normal"
 									>
-										{mainData.length} items
+										{mainData?.length} items
 									</Badge>
 								</div>
 
@@ -250,7 +250,7 @@ export default function NewsAnnouncementPage() {
 								</div>
 
 								<div className="space-y-6">
-									{mainData.map((item, index) => (
+									{mainData?.map((item, index) => (
 										<Card
 											key={index}
 											className="bg-card border-border hover:border-primary/50 transition-colors"
@@ -333,7 +333,7 @@ export default function NewsAnnouncementPage() {
 													<div className="flex items-center gap-1">
 														{userDetails &&
 															["USR-2", "USR-3", "USR-4"].includes(
-																userDetails.us_level
+																userDetails?.us_level
 															) && (
 																<>
 																	<Button
@@ -404,12 +404,12 @@ export default function NewsAnnouncementPage() {
 										variant="secondary"
 										className="text-muted-foreground text-[12px] lg:text-[11px] font-normal"
 									>
-										{sideData.length} items
+										{sideData?.length} items
 									</Badge>
 								</div>
 
 								<div className="space-y-4">
-									{sideData.slice(0, 4).map((item, index) => (
+									{sideData?.slice(0, 4).map((item, index) => (
 										<Card
 											key={item.id}
 											className="bg-card border-border hover:border-primary/50 transition-colors"

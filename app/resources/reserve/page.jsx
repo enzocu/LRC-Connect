@@ -139,7 +139,7 @@ export default function ReservationPage() {
 		) {
 			getActiveTransactionCount(
 				patronID,
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				patronDetails.us_type,
 				libraryDetails.li_borrowing,
 				setTrCount,

@@ -9,7 +9,7 @@ export const renderMaterials = (
 	isHorizontal = false,
 	router
 ) => {
-	if (!materialData || materialData.length === 0) return null;
+	if (!materialData || materialData?.length === 0) return null;
 
 	const Wrapper = ({ children }) =>
 		isHorizontal ? (
@@ -20,7 +20,7 @@ export const renderMaterials = (
 
 	return (
 		<Wrapper>
-			{materialData.map((material, index) => (
+			{materialData?.map((material, index) => (
 				<Card
 					key={index}
 					className={`bg-card border-none shadow-sm transition-colors duration-300 hover:shadow-md rounded-lg h-fit ${
@@ -94,7 +94,7 @@ export const renderMaterialsTable = (
 	isBranch = false,
 	router
 ) => {
-	if (!materialData || materialData.length === 0) return null;
+	if (!materialData || materialData?.length === 0) return null;
 
 	return (
 		<Card className="bg-card border-border transition-colors duration-300 animate-slide-up">
@@ -129,7 +129,7 @@ export const renderMaterialsTable = (
 						</tr>
 					</thead>
 					<tbody className="align-top">
-						{materialData.map((material, index) => (
+						{materialData?.map((material, index) => (
 							<tr
 								key={index}
 								className={`border-b border-border hover:bg-accent/30 transition-colors ${

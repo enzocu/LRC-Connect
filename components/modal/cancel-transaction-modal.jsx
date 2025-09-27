@@ -54,14 +54,14 @@ export function CancelTransactionModal({
 	};
 
 	const handleSubmit = async () => {
-		if (userDetails && userDetails.uid && transactionID) {
+		if (userDetails && userDetails?.uid && transactionID) {
 			const allReasons = [...selectedReasons];
 			if (customReason.trim()) {
 				allReasons.push(customReason.trim());
 			}
 			await markCancelled(
 				transactionID,
-				userDetails.uid,
+				userDetails?.uid,
 				allReasons,
 				setBtnLoading,
 				Alert
@@ -103,7 +103,7 @@ export function CancelTransactionModal({
 							Select cancellation reason(s):
 						</h3>
 						<div className="space-y-3">
-							{(!["USR-5", "USR-6"].includes(userDetails.us_level)
+							{(!["USR-5", "USR-6"].includes(userDetails?.us_level)
 								? CANCELLATION_REASONS
 								: CANCELLATION_REASONS_PATRON
 							).map((reason) => (

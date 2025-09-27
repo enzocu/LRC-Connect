@@ -29,19 +29,6 @@ import { handleChange } from "@/controller/custom/customFunction";
 import { updateLibrary } from "@/controller/firebase/update/updateLibrary";
 import { getLibrary } from "@/controller/firebase/get/getLibrary";
 
-const defaultValues = {
-	li_status: "Active",
-	li_schoolID: "",
-	li_name: "",
-	li_schoolname: "",
-	li_description: "",
-	li_email: "",
-	li_phone: "",
-	li_address: "",
-	li_latlng: "",
-	li_photoURL: "",
-};
-
 export default function LibraryDetails() {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -53,7 +40,7 @@ export default function LibraryDetails() {
 	const [isEditing, setIsEditing] = useState(false);
 	const [btnLoading, setBtnloading] = useState(false);
 
-	const [formData, setFormData] = useState(defaultValues);
+	const [formData, setFormData] = useState({});
 	const [showDeactivateModal, setShowDeactivateModal] = useState(false);
 	const [showPinModal, setShowPinModal] = useState(false);
 
@@ -62,13 +49,13 @@ export default function LibraryDetails() {
 
 	const handleSave = async () => {
 		if (id && userDetails?.uid) {
-			await updateLibrary(id, userDetails.uid, formData, setBtnloading, Alert);
+			await updateLibrary(id, userDetails?.uid, formData, setBtnloading, Alert);
 		}
 		setIsEditing(false);
 	};
 
 	useEffect(() => {
-		setIsAllowed(["USR-1", "USR-2", "USR-3"].includes(userDetails.us_level));
+		setIsAllowed(["USR-1", "USR-2", "USR-3"].includes(userDetails?.us_level));
 	}, [userDetails]);
 
 	useEffect(() => {
@@ -121,7 +108,7 @@ export default function LibraryDetails() {
 									</label>
 									<Input
 										name="li_name"
-										value={formData.li_name || ""}
+										value={formData?.li_name || ""}
 										onChange={(e) => handleChange(e, setFormData)}
 										placeholder="e.g., NU Baliwag Learning Hub"
 										className="bg-card border-border text-foreground h-9"
@@ -138,7 +125,7 @@ export default function LibraryDetails() {
 										</label>
 										<Input
 											name="li_schoolname"
-											value={formData.li_schoolname || ""}
+											value={formData?.li_schoolname || ""}
 											onChange={(e) => handleChange(e, setFormData)}
 											placeholder="e.g., National University Baliwag"
 											className="bg-card border-border text-foreground h-9"
@@ -153,7 +140,7 @@ export default function LibraryDetails() {
 										</label>
 										<Input
 											name="li_schoolID"
-											value={formData.li_schoolID || ""}
+											value={formData?.li_schoolID || ""}
 											onChange={(e) => handleChange(e, setFormData)}
 											placeholder="e.g., 2022-001234"
 											className="bg-card border-border text-foreground h-9"
@@ -172,7 +159,7 @@ export default function LibraryDetails() {
 										<Input
 											type="email"
 											name="li_email"
-											value={formData.li_email || ""}
+											value={formData?.li_email || ""}
 											onChange={(e) => handleChange(e, setFormData)}
 											placeholder="e.g., library@nubal.edu.ph"
 											className="bg-card border-border text-foreground h-9"
@@ -187,7 +174,7 @@ export default function LibraryDetails() {
 										</label>
 										<Input
 											name="li_phone"
-											value={formData.li_phone || ""}
+											value={formData?.li_phone || ""}
 											onChange={(e) => handleChange(e, setFormData)}
 											placeholder="e.g., +639123456789"
 											className="bg-card border-border text-foreground h-9"
@@ -206,7 +193,7 @@ export default function LibraryDetails() {
 									</label>
 									<Textarea
 										name="li_description"
-										value={formData.li_description || ""}
+										value={formData?.li_description || ""}
 										onChange={(e) => handleChange(e, setFormData)}
 										placeholder="Brief description of the library’s services, facilities, or location."
 										rows={3}
@@ -222,7 +209,7 @@ export default function LibraryDetails() {
 									</label>
 									<Input
 										name="li_address"
-										value={formData.li_address || ""}
+										value={formData?.li_address || ""}
 										onChange={(e) => handleChange(e, setFormData)}
 										placeholder="e.g., Purok 2, Sto. Niño, Baliwag"
 										className="bg-card border-border text-foreground h-9"
@@ -240,7 +227,7 @@ export default function LibraryDetails() {
 										</label>
 										<Input
 											name="li_latlng"
-											value={formData.li_latlng || ""}
+											value={formData?.li_latlng || ""}
 											onChange={(e) => handleChange(e, setFormData)}
 											placeholder="e.g., 14.9545, 120.8962"
 											className="bg-card border-border text-foreground h-9"
@@ -288,13 +275,13 @@ export default function LibraryDetails() {
 									onChange={(e) => handleChange(e, setFormData)}
 									id="cover-image-upload"
 								/>
-								{formData.li_photoURL ? (
+								{formData?.li_photoURL ? (
 									<div className="w-full h-[250px] bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
 										<img
 											src={
-												formData.li_photoURL instanceof File
-													? URL.createObjectURL(formData.li_photoURL)
-													: formData.li_photoURL
+												formData?.li_photoURL instanceof File
+													? URL.createObjectURL(formData?.li_photoURL)
+													: formData?.li_photoURL
 											}
 											alt="Cover preview"
 											className="w-full h-full object-cover rounded-md"
@@ -350,12 +337,12 @@ export default function LibraryDetails() {
 										<div className="flex items-start gap-3">
 											<div
 												className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-													formData.li_status === "Active"
+													formData?.li_status === "Active"
 														? "bg-red-50"
 														: "bg-green-50"
 												}`}
 											>
-												{formData.li_status === "Active" ? (
+												{formData?.li_status === "Active" ? (
 													<FiTrash2 className="w-4 h-4 text-red-500" />
 												) : (
 													<IoMdCheckmarkCircleOutline className="w-4 h-4 text-green-500" />
@@ -363,12 +350,12 @@ export default function LibraryDetails() {
 											</div>
 											<div className="flex-1">
 												<h2 className="font-semibold text-foreground text-[16px]">
-													{formData.li_status === "Active"
+													{formData?.li_status === "Active"
 														? "Deactivate Material"
 														: "Activate Material"}
 												</h2>
 												<p className="text-muted-foreground leading-relaxed text-[12px]">
-													{formData.co_status === "Active"
+													{formData?.li_status === "Active"
 														? "This will remove the material from search results and circulation. The material can be reactivated later by an administrator."
 														: "This will restore the material to be available again in search results and circulation."}
 												</p>
@@ -381,17 +368,17 @@ export default function LibraryDetails() {
 												variant="outline"
 												onClick={() => setShowDeactivateModal(true)}
 												className={`w-full h-9 transition-colors text-[12px] ${
-													formData.li_status === "Active"
+													formData?.li_status === "Active"
 														? "border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
 														: "border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300"
 												}`}
 											>
-												{formData.li_status === "Active" ? (
+												{formData?.li_status === "Active" ? (
 													<FiTrash2 className="w-4 h-4 mr-2" />
 												) : (
 													<IoMdCheckmarkCircleOutline className="w-4 h-4 mr-2" />
 												)}
-												{formData.li_status === "Active"
+												{formData?.li_status === "Active"
 													? "Deactivate Material"
 													: "Activate Material"}
 											</Button>
@@ -409,10 +396,10 @@ export default function LibraryDetails() {
 							isOpen={showDeactivateModal}
 							onClose={() => setShowDeactivateModal(false)}
 							resourceType="library"
-							resourceId={formData.id}
-							resourceTitle={formData.li_name || "Untitled Library"}
-							resourceStatus={formData.li_status}
-							resourceQr={formData.li_qr}
+							resourceId={formData?.id}
+							resourceTitle={formData?.li_name || "Untitled Library"}
+							resourceStatus={formData?.li_status}
+							resourceQr={formData?.li_qr}
 						/>
 
 						<PinLocation

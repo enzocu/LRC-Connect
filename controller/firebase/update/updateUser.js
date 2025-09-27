@@ -28,18 +28,18 @@ export async function updateUser(
 		const userRef = doc(db, "users", userID);
 
 		await updateDoc(userRef, {
-			us_schoolID: userData.us_schoolID,
-			us_fname: userData.us_fname,
-			us_mname: userData.us_mname,
-			us_lname: userData.us_lname,
-			us_suffix: userData.us_suffix,
-			us_sex: userData.us_sex,
+			us_schoolID: userData.us_schoolID || null,
+			us_fname: userData.us_fname || null,
+			us_mname: userData.us_mname || null,
+			us_lname: userData.us_lname || null,
+			us_suffix: userData.us_suffix || null,
+			us_sex: userData.us_sex || null,
 			us_birthday: userData.us_birthday
 				? Timestamp.fromDate(new Date(userData.us_birthday))
 				: null,
-			us_email: userData.us_email,
-			us_phoneNumber: userData.us_phoneNumber,
-			us_photoURL: us_photoURL,
+			us_email: userData.us_email || null,
+			us_phoneNumber: userData.us_phoneNumber || null,
+			us_photoURL: us_photoURL || null,
 			us_updatedAt: serverTimestamp(),
 		});
 

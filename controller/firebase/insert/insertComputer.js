@@ -37,15 +37,15 @@ export async function insertComputer(
 		await addDoc(collection(db, "computers"), {
 			co_qr,
 			co_liID: li_id,
-			co_status: formData.co_status || "",
-			co_name: formData.co_name || "",
+			co_status: "Active",
+			co_name: formData.co_name || null,
 			co_date: convertDateToTimestamp(formData.co_date),
-			co_assetTag: formData.co_assetTag || "",
-			co_description: formData.co_description || "",
+			co_assetTag: formData.co_assetTag || null,
+			co_description: formData.co_description || null,
 			co_minDuration,
 			co_maxDuration,
-			co_specifications: formData.co_specifications || "",
-			co_photoURL: co_photoURL || "",
+			co_specifications: formData.co_specifications || null,
+			co_photoURL: co_photoURL || null,
 			co_createdAt: serverTimestamp(),
 		});
 

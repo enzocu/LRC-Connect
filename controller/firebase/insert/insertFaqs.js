@@ -17,8 +17,8 @@ export async function insertFaqs(
 			fa_liID: li_id,
 			fa_modifiedBy: doc(db, "users", modifiedBy),
 			fa_status: "Active",
-			fa_question: formData.fa_question || "",
-			fa_answer: formData.fa_answer || "",
+			fa_question: formData.fa_question || null,
+			fa_answer: formData.fa_answer || null,
 			fa_createdAt: serverTimestamp(),
 		});
 

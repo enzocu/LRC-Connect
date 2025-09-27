@@ -150,10 +150,10 @@ export default function UserStatsEssential() {
 		setPath(pathname);
 		const section = sections.find((s) => s.id === activeSection);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			if (section.key == "totalUsersByType") {
 				getUserNumber(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.a_type,
@@ -166,7 +166,7 @@ export default function UserStatsEssential() {
 				);
 			} else if (section.key == "libraryUsers") {
 				getUserList(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.b_role,
@@ -189,7 +189,7 @@ export default function UserStatsEssential() {
 				);
 			} else if (section.key == "usersWithMostTransaction") {
 				getUserSummary(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.c_role,
@@ -221,7 +221,7 @@ export default function UserStatsEssential() {
 				);
 			} else if (section.key == "usersWithMostReports") {
 				getUserReport(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.d_role,
@@ -295,9 +295,9 @@ export default function UserStatsEssential() {
 	]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getTransactionFilter(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				filters.c_resourceType,
 				setLibraryList,
 				null,
@@ -311,11 +311,11 @@ export default function UserStatsEssential() {
 	}, [userDetails, filters.c_resourceType]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			setFilters((prev) => ({
 				...prev,
-				c_libraryList: userDetails.us_liID.id,
-				d_libraryList: userDetails.us_liID.id,
+				c_libraryList: userDetails?.us_liID.id,
+				d_libraryList: userDetails?.us_liID.id,
 			}));
 		}
 	}, [userDetails]);
@@ -324,7 +324,7 @@ export default function UserStatsEssential() {
 		if (!userDetails) return;
 
 		getUserAttributeFilters(
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			null,
 			null,
 			setSectionData,

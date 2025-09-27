@@ -94,7 +94,7 @@ export default function HomePage() {
 		let materialDetails = "";
 		if (findBookMode && !quickAction.getMaterial && userDetails) {
 			materialDetails = await getMaterialList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setIsFetch,
 				Alert
 			);
@@ -137,10 +137,10 @@ export default function HomePage() {
 		if (!prompt.trim() || !userDetails) return;
 
 		const usID = ["USR-5", "USR-6"].includes(userDetails?.us_level)
-			? userDetails.uid
+			? userDetails?.uid
 			: null;
 		const liID = !["USR-5", "USR-6"].includes(userDetails?.us_level)
-			? userDetails.us_liID
+			? userDetails?.us_liID
 			: null;
 
 		const userMessage = {

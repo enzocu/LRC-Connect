@@ -25,7 +25,7 @@ export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
 
 	const [userData, setUserData] = useState([]);
 	const [selectedLibrary, setSelectedLibrary] = useState(
-		userDetails.us_liID ? userDetails.us_liID.id : "All"
+		userDetails?.us_liID ? userDetails?.us_liID.id : "All"
 	);
 	const [selectedRole, setSelectedRole] = useState("All");
 	const [showLoggedIn, setShowLoggedIn] = useState(showMode);
@@ -39,9 +39,9 @@ export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
 	useEffect(() => {
 		setPath(pathname);
 
-		if (!isOpen || !userDetails || !userDetails.us_liID) return;
+		if (!isOpen || !userDetails || !userDetails?.us_liID) return;
 		getRankList(
-			userDetails.us_liID,
+			userDetails?.us_liID,
 			setUserData,
 			showLoggedIn,
 			selectedRole,

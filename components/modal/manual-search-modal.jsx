@@ -42,9 +42,9 @@ export function ManualSearchModal({
 
 	const handleSelectAccount = (account) => {
 		setSelectedAccounts((prev) => {
-			const exists = prev.find((item) => item.us_id === account.us_id);
+			const exists = prev.find((item) => item.us_id === account?.us_id);
 			return exists
-				? prev.filter((item) => item.us_id !== account.us_id)
+				? prev.filter((item) => item.us_id !== account?.us_id)
 				: [...prev, account];
 		});
 	};
@@ -185,7 +185,7 @@ export function ManualSearchModal({
 
 					<div className="flex items-center justify-between mb-4">
 						<p className="text-primary text-[12px]">
-							{userData.length} accounts found
+							{userData?.length} accounts found
 							{selectedAccounts.length > 0 &&
 								` • ${selectedAccounts.length} selected`}
 						</p>
@@ -212,7 +212,7 @@ export function ManualSearchModal({
 									{[
 										<Checkbox
 											checked={
-												selectedAccounts.length === userData.length
+												selectedAccounts.length === userData?.length
 													? true
 													: selectedAccounts.length > 0
 													? "indeterminate"
@@ -247,7 +247,7 @@ export function ManualSearchModal({
 								</tr>
 							</thead>
 							<tbody className="align-top">
-								{userData.map((account, index) => (
+								{userData?.map((account, index) => (
 									<tr
 										key={index}
 										className={`border-b border-border hover:bg-accent/30 transition-colors ${
@@ -258,7 +258,7 @@ export function ManualSearchModal({
 											<Checkbox
 												checked={
 													!!selectedAccounts.find(
-														(a) => a.us_id === account.us_id
+														(a) => a.us_id === account?.us_id
 													)
 												}
 												onCheckedChange={() => handleSelectAccount(account)}
@@ -266,47 +266,47 @@ export function ManualSearchModal({
 										</td>
 										<td className="py-4 px-6 flex">
 											<img
-												src={account.us_photoURL || "/placeholder.svg"}
+												src={account?.us_photoURL || "/placeholder.svg"}
 												alt="avatar"
 												className="w-12 h-12 rounded-full object-cover bg-gray-100 flex-shrink-0"
 											/>
 										</td>
 										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
-											{account.us_name}
+											{account?.us_name}
 										</td>
 										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
 											<Badge
-												className={getStatColor(account.us_status)}
+												className={getStatColor(account?.us_status)}
 												style={{ fontSize: "10px" }}
 											>
-												{account.us_status}
+												{account?.us_status}
 											</Badge>
 										</td>
 										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
 											<Badge
-												className={getTypeColor(account.us_type)}
+												className={getTypeColor(account?.us_type)}
 												style={{ fontSize: "10px" }}
 											>
-												{account.us_type}
+												{account?.us_type}
 											</Badge>
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_schoolID}
+											{account?.us_schoolID}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_email}
+											{account?.us_email}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_section}
+											{account?.us_section}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_year}
+											{account?.us_year}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_program}
+											{account?.us_program}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account.us_school}
+											{account?.us_school}
 										</td>
 									</tr>
 								))}

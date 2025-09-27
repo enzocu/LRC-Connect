@@ -41,10 +41,10 @@ export default function BorrowingLimitsModal({ isOpen, onClose }) {
 	};
 
 	const handleSave = async () => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			await updateBorrowingLimit(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				limits,
 				setBtnLoading,
 				Alert
@@ -55,8 +55,8 @@ export default function BorrowingLimitsModal({ isOpen, onClose }) {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (!isOpen || !userDetails || !userDetails.us_liID) return;
-		getBorrowingLimit(userDetails.us_liID, setLimits, setLoading, Alert);
+		if (!isOpen || !userDetails || !userDetails?.us_liID) return;
+		getBorrowingLimit(userDetails?.us_liID, setLimits, setLoading, Alert);
 	}, [userDetails, isOpen]);
 
 	if (!isOpen) return null;

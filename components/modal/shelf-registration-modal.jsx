@@ -37,21 +37,21 @@ export function ShelfRegistrationModal({ isOpen, onClose, shelves }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!userDetails || !userDetails?.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 
 		if (editingShelfId) {
 			await updateShelfName(
 				editingShelfId,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				newShelf,
 				setBtnloading,
 				Alert
 			);
 		} else {
 			await insertShelf(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				newShelf,
 				setBtnloading,
 				Alert
@@ -75,12 +75,12 @@ export function ShelfRegistrationModal({ isOpen, onClose, shelves }) {
 	};
 
 	const handleDeactivateShelf = (sh_id, sh_name) => {
-		if (!userDetails || !userDetails?.us_liID || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid) return;
 
 		updateShelfStatus(
 			sh_id,
-			userDetails.us_liID,
-			userDetails.uid,
+			userDetails?.us_liID,
+			userDetails?.uid,
 			sh_name,
 			"Inactive",
 			setBtnloading,

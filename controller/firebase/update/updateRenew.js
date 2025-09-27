@@ -55,7 +55,7 @@ export async function renewTransaction(
 				await sendEmail(
 					"Reservation Renewed",
 					patronName,
-					`Your reservation (ID: ${targetData.tr_qr}) has been renewed.\n\nNew Due Date: ${newDateDue}\n\nThank you for using our library services!`,
+					`Reservation (ID: ${targetData.tr_qr}) has been renewed.\n\nNew Due Date: ${newDateDue}\n\nThank you for using our library services!`,
 					patronEmail,
 					Alert
 				);

@@ -68,7 +68,7 @@ export default function TransactionDetailsPage() {
 							Transaction Details
 						</h1>
 						<p className="text-muted-foreground text-[14px]">
-							Complete information about transaction {transactionData.tr_qr}
+							Complete information about transaction {transactionData?.tr_qr}
 						</p>
 					</div>
 
@@ -113,7 +113,7 @@ export default function TransactionDetailsPage() {
 					<div className="lg:col-span-2">
 						<Card className="bg-card border-border overflow-hidden">
 							<CardContent className="p-0">
-								{TransactionStatusBar(transactionData.tr_status)}
+								{TransactionStatusBar(transactionData?.tr_status)}
 
 								<div className="border-t border-border"></div>
 
@@ -318,11 +318,11 @@ export function TransactionDetailsCard(transaction) {
 						<div className="relative group inline-block">
 							<div className="flex flex-col">
 								<Label className="text-foreground text-[14px]">
-									{transaction.tr_pastDueDate?.length || "0"}
+									{transaction?.tr_pastDueDate?.length || "0"}
 								</Label>
 								<p className="text-muted-foreground text-[12px]">
 									Previous Due Date
-									{transaction.tr_pastDueDate?.length > 1 && "s"}
+									{transaction?.tr_pastDueDate?.length > 1 && "s"}
 								</p>
 							</div>
 
@@ -332,10 +332,10 @@ export function TransactionDetailsCard(transaction) {
 							>
 								<div className="font-semibold mb-1">
 									Previous Due Date
-									{transaction.tr_pastDueDate.length > 1 && "s"}
+									{transaction?.tr_pastDueDate.length > 1 && "s"}
 								</div>
 								<div className="text-[11px] space-y-1">
-									{transaction.tr_pastDueDate.map((due, idx) => {
+									{transaction?.tr_pastDueDate.map((due, idx) => {
 										const formattedDate = new Date(
 											due.seconds * 1000
 										).toLocaleDateString("en-US", {
@@ -403,7 +403,7 @@ const renderResourceDetails = (transaction, router) => {
 				<Button
 					onClick={() =>
 						router.push(
-							`/resources/material/details/?id=${transaction.tr_resource.id}`
+							`/resources/material/details/?id=${transaction?.tr_resource.id}`
 						)
 					}
 					variant="ghost"
@@ -491,12 +491,12 @@ const renderResourceDetails = (transaction, router) => {
 						<div>
 							<Label className="text-foreground text-[12px]">Description</Label>
 							<p className="text-muted-foreground text-[12px]">
-								{transaction.tr_type === "Material"
-									? transaction.tr_resource.ma_description
-									: transaction.tr_type === "Discussion Room"
-									? transaction.tr_resource.dr_description
-									: transaction.tr_type === "Computer"
-									? transaction.tr_resource.co_description
+								{transaction?.tr_type === "Material"
+									? transaction?.tr_resource.ma_description
+									: transaction?.tr_type === "Discussion Room"
+									? transaction?.tr_resource.dr_description
+									: transaction?.tr_type === "Computer"
+									? transaction?.tr_resource.co_description
 									: "NA"}
 							</p>
 						</div>
@@ -510,7 +510,7 @@ const renderResourceDetails = (transaction, router) => {
 export const renderPatronDetails = (transaction, router) => {
 	if (!transaction?.tr_patron) return null;
 
-	const patron = transaction.tr_patron;
+	const patron = transaction?.tr_patron;
 
 	return (
 		<div className="p-6">
@@ -521,7 +521,7 @@ export const renderPatronDetails = (transaction, router) => {
 				</h2>
 				<Button
 					onClick={() =>
-						router.push(`/account/details?id=${transaction.tr_patron.id}`)
+						router.push(`/account/details?id=${transaction?.tr_patron.id}`)
 					}
 					variant="ghost"
 					size="sm"
@@ -598,7 +598,7 @@ export const renderCancellationDetails = (transaction) => {
 				</h2>
 
 				<div className="flex flex-wrap gap-2 mt-1">
-					{transaction.tr_remarks.map((reason, index) => (
+					{transaction?.tr_remarks.map((reason, index) => (
 						<span
 							key={index}
 							className="bg-muted text-foreground px-3 py-2 rounded-md text-[12px]"

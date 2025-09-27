@@ -85,10 +85,10 @@ export default function ComputerReports() {
 		setPath(pathname);
 		const section = sections.find((s) => s.id === activeSection);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			if (section.key == "summary") {
 				getComputerSummary(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.a_userType,
@@ -105,7 +105,7 @@ export default function ComputerReports() {
 				);
 			} else if (section.key == "totalComputers") {
 				getComputerList(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					filters.b_computerStatus,
 					filters.b_dateRangeStart,

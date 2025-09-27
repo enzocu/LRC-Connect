@@ -37,19 +37,19 @@ export default function AdminWelcomePage() {
 	const [libraries, setLibrary] = useState([]);
 
 	const nextBook = () => {
-		setCurrentBookIndex((prev) => (prev + 1) % materialData.length);
+		setCurrentBookIndex((prev) => (prev + 1) % materialData?.length);
 	};
 
 	const prevBook = () => {
 		setCurrentBookIndex(
-			(prev) => (prev - 1 + materialData.length) % materialData.length
+			(prev) => (prev - 1 + materialData?.length) % materialData?.length
 		);
 	};
 
 	const getVisibleBooks = () => {
 		const books = [];
 		for (let i = 0; i < 5; i++) {
-			const index = (currentBookIndex + i) % materialData.length;
+			const index = (currentBookIndex + i) % materialData?.length;
 			books.push(materialData[index]);
 		}
 		return books;

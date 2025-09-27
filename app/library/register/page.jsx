@@ -42,8 +42,8 @@ export default function RegisterLibrary() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (userDetails && userDetails.uid) {
-			insertLibrary(userDetails.uid, formData, setBtnloading, Alert);
+		if (userDetails && userDetails?.uid) {
+			insertLibrary(userDetails?.uid, formData, setBtnloading, Alert);
 		}
 
 		setFormData(defaultValues);
@@ -98,7 +98,7 @@ export default function RegisterLibrary() {
 											</label>
 											<Input
 												name="li_name"
-												value={formData.li_name}
+												value={formData?.li_name}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Riverdale Public Library"
 												className="bg-card border-border text-foreground h-9"
@@ -114,7 +114,7 @@ export default function RegisterLibrary() {
 												</label>
 												<Input
 													name="li_schoolname"
-													value={formData.li_schoolname}
+													value={formData?.li_schoolname}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="Riverdale University"
 													className="bg-card border-border text-foreground h-9"
@@ -128,7 +128,7 @@ export default function RegisterLibrary() {
 												</label>
 												<Input
 													name="li_schoolID"
-													value={formData.li_schoolID}
+													value={formData?.li_schoolID}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="RU-00123"
 													className="bg-card border-border text-foreground h-9"
@@ -146,7 +146,7 @@ export default function RegisterLibrary() {
 												<Input
 													type="email"
 													name="li_email"
-													value={formData.li_email}
+													value={formData?.li_email}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="library@riverdale.edu"
 													className="bg-card border-border text-foreground h-9"
@@ -160,7 +160,7 @@ export default function RegisterLibrary() {
 												</label>
 												<Input
 													name="li_phone"
-													value={formData.li_phone}
+													value={formData?.li_phone}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="+63917 123 4567"
 													className="bg-card border-border text-foreground h-9"
@@ -178,7 +178,7 @@ export default function RegisterLibrary() {
 											</label>
 											<Textarea
 												name="li_description"
-												value={formData.li_description}
+												value={formData?.li_description}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="A modern academic library serving students and faculty with digital and physical resources."
 												rows={3}
@@ -193,7 +193,7 @@ export default function RegisterLibrary() {
 											</label>
 											<Input
 												name="li_address"
-												value={formData.li_address || ""}
+												value={formData?.li_address || ""}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="e.g., Purok 2, Sto. Niño, Baliwag"
 												className="bg-card border-border text-foreground h-9"
@@ -210,7 +210,7 @@ export default function RegisterLibrary() {
 												</label>
 												<Input
 													name="li_latlng"
-													value={formData.li_latlng || ""}
+													value={formData?.li_latlng || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="e.g., 14.9545, 120.8962"
 													className="bg-card border-border text-foreground h-9"
@@ -254,13 +254,13 @@ export default function RegisterLibrary() {
 											onChange={(e) => handleChange(e, setFormData)}
 											id="cover-image-upload"
 										/>
-										{formData.li_photoURL ? (
+										{formData?.li_photoURL ? (
 											<div className="w-full h-[250px] bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
 												<img
 													src={
-														formData.li_photoURL instanceof File
-															? URL.createObjectURL(formData.li_photoURL)
-															: formData.li_photoURL
+														formData?.li_photoURL instanceof File
+															? URL.createObjectURL(formData?.li_photoURL)
+															: formData?.li_photoURL
 													}
 													alt="Cover preview"
 													className="w-full h-full object-cover rounded-md"

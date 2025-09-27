@@ -91,7 +91,7 @@ export default function EntryExitPage() {
 	const [ctrPages, setCtrPage] = useState(1);
 
 	useEffect(() => {
-		setIsPersonnel(!["USR-6"].includes(userDetails.us_level));
+		setIsPersonnel(!["USR-6"].includes(userDetails?.us_level));
 	}, [userDetails]);
 
 	useEffect(() => {
@@ -99,11 +99,11 @@ export default function EntryExitPage() {
 
 		let unsubscribe;
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			unsubscribe = getEntryExitList(
-				!["USR-6"].includes(userDetails.us_level),
-				userDetails.us_liID,
-				userDetails.uid,
+				!["USR-6"].includes(userDetails?.us_level),
+				userDetails?.us_liID,
+				userDetails?.uid,
 				setUserData,
 				searchQuery,
 				showLoggedIn,
@@ -144,10 +144,10 @@ export default function EntryExitPage() {
 	]);
 
 	useEffect(() => {
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getUserFilterData(
-				!["USR-6"].includes(userDetails.us_level),
-				userDetails.us_liID,
+				!["USR-6"].includes(userDetails?.us_level),
+				userDetails?.us_liID,
 				setLibraryQR,
 				setLibraryData,
 				setSectionData,
@@ -606,7 +606,7 @@ export default function EntryExitPage() {
 						<div className="flex-1 animate-slide-up-delay-2 overflow-x-auto">
 							{viewType === "grid" && (
 								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
-									{userData.map((user, index) => (
+									{userData?.map((user, index) => (
 										<Card
 											key={index}
 											className="bg-card border border-border shadow-sm transition-all duration-300 hover:shadow-md hover:border-primary-custom/30 rounded-lg overflow-hidden h-fit relative"
@@ -628,8 +628,8 @@ export default function EntryExitPage() {
 														onClick={() =>
 															router.push(
 																isPersonnel
-																	? `/account/details?id=${user.lo_user.id}`
-																	: `/library/details?id=${user.lo_library.id}`
+																	? `/account/details?id=${user?.lo_user?.id}`
+																	: `/library/details?id=${user?.lo_library?.id}`
 															)
 														}
 														size="sm"
@@ -667,7 +667,7 @@ export default function EntryExitPage() {
 												</tr>
 											</thead>
 											<tbody className="align-top">
-												{userData.map((user, index) => (
+												{userData?.map((user, index) => (
 													<tr
 														key={index}
 														className={`border-b border-border hover:bg-accent/30 transition-colors ${
@@ -676,10 +676,10 @@ export default function EntryExitPage() {
 													>
 														<td className="py-4 px-6 text-left text-foreground text-[12px]">
 															<Badge
-																className={getStatusColor(user.lo_status)}
+																className={getStatusColor(user?.lo_status)}
 																style={{ fontSize: "11px" }}
 															>
-																{user.lo_status}
+																{user?.lo_status}
 															</Badge>
 														</td>
 
@@ -697,8 +697,8 @@ export default function EntryExitPage() {
 																onClick={() =>
 																	router.push(
 																		isPersonnel
-																			? `/account/details?id=${user.lo_user.id}`
-																			: `/library/details?id=${user.lo_library.id}`
+																			? `/account/details?id=${user?.lo_user.id}`
+																			: `/library/details?id=${user?.lo_library.id}`
 																	)
 																}
 																size="sm"
@@ -796,8 +796,8 @@ export const renderuserDetails = (user, isTable = false) => {
 				</div>
 			</div>
 			{!isTable && (
-				<Badge className={`text-[12px] ${getStatusColor(user.lo_status)}`}>
-					{user.lo_status}
+				<Badge className={`text-[12px] ${getStatusColor(user?.lo_status)}`}>
+					{user?.lo_status}
 				</Badge>
 			)}
 		</div>

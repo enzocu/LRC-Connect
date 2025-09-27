@@ -40,37 +40,13 @@ export default function AccountDetails() {
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnloading] = useState(false);
 
-	const superadmin = userDetails && userDetails.us_level == "USR-1";
+	const superadmin = userDetails && userDetails?.us_level == "USR-1";
 	const [isCodeOpen, setCodeOpen] = useState(false);
 	const [editMode, setEditMode] = useState("");
-	const [formData, setFormData] = useState({
-		us_schoolID: "",
-		us_status: "Active",
-		us_fname: "",
-		us_mname: "",
-		us_lname: "",
-		us_suffix: "",
-		us_sex: "",
-		us_birthday: "",
-		us_email: "",
-		us_phoneNumber: "",
-		us_photoURL: "",
-	});
 
-	const [academicData, setAcademicData] = useState({
-		us_section: "",
-		us_year: "",
-		us_program: "",
-		us_school: "",
-	});
-
-	const [addressData, setAddressData] = useState({
-		us_street: "",
-		us_barangay: "",
-		us_municipal: "",
-		us_province: "",
-	});
-
+	const [formData, setFormData] = useState({});
+	const [academicData, setAcademicData] = useState({});
+	const [addressData, setAddressData] = useState({});
 	const [associatedLibraries, setAssociatedLibraries] = useState([]);
 	const [provinces, setProvinces] = useState([]);
 	const [municipals, setMunicipals] = useState([]);
@@ -78,10 +54,10 @@ export default function AccountDetails() {
 
 	const handleSubmitDetails = async (e) => {
 		e.preventDefault();
-		if (!userDetails || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.uid) return;
 		await updateUser(
 			associatedLibraries,
-			userDetails.uid,
+			userDetails?.uid,
 			id,
 			formData,
 			setBtnloading,
@@ -92,12 +68,12 @@ export default function AccountDetails() {
 
 	const handleSubmitAcademic = async (e) => {
 		e.preventDefault();
-		if (!userDetails || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.uid) return;
 		await updateAcademic(
 			associatedLibraries,
-			userDetails.uid,
+			userDetails?.uid,
 			id,
-			`${formData.us_fname}  ${formData.us_mname} ${formData.us_lname}`,
+			`${formData?.us_fname}  ${formData?.us_mname} ${formData?.us_lname}`,
 			academicData,
 			setBtnloading,
 			Alert
@@ -107,12 +83,12 @@ export default function AccountDetails() {
 
 	const handleSubmitAddress = async (e) => {
 		e.preventDefault();
-		if (!userDetails || !userDetails.uid) return;
+		if (!userDetails || !userDetails?.uid) return;
 		await updateAddress(
 			associatedLibraries,
-			userDetails.uid,
+			userDetails?.uid,
 			id,
-			`${formData.us_fname}  ${formData.us_mname} ${formData.us_lname}`,
+			`${formData?.us_fname}  ${formData?.us_mname} ${formData?.us_lname}`,
 			addressData,
 			setBtnloading,
 			Alert
@@ -222,7 +198,7 @@ export default function AccountDetails() {
 												</label>
 												<Input
 													name="us_schoolID"
-													value={formData.us_schoolID || ""}
+													value={formData?.us_schoolID || ""}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="Enter school ID"
 													className="bg-card border-border text-foreground h-9"
@@ -238,7 +214,7 @@ export default function AccountDetails() {
 													</label>
 													<Input
 														name="us_fname"
-														value={formData.us_fname || ""}
+														value={formData?.us_fname || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="Enter your first name"
 														className="bg-card border-border text-foreground h-9"
@@ -254,7 +230,7 @@ export default function AccountDetails() {
 													</label>
 													<Input
 														name="us_mname"
-														value={formData.us_mname || ""}
+														value={formData?.us_mname || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="Enter your middle name"
 														className="bg-card border-border text-foreground h-9"
@@ -271,7 +247,7 @@ export default function AccountDetails() {
 													</label>
 													<Input
 														name="us_lname"
-														value={formData.us_lname || ""}
+														value={formData?.us_lname || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="Enter your last name"
 														className="bg-card border-border text-foreground h-9"
@@ -287,7 +263,7 @@ export default function AccountDetails() {
 													</label>
 													<Input
 														name="us_suffix"
-														value={formData.us_suffix || ""}
+														value={formData?.us_suffix || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="Jr., Sr., III (optional)"
 														className="bg-card border-border text-foreground h-9"
@@ -304,7 +280,7 @@ export default function AccountDetails() {
 													</label>
 													<select
 														name="us_sex"
-														value={formData.us_sex || ""}
+														value={formData?.us_sex || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 														required
@@ -321,7 +297,7 @@ export default function AccountDetails() {
 													<Input
 														name="us_birthday"
 														type="date"
-														value={formData.us_birthday || ""}
+														value={formData?.us_birthday || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														className="bg-card border-border text-foreground h-9"
 														style={{ fontSize: "12px" }}
@@ -339,7 +315,7 @@ export default function AccountDetails() {
 													<Input
 														name="us_email"
 														type="email"
-														value={formData.us_email || ""}
+														value={formData?.us_email || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="@gmail.com"
 														className="bg-card border-border text-foreground h-9"
@@ -354,7 +330,7 @@ export default function AccountDetails() {
 													</label>
 													<Input
 														name="us_phoneNumber"
-														value={formData.us_phoneNumber || ""}
+														value={formData?.us_phoneNumber || ""}
 														onChange={(e) => handleChange(e, setFormData)}
 														placeholder="+639xxxxxxxxx"
 														className="bg-card border-border text-foreground h-9"
@@ -394,13 +370,13 @@ export default function AccountDetails() {
 												id="cover-image-upload"
 												disabled={editMode == ""}
 											/>
-											{formData.us_photoURL ? (
+											{formData?.us_photoURL ? (
 												<div className="w-full h-[250px] bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
 													<img
 														src={
-															formData.us_photoURL instanceof File
-																? URL.createObjectURL(formData.us_photoURL)
-																: formData.us_photoURL
+															formData?.us_photoURL instanceof File
+																? URL.createObjectURL(formData?.us_photoURL)
+																: formData?.us_photoURL
 														}
 														alt="Cover preview"
 														className="w-full h-full object-cover rounded-md"
@@ -450,68 +426,71 @@ export default function AccountDetails() {
 											)}
 										</div>
 
-										<div className="mt-8">
-											<div className="flex items-center justify-between">
-												<h2 className="font-semibold text-foreground text-[16px]">
-													Associated Libraries
-												</h2>
-											</div>
-											<p className="text-muted-foreground text-[12px] mb-4">
-												View the list of libraries this account is linked with,
-												including their type.
-											</p>
-
-											<div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
-												{associatedLibraries.map((library, index) => (
-													<div
-														key={index}
-														className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/30"
-													>
-														<div className="flex items-start gap-3 w-full">
-															<div className="w-[120px] h-[80px] bg-muted rounded-sm flex items-center justify-center overflow-hidden">
-																{library.li_photoURL ? (
-																	<img
-																		src={library.li_photoURL}
-																		alt={library.li_name}
-																		className="w-full h-full object-cover rounded-md"
-																	/>
-																) : (
-																	<FiImage className="w-4 h-4 text-muted-foreground" />
-																)}
-															</div>
-
-															<div className="flex flex-col justify-between flex-1">
-																<div>
-																	<p className="font-medium text-foreground text-[14px]">
-																		{library.li_name || ""}
-																	</p>
-																	<p className="text-primary-custom text-[12px]">
-																		Type: {library.us_type || ""}
-																	</p>
-																</div>
-
-																<div className="flex items-center gap-1 mt-2">
-																	<Button
-																		type="button"
-																		variant="ghost"
-																		size="sm"
-																		className="hover:bg-accent h-7 w-7 p-0"
-																		title="View Library Details"
-																		onClick={() =>
-																			router.push(
-																				`/library/details?id=${library.id}`
-																			)
-																		}
-																	>
-																		<ExternalLink className="w-3 h-3" />
-																	</Button>
-																</div>
-															</div>
-														</div>
+										{associatedLibraries?.length > 0 &&
+											formData?.us_level != "USR-1" && (
+												<div className="mt-8">
+													<div className="flex items-center justify-between">
+														<h2 className="font-semibold text-foreground text-[16px]">
+															Associated Libraries
+														</h2>
 													</div>
-												))}
-											</div>
-										</div>
+													<p className="text-muted-foreground text-[12px] mb-4">
+														View the list of libraries this account is linked
+														with, including their type.
+													</p>
+
+													<div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+														{associatedLibraries?.map((library, index) => (
+															<div
+																key={index}
+																className="flex items-center justify-between p-3 border border-border rounded-lg bg-muted/30"
+															>
+																<div className="flex items-start gap-3 w-full">
+																	<div className="w-[120px] h-[80px] bg-muted rounded-sm flex items-center justify-center overflow-hidden">
+																		{library?.li_photoURL ? (
+																			<img
+																				src={library?.li_photoURL}
+																				alt={library?.li_name}
+																				className="w-full h-full object-cover rounded-md"
+																			/>
+																		) : (
+																			<FiImage className="w-4 h-4 text-muted-foreground" />
+																		)}
+																	</div>
+
+																	<div className="flex flex-col justify-between flex-1">
+																		<div>
+																			<p className="font-medium text-foreground text-[14px]">
+																				{library?.li_name || ""}
+																			</p>
+																			<p className="text-primary-custom text-[12px]">
+																				Type: {library?.us_type || ""}
+																			</p>
+																		</div>
+
+																		<div className="flex items-center gap-1 mt-2">
+																			<Button
+																				type="button"
+																				variant="ghost"
+																				size="sm"
+																				className="hover:bg-accent h-7 w-7 p-0"
+																				title="View Library Details"
+																				onClick={() =>
+																					router.push(
+																						`/library/details?id=${library?.id}`
+																					)
+																				}
+																			>
+																				<ExternalLink className="w-3 h-3" />
+																			</Button>
+																		</div>
+																	</div>
+																</div>
+															</div>
+														))}
+													</div>
+												</div>
+											)}
 									</CardContent>
 								</Card>
 							</div>
@@ -520,119 +499,121 @@ export default function AccountDetails() {
 
 					<TabsContent value="Academic & Address">
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-2">
-							<form onSubmit={handleSubmitAcademic}>
-								<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
-									<CardContent className="p-6">
-										<h2 className="font-semibold text-foreground text-[16px]">
-											Academic
-										</h2>
-										<p className="text-muted-foreground text-[12px] mb-4">
-											Includes section, year level, and program information.
-										</p>
+							{["USR-6", "USR-5"].includes(formData?.us_level) && (
+								<form onSubmit={handleSubmitAcademic}>
+									<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
+										<CardContent className="p-6">
+											<h2 className="font-semibold text-foreground text-[16px]">
+												Academic
+											</h2>
+											<p className="text-muted-foreground text-[12px] mb-4">
+												Includes section, year level, and program information.
+											</p>
 
-										<div className="space-y-4">
-											<div className="grid grid-cols-2 gap-4">
-												<div>
-													<label className="block text-foreground font-medium mb-2 text-[12px]">
-														Section
-													</label>
-													<Input
-														name="us_section"
-														value={academicData.us_section || ""}
-														onChange={(e) => handleChange(e, setAcademicData)}
-														placeholder="ITE 222"
-														className="bg-card border-border text-foreground h-9"
-														style={{ fontSize: "12px" }}
-														required
-														disabled={editMode == ""}
-													/>
-												</div>
-												<div>
-													<label className="block text-foreground font-medium mb-2 text-[12px]">
-														Year
-													</label>
-													<Input
-														name="us_year"
-														value={academicData.us_year || ""}
-														onChange={(e) => handleChange(e, setAcademicData)}
-														placeholder="1st year"
-														className="bg-card border-border text-foreground h-9"
-														style={{ fontSize: "12px" }}
-														required
-														disabled={editMode == ""}
-													/>
-												</div>
+											<div className="space-y-4">
+												<div className="grid grid-cols-2 gap-4">
+													<div>
+														<label className="block text-foreground font-medium mb-2 text-[12px]">
+															Section
+														</label>
+														<Input
+															name="us_section"
+															value={academicData?.us_section || ""}
+															onChange={(e) => handleChange(e, setAcademicData)}
+															placeholder="ITE 222"
+															className="bg-card border-border text-foreground h-9"
+															style={{ fontSize: "12px" }}
+															required
+															disabled={editMode == ""}
+														/>
+													</div>
+													<div>
+														<label className="block text-foreground font-medium mb-2 text-[12px]">
+															Year
+														</label>
+														<Input
+															name="us_year"
+															value={academicData?.us_year || ""}
+															onChange={(e) => handleChange(e, setAcademicData)}
+															placeholder="1st year"
+															className="bg-card border-border text-foreground h-9"
+															style={{ fontSize: "12px" }}
+															required
+															disabled={editMode == ""}
+														/>
+													</div>
 
-												<div>
-													<label className="block text-foreground font-medium mb-2 text-[12px]">
-														Program
-													</label>
-													<Input
-														name="us_program"
-														value={academicData.us_program || ""}
-														onChange={(e) => handleChange(e, setAcademicData)}
-														placeholder="BSIT"
-														className="bg-card border-border text-foreground h-9"
-														style={{ fontSize: "12px" }}
-														required
-														disabled={editMode == ""}
-													/>
-												</div>
-												<div>
-													<label className="block text-foreground font-medium mb-2 text-[12px]">
-														School
-													</label>
-													<Input
-														name="us_school"
-														value={academicData.us_school || ""}
-														onChange={(e) => handleChange(e, setAcademicData)}
-														placeholder="SET"
-														className="bg-card border-border text-foreground h-9"
-														style={{ fontSize: "12px" }}
-														required
-														disabled={editMode == ""}
-													/>
+													<div>
+														<label className="block text-foreground font-medium mb-2 text-[12px]">
+															Program
+														</label>
+														<Input
+															name="us_program"
+															value={academicData?.us_program || ""}
+															onChange={(e) => handleChange(e, setAcademicData)}
+															placeholder="BSIT"
+															className="bg-card border-border text-foreground h-9"
+															style={{ fontSize: "12px" }}
+															required
+															disabled={editMode == ""}
+														/>
+													</div>
+													<div>
+														<label className="block text-foreground font-medium mb-2 text-[12px]">
+															School
+														</label>
+														<Input
+															name="us_school"
+															value={academicData?.us_school || ""}
+															onChange={(e) => handleChange(e, setAcademicData)}
+															placeholder="SET"
+															className="bg-card border-border text-foreground h-9"
+															style={{ fontSize: "12px" }}
+															required
+															disabled={editMode == ""}
+														/>
+													</div>
 												</div>
 											</div>
-										</div>
-										{superadmin && (
-											<div className="flex gap-3 justify-end mt-8">
-												{editMode != "academic" && (
-													<Button
-														type="button"
-														className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
-														onClick={() => {
-															setEditMode("academic");
-														}}
-													>
-														Edit Academic
-													</Button>
-												)}
-
-												{editMode === "academic" && (
-													<>
+											{superadmin && (
+												<div className="flex gap-3 justify-end mt-8">
+													{editMode != "academic" && (
 														<Button
+															type="button"
 															className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
-															onClick={() => {}}
+															onClick={() => {
+																setEditMode("academic");
+															}}
 														>
-															<LoadingSpinner loading={btnLoading} />
-															Save Changes
+															Edit Academic
 														</Button>
+													)}
 
-														<Button
-															variant="outline"
-															onClick={() => setEditMode("")}
-															className="w-fit border-border text-foreground hover:bg-accent h-11 text-[12px]"
-														>
-															Cancel
-														</Button>
-													</>
-												)}
-											</div>
-										)}
-									</CardContent>
-								</Card>
-							</form>
+													{editMode === "academic" && (
+														<>
+															<Button
+																className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+																onClick={() => {}}
+															>
+																<LoadingSpinner loading={btnLoading} />
+																Save Changes
+															</Button>
+
+															<Button
+																variant="outline"
+																onClick={() => setEditMode("")}
+																className="w-fit border-border text-foreground hover:bg-accent h-11 text-[12px]"
+															>
+																Cancel
+															</Button>
+														</>
+													)}
+												</div>
+											)}
+										</CardContent>
+									</Card>
+								</form>
+							)}
 
 							<form onSubmit={handleSubmitAddress}>
 								<Card className="bg-card border-border transition-colors duration-300 max-w-full animate-slide-up-delay-2">
@@ -651,7 +632,7 @@ export default function AccountDetails() {
 												</label>
 												<Input
 													name="us_street"
-													value={addressData.us_street || ""}
+													value={addressData?.us_street || ""}
 													onChange={(e) => handleChange(e, setAddressData)}
 													placeholder="Purok 2"
 													className="bg-card border-border text-foreground h-9"
@@ -662,14 +643,14 @@ export default function AccountDetails() {
 											</div>
 											<select
 												name="us_province"
-												value={addressData.us_province || ""}
+												value={addressData?.us_province || ""}
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 mt-6 text-[12px]"
 												required
 												disabled={editMode == ""}
 											>
-												<option value={addressData.us_province || ""}>
-													{extractProvinceName(addressData.us_province)}
+												<option value={addressData?.us_province || ""}>
+													{extractProvinceName(addressData?.us_province)}
 												</option>
 												{provinces.map((p) => (
 													<option key={p.code} value={`${p.code}|${p.name}`}>
@@ -680,13 +661,13 @@ export default function AccountDetails() {
 
 											<select
 												name="us_municipal"
-												value={addressData.us_municipal || ""}
+												value={addressData?.us_municipal || ""}
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 												required
 												disabled={editMode == ""}
 											>
-												<option value={addressData.us_municipal || ""}>
+												<option value={addressData?.us_municipal || ""}>
 													{extractProvinceName(addressData.us_municipal)}
 												</option>
 												{municipals.map((m) => (
@@ -697,13 +678,13 @@ export default function AccountDetails() {
 											</select>
 											<select
 												name="us_barangay"
-												value={addressData.us_barangay || ""}
+												value={addressData?.us_barangay || ""}
 												onChange={(e) => handleChange(e, setAddressData)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 												required
 												disabled={editMode == ""}
 											>
-												<option value={addressData.us_barangay || ""}>
+												<option value={addressData?.us_barangay || ""}>
 													{extractProvinceName(addressData.us_barangay)}
 												</option>
 												{barangays.map((b) => (
@@ -760,9 +741,9 @@ export default function AccountDetails() {
 			<CodeModal
 				isOpen={isCodeOpen}
 				onClose={() => setCodeOpen(false)}
-				value={formData.us_qr}
+				value={formData?.us_qr}
 				showQR={true}
-				title={`Patron Code: ${formData.us_qr}`}
+				title={`Patron Code: ${formData?.us_qr}`}
 			/>
 		</div>
 	);

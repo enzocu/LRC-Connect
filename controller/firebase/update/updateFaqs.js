@@ -15,8 +15,8 @@ export async function updateFaqs(
 		setBtnLoading(true);
 		await updateDoc(doc(db, "faqs", faID), {
 			fa_modifiedBy: doc(db, "users", modifiedBy),
-			fa_question: formData.fa_question || "",
-			fa_answer: formData.fa_answer || "",
+			fa_question: formData.fa_question || null,
+			fa_answer: formData.fa_answer || null,
 			fa_updatedAt: serverTimestamp(),
 		});
 

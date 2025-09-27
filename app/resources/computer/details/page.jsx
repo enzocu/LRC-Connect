@@ -33,22 +33,7 @@ export default function ComputerDetails() {
 	const [isCodeOpen, setCodeOpen] = useState(false);
 	const [patronSelectionOpen, setPatronSelectionOpen] = useState(false);
 
-	const [formData, setFormData] = useState({
-		id: "",
-		co_liID: null,
-		co_status: "NA",
-		co_name: "NA",
-		co_date: null,
-		co_assetTag: "NA",
-		co_description: "NA",
-		co_minDurationFormatted: "NA",
-		co_maxDurationFormatted: "NA",
-		co_specifications: "NA",
-		co_school: "NA",
-		co_library: "NA",
-		co_operation: false,
-		co_photoURL: null,
-	});
+	const [formData, setFormData] = useState({});
 
 	useEffect(() => {
 		setPath(pathname);
@@ -88,7 +73,7 @@ export default function ComputerDetails() {
 								<div className="relative">
 									<img
 										src={
-											formData.co_photoURL ||
+											formData?.co_photoURL ||
 											"/placeholder.svg?height=600&width=400"
 										}
 										alt="Computer"
@@ -101,10 +86,10 @@ export default function ComputerDetails() {
 
 									<Badge
 										className={`absolute -top-2 -right-2 px-3 py-1 text-xs ${getStatusColor(
-											formData.co_status
+											formData?.co_status
 										)}`}
 									>
-										{formData.co_status}
+										{formData?.co_status}
 									</Badge>
 								</div>
 							</div>
@@ -114,30 +99,30 @@ export default function ComputerDetails() {
 					<div className="lg:col-span-3 space-y-8">
 						<div className="space-y-2">
 							<h1 className="text-[28px] font-bold  leading-tight tracking-tight">
-								{formData.co_name}
+								{formData?.co_name}
 							</h1>
 							<p className="text-[16px] text-foreground-700 font-medium">
-								Asset Tag: {formData.co_assetTag}
+								Asset Tag: {formData?.co_assetTag}
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-[14px]">
-								{formData.co_description}
+								{formData?.co_description}
 							</p>
 
 							<div className="flex gap-3 pt-2">
-								{formData.co_operation &&
+								{formData?.co_operation &&
 									userDetails?.us_level != "USR-1" &&
-									formData.co_status == "Active" &&
+									formData?.co_status == "Active" &&
 									userDetails?.us_status == "Active" && (
 										<Button
 											className="bg-primary-custom text-white hover:bg-secondary-custom  text-[12px] h-10 px-6 transition-colors duration-200 flex items-center gap-2 shimmer"
 											onClick={() => {
-												!["USR-5", "USR-6"].includes(userDetails.us_level)
+												!["USR-5", "USR-6"].includes(userDetails?.us_level)
 													? setPatronSelectionOpen(true)
 													: handleProceedWithReservation(
 															router,
 															"Computer",
-															formData.id,
-															userDetails.uid
+															formData?.id,
+															userDetails?.uid
 													  );
 											}}
 										>
@@ -165,7 +150,7 @@ export default function ComputerDetails() {
 											Specifications
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.co_specifications}
+											{formData?.co_specifications}
 										</p>
 									</div>
 									<div className="flex flex-col sm:flex-row sm:items-start gap-2">
@@ -173,7 +158,7 @@ export default function ComputerDetails() {
 											Date Acquired
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.co_date}
+											{formData?.co_date}
 										</p>
 									</div>
 									<div className="flex flex-col sm:flex-row sm:items-start gap-2">
@@ -181,7 +166,7 @@ export default function ComputerDetails() {
 											Min Duration
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.co_minDurationFormatted}
+											{formData?.co_minDurationFormatted}
 										</p>
 									</div>
 									<div className="flex flex-col sm:flex-row sm:items-start gap-2">
@@ -189,7 +174,7 @@ export default function ComputerDetails() {
 											Max Duration
 										</Label>
 										<p className="text-[12px] text-muted-foreground sm:flex-1">
-											{formData.co_maxDurationFormatted}
+											{formData?.co_maxDurationFormatted}
 										</p>
 									</div>
 								</div>
@@ -210,7 +195,7 @@ export default function ComputerDetails() {
 												School Name
 											</label>
 											<p className="text-[12px] text-muted-foreground">
-												{formData.co_school}
+												{formData?.co_school}
 											</p>
 										</div>
 									</div>
@@ -224,7 +209,7 @@ export default function ComputerDetails() {
 												Library Name
 											</label>
 											<p className="text-[12px] text-muted-foreground">
-												{formData.co_library}
+												{formData?.co_library}
 											</p>
 										</div>
 									</div>
@@ -237,7 +222,7 @@ export default function ComputerDetails() {
 									</Button>
 									{userDetails &&
 										["USR-2", "USR-3", "USR-4"].includes(
-											userDetails.us_level
+											userDetails?.us_level
 										) && (
 											<Button
 												onClick={() =>
@@ -264,16 +249,16 @@ export default function ComputerDetails() {
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}
 				resourceType="Computer"
-				resourceID={formData.id}
+				resourceID={formData?.id}
 				libraryID={userDetails?.us_liID}
 			/>
 
 			<CodeModal
 				isOpen={isCodeOpen}
 				onClose={() => setCodeOpen(false)}
-				value={formData.co_qr}
+				value={formData?.co_qr}
 				showQR={true}
-				title={`Computer Code: 	${formData.co_qr}`}
+				title={`Computer Code: 	${formData?.co_qr}`}
 			/>
 		</div>
 	);

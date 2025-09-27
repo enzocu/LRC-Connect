@@ -51,9 +51,9 @@ export default function ComputerResourcesPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getComputerList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setComputerData,
 				selectedStatus,
 				"",
@@ -92,7 +92,7 @@ export default function ComputerResourcesPage() {
 								</p>
 							</div>
 							{userDetails &&
-								["USR-2", "USR-3", "USR-4"].includes(userDetails.us_level) && (
+								["USR-2", "USR-3", "USR-4"].includes(userDetails?.us_level) && (
 									<Button
 										onClick={() =>
 											router.push("/resources/computer/register?type=register")

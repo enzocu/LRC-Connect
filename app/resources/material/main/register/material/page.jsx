@@ -205,13 +205,13 @@ export default function MaterialRegistrationPage() {
 	};
 
 	const handleSave = async () => {
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid || !type)
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid || !type)
 			return;
 
 		if (type == "register") {
 			await insertMaterial(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				formData,
 				selectedMaterialType,
 				holdings,
@@ -224,8 +224,8 @@ export default function MaterialRegistrationPage() {
 		} else if (type == "edit" && id) {
 			await updateMaterial(
 				id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				formData,
 				selectedMaterialType,
 				holdings,
@@ -302,7 +302,7 @@ export default function MaterialRegistrationPage() {
 		if (userDetails?.us_liID) {
 			if (type === "register") {
 				const unsubscribeMaterialTypes = getMaterialtypelistRealtime(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMaterialTypes,
 					setLoading,
 					Alert
@@ -323,7 +323,7 @@ export default function MaterialRegistrationPage() {
 			}
 
 			const unsubscribeCategory = getCategoryListRealtime(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setCategory,
 				setLoading,
 				Alert
@@ -331,7 +331,7 @@ export default function MaterialRegistrationPage() {
 			unsubscribers.push(unsubscribeCategory);
 
 			const unsubscribeShelf = getShelfListRealtime(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setShelves,
 				setLoading,
 				Alert

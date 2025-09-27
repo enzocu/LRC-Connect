@@ -58,13 +58,13 @@ export default function RegisterDiscussionRoom() {
 	const handleSubmit = (e) => {
 		e.preventDefault();
 
-		if (!userDetails || !userDetails.us_liID || !userDetails.uid || !type)
+		if (!userDetails || !userDetails?.us_liID || !userDetails?.uid || !type)
 			return;
 
 		if (type == "register") {
 			insertDiscussionroom(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				formData,
 				setBtnloading,
 				Alert
@@ -73,8 +73,8 @@ export default function RegisterDiscussionRoom() {
 		} else if (type == "edit" && id) {
 			updateDiscussionroom(
 				id,
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				formData,
 				setBtnloading,
 				Alert
@@ -137,7 +137,7 @@ export default function RegisterDiscussionRoom() {
 											</label>
 											<Input
 												name="dr_name"
-												value={formData.dr_name}
+												value={formData?.dr_name}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Dr. Sarah Johnson"
 												className="bg-card border-border text-foreground h-9"
@@ -154,7 +154,7 @@ export default function RegisterDiscussionRoom() {
 												<Input
 													name="dr_capacity"
 													type="number"
-													value={formData.dr_capacity}
+													value={formData?.dr_capacity}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="12"
 													className="bg-card border-border text-foreground h-9"
@@ -169,7 +169,7 @@ export default function RegisterDiscussionRoom() {
 												</label>
 												<Input
 													name="dr_equipment"
-													value={formData.dr_equipment}
+													value={formData?.dr_equipment}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="Smart Board, Projector, Video Conference"
 													className="bg-card border-border text-foreground h-9"
@@ -185,7 +185,7 @@ export default function RegisterDiscussionRoom() {
 											</label>
 											<Textarea
 												name="dr_description"
-												value={formData.dr_description}
+												value={formData?.dr_description}
 												onChange={(e) => handleChange(e, setFormData)}
 												placeholder="Modern discussion room equipped with smart board, video conferencing capabilities, and comfortable seating..."
 												rows={3}
@@ -203,7 +203,7 @@ export default function RegisterDiscussionRoom() {
 												<Input
 													type="time"
 													name="dr_minDuration"
-													value={formData.dr_minDuration}
+													value={formData?.dr_minDuration}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="1 hour"
 													className="bg-card border-border text-foreground h-9"
@@ -218,7 +218,7 @@ export default function RegisterDiscussionRoom() {
 												<Input
 													type="time"
 													name="dr_maxDuration"
-													value={formData.dr_maxDuration}
+													value={formData?.dr_maxDuration}
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="4 hours"
 													className="bg-card border-border text-foreground h-9"
@@ -254,13 +254,13 @@ export default function RegisterDiscussionRoom() {
 											onChange={(e) => handleChange(e, setFormData)}
 											id="cover-image-upload"
 										/>
-										{formData.dr_photoURL ? (
+										{formData?.dr_photoURL ? (
 											<div className="w-full h-[250px] bg-muted/30 rounded-md flex items-center justify-center overflow-hidden">
 												<img
 													src={
-														formData.dr_photoURL instanceof File
-															? URL.createObjectURL(formData.dr_photoURL)
-															: formData.dr_photoURL
+														formData?.dr_photoURL instanceof File
+															? URL.createObjectURL(formData?.dr_photoURL)
+															: formData?.dr_photoURL
 													}
 													alt="Cover preview"
 													className="w-full h-full object-cover rounded-md"
@@ -305,12 +305,12 @@ export default function RegisterDiscussionRoom() {
 											<div className="flex items-start gap-3">
 												<div
 													className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5 ${
-														formData.dr_status === "Active"
+														formData?.dr_status === "Active"
 															? "bg-red-50"
 															: "bg-green-50"
 													}`}
 												>
-													{formData.dr_status === "Active" ? (
+													{formData?.dr_status === "Active" ? (
 														<FiTrash2 className="w-4 h-4 text-red-500" />
 													) : (
 														<IoMdCheckmarkCircleOutline className="w-4 h-4 text-green-500" />
@@ -318,12 +318,12 @@ export default function RegisterDiscussionRoom() {
 												</div>
 												<div className="flex-1 space-y-1">
 													<h2 className="font-semibold text-foreground text-[16px]">
-														{formData.dr_status === "Active"
+														{formData?.dr_status === "Active"
 															? "Deactivate Material"
 															: "Activate Material"}
 													</h2>
 													<p className="text-muted-foreground leading-relaxed text-[12px]">
-														{formData.dr_status === "Active"
+														{formData?.dr_status === "Active"
 															? "This will remove the material from search results and circulation. The material can be reactivated later by an administrator."
 															: "This will restore the material to be available again in search results and circulation."}
 													</p>
@@ -336,17 +336,17 @@ export default function RegisterDiscussionRoom() {
 													variant="outline"
 													onClick={() => setShowDeactivateModal(true)}
 													className={`w-full h-9 transition-colors text-[12px] ${
-														formData.dr_status === "Active"
+														formData?.dr_status === "Active"
 															? "border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300"
 															: "border-green-200 text-green-600 hover:bg-green-50 hover:border-green-300"
 													}`}
 												>
-													{formData.dr_status === "Active" ? (
+													{formData?.dr_status === "Active" ? (
 														<FiTrash2 className="w-4 h-4 mr-2" />
 													) : (
 														<IoMdCheckmarkCircleOutline className="w-4 h-4 mr-2" />
 													)}
-													{formData.dr_status === "Active"
+													{formData?.dr_status === "Active"
 														? "Deactivate Material"
 														: "Activate Material"}
 												</Button>
@@ -364,10 +364,10 @@ export default function RegisterDiscussionRoom() {
 						isOpen={showDeactivateModal}
 						onClose={() => setShowDeactivateModal(false)}
 						resourceType="discussionrooms"
-						resourceId={formData.id}
-						resourceTitle={formData.dr_name || "Untitled Discussion Room"}
-						resourceStatus={formData.dr_status}
-						resourceQr={formData.dr_qr}
+						resourceId={formData?.id}
+						resourceTitle={formData?.dr_name || "Untitled Discussion Room"}
+						resourceStatus={formData?.dr_status}
+						resourceQr={formData?.dr_qr}
 					/>
 				)}
 			</div>

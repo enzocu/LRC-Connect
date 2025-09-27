@@ -78,7 +78,7 @@ export async function markCompletedWithReport(
 			patronName,
 			`Hi ${patronName},
   
-			Your reservation (ID: ${
+			Reservation (ID: ${
 				targetData.tr_qr
 			}) has been successfully marked as 'completed'.
 			

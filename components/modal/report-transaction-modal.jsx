@@ -52,10 +52,10 @@ export function DamageReportModal({
 		if (customDamage.trim() !== "") {
 			allDamages.push(customDamage.trim());
 		}
-		if (userDetails && userDetails.uid && transactionID) {
+		if (userDetails && userDetails?.uid && transactionID) {
 			await markCompletedWithReport(
 				transactionID,
-				userDetails.uid,
+				userDetails?.uid,
 				allDamages,
 				setBtnLoading,
 				Alert

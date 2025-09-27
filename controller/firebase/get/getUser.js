@@ -72,7 +72,11 @@ export function getUser(
 				}
 
 				// Associated Libraries (if needed)
-				if (library && setAssociatedLibraries) {
+				if (
+					library &&
+					setAssociatedLibraries &&
+					userData?.us_level != "USR-1"
+				) {
 					try {
 						if (data.us_type !== "Personnel") {
 							// Single library (not an array)

@@ -103,13 +103,13 @@ export default function AccountList() {
 			(!type &&
 				(type == "personnel" ||
 					(type == "patron" &&
-						!["USR-5", "USR-6"].includes(userDetails.us_level))))
+						!["USR-5", "USR-6"].includes(userDetails?.us_level))))
 		)
 			return;
 
 		setPath(pathname);
 		const unsubscribe = getUserList(
-			userDetails?.us_level == "USR-1" ? selectedLibrary : userDetails.us_liID,
+			userDetails?.us_level == "USR-1" ? selectedLibrary : userDetails?.us_liID,
 			setUserData,
 			searchQuery,
 			type,
@@ -152,7 +152,7 @@ export default function AccountList() {
 		if (!userDetails || !type) return;
 
 		getUserAttributeFilters(
-			userDetails?.us_level == "USR-1" ? selectedLibrary : userDetails.us_liID,
+			userDetails?.us_level == "USR-1" ? selectedLibrary : userDetails?.us_liID,
 			type,
 			setTypeData,
 			setSectionData,
@@ -198,7 +198,7 @@ export default function AccountList() {
 									<div className="relative flex-1 max-w-md">
 										<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
 										<Input
-											placeholder="Search user..."
+											placeholder="Search user?..."
 											value={searchQuery}
 											onChange={(e) => setSearchQuery(e.target.value)}
 											className="pl-10 pr-24 h-9 bg-background border-none text-foreground rounded-md shadow-sm"
@@ -395,7 +395,7 @@ export default function AccountList() {
 										</tr>
 									</thead>
 									<tbody className="align-top">
-										{userData.map((user, index) => (
+										{userData?.map((user, index) => (
 											<tr
 												key={index}
 												className={`border-b border-border hover:bg-accent/30 transition-colors ${
@@ -403,37 +403,37 @@ export default function AccountList() {
 												}`}
 											>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
-													{user.us_schoolID}
+													{user?.us_schoolID}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[70px]">
 													<Badge
 														className={`${getStatusColor(
-															user.us_status
+															user?.us_status
 														)} text-[12px]`}
 													>
-														{user.us_status}
+														{user?.us_status}
 													</Badge>
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[100px]">
-													{user.us_type}
+													{user?.us_type}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
-													{user.us_name}
+													{user?.us_name}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user.us_email}
+													{user?.us_email}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user.us_section || "NA"}
+													{user?.us_section || "NA"}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user.us_year || "NA"}
+													{user?.us_year || "NA"}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user.us_program || "NA"}
+													{user?.us_program || "NA"}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user.us_school || "NA"}
+													{user?.us_school || "NA"}
 												</td>
 												<td className="py-3 px-4 text-left">
 													<div className="flex gap-2">
@@ -442,7 +442,9 @@ export default function AccountList() {
 															size="sm"
 															className="hover:bg-accent h-8 w-8 p-0"
 															onClick={() =>
-																router.push(`/account/details?id=${user.us_id}`)
+																router.push(
+																	`/account/details?id=${user?.us_id}`
+																)
 															}
 															title="View Profile"
 														>
@@ -450,7 +452,7 @@ export default function AccountList() {
 														</Button>
 
 														{userDetails?.us_level == "USR-1" &&
-															user.us_status == "Active" && (
+															user?.us_status == "Active" && (
 																<>
 																	<Button
 																		variant="ghost"

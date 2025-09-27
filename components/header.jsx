@@ -34,7 +34,7 @@ export function Header() {
 		const unsubscribe = getScannerCode(
 			userDetails?.us_level == "USR-1",
 			userDetails?.us_liID,
-			userDetails.uid,
+			userDetails?.uid,
 			router,
 			Alert
 		);

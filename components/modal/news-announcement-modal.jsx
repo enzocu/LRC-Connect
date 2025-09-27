@@ -51,7 +51,7 @@ export function AddNewsAnnouncementModal({
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		if (!userDetails.uid) return;
+		if (!userDetails?.uid) return;
 
 		if (!formData.na_title.trim() || !formData.na_content.trim()) {
 			Alert.showWarning("Title and content are required.");
@@ -65,8 +65,8 @@ export function AddNewsAnnouncementModal({
 
 		if (isEmpty) {
 			await insertNewsAnnouncement(
-				userDetails.us_liID,
-				userDetails.uid,
+				userDetails?.us_liID,
+				userDetails?.uid,
 				entryType,
 				formData,
 				setBtnLoading,
@@ -75,9 +75,9 @@ export function AddNewsAnnouncementModal({
 		} else {
 			await updateNewsAnnouncement(
 				selectedNewsAnnouncements.id,
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				formData,
-				userDetails.uid,
+				userDetails?.uid,
 				setBtnLoading,
 				Alert
 			);

@@ -82,9 +82,9 @@ export default function PatronSummaryPage() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getTransactionSummary(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setTransactionData,
 				searchQuery,
 
@@ -119,7 +119,7 @@ export default function PatronSummaryPage() {
 	useEffect(() => {
 		setPath(pathname);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getEssentialFilter(setLibraryData, Alert);
 		}
 	}, [userDetails]);
@@ -439,7 +439,7 @@ export default function PatronSummaryPage() {
 						{/* Grid View */}
 						{viewType === "grid" && (
 							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
-								{transactionData.map((patron) =>
+								{transactionData?.map((patron) =>
 									renderPatronCard(patron, handleViewPenalties, router)
 								)}
 							</div>
@@ -644,7 +644,7 @@ const renderPatronTable = (transactionData, handleViewPenalties, router) => (
 					</tr>
 				</thead>
 				<tbody className="align-top">
-					{transactionData.map((patron, index) => (
+					{transactionData?.map((patron, index) => (
 						<tr
 							key={patron.id}
 							className={`border-b border-border hover:bg-accent/30 transition-colors ${

@@ -49,7 +49,7 @@ export function Sidebar() {
 		<>
 			<div className="overflow-y-auto w-64 md:w-64 sm:w-[200px] sm:block hidden no-print flex h-screen flex-col bg-card border-r border-border transition-colors duration-300">
 				<div className="flex-1 px-3 py-4  md:mt-[75px] sm:mt-[95px]">
-					{users && !["USR-5", "USR-6"].includes(userDetails.us_level) && (
+					{users && !["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 						<button
 							onClick={() => router.push("/users")}
 							className="flex items-center gap-3 px-3 py-2 text-foreground rounded-lg hover:bg-accent transition-colors w-full text-left text-xs mb-4"
@@ -129,7 +129,7 @@ export function Sidebar() {
 									icon={FiRepeat}
 									label="Transactions"
 								/>
-								{!["USR-5", "USR-6"].includes(userDetails.us_level) && (
+								{!["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 									<SidebarCollapse
 										label="Account Management"
 										icon={FiUser}
@@ -149,7 +149,7 @@ export function Sidebar() {
 									</SidebarCollapse>
 								)}
 
-								{["USR-5", "USR-6"].includes(userDetails.us_level) && (
+								{["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 									<SidebarItem
 										href="/account?type=personnel"
 										icon={MdOutlinePerson3}
@@ -169,7 +169,7 @@ export function Sidebar() {
 									label="News & Announcement"
 								/>
 
-								{["USR-2", "USR-3"].includes(userDetails.us_level) && (
+								{["USR-2", "USR-3"].includes(userDetails?.us_level) && (
 									<SidebarItem
 										href="/feedback"
 										icon={FiMessageSquare}
@@ -177,7 +177,7 @@ export function Sidebar() {
 									/>
 								)}
 
-								{["USR-2", "USR-3"].includes(userDetails.us_level) && (
+								{["USR-2", "USR-3"].includes(userDetails?.us_level) && (
 									<SidebarItem
 										href="/audit"
 										icon={FiSettings}
@@ -186,7 +186,7 @@ export function Sidebar() {
 								)}
 
 								{!["USR-4", "USR-5", "USR-6"].includes(
-									userDetails.us_level
+									userDetails?.us_level
 								) && (
 									<SidebarCollapse
 										label="Essential Report"

@@ -14,7 +14,7 @@ export async function insertCategory(
 		setBtnloading(true);
 		await addDoc(collection(db, "category"), {
 			ca_liID: li_id,
-			ca_name: ca_name,
+			ca_name: ca_name || null,
 			ca_status: "Active",
 			ca_createdAt: serverTimestamp(),
 		});

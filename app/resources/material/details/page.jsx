@@ -86,7 +86,7 @@ export default function MaterialDetailsPage() {
 								<div className="relative">
 									<img
 										src="/placeholder.svg"
-										data-src={formData.ma_coverURL || "/placeholder.svg"}
+										data-src={formData?.ma_coverURL || "/placeholder.svg"}
 										alt="Material"
 										className="w-full max-w-sm mx-auto rounded-lg shadow-xl aspect-[2/3] object-cover"
 										onError={(e) => {
@@ -101,10 +101,10 @@ export default function MaterialDetailsPage() {
 									/>
 									<Badge
 										className={`absolute -top-2 -right-2 px-3 py-1 text-xs ${getStatusColor(
-											formData.ma_status
+											formData?.ma_status
 										)}`}
 									>
-										{formData.ma_status}
+										{formData?.ma_status}
 									</Badge>
 								</div>
 							</div>
@@ -114,30 +114,30 @@ export default function MaterialDetailsPage() {
 					<div className="lg:col-span-3 space-y-8">
 						<div className="space-y-2">
 							<h1 className="text-[28px] font-bold  leading-tight tracking-tight">
-								{formData.ma_title || "Title"}
+								{formData?.ma_title || "Title"}
 							</h1>
 							<p className="text-[16px] text-foreground-700 font-medium">
-								{formData.ma_author || "Author"}
+								{formData?.ma_author || "Author"}
 							</p>
 							<p className="text-muted-foreground leading-relaxed text-[14px]">
-								{formData.ma_description || "Description"}
+								{formData?.ma_description || "Description"}
 							</p>
 
 							<div className="flex gap-3 pt-2">
-								{formData.ma_operation &&
+								{formData?.ma_operation &&
 									userDetails?.us_level != "USR-1" &&
 									userDetails?.us_liID &&
-									formData.ma_status == "Active" &&
+									formData?.ma_status == "Active" &&
 									userDetails?.us_status == "Active" && (
 										<Button
 											onClick={() => {
-												!["USR-5", "USR-6"].includes(userDetails.us_level)
+												!["USR-5", "USR-6"].includes(userDetails?.us_level)
 													? setPatronSelectionOpen(true)
 													: handleProceedWithReservation(
 															router,
 															"Material",
-															formData.ma_id,
-															userDetails.uid
+															formData?.ma_id,
+															userDetails?.uid
 													  );
 											}}
 											className="bg-primary-custom text-white hover:bg-secondary-custom  text-[12px] h-10 px-6 transition-colors duration-200 flex items-center gap-2 shimmer"
@@ -167,7 +167,7 @@ export default function MaterialDetailsPage() {
 											Hard Copy
 										</div>
 										<div className="text-[12px] text-muted-foreground">
-											{formData.ma_formats.coverCopyStatus}
+											{formData?.ma_formats.coverCopyStatus}
 										</div>
 									</div>
 								)}
@@ -178,7 +178,7 @@ export default function MaterialDetailsPage() {
 											Soft Copy
 										</div>
 										<div className="text-[12px] text-muted-foreground">
-											{formData.ma_formats.softCopyStatus}
+											{formData?.ma_formats.softCopyStatus}
 										</div>
 									</div>
 								)}
@@ -189,7 +189,7 @@ export default function MaterialDetailsPage() {
 											Audio Copy
 										</div>
 										<div className="text-[12px] text-muted-foreground">
-											{formData.ma_formats.audioCopyStatus}
+											{formData?.ma_formats.audioCopyStatus}
 										</div>
 									</div>
 								)}
@@ -215,7 +215,7 @@ export default function MaterialDetailsPage() {
 							<TabsContent value="details">
 								<div className="space-y-4">
 									{formData?.ma_sections?.length > 0 &&
-										formData.ma_sections.map((section, index) => (
+										formData?.ma_sections.map((section, index) => (
 											<div
 												key={index}
 												className="rounded-lg shadow-sm border border-border hover:shadow-lg"
@@ -273,7 +273,7 @@ export default function MaterialDetailsPage() {
 													</tr>
 												</thead>
 												<tbody>
-													{formData.ma_holdings.map((holding, idx) => (
+													{formData?.ma_holdings.map((holding, idx) => (
 														<tr
 															key={idx}
 															className="border-b border-border/50 hover:bg-muted/20 transition-colors duration-200 cursor-pointer"
@@ -325,7 +325,7 @@ export default function MaterialDetailsPage() {
 													School Name
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_school}
+													{formData?.ma_school}
 												</p>
 											</div>
 										</div>
@@ -339,7 +339,7 @@ export default function MaterialDetailsPage() {
 													Library Name
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_library}
+													{formData?.ma_library}
 												</p>
 											</div>
 										</div>
@@ -353,7 +353,7 @@ export default function MaterialDetailsPage() {
 													Call Number
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_callNumber}
+													{formData?.ma_callNumber}
 												</p>
 											</div>
 										</div>
@@ -367,7 +367,7 @@ export default function MaterialDetailsPage() {
 													Shelf
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_shelf}
+													{formData?.ma_shelf}
 												</p>
 											</div>
 										</div>
@@ -381,7 +381,7 @@ export default function MaterialDetailsPage() {
 													Material Type
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_materialType}
+													{formData?.ma_materialType}
 												</p>
 											</div>
 										</div>
@@ -395,7 +395,7 @@ export default function MaterialDetailsPage() {
 													Category
 												</label>
 												<p className="text-[12px] text-muted-foreground">
-													{formData.ma_category}
+													{formData?.ma_category}
 												</p>
 											</div>
 										</div>
@@ -466,9 +466,9 @@ export default function MaterialDetailsPage() {
 									</Button>
 									{userDetails &&
 										["USR-2", "USR-3", "USR-4"].includes(
-											userDetails.us_level
+											userDetails?.us_level
 										) &&
-										formData.ma_liID?.id == userDetails?.us_liID?.id && (
+										formData?.ma_liID?.id == userDetails?.us_liID?.id && (
 											<Button
 												variant="outline"
 												className="hover:bg-secondary bg-transparent text-[12px] h-9"
@@ -494,16 +494,16 @@ export default function MaterialDetailsPage() {
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}
 				resourceType="Material"
-				resourceID={formData.ma_id}
+				resourceID={formData?.ma_id}
 				libraryID={userDetails?.us_liID}
 			/>
 
 			<CodeModal
 				isOpen={isCodeOpen}
 				onClose={() => setCodeOpen(false)}
-				value={formData.ma_qr}
+				value={formData?.ma_qr}
 				showQR={true}
-				title={`Material Code: ${formData.ma_qr}`}
+				title={`Material Code: ${formData?.ma_qr}`}
 			/>
 		</div>
 	);

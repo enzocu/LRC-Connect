@@ -35,14 +35,14 @@ export async function insertDiscussionroom(
 		await addDoc(collection(db, "discussionrooms"), {
 			dr_qr,
 			dr_liID: li_id,
-			dr_status: formData.dr_status || "Active",
-			dr_name: formData.dr_name || "",
-			dr_capacity: formData.dr_capacity || "",
-			dr_description: formData.dr_description || "",
+			dr_status: "Active",
+			dr_name: formData.dr_name || null,
+			dr_capacity: formData.dr_capacity || null,
+			dr_description: formData.dr_description || null,
 			dr_minDuration,
 			dr_maxDuration,
-			dr_equipment: formData.dr_equipment || "",
-			dr_photoURL: dr_photoURL || "",
+			dr_equipment: formData.dr_equipment || null,
+			dr_photoURL: dr_photoURL || null,
 			dr_createdAt: serverTimestamp(),
 		});
 

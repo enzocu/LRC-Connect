@@ -81,10 +81,10 @@ export default function DiscussionRoomReports() {
 		setPath(pathname);
 		const section = sections.find((s) => s.id === activeSection);
 
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			if (section.key == "summary") {
 				getDRSummary(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					searchQuery,
 					filters.a_userType,
@@ -101,7 +101,7 @@ export default function DiscussionRoomReports() {
 				);
 			} else if (section.key == "totalRooms") {
 				getDiscussionList(
-					userDetails.us_liID,
+					userDetails?.us_liID,
 					setMockData,
 					filters.b_roomStatus,
 					filters.b_dateRangeStart,

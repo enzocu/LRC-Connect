@@ -21,12 +21,12 @@ export function PenaltyActionModal({ isOpen, onClose, reportData }) {
 	if (!reportData) return null;
 
 	const handleSubmit = async () => {
-		if (!reportData.id || !userDetails || !userDetails.uid) return;
+		if (!reportData.id || !userDetails || !userDetails?.uid) return;
 
 		await updateReportAction(
 			reportData.id,
-			userDetails.us_liID,
-			userDetails.uid,
+			userDetails?.us_liID,
+			userDetails?.uid,
 			actionText,
 			deadline,
 			setBtnLoading,

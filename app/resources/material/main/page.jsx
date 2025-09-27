@@ -62,9 +62,9 @@ export default function ResourceMaterials() {
 
 	useEffect(() => {
 		setPath(pathname);
-		if (userDetails && userDetails.us_liID) {
+		if (userDetails && userDetails?.us_liID) {
 			getMaterialFeaturedList(
-				userDetails.us_liID,
+				userDetails?.us_liID,
 				setMaterialData,
 				setLoading,
 				Alert
