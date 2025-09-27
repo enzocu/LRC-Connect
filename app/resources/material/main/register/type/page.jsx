@@ -162,6 +162,7 @@ export default function MaterialTypeRegistrationPage() {
 				Alert
 			);
 		}
+		setMt_id(null);
 		handleDiscard();
 		setMaterialTypeData([defaultField]);
 		setMaterialTypeName("");
@@ -317,7 +318,6 @@ export default function MaterialTypeRegistrationPage() {
 			mt_type: "Text",
 		});
 		setShowMaterialTypeModal(false);
-		setMt_id(null);
 	};
 
 	const handleCategory = () => {
@@ -718,6 +718,7 @@ export default function MaterialTypeRegistrationPage() {
 										handleDiscard();
 										setMaterialTypeData([defaultField]);
 										setMaterialTypeName("");
+										setMt_id(null);
 									}}
 								>
 									<FiRotateCcw className="w-4 h-4" />
