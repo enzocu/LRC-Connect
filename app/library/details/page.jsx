@@ -351,13 +351,13 @@ export default function LibraryDetails() {
 											<div className="flex-1">
 												<h2 className="font-semibold text-foreground text-[16px]">
 													{formData?.li_status === "Active"
-														? "Deactivate Material"
-														: "Activate Material"}
+														? "Deactivate Library"
+														: "Activate Library"}
 												</h2>
 												<p className="text-muted-foreground leading-relaxed text-[12px]">
 													{formData?.li_status === "Active"
-														? "This will remove the material from search results and circulation. The material can be reactivated later by an administrator."
-														: "This will restore the material to be available again in search results and circulation."}
+														? "This will temporarily disable access to the library and its resources. The library can be reactivated later by an Super Admin."
+														: "This will restore access to the library and make its resources available again to users."}
 												</p>
 											</div>
 										</div>
@@ -379,8 +379,8 @@ export default function LibraryDetails() {
 													<IoMdCheckmarkCircleOutline className="w-4 h-4 mr-2" />
 												)}
 												{formData?.li_status === "Active"
-													? "Deactivate Material"
-													: "Activate Material"}
+													? "Deactivate Library"
+													: "Activate Library"}
 											</Button>
 										</div>
 									</div>
