@@ -212,6 +212,7 @@ export default function RegisterLibrary() {
 													onChange={(e) => handleChange(e, setFormData)}
 													placeholder="e.g., 14.9545, 120.8962"
 													className="bg-card border-border text-foreground h-9"
+													required
 													style={{ fontSize: "12px" }}
 												/>
 											</div>
@@ -219,6 +220,7 @@ export default function RegisterLibrary() {
 												<Button
 													type="button"
 													className="w-full bg-red-600 hover:bg-red-700 text-white h-9 text-[12px] flex items-center gap-2"
+													required
 													onClick={() => setShowPinModal(true)}
 												>
 													<FiMapPin className="w-4 h-4" /> Pin Address
