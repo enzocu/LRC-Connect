@@ -45,7 +45,7 @@ export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
 		);
 		await sendPasswordResetEmail(secondaryAuth, userData.us_email);
 
-		let us_photoURL = "";
+		let us_photoURL = null;
 		if (userData.us_photoURL && userData.us_photoURL !== "") {
 			const photoRef = ref(storage, `users/photo_${Date.now()}`);
 			const snapshot = await uploadBytes(photoRef, userData.us_photoURL);
