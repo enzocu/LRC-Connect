@@ -125,13 +125,19 @@ export function getAudittrail(
 
 						if (userData.us_level == "USR-1") {
 							us_libraryID = libraryID;
+							if (
+								selectedusType != "All" &&
+								userData?.us_type !== selectedusType
+							) {
+								return null;
+							}
 						}
 
 						if (
-							["USR-5", "USR-6"].includes(userData.us_level) &&
-							(userData.us_liID.id !== studLibrary ||
+							["USR-5", "USR-6"].includes(userData?.us_level) &&
+							(userData?.us_liID?.id !== studLibrary ||
 								(selectedusType != "All" &&
-									userData.us_type !== selectedusType))
+									userData?.us_type !== selectedusType))
 						) {
 							return null;
 						}

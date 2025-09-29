@@ -47,6 +47,10 @@ const userTypes = [
 		group: "Librarians",
 		options: ["Chief Librarian", "Head Librarian"],
 	},
+	{
+		group: "Admin",
+		options: ["Super Admin"],
+	},
 ];
 
 const actionOptions = [
@@ -359,7 +363,7 @@ export default function AuditPage() {
 							</td>
 							<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[140px]">
 								{audit?.au_device}
-							</td>{" "}
+							</td>
 						</tr>
 					))}
 				</tbody>
