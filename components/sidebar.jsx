@@ -131,7 +131,7 @@ export function Sidebar() {
 								/>
 								{!["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 									<SidebarCollapse
-										label="Account Management"
+										label="Library Users"
 										icon={FiUser}
 										name="/account"
 									>

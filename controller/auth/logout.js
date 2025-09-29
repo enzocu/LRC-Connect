@@ -31,8 +31,13 @@ export const handleLogout = async ({
 		router.push("/");
 		onClose();
 	} catch (error) {
-		console.error("Logout failed:", error);
-		alert?.showDanger?.(`Logout failed: ${error.message}`);
+		let errorMessage = "Logout failed. Please try again.";
+		if (error.code === "auth/network-request-failed") {
+			errorMessage =
+				"Network error. Please check your connection and try again.";
+		}
+
+		alert?.showDanger?.(errorMessage);
 	} finally {
 		setBtnLoading(false);
 	}

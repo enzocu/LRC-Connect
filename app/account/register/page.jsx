@@ -284,6 +284,15 @@ export default function RegisterAccount() {
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
 													required
+													max={
+														new Date(
+															new Date().setFullYear(
+																new Date().getFullYear() - 16
+															)
+														)
+															.toISOString()
+															.split("T")[0]
+													}
 												/>
 											</div>
 										</div>
@@ -300,7 +309,6 @@ export default function RegisterAccount() {
 													placeholder="+639xxxxxxxxx"
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
-													required
 													pattern="^\+639\d{9}$"
 													title="Enter a valid Philippine mobile number (e.g., +639123456789)"
 												/>

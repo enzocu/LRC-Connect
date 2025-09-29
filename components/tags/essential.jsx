@@ -1092,7 +1092,7 @@ export const renderFiltersUS = (
 						onChange={(e) =>
 							setFilters({ ...filters, c_userType: e.target.value })
 						}
-						role={filters.b_role}
+						role={filters.c_role}
 					/>
 					{filters.c_role === "Patron" && (
 						<>
@@ -1228,7 +1228,7 @@ export const renderFiltersUS = (
 						onChange={(e) =>
 							setFilters({ ...filters, d_userType: e.target.value })
 						}
-						role={filters.c_role}
+						role={filters.d_role}
 					/>
 					{filters.d_role === "Patron" && (
 						<>

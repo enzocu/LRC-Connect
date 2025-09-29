@@ -162,12 +162,10 @@ export default function RegisterLibrary() {
 													name="li_phone"
 													value={formData?.li_phone}
 													onChange={(e) => handleChange(e, setFormData)}
-													placeholder="+63917 123 4567"
+													placeholder="+639171234567"
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
-													pattern="^\+639\d{2} \d{3} \d{4}$"
-													title="Format must be +639XX XXX XXXX"
-													required
+													title="Format must be +639XXXXXXXXX"
 												/>
 											</div>
 										</div>

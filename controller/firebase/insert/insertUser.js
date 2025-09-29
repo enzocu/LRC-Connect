@@ -116,7 +116,30 @@ export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
 		Alert.showSuccess("Account registered successfully!");
 	} catch (error) {
 		console.error(error);
-		Alert.showDanger(error.message);
+
+		let errorMessage = "Something went wrong. Please try again.";
+
+		switch (error.code) {
+			case "auth/email-already-in-use":
+				errorMessage =
+					"This email is already registered! Please check the associated library.";
+				break;
+			case "auth/invalid-email":
+				errorMessage =
+					"The email address is invalid. Please enter a valid one.";
+				break;
+			case "auth/weak-password":
+				errorMessage = "The generated password is too weak. Try again.";
+				break;
+			case "auth/network-request-failed":
+				errorMessage =
+					"Network error. Please check your internet connection and try again.";
+				break;
+			default:
+				errorMessage = error.message;
+		}
+
+		Alert.showDanger(errorMessage);
 	} finally {
 		setBtnLoading(false);
 	}

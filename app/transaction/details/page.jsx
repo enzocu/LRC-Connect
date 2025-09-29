@@ -319,6 +319,9 @@ export function TransactionDetailsCard(transaction) {
 							<div className="flex flex-col">
 								<Label className="text-foreground text-[14px]">
 									{transaction?.tr_pastDueDate?.length || "0"}
+									{transaction?.tr_pastDueDate?.length === 1
+										? "Count"
+										: "Counts"}
 								</Label>
 								<p className="text-muted-foreground text-[12px]">
 									Previous Due Date
@@ -335,17 +338,14 @@ export function TransactionDetailsCard(transaction) {
 									{transaction?.tr_pastDueDate.length > 1 && "s"}
 								</div>
 								<div className="text-[11px] space-y-1">
-									{transaction?.tr_pastDueDate.map((due, idx) => {
-										const formattedDate = new Date(
-											due.seconds * 1000
-										).toLocaleDateString("en-US", {
-											year: "numeric",
-											month: "long",
-											day: "numeric",
-										});
-										return <p key={idx}>• {formattedDate}</p>;
-									})}
+									{calculatePastDue(
+										transaction?.tr_pastDueDate,
+										transaction?.tr_dateDue
+									).map((label, idx) => (
+										<p key={idx}>• {label}</p>
+									))}
 								</div>
+
 								<div className="absolute -top-2 right-4 transform border-4 border-transparent border-b-white dark:border-b-[#1e1e1e]"></div>
 							</div>
 						</div>

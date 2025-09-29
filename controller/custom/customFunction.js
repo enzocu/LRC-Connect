@@ -372,3 +372,34 @@ export const isSameDate = (d1, d2) => {
 		date1?.getDate() === date2?.getDate()
 	);
 };
+
+export const calculatePastDue = (pastDueDates, dueDate) => {
+	if (!Array.isArray(pastDueDates) || !dueDate) return [];
+
+	const allDates = [...pastDueDates, dueDate];
+
+	const dateOnlyArr = allDates
+		.map((ts) => {
+			if (!(ts instanceof Timestamp)) return null;
+			return new Date(ts.toDate().toDateString());
+		})
+		.filter(Boolean);
+
+	const results = [];
+	for (let i = 0; i < dateOnlyArr.length - 1; i++) {
+		const current = dateOnlyArr[i];
+		const next = dateOnlyArr[i + 1];
+
+		const diffDays = Math.floor((next - current) / (1000 * 60 * 60 * 24));
+		if (diffDays > 0) {
+			const formatted = formatDate(allDates[i]);
+			const label =
+				diffDays === 1
+					? `${formatted} (Overdue for 1 day)`
+					: `${formatted} (Overdue for ${diffDays} days)`;
+			results.push(label);
+		}
+	}
+
+	return results;
+};

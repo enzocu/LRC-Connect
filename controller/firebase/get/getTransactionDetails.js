@@ -4,6 +4,7 @@ import {
 	formatDate,
 	formatTime,
 	formatDateTime,
+	calculatePastDue,
 } from "../../custom/customFunction";
 
 export async function getSingleTransaction(
@@ -99,9 +100,7 @@ export async function getSingleTransaction(
 			tr_type: data.tr_type,
 			tr_status: data.tr_status,
 			tr_format: data.tr_format,
-			tr_pastDueDate: data.tr_pastDueDate,
-			tr_accession: data.tr_accession,
-			tr_createdAt: formatDateTime(data.tr_createdAt),
+			tr_pastDueDate: calculatePastDue(data.tr_pastDueDate, data.tr_dateDu),
 			tr_remarks: data.tr_remarks || "",
 			tr_library: libraryData.li_name || "",
 			tr_resource,
