@@ -320,8 +320,8 @@ export function TransactionDetailsCard(transaction) {
 								<Label className="text-foreground text-[14px]">
 									{transaction?.tr_pastDueDate?.length || "0"}
 									{transaction?.tr_pastDueDate?.length === 1
-										? "Count"
-										: "Counts"}
+										? " Count"
+										: " Counts"}
 								</Label>
 								<p className="text-muted-foreground text-[12px]">
 									Previous Due Date
@@ -338,10 +338,7 @@ export function TransactionDetailsCard(transaction) {
 									{transaction?.tr_pastDueDate.length > 1 && "s"}
 								</div>
 								<div className="text-[11px] space-y-1">
-									{calculatePastDue(
-										transaction?.tr_pastDueDate,
-										transaction?.tr_dateDue
-									).map((label, idx) => (
+									{transaction?.tr_pastDueDate.map((label, idx) => (
 										<p key={idx}>• {label}</p>
 									))}
 								</div>
