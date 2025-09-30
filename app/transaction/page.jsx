@@ -253,7 +253,7 @@ export default function TransactionPage() {
 
 						{isPersonnel &&
 							transaction?.tr_type == "Material" &&
-							transaction.tr_pastDueDate.length < 2 && (
+							transaction?.tr_pastDueDate?.length < 2 && (
 								<Button
 									size="sm"
 									className="bg-orange-500 hover:bg-orange-600 text-white h-9 text-[12px]"
