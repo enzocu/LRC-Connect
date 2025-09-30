@@ -251,18 +251,20 @@ export default function TransactionPage() {
 							</Button>
 						)}
 
-						{isPersonnel && transaction?.tr_type == "Material" && (
-							<Button
-								size="sm"
-								className="bg-orange-500 hover:bg-orange-600 text-white h-9 text-[12px]"
-								onClick={() => {
-									setTransactionDetails(transaction);
-									setShowRenewModal(true);
-								}}
-							>
-								Renew
-							</Button>
-						)}
+						{isPersonnel &&
+							transaction?.tr_type == "Material" &&
+							transaction.tr_pastDueDate.length < 2 && (
+								<Button
+									size="sm"
+									className="bg-orange-500 hover:bg-orange-600 text-white h-9 text-[12px]"
+									onClick={() => {
+										setTransactionDetails(transaction);
+										setShowRenewModal(true);
+									}}
+								>
+									Renew
+								</Button>
+							)}
 
 						{(isPersonnel ||
 							(transaction?.tr_type == "Material" &&

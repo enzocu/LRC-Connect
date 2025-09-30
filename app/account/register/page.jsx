@@ -17,10 +17,16 @@ import { LoadingSpinner } from "@/components/loading";
 
 import { insertUser } from "@/controller/firebase/insert/insertUser";
 import {
+	getProgramRealtime,
+	getSchoolRealtime,
+} from "../../../controller/firebase/get/getAcademic";
+import {
 	fetchProvinces,
 	fetchCitiesOrMunicipalities,
 	fetchBarangays,
 } from "@/controller/custom/address";
+
+import { ProgramSchoolModal } from "@/components/modal/academic-modal";
 
 const defaultValue = {
 	us_type: "",
@@ -55,6 +61,16 @@ export default function RegisterAccount() {
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [formData, setFormData] = useState(defaultValue);
 
+	const [acadType, setAcadType] = useState("Program");
+	const [program, setProgram] = useState([]);
+	const [school, setSchool] = useState([]);
+	const [provinces, setProvinces] = useState([]);
+	const [municipals, setMunicipals] = useState([]);
+	const [barangays, setBarangays] = useState([]);
+
+	//MODAL
+	const [showAcademicModal, setShowAcademicModal] = useState(false);
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		if (!id || !userDetails?.uid || !type) return;
@@ -66,13 +82,22 @@ export default function RegisterAccount() {
 		router.back();
 	};
 
-	const [provinces, setProvinces] = useState([]);
-	const [municipals, setMunicipals] = useState([]);
-	const [barangays, setBarangays] = useState([]);
-
 	useEffect(() => {
 		fetchProvinces(setProvinces);
-	}, []);
+
+		let unsubscribeProgram;
+		let unsubscribeSchool;
+
+		if (id && type === "patron") {
+			unsubscribeProgram = getProgramRealtime(id, setProgram, Alert);
+			unsubscribeSchool = getSchoolRealtime(id, setSchool, Alert);
+		}
+
+		return () => {
+			if (unsubscribeProgram) unsubscribeProgram();
+			if (unsubscribeSchool) unsubscribeSchool();
+		};
+	}, [id]);
 
 	useEffect(() => {
 		if (formData?.us_province) {
@@ -360,15 +385,22 @@ export default function RegisterAccount() {
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
 																Year
 															</label>
-															<Input
+															<select
 																name="us_year"
-																value={formData?.us_year || ""}
+																value={formData?.us_year}
 																onChange={(e) => handleChange(e, setFormData)}
-																placeholder="e.g., 1st Year"
-																className="bg-card border-border text-foreground h-9"
-																style={{ fontSize: "12px" }}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																required
-															/>
+															>
+																<option value="">Select Year</option>
+																{["1st", "2nd", "3rd", "4th"].map(
+																	(ye, index) => (
+																		<option key={index} value={ye}>
+																			{ye}
+																		</option>
+																	)
+																)}
+															</select>
 														</div>
 													</div>
 
@@ -376,30 +408,61 @@ export default function RegisterAccount() {
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
 																Program
+																<button
+																	type="button"
+																	onClick={() => {
+																		setAcadType("program");
+																		setShowAcademicModal(true);
+																	}}
+																	className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
+																>
+																	Register Program
+																</button>
 															</label>
-															<Input
+															<select
 																name="us_program"
-																value={formData?.us_program || ""}
+																value={formData?.us_program}
 																onChange={(e) => handleChange(e, setFormData)}
-																placeholder="e.g., BSCS, BSIT"
-																className="bg-card border-border text-foreground h-9"
-																style={{ fontSize: "12px" }}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
 																required
-															/>
+															>
+																<option value="">Select Program</option>
+																{program.map((pr) => (
+																	<option key={pr.id} value={pr.id}>
+																		{pr.pr_name}
+																	</option>
+																))}
+															</select>
 														</div>
+
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
 																School
+																<button
+																	type="button"
+																	onClick={() => {
+																		setAcadType("school");
+																		setShowAcademicModal(true);
+																	}}
+																	className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
+																>
+																	Register School
+																</button>
 															</label>
-															<Input
+															<select
 																name="us_school"
-																value={formData?.us_school || ""}
+																value={formData?.us_school}
 																onChange={(e) => handleChange(e, setFormData)}
-																placeholder="e.g., SET, CICS"
-																className="bg-card border-border text-foreground h-9"
-																style={{ fontSize: "12px" }}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
 																required
-															/>
+															>
+																<option value="">Select School</option>
+																{school.map((sc) => (
+																	<option key={sc.id} value={sc.id}>
+																		{sc.sc_name}
+																	</option>
+																))}
+															</select>
 														</div>
 													</div>
 												</div>
@@ -548,6 +611,13 @@ export default function RegisterAccount() {
 						</div>
 					</form>
 				</main>
+				<ProgramSchoolModal
+					isOpen={showAcademicModal}
+					onClose={() => setShowAcademicModal(false)}
+					li_id={id}
+					records={acadType == "program" ? program : school}
+					type={acadType}
+				/>
 			</div>
 		</ProtectedRoute>
 	);
