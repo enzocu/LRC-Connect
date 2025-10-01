@@ -82,7 +82,7 @@ export async function getReservedUtilized(us_id, li_id, setIsFetch, Alert) {
 					`Accession: ${data.tr_accession}\n || n` +
 					`Created At: ${formatDate(data.tr_createdAt)}\n` +
 					`Remarks: ${data.tr_remarks || "None"}\n` +
-					`Use Date: ${formatDate(data.tr_useDate) || "None"}\n` +
+					`Date of Use: ${formatDate(data.tr_useDate) || "None"}\n` +
 					`Due Date: ${formatDate(data.tr_dateDue) || "None"}\n` +
 					`Session Start: ${formatTime(data.tr_sessionStart) || "None"}\n` +
 					`Session End: ${formatTime(data.tr_sessionEnd) || "None"}\n` +

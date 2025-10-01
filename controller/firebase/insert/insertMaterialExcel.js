@@ -38,13 +38,12 @@ export async function insertMaterialExcel(
 		for (const mat of selectedMaterials) {
 			const existsDoc = await checkMaterialExistence(mat.mt_callNo);
 
-			// 📚 Process holdings (split accession numbers)
 			const holdings = [];
 			if (mat.mt_accessionNo) {
 				const accList = String(mat.mt_accessionNo)
 					.split(",")
 					.map((a) => a.trim())
-					.filter(Boolean); // remove empty values
+					.filter(Boolean);
 
 				accList.forEach((acc, index) => {
 					holdings.push({
@@ -55,7 +54,6 @@ export async function insertMaterialExcel(
 				});
 			}
 
-			// 🔑 Standardize material data
 			const materialDocData = {
 				ma_qr: await generateQrID("material", "MTL"),
 				ma_liID: li_id,
@@ -64,7 +62,6 @@ export async function insertMaterialExcel(
 				ma_shID: doc(db, "shelves", shelf),
 				ma_status: "Active",
 
-				// Extracted values
 				ma_libraryCall: toSafeString(mat.mt_callNo),
 				ma_title: toSafeString(mat.mt_title),
 				ma_author: toSafeString(mat.mt_author),
@@ -79,11 +76,9 @@ export async function insertMaterialExcel(
 				ma_language: toSafeString(mat.mt_language),
 				ma_description: toSafeString(mat.mt_description),
 
-				// Arrays
 				ma_subjects: [mat.mt_subject1, mat.mt_subject2].filter(Boolean),
 				ma_holdings: holdings,
 
-				// Cover/Soft/Audio (default)
 				ma_coverURL: null,
 				ma_coverQty: holdings.length,
 				ma_softURL: null,
@@ -91,17 +86,14 @@ export async function insertMaterialExcel(
 				ma_audioURL: null,
 				ma_audioQty: 0,
 
-				// Timestamps
 				ma_createdAt: serverTimestamp(),
 				ma_updatedAt: serverTimestamp(),
 			};
 
 			if (!existsDoc) {
-				// Insert new material
 				await addDoc(collection(db, "material"), materialDocData);
 				totalInsertedCount++;
 			} else {
-				// --- Update material if same library or inactive ---
 				const docRef = doc(db, "material", existsDoc.id);
 				const existing = existsDoc.data();
 
@@ -123,7 +115,6 @@ export async function insertMaterialExcel(
 			}
 		}
 
-		// ✅ Audit Trail
 		if (totalInsertedCount > 0 || totalUpdateCount > 0) {
 			await insertAudit(
 				li_id,
@@ -150,7 +141,6 @@ export async function insertMaterialExcel(
 	}
 }
 
-// 🔍 Check if material already exists
 const checkMaterialExistence = async (callNo) => {
 	const q = query(
 		collection(db, "material"),

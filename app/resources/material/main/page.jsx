@@ -33,7 +33,7 @@ const materialFormats = [
 		color: "bg-blue-900",
 	},
 	{
-		id: "e-copy",
+		id: "soft-copy",
 		name: "Soft Copy",
 		icon: FiMonitor,
 		count: 3,

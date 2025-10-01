@@ -43,7 +43,6 @@ export async function updateMaterial(
 
 		const general = selectedMaterialType.mt_section[0].mt_fields;
 
-		// --- Cover Image
 		if (files.ma_coverURL instanceof File) {
 			const coverRef = ref(storage, `material/${li_id.id}/cover_${Date.now()}`);
 			const snapshot = await uploadBytes(coverRef, files.ma_coverURL);
@@ -52,7 +51,6 @@ export async function updateMaterial(
 			urls.ma_coverURL = files.ma_coverURL;
 		}
 
-		// ✅ Delete old cover if exists
 		if (
 			(!files.ma_coverURL ||
 				files.ma_coverURL instanceof File ||
@@ -67,7 +65,6 @@ export async function updateMaterial(
 			}
 		}
 
-		// --- Soft Copy (PDF)
 		if (qty.ma_softQty > 0 && files.ma_softURL instanceof File) {
 			const pdfRef = ref(storage, `material/${li_id.id}/soft_${Date.now()}`);
 			const snapshot = await uploadBytes(pdfRef, files.ma_softURL);
@@ -76,7 +73,6 @@ export async function updateMaterial(
 			urls.ma_softURL = files.ma_softURL;
 		}
 
-		// ✅ Delete old soft copy if exists
 		if (
 			(!files.ma_softURL ||
 				files.ma_softURL instanceof File ||
@@ -91,7 +87,6 @@ export async function updateMaterial(
 			}
 		}
 
-		// --- Audio Copy
 		if (qty.ma_audioQty > 0 && files.ma_audioURL instanceof File) {
 			const audioRef = ref(storage, `material/${li_id.id}/audio_${Date.now()}`);
 			const snapshot = await uploadBytes(audioRef, files.ma_audioURL);
@@ -100,7 +95,6 @@ export async function updateMaterial(
 			urls.ma_audioURL = files.ma_audioURL;
 		}
 
-		// ✅ Delete old audio if exists
 		if (
 			(!files.ma_audioURL ||
 				files.ma_audioURL instanceof File ||

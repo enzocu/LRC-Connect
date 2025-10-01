@@ -72,7 +72,7 @@ export async function getMaterialWithMarctag(
 				);
 				return {
 					...holding,
-					ho_status: used ? "On Use" : "On Shelf",
+					ho_status: used ? "In Use" : "On Shelf",
 				};
 			});
 

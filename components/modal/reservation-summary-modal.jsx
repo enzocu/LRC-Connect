@@ -146,7 +146,7 @@ export function ReservationSummaryModal({
 								<>
 									<div className="flex justify-between items-center py-3 border-b border-border/50">
 										<Label className="text-[12px] font-medium text-foreground sm:w-1/3 shrink-0">
-											Use Date
+											Date of Use
 										</Label>
 										<p className="text-[12px] text-muted-foreground">
 											{formatDisplayDate(transactionDetails?.date) || "--"}
@@ -154,7 +154,7 @@ export function ReservationSummaryModal({
 									</div>
 									<div className="flex justify-between items-center py-3 border-b border-border/50">
 										<Label className="text-[12px] font-medium text-foreground sm:w-1/3 shrink-0">
-											Date Due
+											Due Date
 										</Label>
 										<p className="text-[12px] text-muted-foreground">
 											{formatDisplayDate(transactionDetails?.dateDue) || "--"}
@@ -165,7 +165,7 @@ export function ReservationSummaryModal({
 								<>
 									<div className="flex justify-between items-center py-3 border-b border-border/50">
 										<Label className="text-[12px] font-medium text-foreground sm:w-1/3 shrink-0">
-											Use Date
+											Date of Use
 										</Label>
 										<p className="text-[12px] text-muted-foreground">
 											{formatDisplayDate(transactionDetails?.date) || "--"}

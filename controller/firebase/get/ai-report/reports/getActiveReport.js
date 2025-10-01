@@ -124,7 +124,7 @@ export async function getActiveReport(us_id, li_id, setIsFetch, Alert) {
 					`Status: ${data.tr_status}\n` +
 					`Format: ${data.tr_format}\n` +
 					`Created At: ${formatDate(data.tr_createdAt)}\n` +
-					`Use Date: ${formatDate(data.tr_useDate) || "None"}\n` +
+					`Date of Use: ${formatDate(data.tr_useDate) || "None"}\n` +
 					`Due Date: ${formatDate(data.tr_dateDue) || "None"}\n` +
 					`Session Start: ${formatTime(data.tr_sessionStart) || "None"}\n` +
 					`Session End: ${formatTime(data.tr_sessionEnd) || "None"}\n\n` +

@@ -297,7 +297,7 @@ export function TransactionDetailsCard(transaction) {
 					<Label className="text-foreground text-[14px]">
 						{transaction?.tr_dateFormatted || "NA"}
 					</Label>
-					<p className="text-muted-foreground text-[12px]">Use Date</p>
+					<p className="text-muted-foreground text-[12px]">Date of Use</p>
 				</div>
 
 				{transaction?.tr_type === "Material" && (

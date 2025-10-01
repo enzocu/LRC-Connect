@@ -35,20 +35,16 @@ export async function getMaterialFeaturedList(
 		const materialData = [];
 
 		for (const docSnap of snapshot.docs) {
-			try {
-				const d = docSnap.data();
-				materialData.push({
-					id: docSnap.id,
-					ma_coverURL: d.ma_coverURL || null,
-					ma_title: d.ma_title || "NA",
-					ma_author: d.ma_author || "NA",
-					ma_description: d.ma_description || "NA",
-					ma_copyright: formatYear(d.ma_copyright) || "NA",
-					ma_libraryCall: d.ma_libraryCall || "NA",
-				});
-			} catch (err) {
-				console.warn("Material reference error:", err);
-			}
+			const d = docSnap.data();
+			materialData.push({
+				id: docSnap.id,
+				ma_coverURL: d.ma_coverURL || null,
+				ma_title: d.ma_title || "NA",
+				ma_author: d.ma_author || "NA",
+				ma_description: d.ma_description || "NA",
+				ma_copyright: formatYear(d.ma_copyright) || "NA",
+				ma_libraryCall: d.ma_libraryCall || "NA",
+			});
 		}
 
 		setMaterialData(materialData);

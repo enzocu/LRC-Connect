@@ -17,7 +17,7 @@ import { useLoading } from "@/contexts/LoadingProvider";
 import { ScannerModal } from "@/components/modal/scanner-modal";
 import PaginationControls from "@/components/tags/pagination";
 
-import { getLibraryList } from "@/controller/firebase/get/getLibraryAdminList";
+import { getLibraryList } from "@/controller/firebase/get/getLibraryList";
 
 export default function LibraryList() {
 	const router = useRouter();

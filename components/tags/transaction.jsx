@@ -143,7 +143,7 @@ export const renderSchedule = (transaction) => {
 					</div>
 				</div>
 
-				{/* Date Due (only for Material) */}
+				{/* Due Date (only for Material) */}
 				{transaction?.tr_type === "Material" && (
 					<div className="flex items-start gap-3">
 						<FaRegCalendarAlt className="text-foreground text-[15px]  mt-[2px]" />

@@ -43,7 +43,6 @@ export async function markUtilized(
 						.trim();
 					const userEmail = userData.us_email;
 
-					// Cancel their transaction
 					await updateDoc(affectedTrRef, {
 						tr_status: "Cancelled",
 						tr_remarks: arrayUnion(

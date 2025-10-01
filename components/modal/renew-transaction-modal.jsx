@@ -256,7 +256,7 @@ export function RenewTransactionModal({
 										</div>
 										<div>
 											<p className="text-muted-foreground text-[12px]">
-												Use Date
+												Date of Use
 											</p>
 											<h4 className="font-medium text-foreground text-[14px]">
 												{formatDisplayDate(transaction?.tr_date)}
@@ -273,7 +273,7 @@ export function RenewTransactionModal({
 										</div>
 										<div>
 											<p className="text-muted-foreground text-[12px]">
-												Date Due
+												Due Date
 											</p>
 											<h4 className="font-medium text-foreground text-[14px]">
 												{formatDisplayDate(selectedDate)}

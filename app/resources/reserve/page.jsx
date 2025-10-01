@@ -346,9 +346,7 @@ export default function ReservationPage() {
 												</div>
 												<div>
 													<p className="text-muted-foreground text-[12px]">
-														{resourceType === "Material"
-															? "Use Date"
-															: "Selected Date"}
+														Date of Use
 													</p>
 													<h4 className="font-medium text-foreground text-[14px]">
 														{formatDisplayDate(selectedDate)}
@@ -366,7 +364,7 @@ export default function ReservationPage() {
 													</div>
 													<div>
 														<p className="text-muted-foreground text-[12px]">
-															Date Due
+															Due Date
 														</p>
 														<h4 className="font-medium text-foreground text-[14px]">
 															{formatDisplayDate(selectedEndDate)}

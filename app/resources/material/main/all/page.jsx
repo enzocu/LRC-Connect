@@ -222,6 +222,9 @@ export default function MaterialsPage() {
 										>
 											Import Material from Excel
 										</DropdownMenuItem>
+										<DropdownMenuItem className="cursor-pointer text-[12px]">
+											Export Material Template (Excel)
+										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
 							)}
@@ -788,6 +791,7 @@ export default function MaterialsPage() {
 						onClose={() => setShowExcelImportModal(false)}
 						li_id={userDetails?.us_liID}
 						modifiedBy={userDetails?.uid}
+						Alert={Alert}
 					/>
 				</main>
 			</div>

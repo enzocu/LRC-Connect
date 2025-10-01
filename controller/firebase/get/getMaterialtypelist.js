@@ -16,7 +16,6 @@ export function getMaterialtypelistRealtime(
 			where("mt_status", "==", "Active")
 		);
 
-		// Set up real-time listener
 		const unsubscribe = onSnapshot(
 			q,
 			(querySnapshot) => {
