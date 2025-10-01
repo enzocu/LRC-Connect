@@ -12,7 +12,7 @@ import { sendEmail } from "../../custom/sendEmail";
 import { insertAudit } from "../insert/insertAudit";
 
 export async function markCompletedWithReport(
-	trID,
+	transaction,
 	us_id,
 	reports = [],
 	setBtnLoading,
@@ -21,16 +21,17 @@ export async function markCompletedWithReport(
 	try {
 		setBtnLoading(true);
 
-		const targetTrRef = doc(db, "transaction", trID);
-		const targetTrSnap = await getDoc(targetTrRef);
-
-		if (!targetTrSnap.exists()) {
+		if (!transaction.id) {
 			Alert.showDanger("Transaction not found.");
 			return;
 		}
 
-		const targetData = targetTrSnap.data();
-		const patronRef = targetData.tr_usID;
+		if (!reports || reports.length === 0) {
+			Alert.showDanger("No reports provided.");
+			return;
+		}
+
+		const patronRef = transaction.tr_usID;
 		const patronSnap = await getDoc(patronRef);
 
 		if (!patronSnap.exists()) {
@@ -46,7 +47,7 @@ export async function markCompletedWithReport(
 			.trim();
 		const patronEmail = patronData.us_email;
 
-		await updateDoc(targetTrRef, {
+		await updateDoc(transaction.tr_ref, {
 			tr_status: "Completed",
 			tr_updatedAt: serverTimestamp(),
 			tr_actualEnd: serverTimestamp(),
@@ -54,9 +55,9 @@ export async function markCompletedWithReport(
 		});
 
 		await addDoc(collection(db, "report"), {
-			re_liID: targetData.tr_liID,
+			re_liID: transaction.tr_liID,
 			re_usID: patronRef,
-			re_trID: targetTrRef,
+			re_trID: transaction.tr_ref,
 			re_status: "Active",
 			re_remarks: reports,
 			re_modifiedBy: doc(db, "users", us_id),
@@ -64,12 +65,12 @@ export async function markCompletedWithReport(
 		});
 
 		await insertAudit(
-			targetData.tr_liID,
+			transaction.tr_liID,
 			us_id,
 			"Completed",
-			`Reservation (ID: '${
-				targetData.tr_qr
-			}') was marked as completed with report: ${reports.join(", ")}.`,
+			`Reservation (ID: ${
+				transaction.tr_qr
+			}) marked as completed. Report(s) filed: ${reports.join(", ")}.`,
 			Alert
 		);
 
@@ -77,18 +78,18 @@ export async function markCompletedWithReport(
 			"Reservation Completed (Report Filed)",
 			patronName,
 			`Hi ${patronName},
-  
+
 			Reservation (ID: ${
-				targetData.tr_qr
-			}) has been successfully marked as 'completed'.
-			
+				transaction.tr_qr
+			}) has been successfully marked as 'Completed'.
+
 			Please note: The library staff has filed a report related to this transaction. This may include damages, missing components, or other relevant issues.
-			
+
 			Summary of report:
 			${reports.map((r) => `- ${r}`).join("\n")}
-			
+
 			If you believe this was a mistake or have questions, please contact the library staff.
-			
+
 			Thank you.`,
 			patronEmail,
 			Alert

@@ -7,7 +7,7 @@ import {
 	calculatePastDue,
 } from "../../custom/customFunction";
 
-export async function getSingleTransaction(
+export async function getTransactionDetails(
 	tr_id,
 	setTransactionData,
 	setLoading,
@@ -100,13 +100,10 @@ export async function getSingleTransaction(
 			tr_type: data.tr_type,
 			tr_status: data.tr_status,
 			tr_format: data.tr_format,
-			tr_pastDueDate: calculatePastDue(data.tr_pastDueDate, data.tr_dateDue),
 			tr_accession: data.tr_accession,
 			tr_remarks: data.tr_remarks || "",
-			tr_createdAt: formatDateTime(data.tr_createdAt),
 			tr_library: libraryData.li_name || "",
 			tr_resource,
-
 			tr_patron: {
 				id: data.tr_usID.id,
 				us_name: `${userData.us_fname || ""} ${userData.us_mname || ""} ${
@@ -123,6 +120,8 @@ export async function getSingleTransaction(
 				us_program: userData.us_program || "",
 				us_school: userData.us_school || "",
 			},
+			tr_pastDueDate: calculatePastDue(data.tr_pastDueDate),
+			tr_createdAt: formatDateTime(data.tr_createdAt),
 			tr_updatedAtFormmated: formatDateTime(data.tr_updatedAt) || "",
 			tr_actualEndFormmated: formatDateTime(data.tr_actualEnd) || "",
 			tr_dateFormatted: formatDate(data.tr_useDate) || "",

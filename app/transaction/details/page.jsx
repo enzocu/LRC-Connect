@@ -28,7 +28,7 @@ import {
 
 import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
-import { getSingleTransaction } from "../../../controller/firebase/get/getTransactionDetails";
+import { getTransactionDetails } from "../../../controller/firebase/get/getTransactionDetails";
 
 export default function TransactionDetailsPage() {
 	const router = useRouter();
@@ -44,7 +44,7 @@ export default function TransactionDetailsPage() {
 	useEffect(() => {
 		if (!id) return;
 		setPath(pathname);
-		getSingleTransaction(id, setTransactionData, setLoading, Alert);
+		getTransactionDetails(id, setTransactionData, setLoading, Alert);
 	}, [id]);
 
 	return (

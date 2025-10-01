@@ -7,11 +7,10 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
 import { sendEmail } from "../../custom/sendEmail";
-
 import { insertAudit } from "../insert/insertAudit";
 
 export async function markCancelled(
-	trID,
+	transaction,
 	us_id,
 	reason = [],
 	setBtnLoading,
@@ -29,23 +28,25 @@ export async function markCancelled(
 			return;
 		}
 
-		const targetTrRef = doc(db, "transaction", trID);
-		const targetTrSnap = await getDoc(targetTrRef);
-
-		if (targetTrSnap.exists()) {
-			const targetData = targetTrSnap.data();
-			const patronRef = targetData.tr_usID;
+		if (transaction?.id) {
+			const patronRef = transaction.tr_usID;
 			const patronSnap = await getDoc(patronRef);
 
 			if (patronSnap.exists()) {
 				const patronData = patronSnap.data();
-				const patronName =
-					`${patronData.us_fname} ${patronData.us_mname}. ${patronData.us_lname}`
-						.replace(/\s+/g, " ")
-						.trim();
+
+				const patronName = [
+					patronData.us_fname,
+					patronData.us_mname ? patronData.us_mname.charAt(0) + "." : "",
+					patronData.us_lname,
+				]
+					.filter(Boolean)
+					.join(" ")
+					.trim();
+
 				const patronEmail = patronData.us_email;
 
-				await updateDoc(targetTrRef, {
+				await updateDoc(transaction.tr_ref, {
 					tr_status: "Cancelled",
 					tr_remarks: arrayUnion(...sanitizedReasons),
 					tr_updatedAt: serverTimestamp(),
@@ -53,11 +54,11 @@ export async function markCancelled(
 				});
 
 				await insertAudit(
-					targetData.tr_liID,
+					transaction.tr_liID,
 					us_id,
 					"Cancelled",
 					`Reservation (ID: '${
-						targetData.tr_qr
+						transaction.tr_qr
 					}') was cancelled for reason(s): ${sanitizedReasons.join(", ")}.`,
 					Alert
 				);
@@ -66,7 +67,7 @@ export async function markCancelled(
 					"Reservation Cancelled",
 					patronName,
 					`Reservation (ID: ${
-						targetData.tr_qr
+						transaction.tr_qr
 					}) has been cancelled for the following reason(s):\n\n- ${sanitizedReasons.join(
 						"\n- "
 					)}\n\nIf you have questions, feel free to reach out to the library staff.`,
@@ -79,7 +80,7 @@ export async function markCancelled(
 		Alert.showSuccess("Reservation cancelled and patron notified.");
 	} catch (error) {
 		console.error("Error in markCancelled:", error);
-		Alert.showDanger(error.message);
+		Alert.showDanger(error.message || "An error occurred while cancelling.");
 	} finally {
 		setBtnLoading(false);
 	}

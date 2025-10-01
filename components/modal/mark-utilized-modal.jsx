@@ -11,18 +11,21 @@ import {
 	renderSchedule,
 } from "@/components/tags/transaction";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { useLoading } from "@/contexts/LoadingProvider";
 
 import { getAffectedList } from "../../controller/firebase/get/getAffected";
 import { markUtilized } from "../../controller/firebase/update/updateMarkUtilized";
 
-const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
-	const Alert = useAlertActions();
+const MarkUtilizedModal = ({
+	isOpen,
+	onClose,
+	transaction,
+	setActiveTab,
+	userDetails,
+	Alert,
+}) => {
 	const pathname = usePathname();
-	const { userDetails } = useUserAuth();
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 
@@ -33,10 +36,8 @@ const MarkUtilizedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
 	const handleConfirm = async () => {
 		if (userDetails && userDetails?.uid && transaction?.id) {
 			await markUtilized(
-				transaction?.id,
+				transaction,
 				userDetails?.uid,
-				transaction?.tr_type,
-				transaction?.tr_format,
 				selectedAccession,
 				hasAffectedTransactions,
 				setBtnLoading,

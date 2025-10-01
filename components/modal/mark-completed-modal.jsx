@@ -9,15 +9,17 @@ import {
 	renderResource,
 	renderSchedule,
 } from "@/components/tags/transaction";
-
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { markCompleted } from "../../controller/firebase/update/updateCompleted";
 
-const MarkCompletedModal = ({ isOpen, onClose, transaction, setActiveTab }) => {
-	const Alert = useAlertActions();
-	const { userDetails } = useUserAuth();
+const MarkCompletedModal = ({
+	isOpen,
+	onClose,
+	transaction,
+	setActiveTab,
+	userDetails,
+	Alert,
+}) => {
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	//LEVEL

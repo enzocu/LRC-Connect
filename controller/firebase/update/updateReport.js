@@ -1,7 +1,7 @@
 import { db } from "../../../server/firebaseConfig";
 import { doc, updateDoc, serverTimestamp, Timestamp } from "firebase/firestore";
 import { sendEmail } from "../../custom/sendEmail";
-
+import { formatDate } from "../../custom/customFunction";
 import { insertAudit } from "../insert/insertAudit";
 
 export const updateReportAction = async (

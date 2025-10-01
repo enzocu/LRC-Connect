@@ -21,7 +21,6 @@ export async function markCancelled(
 	Alert
 ) {
 	try {
-		// 🔎 Query both Reserved & Utilized
 		const q = query(
 			colRef(db, "transaction"),
 			where(refIDFieldName, "==", doc(db, targetCollection, id)),
@@ -58,7 +57,6 @@ export async function markCancelled(
 					Alert
 				);
 			} else if (targetData.tr_status === "Utilized") {
-				// Keep Utilized intact, just count
 				utilizedCount++;
 			}
 		}

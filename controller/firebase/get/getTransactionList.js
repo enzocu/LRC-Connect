@@ -165,7 +165,6 @@ export async function getTransactionList(
 							const data = docSnap.data();
 							const id = docSnap.id;
 
-							// Fetch user & library in parallel
 							const userSnap = await getDoc(data.tr_usID);
 							const userData = userSnap.exists() ? userSnap.data() : {};
 
@@ -241,7 +240,6 @@ export async function getTransactionList(
 												(d) => d.data().tr_accession
 											);
 
-											// Get only OnShelf accessions
 											const availableHoldings = (resData.ma_holdings || [])
 												.filter(
 													(holding) =>
@@ -249,7 +247,6 @@ export async function getTransactionList(
 												)
 												.map((holding) => holding.ho_access);
 
-											// attach to tr_resource
 											tr_resource = {
 												...tr_resource,
 												ma_holdings: availableHoldings,
@@ -310,14 +307,21 @@ export async function getTransactionList(
 
 							return {
 								id,
+								tr_ref: docSnap.ref,
 								tr_liID: data.tr_liID,
+								tr_usID: data.tr_usID,
 								tr_qr: data.tr_qr,
 								tr_type: data.tr_type,
 								tr_status: data.tr_status,
 								tr_format: data.tr_format,
 								tr_pastDueDate: data.tr_pastDueDate,
 								tr_accession: data.tr_accession,
-								tr_createdAt: formatDate(data.tr_createdAt),
+								tr_date: data.tr_useDate || null,
+								tr_dateDue: data.tr_dateDue || null,
+								tr_sessionStart: data.tr_sessionStart || null,
+								tr_sessionEnd: data.tr_sessionEnd || null,
+								tr_actualEnd: data.tr_actualEnd || null,
+								tr_updatedAt: data.tr_updatedAt || null,
 								tr_remarks: data.tr_remarks || "",
 								tr_resource,
 								...(isPersonnel
@@ -336,12 +340,7 @@ export async function getTransactionList(
 									: {
 											tr_library: libraryData.li_name || "",
 									  }),
-								tr_date: data.tr_useDate || null,
-								tr_dateDue: data.tr_dateDue || null,
-								tr_sessionStart: data.tr_sessionStart || null,
-								tr_sessionEnd: data.tr_sessionEnd || null,
-								tr_actualEnd: data.tr_actualEnd || null,
-								tr_updatedAt: data.tr_updatedAt || null,
+								tr_createdAt: formatDate(data.tr_createdAt),
 								tr_dateFormatted: formatDate(data.tr_useDate) || "",
 								tr_dateDueFormatted: formatDate(data.tr_dateDue) || "",
 								tr_sessionStartFormatted:
@@ -418,7 +417,6 @@ export async function getTransactionFilter(
 			coPromise = null;
 
 		if (resourceType === "Material") {
-			// Conditionally fetch Material Type
 			if (setMaterialTypes !== null) {
 				const mtQuery = query(
 					collection(db, "materialType"),
@@ -434,7 +432,6 @@ export async function getTransactionFilter(
 				promises.push(mtPromise);
 			}
 
-			// Conditionally fetch Category
 			if (setMaterialCategories !== null) {
 				const caQuery = query(
 					collection(db, "category"),
@@ -450,7 +447,6 @@ export async function getTransactionFilter(
 				promises.push(caPromise);
 			}
 
-			// Always fetch Material List
 			const maQuery = query(
 				collection(db, "material"),
 				where("ma_status", "==", "Active"),
@@ -495,7 +491,6 @@ export async function getTransactionFilter(
 
 		let resultIndex = 0;
 
-		// Libraries
 		setLibraries(results[resultIndex++]);
 
 		// Material resource type

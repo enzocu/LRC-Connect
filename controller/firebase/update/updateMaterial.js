@@ -29,14 +29,12 @@ export async function updateMaterial(
 	try {
 		setBtnloading(true);
 
-		// Initialize URLs (null default)
 		const urls = {
 			ma_coverURL: null,
 			ma_softURL: null,
 			ma_audioURL: null,
 		};
 
-		// Quantities
 		const qty = {
 			ma_coverQty: holdings.length || 0,
 			ma_softQty: stringToNumberIfNumeric(files.ma_softQty) || 0,

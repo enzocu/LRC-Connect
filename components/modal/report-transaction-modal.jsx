@@ -21,20 +21,18 @@ const damageTypes = [
 	"Return the book because it’s overdue",
 	"Other damage",
 ];
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
-import { LoadingSpinner } from "@/components/loading";
 
+import { LoadingSpinner } from "@/components/loading";
 import { markCompletedWithReport } from "../../controller/firebase/update/updateCompletedWithReport";
 
 export function DamageReportModal({
 	isOpen,
 	onClose,
-	transactionID,
+	transaction,
 	setActiveTab,
+	userDetails,
+	Alert,
 }) {
-	const Alert = useAlertActions();
-	const { userDetails } = useUserAuth();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [selectedDamageTypes, setSelectedDamageTypes] = useState([]);
 	const [customDamage, setCustomDamage] = useState("");
@@ -52,9 +50,9 @@ export function DamageReportModal({
 		if (customDamage.trim() !== "") {
 			allDamages.push(customDamage.trim());
 		}
-		if (userDetails && userDetails?.uid && transactionID) {
+		if (userDetails && userDetails?.uid && transaction?.id) {
 			await markCompletedWithReport(
-				transactionID,
+				transaction,
 				userDetails?.uid,
 				allDamages,
 				setBtnLoading,
@@ -150,7 +148,7 @@ export function DamageReportModal({
 					variant="outline"
 					className="bg-transparent h-10 px-4 text-[12px]"
 				>
-					Close
+					Cancel
 				</Button>
 				<Button
 					onClick={handleSubmit}

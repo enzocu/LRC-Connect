@@ -1,5 +1,5 @@
 "use client";
-
+import { Timestamp } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { Modal } from "@/components/modal";
@@ -15,8 +15,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Lottie from "lottie-react";
 import successAnimation from "@/public/lottie/success.json";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { useLoading } from "@/contexts/LoadingProvider";
 
@@ -29,11 +27,15 @@ import {
 
 import { renewTransaction } from "@/controller/firebase/update/updateRenew";
 
-export function RenewTransactionModal({ isOpen, onClose, transaction }) {
-	const Alert = useAlertActions();
+export function RenewTransactionModal({
+	isOpen,
+	onClose,
+	transaction,
+	userDetails,
+	Alert,
+}) {
 	const router = useRouter();
 	const pathname = usePathname();
-	const { userDetails } = useUserAuth();
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
@@ -42,19 +44,38 @@ export function RenewTransactionModal({ isOpen, onClose, transaction }) {
 	const [selectedDate, setSelectedDate] = useState(null);
 	const [libraryDetails, setLibraryDetails] = useState({});
 
+	useEffect(() => {
+		if (!isOpen || !transaction?.tr_dateDue) return;
+
+		let dueDateObj =
+			transaction.tr_dateDue instanceof Timestamp
+				? transaction.tr_dateDue.toDate()
+				: new Date(transaction.tr_dateDue);
+
+		const initialSelectedDate = new Date(dueDateObj);
+		initialSelectedDate.setDate(initialSelectedDate.getDate() + 1);
+
+		setSelectedDate(initialSelectedDate);
+		setCurrentMonth(
+			new Date(
+				initialSelectedDate.getFullYear(),
+				initialSelectedDate.getMonth(),
+				1
+			)
+		);
+	}, [isOpen, transaction?.tr_dateDue]);
+
 	const navigateMonth = (direction) => {
 		const newMonth = new Date(currentMonth);
 		newMonth.setMonth(currentMonth.getMonth() + direction);
 		setCurrentMonth(newMonth);
 	};
 
-	const getDaysInMonth = (date) => {
-		return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
-	};
+	const getDaysInMonth = (date) =>
+		new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 
-	const getFirstDayOfMonth = (date) => {
-		return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
-	};
+	const getFirstDayOfMonth = (date) =>
+		new Date(date.getFullYear(), date.getMonth(), 1).getDay();
 
 	const handleDateSelect = (day) => {
 		setSelectedDate(
@@ -68,18 +89,32 @@ export function RenewTransactionModal({ isOpen, onClose, transaction }) {
 		const days = [];
 		const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
+		const trDateDue =
+			transaction?.tr_dateDue instanceof Timestamp
+				? transaction.tr_dateDue.toDate()
+				: transaction?.tr_dateDue
+				? new Date(transaction.tr_dateDue)
+				: null;
+
 		for (let i = 0; i < firstDay; i++) {
 			days.push(<div key={`empty-${i}`} className="w-10 h-10"></div>);
 		}
 
 		for (let day = 1; day <= daysInMonth; day++) {
+			const currentDay = new Date(
+				currentMonth.getFullYear(),
+				currentMonth.getMonth(),
+				day
+			);
+
 			const isSelected =
 				selectedDate &&
 				selectedDate.getDate() === day &&
 				selectedDate.getMonth() === currentMonth.getMonth();
-			const isPastDate =
-				new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day) <
-				new Date().setHours(0, 0, 0, 0);
+
+			const isPastDate = trDateDue
+				? currentDay <= new Date(trDateDue.setHours(0, 0, 0, 0))
+				: false;
 
 			days.push(
 				<button
@@ -282,7 +317,8 @@ export function RenewTransactionModal({ isOpen, onClose, transaction }) {
 										{" "}
 										and has been renewed{" "}
 										<strong>{transaction?.tr_pastDueDate?.length}</strong> time
-										{transaction.tr_pastDueDate.length > 1 && "s"}.
+										{transaction.tr_pastDueDate.length > 1 && "s"}. Maximum
+										renewals allowed: <strong>2</strong>
 									</>
 								)}
 							</p>

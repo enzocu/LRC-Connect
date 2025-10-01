@@ -10,16 +10,14 @@ import { sendEmail } from "../../custom/sendEmail";
 import { insertAudit } from "../insert/insertAudit";
 
 export async function markUtilized(
-	trID,
+	transaction,
 	us_id,
-	type,
-	format,
 	accession,
-	affected,
+	affected = [],
 	setBtnLoading,
 	Alert
 ) {
-	if (!us_id || !trID) {
+	if (!us_id || !transaction?.id) {
 		Alert.showDanger("Missing required user or transaction ID.");
 		return;
 	}
@@ -27,7 +25,6 @@ export async function markUtilized(
 	try {
 		setBtnLoading(true);
 
-		// ✅ Cancel affected reservations
 		for (const affectedItem of affected) {
 			const affectedTrRef = doc(db, "transaction", affectedItem.id);
 			const affectedTrSnap = await getDoc(affectedTrRef);
@@ -39,13 +36,14 @@ export async function markUtilized(
 
 				if (userSnap.exists()) {
 					const userData = userSnap.data();
-					const userName = `${userData.us_fname} ${userData.us_mname || ""} ${
-						userData.us_lname
-					}`
+					const userName = `${userData.us_fname} ${
+						userData.us_mname ? userData.us_mname + " " : ""
+					}${userData.us_lname}`
 						.replace(/\s+/g, " ")
 						.trim();
 					const userEmail = userData.us_email;
 
+					// Cancel their transaction
 					await updateDoc(affectedTrRef, {
 						tr_status: "Cancelled",
 						tr_remarks: arrayUnion(
@@ -67,7 +65,7 @@ export async function markUtilized(
 						await sendEmail(
 							"Reservation Cancelled",
 							userName,
-							`Hi ${userName}, Reservation (ID: ${affectedTrData.tr_qr}) was cancelled due to conflict with a higher-priority booking. We follow a first-come, first-served policy.`,
+							`Hi ${userName},\n\nReservation (ID: ${affectedTrData.tr_qr}) was cancelled due to conflict with a higher-priority booking. We follow a first-come, first-served policy.\n\nThank you for understanding.`,
 							userEmail,
 							Alert
 						);
@@ -78,69 +76,70 @@ export async function markUtilized(
 			}
 		}
 
-		// ✅ Mark main transaction as Utilized
-		const targetTrRef = doc(db, "transaction", trID);
-		const targetTrSnap = await getDoc(targetTrRef);
+		const userRef = transaction.tr_usID;
+		const userSnap = await getDoc(userRef);
 
-		if (targetTrSnap.exists()) {
-			const targetData = targetTrSnap.data();
-			const userRef = targetData.tr_usID;
-			const userSnap = await getDoc(userRef);
+		if (userSnap.exists()) {
+			const userData = userSnap.data();
+			const userName = `${userData.us_fname} ${
+				userData.us_mname ? userData.us_mname + " " : ""
+			}${userData.us_lname}`
+				.replace(/\s+/g, " ")
+				.trim();
+			const userEmail = userData.us_email;
 
-			if (userSnap.exists()) {
-				const userData = userSnap.data();
-				const userName = `${userData.us_fname} ${userData.us_mname || ""} ${
-					userData.us_lname
-				}`
-					.replace(/\s+/g, " ")
-					.trim();
-				const userEmail = userData.us_email;
+			const updatePayload = {
+				tr_status: "Utilized",
+				tr_updatedAt: serverTimestamp(),
+				tr_modifiedBy: doc(db, "users", us_id),
+			};
 
-				// Build update payload
-				const updatePayload = {
-					tr_status: "Utilized",
-					tr_updatedAt: serverTimestamp(),
-					tr_modifiedBy: doc(db, "users", us_id),
-				};
+			if (
+				transaction.tr_type === "Material" &&
+				transaction.tr_format === "Hard Copy" &&
+				accession
+			) {
+				updatePayload.tr_accession = accession;
+			}
 
-				// Add accession only for Material + Hard Copy
-				if (type === "Material" && format === "Hard Copy" && accession) {
-					updatePayload.tr_accession = accession;
-				}
+			await updateDoc(transaction.tr_ref, updatePayload);
 
-				await updateDoc(targetTrRef, updatePayload);
+			let auditMessage = `Reservation (ID: '${transaction.tr_qr}') was marked as utilized.`;
+			if (
+				transaction.tr_type === "Material" &&
+				transaction.tr_format === "Hard Copy" &&
+				accession
+			) {
+				auditMessage += ` Assigned Accession: ${accession}`;
+			}
 
-				// Audit message
-				let auditMessage = `Reservation (ID: '${targetData.tr_qr}') was marked as utilized.`;
-				if (type === "Material" && format === "Hard Copy" && accession) {
-					auditMessage += ` Accession: ${accession}`;
-				}
+			await insertAudit(
+				transaction.tr_liID,
+				us_id,
+				"Utilized",
+				auditMessage,
+				Alert
+			);
 
-				await insertAudit(
-					targetData.tr_liID,
-					us_id,
-					"Utilized",
-					auditMessage,
+			let emailMessage = `Your reservation (ID: ${transaction.tr_qr}) has been marked as utilized. Thank you for using our library system.`;
+			if (
+				transaction.tr_type === "Material" &&
+				transaction.tr_format === "Hard Copy" &&
+				accession
+			) {
+				emailMessage += `\n\nAssigned Accession: ${accession}`;
+			}
+
+			try {
+				await sendEmail(
+					"Reservation Utilized",
+					userName,
+					emailMessage,
+					userEmail,
 					Alert
 				);
-
-				// Email message
-				let emailMessage = `Your reservation (ID: ${targetData.tr_qr}) has been marked as utilized. Thank you for using our library system.`;
-				if (type === "Material" && format === "Hard Copy" && accession) {
-					emailMessage += `\n\nAssigned Accession: ${accession}`;
-				}
-
-				try {
-					await sendEmail(
-						"Reservation Utilized",
-						userName,
-						emailMessage,
-						userEmail,
-						Alert
-					);
-				} catch (e) {
-					console.warn("Email to main user failed:", e.message);
-				}
+			} catch (e) {
+				console.warn("Email to main user failed:", e.message);
 			}
 		}
 

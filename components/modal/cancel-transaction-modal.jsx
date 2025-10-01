@@ -28,19 +28,17 @@ const CANCELLATION_REASONS_PATRON = [
 	"I want to cancel for other reasons",
 ];
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { markCancelled } from "../../controller/firebase/update/updateCancelled";
 
 export function CancelTransactionModal({
 	isOpen,
 	onClose,
-	transactionID,
+	transaction,
 	setActiveTab,
+	userDetails,
+	Alert,
 }) {
-	const Alert = useAlertActions();
-	const { userDetails } = useUserAuth();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [selectedReasons, setSelectedReasons] = useState([]);
 	const [customReason, setCustomReason] = useState("");
@@ -54,13 +52,13 @@ export function CancelTransactionModal({
 	};
 
 	const handleSubmit = async () => {
-		if (userDetails && userDetails?.uid && transactionID) {
+		if (userDetails && userDetails?.uid && transaction?.id) {
 			const allReasons = [...selectedReasons];
 			if (customReason.trim()) {
 				allReasons.push(customReason.trim());
 			}
 			await markCancelled(
-				transactionID,
+				transaction,
 				userDetails?.uid,
 				allReasons,
 				setBtnLoading,

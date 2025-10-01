@@ -213,7 +213,7 @@ export default function TransactionPage() {
 							size="sm"
 							className="h-9 text-[12px]"
 							onClick={() => {
-								setTransactionID(transaction?.id);
+								setTransactionDetails(transaction);
 								setShowCancelModal(true);
 							}}
 						>
@@ -243,7 +243,7 @@ export default function TransactionPage() {
 								size="sm"
 								className="h-9 text-[12px]"
 								onClick={() => {
-									setTransactionID(transaction?.id);
+									setTransactionDetails(transaction);
 									setShowDamageReportModal(true);
 								}}
 							>
@@ -981,8 +981,10 @@ export default function TransactionPage() {
 					<CancelTransactionModal
 						isOpen={showCancelModal}
 						onClose={() => setShowCancelModal(false)}
-						transactionID={transactionID}
+						transaction={transactionDetails}
 						setActiveTab={setActiveTab}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 
 					{/* Mark Completed Modal */}
@@ -991,6 +993,8 @@ export default function TransactionPage() {
 						onClose={() => setShowMarkCompletedModal(false)}
 						transaction={transactionDetails}
 						setActiveTab={setActiveTab}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 
 					{isPersonnel && (
@@ -999,21 +1003,28 @@ export default function TransactionPage() {
 							<DamageReportModal
 								isOpen={showDamageReportModal}
 								onClose={() => setShowDamageReportModal(false)}
-								transactionID={transactionID}
+								transaction={transactionDetails}
 								setActiveTab={setActiveTab}
+								userDetails={userDetails}
+								Alert={Alert}
 							/>
+
 							{/* Mark Utilized Modal */}
 							<MarkUtilizedModal
 								isOpen={showMarkUtilizedModal}
 								onClose={() => setShowMarkUtilizedModal(false)}
 								transaction={transactionDetails}
 								setActiveTab={setActiveTab}
+								userDetails={userDetails}
+								Alert={Alert}
 							/>
 
 							<RenewTransactionModal
 								isOpen={showRenewModal}
 								onClose={() => setShowRenewModal(false)}
 								transaction={transactionDetails}
+								userDetails={userDetails}
+								Alert={Alert}
 							/>
 						</>
 					)}

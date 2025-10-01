@@ -27,15 +27,11 @@ export async function renewTransaction(
 	try {
 		setBtnLoading(true);
 
-		const targetTrRef = doc(db, "transaction", transaction.id);
-		const targetTrSnap = await getDoc(targetTrRef);
-
-		if (!targetTrSnap.exists()) {
+		if (!transaction.id) {
 			throw new Error("Transaction not found.");
 		}
 
-		const targetData = targetTrSnap.data();
-		const patronRef = targetData.tr_usID;
+		const patronRef = transaction.tr_usID;
 		const patronSnap = await getDoc(patronRef);
 
 		if (!patronSnap.exists()) {
@@ -47,40 +43,50 @@ export async function renewTransaction(
 		const patronEmail = patronData.us_email;
 
 		const newDueTimestamp = convertDateToTimestamp(newDateDue);
+		const now = new Date();
 
-		// Check if new due date is later than current due date to create report
-		if (targetData.tr_dateDue && newDueTimestamp > targetData.tr_dateDue) {
+		// flag to check if overdue
+		let isOverdue = false;
+
+		// Check if overdue before renewal
+		if (transaction.tr_dateDue && now > transaction.tr_dateDue?.toDate()) {
+			isOverdue = true;
+
 			await addDoc(collection(db, "report"), {
-				re_liID: targetData.tr_liID,
+				re_liID: transaction.tr_liID,
 				re_usID: patronRef,
-				re_trID: targetTrRef,
+				re_trID: transaction.tr_ref,
 				re_status: "Active",
 				re_remarks: [
-					`Late return — Expected End: ${formatDateTime(
-						targetData.tr_dateDue
-					)}, Actual Return: ${formatDateTime(newDueTimestamp)}`,
+					`Overdue renewal — Previous Due: ${formatDateTime(
+						transaction.tr_dateDue
+					)}, Renewed To: ${formatDateTime(
+						newDueTimestamp
+					)}. Renewal was late, with penalty since it is late to renew.`,
 				],
 				re_modifiedBy: doc(db, "users", us_id),
 				re_createdAt: serverTimestamp(),
 			});
 
 			await insertAudit(
-				targetData.tr_liID,
+				transaction.tr_liID,
 				us_id,
 				"Report",
-				`Late return report created for reservation (ID: '${
-					targetData.tr_qr
-				}') — Expected: ${formatDateTime(
-					targetData.tr_dateDue
-				)}, Actual: ${formatDateTime(newDueTimestamp)}.`,
+				`Overdue renewal recorded for reservation (ID: '${transaction.tr_qr}'). 
+				 Previous Due: ${formatDateTime(transaction.tr_dateDue)}, 
+				 Renewed To: ${formatDateTime(
+						newDueTimestamp
+					)}. Renewal was late, with penalty since it is late to renew.`,
 				Alert
 			);
 		}
 
-		// Update transaction with new due date
-		await updateDoc(targetTrRef, {
+		await updateDoc(transaction.tr_ref, {
 			tr_dateDue: newDueTimestamp,
-			tr_pastDueDate: arrayUnion(transaction.tr_dateDue),
+			tr_pastDueDate: arrayUnion({
+				previousDue: transaction.tr_dateDue,
+				renewedAt: new Date(),
+			}),
 			tr_updatedAt: serverTimestamp(),
 			tr_modifiedBy: doc(db, "users", us_id),
 		});
@@ -93,16 +99,29 @@ export async function renewTransaction(
 			Alert
 		);
 
+		// Build email message
+		let emailMessage = `Your reservation (ID: ${transaction.tr_qr}) has been renewed.\n\nNew Due Date: ${newDateDue}\n\n`;
+		if (isOverdue) {
+			emailMessage +=
+				"Note: The renewal was processed after the due date, with penalty since it is late to renew.\n\n";
+		}
+		emailMessage += "Thank you for using our library services!";
+
 		// Send renewal email
 		await sendEmail(
 			"Reservation Renewed",
 			patronName,
-			`Reservation (ID: ${targetData.tr_qr}) has been renewed.\n\nNew Due Date: ${newDateDue}\n\nThank you for using our library services!`,
+			emailMessage,
 			patronEmail,
 			Alert
 		);
 
-		Alert.showSuccess("Transaction renewed successfully and patron notified.");
+		Alert.showSuccess(
+			`Transaction renewed successfully. Patron notified ${
+				isOverdue ? " (penalty still applies)." : "."
+			}.`
+		);
+
 		setSuccess(true);
 
 		setTimeout(() => {

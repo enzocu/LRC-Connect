@@ -1,5 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import crypto from "crypto";
+import { format } from "date-fns";
 
 export const getRelativeTime = (timestamp) => {
 	if (!timestamp) return "";
@@ -373,33 +374,43 @@ export const isSameDate = (d1, d2) => {
 	);
 };
 
-export const calculatePastDue = (pastDueDates, dueDate) => {
-	if (!Array.isArray(pastDueDates) || !dueDate) return [];
-
-	const allDates = [...pastDueDates, dueDate];
-
-	const dateOnlyArr = allDates
-		.map((ts) => {
-			if (!(ts instanceof Timestamp)) return null;
-			return new Date(ts.toDate().toDateString());
-		})
-		.filter(Boolean);
+export const calculatePastDue = (pastDueDates = []) => {
+	if (!Array.isArray(pastDueDates)) return [];
 
 	const results = [];
-	for (let i = 0; i < dateOnlyArr.length - 1; i++) {
-		const current = dateOnlyArr[i];
-		const next = dateOnlyArr[i + 1];
 
-		const diffDays = Math.floor((next - current) / (1000 * 60 * 60 * 24));
-		if (diffDays > 0) {
-			const formatted = formatDate(allDates[i]);
+	pastDueDates.forEach((entry) => {
+		if (!entry?.previousDue || !entry?.renewedAt) return;
+
+		const prevDue =
+			entry.previousDue instanceof Timestamp
+				? entry.previousDue.toDate()
+				: new Date(entry.previousDue);
+
+		const renewed =
+			entry.renewedAt instanceof Timestamp
+				? entry.renewedAt.toDate()
+				: new Date(entry.renewedAt);
+
+		const prevDateOnly = new Date(prevDue.toDateString());
+		const renewedDateOnly = new Date(renewed.toDateString());
+
+		const diffDays = Math.floor(
+			(renewedDateOnly - prevDateOnly) / (1000 * 60 * 60 * 24)
+		);
+
+		const formatted = format(prevDateOnly, "dd MMM yyyy");
+
+		if (renewedDateOnly > prevDateOnly) {
 			const label =
 				diffDays === 1
 					? `${formatted} (Overdue for 1 day)`
 					: `${formatted} (Overdue for ${diffDays} days)`;
 			results.push(label);
+		} else {
+			results.push(formatted);
 		}
-	}
+	});
 
 	return results;
 };
