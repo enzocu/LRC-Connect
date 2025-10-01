@@ -25,7 +25,6 @@ export function getReportListRealtime(
 
 	const orderField = status === "Active" ? "re_createdAt" : "re_updatedAt";
 
-	// 🔹 Build conditions dynamically
 	const conditions = [
 		where("re_usID", "==", doc(db, "users", us_id)),
 		where("re_status", "==", status),
@@ -35,7 +34,6 @@ export function getReportListRealtime(
 		conditions.push(where("re_liID", "==", li_id));
 	}
 
-	// 🔹 Apply conditions + orderBy
 	const baseQuery = query(
 		collection(db, "report"),
 		...conditions,
@@ -50,10 +48,8 @@ export function getReportListRealtime(
 					snapshot.docs.map(async (docSnap) => {
 						const docData = docSnap.data();
 
-						// fetch transaction doc (parallel start)
 						const trSnapPromise = getDoc(docData.re_trID);
 
-						// fetch patron & personnel profiles (parallel start)
 						const patronProfilePromise = isPersonnel
 							? getUserProfileDetails(docData.re_usID)
 							: Promise.resolve(null);
@@ -63,13 +59,11 @@ export function getReportListRealtime(
 								? getUserProfileDetails(docData.re_modifiedBy, li_id)
 								: Promise.resolve(null);
 
-						// wait for transaction first
 						const trSnap = await trSnapPromise;
 						if (!trSnap.exists()) return null;
 
 						const data = trSnap.data();
 
-						// fetch resource in parallel depending on type
 						let resPromise = Promise.resolve(null);
 
 						if (data.tr_type === "Material") {
@@ -80,13 +74,11 @@ export function getReportListRealtime(
 							resPromise = getDoc(data.tr_coID);
 						}
 
-						// library details if NOT personnel
 						const libraryPromise =
 							!isPersonnel && docData.re_liID
 								? getDoc(docData.re_liID)
 								: Promise.resolve(null);
 
-						// wait for all parallel tasks
 						const [resSnap, patronProfile, personnelProfile, librarySnap] =
 							await Promise.all([
 								resPromise,
@@ -163,23 +155,19 @@ export function getReportListRealtime(
 					})
 				);
 
-				// 🔹 Filter out nulls
 				let filteredReports = reports.filter(Boolean);
 
-				// 🔹 Filter by selectedType
 				if (selectedType && selectedType !== "") {
 					filteredReports = filteredReports.filter(
 						(r) => r.tr_type === selectedType
 					);
 				}
 
-				// 🔹 Filter by searchQuery
 				if (searchQuery && searchQuery.trim() !== "") {
 					const q = searchQuery.toLowerCase();
 					filteredReports = filteredReports.filter((r) => {
-						const nameMatch = r.tr_patron?.us_name?.toLowerCase().includes(q);
 						const qrMatch = r.tr_qr?.toLowerCase().includes(q);
-						return nameMatch || qrMatch;
+						return qrMatch;
 					});
 				}
 

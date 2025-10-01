@@ -18,7 +18,7 @@ import {
 	FiAlertTriangle,
 } from "react-icons/fi";
 import { ExternalLink } from "lucide-react";
-import { PenaltyDetailsModal } from "@/components/modal/penalty-details-modal";
+import { PenaltyListModal } from "@/components/modal/penaltyList-modal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -55,6 +55,7 @@ export default function PatronSummaryPage() {
 	//FILTER
 	const [showFilters, setShowFilters] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [selectedStatus, setSelectedStatus] = useState("Active");
 	const [selectedLibrary, setSelectedLibrary] = useState("All");
 	const [selectedStudentType, setSelectedStudentType] = useState("All");
 	const [showOverdueOnly, setShowOverdueOnly] = useState(false);
@@ -88,6 +89,7 @@ export default function PatronSummaryPage() {
 				setTransactionData,
 				searchQuery,
 
+				selectedStatus,
 				selectedLibrary,
 				selectedStudentType,
 				showOverdueOnly,
@@ -108,6 +110,7 @@ export default function PatronSummaryPage() {
 		userDetails,
 		currentPage,
 		searchQuery,
+		selectedStatus,
 		selectedLibrary,
 		selectedStudentType,
 		showOverdueOnly,
@@ -203,7 +206,8 @@ export default function PatronSummaryPage() {
 							</div>
 						</div>
 
-						{(selectedLibrary !== "All" ||
+						{(selectedStatus !== "All" ||
+							selectedLibrary !== "All" ||
 							selectedStudentType !== "All" ||
 							showOverdueOnly ||
 							showActivePenaltiesOnly ||
@@ -213,6 +217,17 @@ export default function PatronSummaryPage() {
 								<span className="text-muted-foreground  text-[11px]">
 									Active Filters:
 								</span>
+
+								{selectedStatus !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+										Status: {selectedStatus}
+										<FiX
+											className="w-3 h-3 cursor-pointer"
+											onClick={() => setSelectedStatus("Active")}
+										/>
+									</span>
+								)}
+
 								{selectedLibrary !== "All" && (
 									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[11px]">
 										Library:{" "}
@@ -299,6 +314,20 @@ export default function PatronSummaryPage() {
 								</div>
 
 								<div className="p-4 space-y-4 overflow-y-auto h-full pb-24">
+									<div className="space-y-2">
+										<label className="block font-medium text-foreground  text-[12px]">
+											Status
+										</label>
+										<select
+											value={selectedStatus}
+											onChange={(e) => setSelectedStatus(e.target.value)}
+											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+										>
+											<option value="Active">Active</option>
+											<option value="Inactive">Inactive</option>
+										</select>
+									</div>
+
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[11px]">
 											Student Library
@@ -410,6 +439,7 @@ export default function PatronSummaryPage() {
 											onClick={() => {
 												setCurrentPage(1);
 												setPageCursors([]);
+												setSelectedStatus("Active");
 												setSelectedLibrary("All");
 												setSelectedStudentType("All");
 												setShowOverdueOnly(false);
@@ -458,10 +488,12 @@ export default function PatronSummaryPage() {
 					</div>
 
 					{/* Penalty Details Modal */}
-					<PenaltyDetailsModal
+					<PenaltyListModal
 						isOpen={showPenaltyModal}
 						onClose={() => setShowPenaltyModal(false)}
 						patronId={selectedPatronId}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 
 					<ScannerModal

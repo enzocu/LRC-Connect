@@ -18,6 +18,7 @@ export async function getTransactionSummary(
 	setTransactionData,
 
 	searchQuery,
+	selectedStatus,
 	selectedLibrary,
 	selectedStudentType,
 
@@ -39,7 +40,7 @@ export async function getTransactionSummary(
 
 	try {
 		const usersRef = collection(db, "users");
-		const conditions = [where("us_status", "in", ["Active", "Inactive"])];
+		const conditions = [where("us_status", "==", selectedStatus)];
 
 		if (selectedLibrary && selectedLibrary !== "All") {
 			conditions.push(
@@ -72,7 +73,6 @@ export async function getTransactionSummary(
 		let finalQuery;
 
 		if (hasSearchFilters) {
-			console.log("pagination");
 			const hasCursor = currentPage > 1 && pageCursors[currentPage - 2];
 			finalQuery = hasCursor
 				? query(
@@ -83,7 +83,6 @@ export async function getTransactionSummary(
 				  )
 				: query(usersRef, ...conditions, limit(pageLimit));
 		} else {
-			console.log("no pagination");
 			finalQuery = query(usersRef, ...conditions);
 		}
 
@@ -187,7 +186,6 @@ export async function getTransactionSummary(
 					counts.Utilized +
 					counts.Cancelled +
 					counts.Completed;
-				if (totalTransactions === 0) return null;
 
 				return {
 					id: userDoc.id,

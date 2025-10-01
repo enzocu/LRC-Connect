@@ -538,19 +538,21 @@ export default function AccountList() {
 										</div>
 									)}
 
-									<div className="space-y-2">
-										<label className="block font-medium text-foreground  text-[12px]">
-											Status
-										</label>
-										<select
-											value={selectedStatus}
-											onChange={(e) => setSelectedStatus(e.target.value)}
-											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-										>
-											<option value="Active">Active</option>
-											<option value="Inactive">Inactive</option>
-										</select>
-									</div>
+									{!["USR-6", "USR-5"].includes(userDetails?.us_level) && (
+										<div className="space-y-2">
+											<label className="block font-medium text-foreground  text-[12px]">
+												Status
+											</label>
+											<select
+												value={selectedStatus}
+												onChange={(e) => setSelectedStatus(e.target.value)}
+												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+											>
+												<option value="Active">Active</option>
+												<option value="Inactive">Inactive</option>
+											</select>
+										</div>
+									)}
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground  text-[12px]">

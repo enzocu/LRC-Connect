@@ -66,6 +66,7 @@ export const renderResource = (transaction, isTable = false) => {
 						</>
 					)}
 				</div>
+
 				{transaction?.tr_resource?.reportLibrary && (
 					<div className="mt-2">
 						<p className="text-foreground text-[12px]">Library</p>

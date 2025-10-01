@@ -16,19 +16,20 @@ import {
 	renderSchedule,
 } from "@/components/tags/transaction";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
-import ProtectedRoute from "@/contexts/ProtectedRoute";
 import { useLoading } from "@/contexts/LoadingProvider";
 import { LoadingSpinner } from "@/components/loading";
 
 import { getReportListRealtime } from "../../controller/firebase/get/getReportList";
 import { updateReportStatus } from "../../controller/firebase/update/updateReport";
 
-export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
+export function PenaltyListModal({
+	isOpen,
+	onClose,
+	patronId,
+	userDetails,
+	Alert,
+}) {
 	const pathname = usePathname();
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const { setLoading, setPath, loading } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [btnLoadingType, setBtnLoadingType] = useState("");
@@ -119,8 +120,8 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 			<Modal
 				isOpen={isOpen}
 				onClose={onClose}
-				title="Penalty Details"
-				size="xl"
+				title="List of Penalties"
+				size="xxl"
 			>
 				<div className="flex flex-col h-full max-h-[90vh]">
 					<div className="flex items-center flex-1 px-6 pt-6">
@@ -128,7 +129,7 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 							<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
 
 							<Input
-								placeholder="Search"
+								placeholder="Search transaction by QR..."
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
 								className="pl-10 pr-28 h-9 bg-background border-none text-foreground rounded-md shadow-sm"
@@ -154,7 +155,7 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 						</div>
 					</div>
 
-					<div className="flex-1 overflow-hidden">
+					<div className="flex-1">
 						<Tabs
 							value={activeTab}
 							onValueChange={setActiveTab}
@@ -163,7 +164,7 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 							<div className="px-6 pt-6 mb-2">
 								<TabsList className="grid w-full grid-cols-3">
 									<TabsTrigger value="Active" className="text-[12px]">
-										Active Penalties
+										Active Penalty
 									</TabsTrigger>
 									<TabsTrigger value="Settled" className="text-[12px]">
 										Penalty History
@@ -230,6 +231,8 @@ export function PenaltyDetailsModal({ isOpen, onClose, patronId }) {
 				isOpen={showActionModal}
 				onClose={() => setShowActionModal(false)}
 				reportData={selectedPenalty}
+				userDetails={userDetails}
+				Alert={Alert}
 			/>
 		</>
 	);
@@ -382,7 +385,7 @@ const PenaltyTable = ({
 										return (
 											<td
 												key={colIndex}
-												className="py-4 px-6 min-w-[200px] text-[12px]"
+												className="py-4 px-6 min-w-[350px] text-[12px]"
 											>
 												<ul className="list-disc pl-4">
 													{report?.re_remarks.map((remark, i) => (

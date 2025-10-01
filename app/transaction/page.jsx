@@ -32,7 +32,7 @@ import { DamageReportModal } from "@/components/modal/report-transaction-modal";
 import { ViewReasonModal } from "@/components/modal/view-reason-modal";
 import MarkCompletedModal from "@/components/modal/mark-completed-modal";
 import MarkUtilizedModal from "@/components/modal/mark-utilized-modal";
-import { PenaltyDetailsModal } from "@/components/modal/penalty-details-modal";
+import { PenaltyListModal } from "@/components/modal/penaltyList-modal";
 import { RenewTransactionModal } from "@/components/modal/renew-transaction-modal";
 import { ScannerModal } from "@/components/modal/scanner-modal";
 import {
@@ -1036,10 +1036,12 @@ export default function TransactionPage() {
 					/>
 
 					{!isPersonnel && (
-						<PenaltyDetailsModal
+						<PenaltyListModal
 							isOpen={showPenaltyModal}
 							onClose={() => setShowPenaltyModal(false)}
 							patronId={userDetails?.uid}
+							userDetails={userDetails}
+							Alert={Alert}
 						/>
 					)}
 					{/* {Scanner} */}
