@@ -139,7 +139,7 @@ export const renderSchedule = (transaction) => {
 						<p className="text-foreground  text-[12px]">
 							{transaction?.tr_dateFormatted}
 						</p>
-						<p className="text-muted-foreground text-[12px]">Date</p>
+						<p className="text-muted-foreground text-[12px]">Date of Use</p>
 					</div>
 				</div>
 

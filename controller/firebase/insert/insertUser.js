@@ -122,18 +122,31 @@ export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
 		switch (error.code) {
 			case "auth/email-already-in-use":
 				errorMessage =
-					"This email is already registered! Please check the associated library.";
+					"The provided email is already registered! Please check the associated account.";
 				break;
 			case "auth/invalid-email":
 				errorMessage =
-					"The email address is invalid. Please enter a valid one.";
+					"The email address is invalid. Ensure it follows the correct email format.";
 				break;
 			case "auth/weak-password":
-				errorMessage = "The generated password is too weak. Try again.";
+				errorMessage =
+					"The password is too weak. It must be at least six characters long. Try again.";
 				break;
 			case "auth/network-request-failed":
 				errorMessage =
 					"Network error. Please check your internet connection and try again.";
+				break;
+			case "auth/operation-not-allowed":
+				errorMessage =
+					"The requested sign-in method is disabled. Please contact support or enable it in the Firebase Console.";
+				break;
+			case "auth/too-many-requests":
+				errorMessage =
+					"Too many requests have been made from this device. Please wait a few minutes before trying again.";
+				break;
+			case "auth/user-disabled":
+				errorMessage =
+					"This account has been disabled. Contact support for assistance.";
 				break;
 			default:
 				errorMessage = error.message;

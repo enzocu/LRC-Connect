@@ -496,6 +496,7 @@ export default function MaterialDetailsPage() {
 				resourceType="Material"
 				resourceID={formData?.ma_id}
 				libraryID={userDetails?.us_liID}
+				Alert
 			/>
 
 			<CodeModal

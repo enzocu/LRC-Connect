@@ -20,7 +20,6 @@ export async function updateComputer(
 		setBtnloading(true);
 		let co_photoURL = null;
 
-		// Upload new photo if it's a File
 		if (formData.co_photoURL instanceof File) {
 			const coverRef = ref(
 				storage,

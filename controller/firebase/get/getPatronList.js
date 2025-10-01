@@ -46,7 +46,6 @@ export async function getPatronList(
 			.map((docSnap) => {
 				const raw = docSnap.data();
 
-				// Name search filter
 				if (searchQuery && !isSearchEmpty && !isQRSearch) {
 					const fullName =
 						`${raw.us_fname} ${raw.us_mname} ${raw.us_lname}`.toLowerCase();
@@ -62,11 +61,11 @@ export async function getPatronList(
 					us_name:
 						`${raw.us_fname} ${raw.us_mname} ${raw.us_lname}`.trim() || "",
 					us_email: raw.us_email || "",
-					us_section: raw.us_section || "",
-					us_year: raw.us_year || "",
-					us_program: raw.us_program || "",
-					us_school: raw.us_school || "",
-					us_photoURL: raw.us_photoURL || "",
+					us_section: raw.us_section || "NA",
+					us_year: raw.us_year || "NA",
+					us_program: raw.us_program || "NA",
+					us_school: raw.us_school || "NA",
+					us_photoURL: raw.us_photoURL || "NA",
 				};
 			})
 			.filter(Boolean)

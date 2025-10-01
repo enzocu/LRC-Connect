@@ -7,7 +7,7 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
-import { formatDate, formatYear } from "../../custom/customFunction";
+import { formatYear } from "../../custom/customFunction";
 
 export async function getMaterialWithMarctag(
 	maID,
@@ -84,7 +84,6 @@ export async function getMaterialWithMarctag(
 				(t) => t.tr_format === "Audio Copy"
 			).length;
 
-			// ✅ For Hard/ Cover Copy → based on "On Shelf" holdings
 			const coverOnShelf = MaterialData.ma_holdings.filter(
 				(h) => h.ho_status === "On Shelf"
 			).length;
@@ -105,7 +104,6 @@ export async function getMaterialWithMarctag(
 			}`;
 		}
 
-		// --- 🔹 Material Type & sections
 		const [mtSnap, caSnap, shSnap] = await Promise.all([
 			getDoc(data.ma_mtID),
 			getDoc(data.ma_caID),
@@ -128,7 +126,6 @@ export async function getMaterialWithMarctag(
 		const mtData = mtSnap.data();
 		MaterialData.ma_materialType = mtData.mt_name;
 
-		// --- 🔹 Fill sections & values
 		mtData.mt_section?.forEach((item, idx) => {
 			const fieldsWithValues = item.mt_fields
 				.map((field) => {
@@ -201,7 +198,6 @@ export async function getMaterialWithMarctag(
 		MaterialData.ma_category = caSnap.data().ca_name;
 		MaterialData.ma_shelf = shSnap.data().sh_name;
 
-		// ✅ Only fetch library if `transaction === true`
 		if (transaction) {
 			const liSnap = await getDoc(data.ma_liID);
 			if (!liSnap.exists()) {

@@ -9,9 +9,6 @@ import { Label } from "@/components/ui/label";
 
 import Lottie from "lottie-react";
 import successAnimation from "@/public/lottie/success.json";
-
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 
 import { insertTransaction } from "@/controller/firebase/insert/insertTransaction";
@@ -22,10 +19,10 @@ export function ReservationSummaryModal({
 	resourceType,
 	resourceData,
 	patronData,
+	userDetails,
+	Alert,
 }) {
 	const router = useRouter();
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
 
@@ -136,7 +133,7 @@ export function ReservationSummaryModal({
 						)}
 					</div>
 
-					<div className="space-y-4">
+					<div className="space-y-2">
 						<h3 className="font-medium text-foreground text-[16px]">
 							Transaction
 						</h3>
@@ -210,10 +207,10 @@ export function ReservationSummaryModal({
 					</div>
 
 					<div className="bg-red-50 border border-red-200 rounded-lg p-4">
-						<p className="text-[11px]">
+						<p className="text-[12px]">
 							<span className="font-semibold text-red-600">Note:</span>{" "}
 							<span className="text-red-700">
-								Reserved resource may be{" "}
+								Reserved resource may be
 								<span className="font-medium">cancelled or reassigned</span> if
 								not claimed on time. All reservations follow a first-come,
 								first-served policy.

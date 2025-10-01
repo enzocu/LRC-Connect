@@ -251,6 +251,7 @@ export default function ComputerDetails() {
 				resourceType="Computer"
 				resourceID={formData?.id}
 				libraryID={userDetails?.us_liID}
+				Alert
 			/>
 
 			<CodeModal

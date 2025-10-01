@@ -93,8 +93,12 @@ export const formatDuration = (timestamp) => {
 	const date = timestamp.toDate();
 	const hrs = date.getHours();
 	const mins = date.getMinutes();
-	let str = hrs ? `${hrs}hr` : "";
-	if (mins) str += (str ? " " : "") + `${mins}min`;
+
+	let str = "";
+
+	if (hrs) str += `${hrs}hr${hrs > 1 ? "s" : ""}`;
+	if (mins) str += (str ? " " : "") + `${mins}min${mins > 1 ? "s" : ""}`;
+
 	return str || "0min";
 };
 

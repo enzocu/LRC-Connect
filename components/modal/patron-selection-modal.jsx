@@ -10,7 +10,6 @@ import EmptyState from "@/components/tags/empty";
 import { FiSearch, FiCamera } from "react-icons/fi";
 import { Checkbox } from "@/components/ui/checkbox";
 
-import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
 import { getPatronList } from "@/controller/firebase/get/getPatronList";
 
@@ -22,12 +21,12 @@ export function PatronSelectionModal({
 	resourceType,
 	resourceID,
 	libraryID,
+	Alert,
 }) {
 	const router = useRouter();
 	const [userData, setUserData] = useState([]);
 	const { setLoading, setPath, loading } = useLoading();
 	const pathname = usePathname();
-	const Alert = useAlertActions();
 
 	//SCANNER
 	const [isScannerOpen, setIsScannerOpen] = useState(false);

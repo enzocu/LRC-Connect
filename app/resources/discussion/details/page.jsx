@@ -245,6 +245,7 @@ export default function DiscussionRoomDetailsPage() {
 				resourceType="Discussion Room"
 				resourceID={formData?.id}
 				libraryID={userDetails?.us_liID}
+				Alert={Alert}
 			/>
 
 			<CodeModal

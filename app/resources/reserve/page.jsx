@@ -27,7 +27,7 @@ import { getMaterialWithMarctag } from "@/controller/firebase/get/getMaterialWit
 import { getDiscussionroom } from "@/controller/firebase/get/getDiscussionroom";
 import { getComputer } from "@/controller/firebase/get/getComputer";
 import { getLibrary } from "@/controller/firebase/get/getLibrary";
-import { getActiveTransactionCount } from "@/controller/firebase/get/getUserTransactionCounts";
+import { getActiveTransactionCount } from "@/controller/firebase/get/getActiveTransactionCounts";
 import { getUser } from "@/controller/firebase/get/getUser";
 
 import {
@@ -56,7 +56,7 @@ export default function ReservationPage() {
 	const [libraryDetails, setLibraryDetails] = useState({});
 	const [openHours, setOpenHours] = useState({});
 	const [resourceDetails, setResourceDetails] = useState({});
-	const [trCount, setTrCount] = useState({});
+	const [trnCount, setTrnCount] = useState({});
 
 	const [selectedFormat, setSelectedFormat] = useState("");
 	const [selectedDate, setSelectedDate] = useState(null);
@@ -142,7 +142,7 @@ export default function ReservationPage() {
 				userDetails?.us_liID,
 				patronDetails.us_type,
 				libraryDetails.li_borrowing,
-				setTrCount,
+				setTrnCount,
 				Alert
 			);
 		}
@@ -494,8 +494,8 @@ export default function ReservationPage() {
 									<Button
 										onClick={() => setShowReservationModal(true)}
 										disabled={
-											trCount?.remaining <= 0 ||
-											(trCount?.remaining > 0 &&
+											trnCount?.remaining <= 0 ||
+											(trnCount?.remaining > 0 &&
 												(!selectedDate ||
 													(resourceType === "Material" && !selectedFormat) ||
 													(["Discussion Room", "Computer"].includes(
@@ -557,8 +557,8 @@ export default function ReservationPage() {
 												Reservations Left
 											</span>
 											<span className="text-primary-custom font-semibold text-[12px]">
-												{trCount?.remaining} of {trCount?.max} available (
-												{trCount?.total} used)
+												{trnCount?.remaining} of {trnCount?.max} available (
+												{trnCount?.total} used)
 											</span>
 										</div>
 									</div>
@@ -640,6 +640,8 @@ export default function ReservationPage() {
 						resourceData={resourceDetails}
 						patronData={patronDetails}
 						resourceType={resourceType}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				</main>
 			</div>
