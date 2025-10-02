@@ -1399,7 +1399,7 @@ export const renderFiltersUS = (
 								}
 								selectedCourses={filters.d_courses}
 							/>
-							{filters.c_courses != "All" &&
+							{filters.d_courses != "All" &&
 								(filters.d_courses === "Senior High School" ? (
 									<>
 										<FilterTracksSelect
