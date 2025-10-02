@@ -243,7 +243,7 @@ export function PatronSelectionModal({
 										{patron?.us_program}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron?.us_school}
+										{patron?.us_institute}
 									</td>
 								</tr>
 							))}

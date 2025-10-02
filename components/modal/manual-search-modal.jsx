@@ -306,7 +306,7 @@ export function ManualSearchModal({
 											{account?.us_program}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_school}
+											{account?.us_institute}
 										</td>
 									</tr>
 								))}
