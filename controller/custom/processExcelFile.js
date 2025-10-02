@@ -71,7 +71,7 @@ export const processExcelFile = async (
 
 				const userRow = {
 					us_schoolID: row[colIndexMap["School ID"]] ?? null,
-					us_status: row[colIndexMap["Status"]] ?? "Inactive",
+					us_status: row[colIndexMap["Status"]] ?? "Active",
 					us_type: userType,
 					us_fname: row[colIndexMap["First Name"]] ?? null,
 					us_mname: row[colIndexMap["Middle Name"]] ?? null,
