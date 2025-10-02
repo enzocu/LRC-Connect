@@ -67,7 +67,7 @@ export default function AccountList() {
 	const [selectedType, setSelectedType] = useState("All");
 
 	//ACADEMIC
-	const [selectedCourses, setSelectedCourses] = useState("College Courses");
+	const [selectedCourses, setSelectedCourses] = useState("All");
 	const [selectedYear, setSelectedYear] = useState("All");
 	const [selectedTracks, setSelectedTracks] = useState("All");
 	const [selectedStrand, setSelectedStrand] = useState("All");
@@ -785,7 +785,7 @@ export default function AccountList() {
 												setCurrentPage(1);
 												setSelectedStatus("Active");
 												setSelectedType("All");
-												setSelectedCourses("College Courses");
+												setSelectedCourses("All");
 												setSelectedYear("All");
 												setSelectedTracks("All");
 												setSelectedStrand("All");
