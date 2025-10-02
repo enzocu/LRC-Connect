@@ -81,7 +81,7 @@ export async function updateAcademic(
 			us_courses: academicData.us_courses || null,
 			us_year: academicData.us_year || null,
 			us_tracks: academicData.us_tracks || null,
-			us_strand: academicData.us_strand,
+			us_strand: academicData.us_strand || null,
 			us_institute: academicData.us_institute || null,
 			us_program: academicData.us_program || null,
 			us_section: academicData.us_section || null,
