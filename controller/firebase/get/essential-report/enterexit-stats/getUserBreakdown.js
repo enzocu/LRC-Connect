@@ -23,9 +23,12 @@ export async function getUserBreakdown(
 	b_status,
 	b_role,
 	b_userType,
-	b_school,
-	b_program,
+	b_courses,
 	b_year,
+	b_tracks,
+	b_strand,
+	b_institute,
+	b_program,
 	b_section,
 	b_libraryList,
 	b_dateRangeStart,
@@ -60,19 +63,31 @@ export async function getUserBreakdown(
 				conditions.push(where("us_level", "in", ["USR-6", "USR-5"]));
 			}
 
-			if (b_school !== "All") {
-				conditions.push(where("us_school", "==", b_school));
-			}
-
-			if (b_program !== "All") {
-				conditions.push(where("us_program", "==", b_program));
+			if (b_courses !== "All") {
+				conditions.push(where("us_courses", "==", b_courses));
 			}
 
 			if (b_year !== "All") {
 				conditions.push(where("us_year", "==", b_year));
 			}
 
-			if (b_section !== "All") {
+			if (b_tracks !== "All") {
+				conditions.push(where("us_tracks", "==", b_tracks));
+			}
+
+			if (b_strand !== "All") {
+				conditions.push(where("us_strand", "==", b_strand));
+			}
+
+			if (b_institute !== "All") {
+				conditions.push(where("us_institute", "==", b_institute));
+			}
+
+			if (b_program !== "All") {
+				conditions.push(where("us_program", "==", b_program));
+			}
+
+			if (b_section !== "") {
 				conditions.push(where("us_section", "==", b_section));
 			}
 		} else {

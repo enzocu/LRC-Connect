@@ -15,32 +15,25 @@ export async function getRankList(
 	selectedRole,
 	selectedLibraryID,
 	setLoading,
-	Alert,
-	pageLimit,
-	setCtrPage,
-	currentPage
+	Alert
 ) {
 	setLoading(true);
 
 	try {
 		const logsRef = collection(db, "logs");
 
-		// Determine library reference
 		const libraryID =
 			selectedLibraryID !== "All"
 				? doc(db, "library", selectedLibraryID)
 				: li_id;
 
-		// Query conditions
 		const conditions = [
 			where("lo_liID", "==", libraryID),
 			where("lo_type", "==", accessMode ? "onSite" : "onApp"),
 		];
 
-		// Fetch logs
 		const snapshot = await getDocs(query(logsRef, ...conditions));
 
-		// Count visits per user
 		const userCountMap = {};
 		snapshot.docs.forEach((logDoc) => {
 			const logData = logDoc.data();
@@ -54,17 +47,14 @@ export async function getRankList(
 			userCountMap[userId] += 1;
 		});
 
-		// Convert counts to sorted list
 		const logList = Object.entries(userCountMap)
 			.map(([id, count]) => ({ id, count }))
 			.sort((a, b) => b.count - a.count);
 
-		// Fetch user details
 		const userDocs = await Promise.all(
 			logList.map((item) => getDoc(doc(db, "users", item.id)))
 		);
 
-		// Format ranked users
 		const rankedUsers = userDocs
 			.map((userSnap, index) => {
 				if (!userSnap.exists()) return null;
@@ -73,13 +63,11 @@ export async function getRankList(
 				const userData = userSnap.data();
 				let us_type = userData.us_type;
 
-				// Role filtering
 				if (selectedRole === "Patron" && userData.us_level !== "USR-6")
 					return null;
 				if (selectedRole === "Personnel" && userData.us_level === "USR-6")
 					return null;
 
-				// Adjust personnel role when multi-library
 				if (
 					(selectedRole === "All" || selectedRole === "Personnel") &&
 					us_type === "Personnel"
@@ -91,15 +79,13 @@ export async function getRankList(
 					us_type = matchedLib.us_type;
 				}
 
-				// Build full name
 				const fullName = [
 					userData.us_fname,
 					userData.us_mname,
 					userData.us_lname,
 				]
 					.filter(Boolean)
-					.join(" ")
-					.toLowerCase();
+					.join(" ");
 
 				return {
 					id: item.id,
@@ -113,16 +99,8 @@ export async function getRankList(
 			})
 			.filter(Boolean);
 
-		// Pagination
-		const startIndex = (currentPage - 1) * pageLimit;
-		const paginatedList = rankedUsers.slice(startIndex, startIndex + pageLimit);
-
-		setUserData(paginatedList);
-
-		if (currentPage === 1) {
-			const totalPages = Math.ceil(rankedUsers.length / pageLimit);
-			setCtrPage(totalPages);
-		}
+		// Directly set all users without pagination
+		setUserData(rankedUsers);
 
 		return rankedUsers;
 	} catch (error) {

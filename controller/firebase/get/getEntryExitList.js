@@ -17,6 +17,7 @@ import {
 	formatTime,
 	calculateDuration,
 } from "../../custom/customFunction";
+import { handleCourseSelection } from "../../custom/handleCourseSelection";
 
 export async function getEntryExitList(
 	isPersonnel,
@@ -28,10 +29,13 @@ export async function getEntryExitList(
 	selectedStatus,
 	selectedLibrary,
 	selectedUsType,
-	selectedSection,
+	selectedCourses,
 	selectedYear,
+	selectedTracks,
+	selectedStrand,
+	selectedInstitute,
 	selectedProgram,
-	selectedSchool,
+	selectedSection,
 	setLoading,
 	Alert,
 	pageLimit,
@@ -45,14 +49,12 @@ export async function getEntryExitList(
 	try {
 		const logsRef = collection(db, "logs");
 
-		// Base conditions
 		const conditions = [
 			where("lo_type", "==", showLoggedIn ? "onSite" : "onApp"),
 			where("lo_status", "==", selectedStatus ? "Active" : "Inactive"),
 			orderBy("lo_createdAt", "desc"),
 		];
 
-		// Library filtering
 		if (isPersonnel || selectedLibrary === "All") {
 			conditions.push(where("lo_liID", "==", li_id));
 		} else if (!isPersonnel && selectedLibrary !== "All") {
@@ -61,29 +63,28 @@ export async function getEntryExitList(
 			);
 		}
 
-		// Personnel filtering
 		if (!isPersonnel && paID) {
 			conditions.push(where("lo_usID", "==", doc(db, "users", paID)));
 		}
 
-		// Search & filters
 		const isQRSearch = searchQuery?.startsWith(isPersonnel ? "USR-" : "LIB-");
 		const isSearchEmpty = !searchQuery || searchQuery.trim() === "";
 
 		const hasSearchFilters =
 			isSearchEmpty &&
-			selectedSection == "All" &&
+			selectedCourses == "All" &&
 			selectedYear == "All" &&
+			selectedTracks == "All" &&
+			selectedStrand == "All" &&
+			selectedInstitute == "All" &&
 			selectedProgram == "All" &&
-			selectedSchool == "All" &&
+			selectedSection == "" &&
 			selectedUsType == "All" &&
 			((isPersonnel && selectedLibrary == "All") || !isPersonnel);
 
-		// Pagination
 		let finalQuery;
 
 		if (hasSearchFilters) {
-			console.log("pagination");
 			const hasCursor = currentPage > 1 && pageCursors[currentPage - 2];
 			finalQuery = hasCursor
 				? query(
@@ -94,16 +95,13 @@ export async function getEntryExitList(
 				  )
 				: query(logsRef, ...conditions, limit(pageLimit));
 		} else {
-			console.log("no pagination");
 			finalQuery = query(logsRef, ...conditions);
 		}
 
-		// Real-time listener
 		onSnapshot(
 			finalQuery,
 			async (snapshot) => {
 				try {
-					// Pagination cursor update
 					const lastVisible = snapshot.docs[snapshot.docs.length - 1];
 					if (hasSearchFilters && lastVisible) {
 						const newCursors = [...pageCursors];
@@ -111,13 +109,11 @@ export async function getEntryExitList(
 						setPageCursors(newCursors);
 					}
 
-					// Process all docs
 					const users = await Promise.all(
 						snapshot.docs.map(async (docSnap) => {
 							const data = docSnap.data();
 							const id = docSnap.id;
 
-							// User/Personnel data
 							const userSnap = isPersonnel ? await getDoc(data.lo_usID) : {};
 							const userData = userSnap.exists ? userSnap.data() : {};
 
@@ -125,7 +121,6 @@ export async function getEntryExitList(
 								userData.us_mname || ""
 							} ${userData.us_lname || ""} ${userData.us_suffix || ""}`.trim();
 
-							// Search filtering (Personnel side)
 							if (
 								isPersonnel &&
 								((isQRSearch && userData.us_qr !== searchQuery) ||
@@ -138,23 +133,28 @@ export async function getEntryExitList(
 								return null;
 							}
 
-							// Personnel filters
 							if (
-								(isPersonnel &&
-									selectedSection !== "All" &&
-									selectedSection !== userData.us_section) ||
-								(selectedYear !== "All" && selectedYear !== userData.us_year) ||
-								(selectedProgram !== "All" &&
-									selectedProgram !== userData.us_program) ||
-								(selectedSchool !== "All" &&
-									selectedSchool !== userData.us_school)
+								isPersonnel &&
+								((selectedCourses !== "All" &&
+									selectedCourses !== userData.us_courses) ||
+									(selectedYear !== "All" &&
+										selectedYear !== userData.us_year) ||
+									(selectedTracks !== "All" &&
+										selectedTracks !== userData.us_tracks) ||
+									(selectedStrand !== "All" &&
+										selectedStrand !== userData.us_strand) ||
+									(selectedInstitute !== "All" &&
+										selectedInstitute !== userData.us_institute) ||
+									(selectedProgram !== "All" &&
+										selectedProgram !== userData.us_program) ||
+									(selectedSection !== "" &&
+										selectedSection !== userData.us_section))
 							) {
 								return null;
 							}
 
 							let us_type = userData.us_type;
 
-							// Handle multi-library personnel
 							if (
 								isPersonnel &&
 								["USR-5", "USR-6"].includes(userData.us_level) &&
@@ -184,7 +184,6 @@ export async function getEntryExitList(
 								us_type = matchedLib.us_type;
 							}
 
-							// Library Data
 							let libraryData = {};
 							let libSnap = null;
 							libSnap = await getDoc(
@@ -198,7 +197,6 @@ export async function getEntryExitList(
 							);
 							libraryData = libSnap.exists() ? libSnap.data() : {};
 
-							// Search filtering (Library side)
 							if (
 								!isPersonnel &&
 								((isQRSearch && libraryData.li_qr !== searchQuery) ||
@@ -211,7 +209,6 @@ export async function getEntryExitList(
 								return null;
 							}
 
-							// Return formatted object
 							return {
 								id,
 								lo_status: data.lo_status,
@@ -286,10 +283,13 @@ export async function getUserFilterData(
 	li_id,
 	setLibraryQR = null,
 	setLibraryData,
-	setSectionData,
-	setYearData,
+	selectedCourses,
+	selectedTrack,
+	selectedInstitute,
+	setTracksData,
+	setStrandData,
+	setInstituteData,
 	setProgramData,
-	setSchoolData,
 	Alert
 ) {
 	try {
@@ -319,36 +319,17 @@ export async function getUserFilterData(
 
 		setLibraryData(libraries);
 
-		if (!isPersonnel) return;
-
-		const userQuery = query(
-			collection(db, "users"),
-			where("us_status", "==", "Active"),
-			where("us_liID", "==", li_id?.id ? li_id : doc(db, "library", li_id))
+		handleCourseSelection(
+			selectedCourses,
+			selectedTrack,
+			selectedInstitute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
+			setProgramData
 		);
 
-		const snap = await getDocs(userQuery);
-		const userDatas = await Promise.all(snap.docs.map((doc) => doc.data()));
-
-		const sectionSet = new Set();
-		const yearSet = new Set();
-		const programSet = new Set();
-		const schoolSet = new Set();
-
-		userDatas.forEach((userData) => {
-			if (userData.us_section?.trim())
-				sectionSet.add(userData.us_section.trim());
-			if (userData.us_year?.trim()) yearSet.add(userData.us_year.trim());
-			if (userData.us_program?.trim())
-				programSet.add(userData.us_program.trim());
-			if (userData.us_school?.trim()) schoolSet.add(userData.us_school.trim());
-		});
-		3;
-
-		setSectionData([...sectionSet]);
-		setYearData([...yearSet]);
-		setProgramData([...programSet]);
-		setSchoolData([...schoolSet]);
+		if (!isPersonnel) return;
 	} catch (error) {
 		console.error("[getUserFilterData] Error:", error);
 		Alert.showDanger("Failed to fetch filter data: " + error.message);

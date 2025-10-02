@@ -83,10 +83,14 @@ export async function insertUserExcel(
 				us_barangay: toSafeString(userData.us_barangay),
 				us_municipal: toSafeString(userData.us_municipal, "."),
 				us_province: toSafeString(userData.us_province),
-				us_section: toSafeString(userData.us_section),
+
+				us_courses: toSafeString(userData.us_courses),
 				us_year: toSafeString(userData.us_year),
+				us_tracks: toSafeString(userData.us_tracks),
+				us_strand: toSafeString(userData.us_strand),
+				us_institute: toSafeString(userData.us_institute),
 				us_program: toSafeString(userData.us_program),
-				us_school: toSafeString(userData.us_school),
+				us_section: toSafeString(userData.us_section),
 				us_updatedAt: serverTimestamp(),
 				us_createdAt: serverTimestamp(),
 			};

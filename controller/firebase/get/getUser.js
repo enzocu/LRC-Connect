@@ -52,10 +52,13 @@ export function getUser(
 				// Optional: academic data
 				if (setAcademicData) {
 					setAcademicData({
-						us_section: data.us_section,
+						us_courses: data.us_courses,
 						us_year: data.us_year,
+						us_tracks: data.us_tracks,
+						us_strand: data.us_strand,
+						us_institute: data.us_institute,
 						us_program: data.us_program,
-						us_school: data.us_school,
+						us_section: data.us_section,
 						id: userID,
 					});
 				}

@@ -32,7 +32,7 @@ import { useAlertActions } from "@/contexts/AlertContext";
 import ProtectedRoute from "@/contexts/ProtectedRoute";
 import { useLoading } from "@/contexts/LoadingProvider";
 
-import { EnterExitUserModal } from "@/components/modal/enter-exit-user-modal";
+import { EntryExitUserModal } from "@/components/modal/enter-exit-user-modal";
 import { CodeModal } from "@/components/modal/code-modal";
 import { getStatusColor } from "@/controller/custom/getStatusColor";
 import { ScannerModal } from "@/components/modal/scanner-modal";
@@ -66,17 +66,22 @@ export default function EntryExitPage() {
 	const [selectedLibrary, setSelectedLibrary] = useState("All");
 	const [showLoggedIn, setShowLoggedIn] = useState(true);
 	const [selectedStatus, setSelectedStatus] = useState(true);
-	const [selectedSection, setSelectedSection] = useState("All");
+
+	//ACADEMIC
+	const [selectedCourses, setSelectedCourses] = useState("All");
 	const [selectedYear, setSelectedYear] = useState("All");
+	const [selectedTracks, setSelectedTracks] = useState("All");
+	const [selectedStrand, setSelectedStrand] = useState("All");
+	const [selectedInstitute, setSelectedInstitute] = useState("All");
 	const [selectedProgram, setSelectedProgram] = useState("All");
-	const [selectedSchool, setSelectedSchool] = useState("All");
+	const [selectedSection, setSelectedSection] = useState("");
 
 	const [liqr, setLibraryQR] = useState("");
 	const [library, setLibraryData] = useState([]);
-	const [sections, setSectionData] = useState([]);
-	const [years, setYearData] = useState([]);
-	const [programs, setProgramData] = useState([]);
-	const [schools, setSchoolData] = useState([]);
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
+	const [programData, setProgramData] = useState([]);
 
 	//SCANNER
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -110,10 +115,13 @@ export default function EntryExitPage() {
 				selectedStatus,
 				selectedLibrary,
 				selectedUsType,
-				selectedSection,
+				selectedCourses,
 				selectedYear,
+				selectedTracks,
+				selectedStrand,
+				selectedInstitute,
 				selectedProgram,
-				selectedSchool,
+				selectedSection,
 				setLoading,
 				Alert,
 				pageLimit,
@@ -136,10 +144,14 @@ export default function EntryExitPage() {
 		selectedStatus,
 		selectedLibrary,
 		selectedUsType,
-		selectedSection,
+		selectedCourses,
 		selectedYear,
+		selectedTracks,
+		selectedStrand,
+		selectedInstitute,
 		selectedProgram,
-		selectedSchool,
+		selectedSection,
+
 		currentPage,
 	]);
 
@@ -150,14 +162,17 @@ export default function EntryExitPage() {
 				userDetails?.us_liID,
 				setLibraryQR,
 				setLibraryData,
-				setSectionData,
-				setYearData,
+				selectedCourses,
+				selectedTracks,
+				selectedInstitute,
+				setTracksData,
+				setStrandData,
+				setInstituteData,
 				setProgramData,
-				setSchoolData,
 				Alert
 			);
 		}
-	}, [userDetails]);
+	}, [userDetails, selectedCourses, selectedTracks, selectedInstitute]);
 
 	return (
 		<ProtectedRoute
@@ -318,10 +333,11 @@ export default function EntryExitPage() {
 							selectedUsType !== "All" ||
 							selectedStatus ||
 							!selectedStatus ||
-							selectedSection !== "All" ||
+							selectedCourses !== "All" ||
 							selectedYear !== "All" ||
+							selectedSection !== "" ||
 							selectedProgram !== "All" ||
-							selectedSchool !== "All") && (
+							selectedInstitute !== "All") && (
 							<div className="flex items-center gap-2 mb-4 flex-wrap">
 								<span className="text-muted-foreground text-[11px]">
 									Active Filters:
@@ -357,17 +373,18 @@ export default function EntryExitPage() {
 									/>
 								</span>
 
-								{selectedSection !== "All" && (
-									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
-										Section: {selectedSection}
+								{selectedCourses !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+										Courses: {selectedCourses}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
-											onClick={() => setSelectedSection("All")}
+											onClick={() => setSelectedCourses("All")}
 										/>
 									</span>
 								)}
+
 								{selectedYear !== "All" && (
-									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[11px]">
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
 										Year: {selectedYear}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
@@ -375,8 +392,39 @@ export default function EntryExitPage() {
 										/>
 									</span>
 								)}
+
+								{selectedTracks !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[12px]">
+										Tracks: {selectedTracks}
+										<FiX
+											className="w-3 h-3 cursor-pointer"
+											onClick={() => setSelectedTracks("All")}
+										/>
+									</span>
+								)}
+
+								{selectedStrand !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+										Strand: {selectedStrand}
+										<FiX
+											className="w-3 h-3 cursor-pointer"
+											onClick={() => setSelectedStrand("All")}
+										/>
+									</span>
+								)}
+
+								{selectedInstitute !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+										Institute: {selectedInstitute}
+										<FiX
+											className="w-3 h-3 cursor-pointer"
+											onClick={() => setSelectedInstitute("All")}
+										/>
+									</span>
+								)}
+
 								{selectedProgram !== "All" && (
-									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[11px]">
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[12px]">
 										Program: {selectedProgram}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
@@ -384,12 +432,13 @@ export default function EntryExitPage() {
 										/>
 									</span>
 								)}
-								{selectedSchool !== "All" && (
-									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[11px]">
-										School: {selectedSchool}
+
+								{selectedSection !== "" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+										Section: {selectedSection}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
-											onClick={() => setSelectedSchool("All")}
+											onClick={() => setSelectedSection("All")}
 										/>
 									</span>
 								)}
@@ -498,34 +547,40 @@ export default function EntryExitPage() {
 										{isPersonnel && (
 											<>
 												<div className="space-y-2">
-													<label className="block font-medium text-foreground text-[11px]">
-														Section
+													<label className="block font-medium text-foreground text-[12px]">
+														Courses
 													</label>
 													<select
-														value={selectedSection}
-														onChange={(e) => setSelectedSection(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
+														value={selectedCourses}
+														onChange={(e) => setSelectedCourses(e.target.value)}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 													>
-														<option value="All">All</option>
-														{sections.map((section) => (
-															<option key={section} value={section}>
-																{section}
+														{[
+															"All",
+															"Senior High School",
+															"College Courses",
+														].map((courses) => (
+															<option key={courses} value={courses}>
+																{courses}
 															</option>
 														))}
 													</select>
 												</div>
 
 												<div className="space-y-2">
-													<label className="block font-medium text-foreground text-[11px]">
+													<label className="block font-medium text-foreground text-[12px]">
 														Year
 													</label>
 													<select
 														value={selectedYear}
 														onChange={(e) => setSelectedYear(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 													>
 														<option value="All">All</option>
-														{years.map((year) => (
+														{(selectedCourses == "Senior High School"
+															? ["Grade 11", "Grade 12"]
+															: ["1st Year", "2nd Year", "3rd Year", "4th Year"]
+														).map((year) => (
 															<option key={year} value={year}>
 																{year}
 															</option>
@@ -533,40 +588,104 @@ export default function EntryExitPage() {
 													</select>
 												</div>
 
-												<div className="space-y-2">
-													<label className="block font-medium text-foreground text-[11px]">
-														Program
-													</label>
-													<select
-														value={selectedProgram}
-														onChange={(e) => setSelectedProgram(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
-													>
-														<option value="All">All</option>
-														{programs.map((program) => (
-															<option key={program} value={program}>
-																{program}
-															</option>
-														))}
-													</select>
-												</div>
+												{selectedCourses === "Senior High School" ? (
+													<>
+														<div className="space-y-2">
+															<label className="block font-medium text-foreground  text-[12px]">
+																Tracks
+															</label>
+															<select
+																value={selectedTracks}
+																onChange={(e) =>
+																	setSelectedTracks(e.target.value)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+															>
+																<option value="All">All</option>
+																{tracksData.map((tracks, index) => (
+																	<option key={index} value={tracks}>
+																		{tracks}
+																	</option>
+																))}
+															</select>
+														</div>
+
+														<div className="space-y-2">
+															<label className="block font-medium text-foreground  text-[12px]">
+																Strand
+															</label>
+															<select
+																value={selectedProgram}
+																onChange={(e) =>
+																	setSelectedProgram(e.target.value)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+															>
+																<option value="All">All</option>
+																{strandData.map((strand, index) => (
+																	<option key={index} value={strand}>
+																		{strand}
+																	</option>
+																))}
+															</select>
+														</div>
+													</>
+												) : (
+													<>
+														<div className="space-y-2">
+															<label className="block font-medium text-foreground  text-[12px]">
+																Institute
+															</label>
+															<select
+																value={selectedInstitute}
+																onChange={(e) =>
+																	setSelectedInstitute(e.target.value)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+															>
+																<option value="All">All</option>
+																{instituteData.map((institute, index) => (
+																	<option key={index} value={institute}>
+																		{institute}
+																	</option>
+																))}
+															</select>
+														</div>
+
+														<div className="space-y-2">
+															<label className="block font-medium text-foreground  text-[12px]">
+																Program
+															</label>
+															<select
+																value={selectedProgram}
+																onChange={(e) =>
+																	setSelectedProgram(e.target.value)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+															>
+																<option value="All">All</option>
+																{programData.map((program, index) => (
+																	<option key={index} value={program}>
+																		{program}
+																	</option>
+																))}
+															</select>
+														</div>
+													</>
+												)}
 
 												<div className="space-y-2">
-													<label className="block font-medium text-foreground text-[11px]">
-														School
+													<label className="block font-medium text-foreground  text-[12px]">
+														Section
 													</label>
-													<select
-														value={selectedSchool}
-														onChange={(e) => setSelectedSchool(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
-													>
-														<option value="All">All</option>
-														{schools.map((school) => (
-															<option key={school} value={school}>
-																{school}
-															</option>
-														))}
-													</select>
+
+													<Input
+														placeholder="Enter Sention..."
+														value={selectedSection}
+														onChange={(e) => setSelectedSection(e.target.value)}
+														className="h-9 bg-card text-foreground border-border"
+														style={{ fontSize: "12px" }}
+													/>
 												</div>
 											</>
 										)}
@@ -580,10 +699,13 @@ export default function EntryExitPage() {
 													setSelectedUsType("All");
 													setSelectedLibrary("All");
 													setSelectedStatus(true);
-													setSelectedSection("All");
+													setSelectedCourses("All");
 													setSelectedYear("All");
+													setSelectedTracks("All");
+													setSelectedStrand("All");
+													setSelectedInstitute("All");
 													setSelectedProgram("All");
-													setSelectedSchool("All");
+													setSelectedSection("");
 												}}
 												variant="outline"
 												className="flex-1 h-9 border-border text-[12px]"
@@ -725,11 +847,13 @@ export default function EntryExitPage() {
 						</div>
 					</div>
 				</main>
-				<EnterExitUserModal
+
+				<EntryExitUserModal
 					isOpen={showEnterExitModal}
 					onClose={() => setShowEnterExitModal(false)}
 					li_id={userDetails?.us_liID}
 					us_id={userDetails?.uid}
+					Alert={Alert}
 				/>
 
 				<VisitRankModal
@@ -737,6 +861,8 @@ export default function EntryExitPage() {
 					onClose={() => setIsRankModalOpen(false)}
 					showMode={showLoggedIn}
 					libraryData={isPersonnel ? [] : library}
+					userDetails={userDetails}
+					Alert={Alert}
 				/>
 
 				<ScannerModal

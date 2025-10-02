@@ -65,17 +65,22 @@ export default function AccountList() {
 	const [selectedStatus, setSelectedStatus] = useState("Active");
 	const [selectedLibrary, setSelectedLibrary] = useState("All");
 	const [selectedType, setSelectedType] = useState("All");
-	const [selectedSection, setSelectedSection] = useState("All");
+
+	//ACADEMIC
+	const [selectedCourses, setSelectedCourses] = useState("College Courses");
 	const [selectedYear, setSelectedYear] = useState("All");
+	const [selectedTracks, setSelectedTracks] = useState("All");
+	const [selectedStrand, setSelectedStrand] = useState("All");
+	const [selectedInstitute, setSelectedInstitute] = useState("All");
 	const [selectedProgram, setSelectedProgram] = useState("All");
-	const [selectedSchool, setSelectedSchool] = useState("All");
+	const [selectedSection, setSelectedSection] = useState("");
 
 	const [libraries, setLibraries] = useState([]);
 	const [typeData, setTypeData] = useState([]);
-	const [sectionData, setSectionData] = useState([]);
-	const [yearData, setYearData] = useState([]);
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
 	const [programData, setProgramData] = useState([]);
-	const [schoolData, setSchoolData] = useState([]);
 
 	// MODAL
 	const [showBorrowingLimitModal, setShowBorrowingLimitsModal] =
@@ -115,10 +120,13 @@ export default function AccountList() {
 			type,
 			selectedStatus,
 			selectedType,
-			selectedSection,
+			selectedCourses,
 			selectedYear,
+			selectedTracks,
+			selectedStrand,
+			selectedInstitute,
 			selectedProgram,
-			selectedSchool,
+			selectedSection,
 			"",
 			"",
 			setLoading,
@@ -138,13 +146,16 @@ export default function AccountList() {
 		userDetails,
 		currentPage,
 		searchQuery,
+		type,
 		selectedStatus,
 		selectedType,
-		selectedSection,
+		selectedCourses,
 		selectedYear,
+		selectedTracks,
+		selectedStrand,
+		selectedInstitute,
 		selectedProgram,
-		selectedSchool,
-		type,
+		selectedSection,
 		selectedLibrary,
 	]);
 
@@ -152,16 +163,18 @@ export default function AccountList() {
 		if (!userDetails || !type) return;
 
 		getUserAttributeFilters(
-			userDetails?.us_level == "USR-1" ? selectedLibrary : userDetails?.us_liID,
 			type,
 			setTypeData,
-			setSectionData,
-			setYearData,
+			selectedCourses,
+			selectedTracks,
+			selectedInstitute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
 			setProgramData,
-			setSchoolData,
 			Alert
 		);
-	}, [userDetails, type, selectedLibrary]);
+	}, [userDetails, type, selectedCourses, selectedTracks, selectedInstitute]);
 
 	useEffect(() => {
 		if (!userDetails || userDetails?.us_level != "USR-1" || !type) return;
@@ -290,10 +303,11 @@ export default function AccountList() {
 							{(selectedStatus !== "All" ||
 								selectedLibrary !== "All" ||
 								selectedType !== "All" ||
+								selectedCourses !== "All" ||
 								selectedYear !== "All" ||
-								selectedSection !== "All" ||
+								selectedSection !== "" ||
 								selectedProgram !== "All" ||
-								selectedSchool !== "All") && (
+								selectedInstitute !== "All") && (
 								<div className="flex items-center gap-2 mb-8 flex-wrap">
 									<span className="text-muted-foreground text-[12px]">
 										Active Filters:
@@ -327,12 +341,12 @@ export default function AccountList() {
 										</span>
 									)}
 
-									{selectedSection !== "All" && (
+									{selectedCourses !== "All" && (
 										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
-											Section: {selectedSection}
+											Courses: {selectedCourses}
 											<FiX
 												className="w-3 h-3 cursor-pointer"
-												onClick={() => setSelectedSection("All")}
+												onClick={() => setSelectedCourses("All")}
 											/>
 										</span>
 									)}
@@ -347,6 +361,36 @@ export default function AccountList() {
 										</span>
 									)}
 
+									{selectedTracks !== "All" && (
+										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[12px]">
+											Tracks: {selectedTracks}
+											<FiX
+												className="w-3 h-3 cursor-pointer"
+												onClick={() => setSelectedTracks("All")}
+											/>
+										</span>
+									)}
+
+									{selectedStrand !== "All" && (
+										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+											Strand: {selectedStrand}
+											<FiX
+												className="w-3 h-3 cursor-pointer"
+												onClick={() => setSelectedStrand("All")}
+											/>
+										</span>
+									)}
+
+									{selectedInstitute !== "All" && (
+										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
+											Institute: {selectedInstitute}
+											<FiX
+												className="w-3 h-3 cursor-pointer"
+												onClick={() => setSelectedInstitute("All")}
+											/>
+										</span>
+									)}
+
 									{selectedProgram !== "All" && (
 										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[12px]">
 											Program: {selectedProgram}
@@ -357,12 +401,12 @@ export default function AccountList() {
 										</span>
 									)}
 
-									{selectedSchool !== "All" && (
+									{selectedSection !== "" && (
 										<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
-											School: {selectedSchool}
+											Section: {selectedSection}
 											<FiX
 												className="w-3 h-3 cursor-pointer"
-												onClick={() => setSelectedSchool("All")}
+												onClick={() => setSelectedSection("All")}
 											/>
 										</span>
 									)}
@@ -379,10 +423,12 @@ export default function AccountList() {
 												"Type",
 												"Fullname",
 												"Email Address",
-												"Section",
+												"Course",
 												"Year",
-												"Program",
-												"School",
+												...(selectedCourses === "Senior High School"
+													? ["Tracks", "Strand"]
+													: ["Institute", "Program"]),
+												"Section",
 												"Action",
 											].map((header) => (
 												<th
@@ -424,17 +470,37 @@ export default function AccountList() {
 													{user?.us_email}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user?.us_section || "NA"}
+													{user?.us_courses || "NA"}
 												</td>
+
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
 													{user?.us_year || "NA"}
 												</td>
+
+												{selectedCourses === "Senior High School" ? (
+													<>
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_tracks || "NA"}
+														</td>
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_strand || "NA"}
+														</td>
+													</>
+												) : (
+													<>
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_institute || "NA"}
+														</td>
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_program || "NA"}
+														</td>
+													</>
+												)}
+
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user?.us_program || "NA"}
+													{user?.us_section || "NA"}
 												</td>
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user?.us_school || "NA"}
-												</td>
+
 												<td className="py-3 px-4 text-left">
 													<div className="flex gap-2">
 														<Button
@@ -577,75 +643,137 @@ export default function AccountList() {
 									</div>
 
 									<div className="space-y-2">
-										<label className="block font-medium text-foreground  text-[12px]">
-											Section
+										<label className="block font-medium text-foreground text-[12px]">
+											Courses
 										</label>
 										<select
-											value={selectedSection}
-											onChange={(e) => setSelectedSection(e.target.value)}
-											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+											value={selectedCourses}
+											onChange={(e) => setSelectedCourses(e.target.value)}
+											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 										>
-											<option value="All">All</option>
-											{sectionData.map((section, index) => (
-												<option key={index} value={section}>
-													{section}
-												</option>
-											))}
+											{["Senior High School", "College Courses"].map(
+												(courses) => (
+													<option key={courses} value={courses}>
+														{courses}
+													</option>
+												)
+											)}
 										</select>
 									</div>
 
 									<div className="space-y-2">
-										<label className="block font-medium text-foreground  text-[12px]">
+										<label className="block font-medium text-foreground text-[12px]">
 											Year
 										</label>
 										<select
 											value={selectedYear}
 											onChange={(e) => setSelectedYear(e.target.value)}
-											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 										>
 											<option value="All">All</option>
-											{yearData.map((year, index) => (
-												<option key={index} value={year}>
+											{(selectedCourses == "Senior High School"
+												? ["Grade 11", "Grade 12"]
+												: ["1st Year", "2nd Year", "3rd Year", "4th Year"]
+											).map((year) => (
+												<option key={year} value={year}>
 													{year}
 												</option>
 											))}
 										</select>
 									</div>
 
-									<div className="space-y-2">
-										<label className="block font-medium text-foreground  text-[12px]">
-											Program
-										</label>
-										<select
-											value={selectedProgram}
-											onChange={(e) => setSelectedProgram(e.target.value)}
-											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-										>
-											<option value="All">All</option>
-											{programData.map((program, index) => (
-												<option key={index} value={program}>
-													{program}
-												</option>
-											))}
-										</select>
-									</div>
+									{selectedCourses != "All" &&
+										(selectedCourses === "Senior High School" ? (
+											<>
+												<div className="space-y-2">
+													<label className="block font-medium text-foreground  text-[12px]">
+														Tracks
+													</label>
+													<select
+														value={selectedTracks}
+														onChange={(e) => setSelectedTracks(e.target.value)}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+													>
+														<option value="All">All</option>
+														{tracksData.map((tracks, index) => (
+															<option key={index} value={tracks}>
+																{tracks}
+															</option>
+														))}
+													</select>
+												</div>
 
+												<div className="space-y-2">
+													<label className="block font-medium text-foreground  text-[12px]">
+														Strand
+													</label>
+													<select
+														value={selectedProgram}
+														onChange={(e) => setSelectedProgram(e.target.value)}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+													>
+														<option value="All">All</option>
+														{strandData.map((strand, index) => (
+															<option key={index} value={strand}>
+																{strand}
+															</option>
+														))}
+													</select>
+												</div>
+											</>
+										) : (
+											<>
+												<div className="space-y-2">
+													<label className="block font-medium text-foreground  text-[12px]">
+														Institute
+													</label>
+													<select
+														value={selectedInstitute}
+														onChange={(e) =>
+															setSelectedInstitute(e.target.value)
+														}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+													>
+														<option value="All">All</option>
+														{instituteData.map((institute, index) => (
+															<option key={index} value={institute}>
+																{institute}
+															</option>
+														))}
+													</select>
+												</div>
+
+												<div className="space-y-2">
+													<label className="block font-medium text-foreground  text-[12px]">
+														Program
+													</label>
+													<select
+														value={selectedProgram}
+														onChange={(e) => setSelectedProgram(e.target.value)}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+													>
+														<option value="All">All</option>
+														{programData.map((program, index) => (
+															<option key={index} value={program}>
+																{program}
+															</option>
+														))}
+													</select>
+												</div>
+											</>
+										))}
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground  text-[12px]">
-											School
+											Section
 										</label>
-										<select
-											value={selectedSchool}
-											onChange={(e) => setSelectedSchool(e.target.value)}
-											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-										>
-											<option value="All">All</option>
-											{schoolData.map((school, index) => (
-												<option key={index} value={school}>
-													{school}
-												</option>
-											))}
-										</select>
+
+										<Input
+											placeholder="Enter Section..."
+											value={selectedSection}
+											onChange={(e) => setSelectedSection(e.target.value)}
+											className="h-9 bg-card text-foreground border-border"
+											style={{ fontSize: "12px" }}
+										/>
 									</div>
 								</div>
 
@@ -657,10 +785,13 @@ export default function AccountList() {
 												setCurrentPage(1);
 												setSelectedStatus("Active");
 												setSelectedType("All");
-												setSelectedSection("All");
+												setSelectedCourses("College Courses");
 												setSelectedYear("All");
+												setSelectedTracks("All");
+												setSelectedStrand("All");
+												setSelectedInstitute("All");
 												setSelectedProgram("All");
-												setSelectedSchool("All");
+												setSelectedSection("");
 												setShowFilters(false);
 											}}
 											variant="outline"
@@ -681,6 +812,7 @@ export default function AccountList() {
 					)}
 				</main>
 			</div>
+
 			{["USR-2", "USR-3"].includes(userDetails?.us_level) && (
 				<>
 					{/* Borrowing Limits Modal */}

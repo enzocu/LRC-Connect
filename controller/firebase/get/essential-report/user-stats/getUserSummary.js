@@ -20,10 +20,14 @@ export async function getUserSummary(
 	setMockData,
 	searchQuery,
 	c_role,
+	c_status,
 	c_userType,
-	c_school,
-	c_program,
+	c_courses,
 	c_year,
+	c_tracks,
+	c_strand,
+	c_institute,
+	c_program,
 	c_section,
 	c_libraryList,
 	c_resourceType,
@@ -46,7 +50,7 @@ export async function getUserSummary(
 
 	try {
 		const usRef = collection(db, "users");
-		const conditions = [];
+		const conditions = [where("us_status", "==", c_status)];
 
 		if (c_role === "Patron") {
 			if (c_libraryList && c_libraryList !== "All") {
@@ -63,19 +67,31 @@ export async function getUserSummary(
 				conditions.push(where("us_level", "in", ["USR-6", "USR-5"]));
 			}
 
-			if (c_school !== "All") {
-				conditions.push(where("us_school", "==", c_school));
-			}
-
-			if (c_program !== "All") {
-				conditions.push(where("us_program", "==", c_program));
+			if (c_courses !== "All") {
+				conditions.push(where("us_courses", "==", c_courses));
 			}
 
 			if (c_year !== "All") {
 				conditions.push(where("us_year", "==", c_year));
 			}
 
-			if (c_section !== "All") {
+			if (c_tracks !== "All") {
+				conditions.push(where("us_tracks", "==", c_tracks));
+			}
+
+			if (c_strand !== "All") {
+				conditions.push(where("us_strand", "==", c_strand));
+			}
+
+			if (c_institute !== "All") {
+				conditions.push(where("us_institute", "==", c_institute));
+			}
+
+			if (c_program !== "All") {
+				conditions.push(where("us_program", "==", c_program));
+			}
+
+			if (c_section !== "") {
 				conditions.push(where("us_section", "==", c_section));
 			}
 		} else {
@@ -230,8 +246,6 @@ export async function getUserSummary(
 					counts.Utilized +
 					counts.Cancelled +
 					counts.Completed;
-
-				if (totalTransactions === 0) return null;
 
 				const usageNumerator =
 					counts.Reserved + counts.Utilized + counts.Completed;

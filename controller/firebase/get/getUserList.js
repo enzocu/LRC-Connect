@@ -15,6 +15,8 @@ import {
 	formatDate,
 	convertDateToTimestamp,
 } from "../../custom/customFunction";
+import { handleCourseSelection } from "../../custom/handleCourseSelection";
+
 export function getUserList(
 	li_id,
 	setUserData,
@@ -22,10 +24,13 @@ export function getUserList(
 	userType,
 	selectedStatus,
 	selectedType,
-	selectedSection,
+	selectedCourses,
 	selectedYear,
+	selectedTracks,
+	selectedStrand,
+	selectedInstitute,
 	selectedProgram,
-	selectedSchool,
+	selectedSection,
 	dateRangeStart,
 	dateRangeEnd,
 	setLoading,
@@ -42,10 +47,8 @@ export function getUserList(
 	try {
 		const usersRef = collection(db, "users");
 
-		// Base conditions (status always required)
 		const conditions = [where("us_status", "==", selectedStatus)];
 
-		// Patron vs Personnel filters
 		if (userType.toLowerCase() === "patron") {
 			conditions.push(
 				where(
@@ -71,17 +74,33 @@ export function getUserList(
 		) {
 			conditions.push(where("us_type", "==", selectedType));
 		}
-		if (selectedSection && selectedSection !== "All") {
-			conditions.push(where("us_section", "==", selectedSection));
+
+		if (selectedCourses && selectedCourses !== "All") {
+			conditions.push(where("us_courses", "==", selectedCourses));
 		}
+
 		if (selectedYear && selectedYear !== "All") {
 			conditions.push(where("us_year", "==", selectedYear));
 		}
+
+		if (selectedTracks && selectedTracks !== "All") {
+			conditions.push(where("us_tracks", "==", selectedTracks));
+		}
+
+		if (selectedStrand && selectedStrand !== "All") {
+			conditions.push(where("us_strand", "==", selectedStrand));
+		}
+
+		if (selectedInstitute && selectedInstitute !== "All") {
+			conditions.push(where("us_institute", "==", selectedInstitute));
+		}
+
 		if (selectedProgram && selectedProgram !== "All") {
 			conditions.push(where("us_program", "==", selectedProgram));
 		}
-		if (selectedSchool && selectedSchool !== "All") {
-			conditions.push(where("us_school", "==", selectedSchool));
+
+		if (selectedSection && selectedSection !== "") {
+			conditions.push(where("us_section", "==", selectedSection));
 		}
 
 		if (dateRangeStart !== "") {
@@ -106,7 +125,6 @@ export function getUserList(
 			conditions.push(orderBy("us_createdAt", "desc"));
 		}
 
-		// Pagination handling
 		const finalQuery =
 			currentPage > 1 && pageCursors[currentPage - 2]
 				? query(
@@ -123,14 +141,12 @@ export function getUserList(
 			async (snapshot) => {
 				const lastVisible = snapshot.docs[snapshot.docs.length - 1];
 
-				// Store pagination cursor
 				if ((isQRSearch || isSearchEmpty) && lastVisible) {
 					const newCursors = [...pageCursors];
 					newCursors[currentPage - 1] = lastVisible;
 					setPageCursors(newCursors);
 				}
 
-				// Build user data list
 				const userDataList = await Promise.all(
 					snapshot.docs.map(async (docSnap) => {
 						const data = docSnap.data();
@@ -154,9 +170,7 @@ export function getUserList(
 
 							us_type = matchedLib.us_type;
 							us_level = matchedLib.us_level;
-						}
-						// Handle single-library personnel
-						else if (
+						} else if (
 							userType.toLowerCase() !== "patron" &&
 							data.us_level === "USR-5"
 						) {
@@ -168,7 +182,6 @@ export function getUserList(
 							us_level = data.us_level;
 						}
 
-						// Text search filter
 						if (
 							searchQuery &&
 							!isSearchEmpty &&
@@ -195,10 +208,14 @@ export function getUserList(
 							}`.trim(),
 							us_library: data.us_library || [],
 							us_email: data.us_email || "NA",
-							us_section: data.us_section || "NA",
+
+							us_courses: data.us_courses || "NA",
 							us_year: data.us_year || "NA",
+							us_tracks: data.us_tracks || "NA",
+							us_strand: data.us_strand || "NA",
+							us_institute: data.us_institute || "NA",
 							us_program: data.us_program || "NA",
-							us_school: data.us_school || "NA",
+							us_section: data.us_section || "NA",
 							us_photoURL: data.us_photoURL || null,
 							us_createdAt: formatDate(data.us_createdAt) || "NA",
 						};
@@ -241,17 +258,48 @@ export function getUserList(
 	}
 }
 
-export async function getUserAttributeFilters(
-	li_id,
-	userType,
-	setTypeData = null,
-	setSectionData,
-	setYearData,
-	setProgramData,
-	setSchoolData,
+export async function getUserLibraryOptions(
+	setSelectedLibrary,
+	setLibraries,
 	Alert
 ) {
 	try {
+		const libQuery = query(
+			collection(db, "library"),
+			where("li_status", "==", "Active")
+		);
+
+		const libSnap = await getDocs(libQuery);
+		const libraries = libSnap.docs.map((doc) => ({
+			id: doc.id,
+			li_name: doc.data().li_name,
+		}));
+
+		setLibraries(libraries);
+
+		if (libraries.length > 0) {
+			setSelectedLibrary(libraries[0].id);
+		}
+	} catch (error) {
+		console.error("[getUserLibraryOptions] Error:", error);
+		Alert.showDanger("Failed to fetch libraries: " + error.message);
+	}
+}
+
+export async function getUserAttributeFilters(
+	userType,
+	setTypeData = null,
+	selectedCourses,
+	selectedTrack,
+	selectedInstitute,
+	setTracksData,
+	setStrandData,
+	setInstituteData,
+	setProgramData,
+	Alert
+) {
+	try {
+		// Patron vs Assistants
 		if (userType === "patron" && setTypeData) {
 			setTypeData([
 				{
@@ -272,70 +320,17 @@ export async function getUserAttributeFilters(
 			]);
 		}
 
-		const userQuery = query(
-			collection(db, "users"),
-			where("us_status", "==", "Active"),
-			where(
-				"us_liID",
-				"==",
-				typeof li_id === "object" && li_id.id
-					? li_id
-					: doc(db, "library", li_id)
-			)
+		handleCourseSelection(
+			selectedCourses,
+			selectedTrack,
+			selectedInstitute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
+			setProgramData
 		);
-
-		const userSnap = await getDocs(userQuery);
-		const userDatas = userSnap.docs.map((doc) => doc.data());
-
-		// 3. Create sets for unique filter values
-		const sectionSet = new Set();
-		const yearSet = new Set();
-		const programSet = new Set();
-		const schoolSet = new Set();
-
-		userDatas.forEach((userData) => {
-			if (userData.us_section) sectionSet.add(userData.us_section.trim());
-			if (userData.us_year) yearSet.add(userData.us_year.trim());
-			if (userData.us_program) programSet.add(userData.us_program.trim());
-			if (userData.us_school) schoolSet.add(userData.us_school.trim());
-		});
-
-		// 4. Set the filters
-		setSectionData([...sectionSet]);
-		setYearData([...yearSet]);
-		setProgramData([...programSet]);
-		setSchoolData([...schoolSet]);
 	} catch (error) {
 		console.error("[getUserAttributeFilters] Error:", error);
 		Alert.showDanger("Failed to fetch user filters: " + error.message);
-	}
-}
-
-export async function getUserLibraryOptions(
-	setSelectedLibrary,
-	setLibraries,
-	Alert
-) {
-	try {
-		const libQuery = query(
-			collection(db, "library"),
-			where("li_status", "==", "Active")
-		);
-
-		const libSnap = await getDocs(libQuery);
-		const libraries = libSnap.docs.map((doc) => ({
-			id: doc.id,
-			li_name: doc.data().li_name,
-		}));
-
-		setLibraries(libraries);
-
-		// Optional: auto-select the first one
-		if (libraries.length > 0) {
-			setSelectedLibrary(libraries[0].id);
-		}
-	} catch (error) {
-		console.error("[getUserLibraryOptions] Error:", error);
-		Alert.showDanger("Failed to fetch libraries: " + error.message);
 	}
 }

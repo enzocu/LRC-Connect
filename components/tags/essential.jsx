@@ -1,3 +1,7 @@
+"use client";
+
+import { Input } from "@/components/ui/input";
+
 export const toggleFilterOrderBy = (key, setFilters) => {
 	setFilters((prev) => ({
 		...prev,
@@ -321,21 +325,112 @@ export const FilterShelfSelect = ({ value, onChange, shList }) => {
 	);
 };
 
-export const FilterSchoolSelect = ({ value, onChange, schoolList }) => {
+export const FilterCoursesSelect = ({ value, onChange }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				School List
+				Courses
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select School</option>
-				{schoolList.map((school, index) => (
-					<option key={index} value={school}>
-						{school}
+				<option value="All">Select Courses</option>
+				{["Senior High School", "College Courses"].map((courses, index) => (
+					<option key={index} value={courses}>
+						{courses}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+export const FilterYearSelect = ({ value, onChange, selectedCourses }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Year
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">Select Year</option>
+				{(selectedCourses == "Senior High School"
+					? ["Grade 11", "Grade 12"]
+					: ["1st Year", "2nd Year", "3rd Year", "4th Year"]
+				).map((year, index) => (
+					<option key={index} value={year}>
+						{year}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+export const FilterTracksSelect = ({ value, onChange, trackList }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Track List
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">Select Track</option>
+				{trackList.map((track, index) => (
+					<option key={index} value={track}>
+						{track}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+export const FilterStrandSelect = ({ value, onChange, strandList }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Strand List
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">Select Strand</option>
+				{strandList.map((strand, index) => (
+					<option key={index} value={strand}>
+						{strand}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+export const FilterInstituteSelect = ({ value, onChange, instituteList }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Institute List
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">Select Institute</option>
+				{instituteList.map((institute, index) => (
+					<option key={index} value={institute}>
+						{institute}
 					</option>
 				))}
 			</select>
@@ -365,46 +460,19 @@ export const FilterProgramSelect = ({ value, onChange, programList }) => {
 	);
 };
 
-export const FilterYearSelect = ({ value, onChange, yearList }) => {
-	return (
-		<div className="space-y-2">
-			<label className="block font-medium text-foreground text-[12px]">
-				Year
-			</label>
-			<select
-				value={value}
-				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Year</option>
-				{yearList.map((year, index) => (
-					<option key={index} value={year}>
-						{year}
-					</option>
-				))}
-			</select>
-		</div>
-	);
-};
-
-export const FilterSectionSelect = ({ value, onChange, sectionList }) => {
+export const FilterSectionInput = ({ value, onChange }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
 				Section
 			</label>
-			<select
+			<Input
+				placeholder="Enter Section..."
 				value={value}
 				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Section</option>
-				{sectionList.map((section, index) => (
-					<option key={index} value={section}>
-						{section}
-					</option>
-				))}
-			</select>
+				className="h-9 bg-card text-foreground border-border"
+				style={{ fontSize: "12px" }}
+			/>
 		</div>
 	);
 };
@@ -865,10 +933,13 @@ export const getActiveFiltersUS = (
 			{ key: "b_role", label: "Role", defaultValue: "" },
 			{ key: "b_userType", label: "User Type", defaultValue: "All" },
 			{ key: "b_status", label: "Status", defaultValue: "Active" },
-			{ key: "b_school", label: "School", defaultValue: "All" },
-			{ key: "b_program", label: "Program", defaultValue: "All" },
+			{ key: "b_courses", label: "Courses", defaultValue: "All" },
 			{ key: "b_year", label: "Year", defaultValue: "All" },
-			{ key: "b_section", label: "Section", defaultValue: "All" },
+			{ key: "b_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "b_strand", label: "Strand", defaultValue: "All" },
+			{ key: "b_institute", label: "Institute", defaultValue: "All" },
+			{ key: "b_program", label: "Program", defaultValue: "All" },
+			{ key: "b_section", label: "Section", defaultValue: "" },
 			{ key: "b_dateRangeStart", label: "Start Date", defaultValue: "" },
 			{ key: "b_dateRangeEnd", label: "End Date", defaultValue: "" },
 		],
@@ -876,10 +947,14 @@ export const getActiveFiltersUS = (
 		C: [
 			{ key: "c_role", label: "Role", defaultValue: "" },
 			{ key: "c_userType", label: "User Type", defaultValue: "All" },
-			{ key: "c_school", label: "School", defaultValue: "All" },
-			{ key: "c_program", label: "Program", defaultValue: "All" },
+			{ key: "c_status", label: "Status", defaultValue: "Active" },
+			{ key: "c_courses", label: "Courses", defaultValue: "All" },
 			{ key: "c_year", label: "Year", defaultValue: "All" },
-			{ key: "c_section", label: "Section", defaultValue: "All" },
+			{ key: "c_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "c_strand", label: "Strand", defaultValue: "All" },
+			{ key: "c_institute", label: "Institute", defaultValue: "All" },
+			{ key: "c_program", label: "Program", defaultValue: "All" },
+			{ key: "c_section", label: "Section", defaultValue: "" },
 			{
 				key: "c_libraryList",
 				label: "Library",
@@ -921,10 +996,14 @@ export const getActiveFiltersUS = (
 		D: [
 			{ key: "d_role", label: "Role", defaultValue: "" },
 			{ key: "d_userType", label: "User Type", defaultValue: "All" },
-			{ key: "d_school", label: "School", defaultValue: "All" },
-			{ key: "d_program", label: "Program", defaultValue: "All" },
+			{ key: "d_status", label: "Status", defaultValue: "Active" },
+			{ key: "d_courses", label: "Courses", defaultValue: "All" },
 			{ key: "d_year", label: "Year", defaultValue: "All" },
-			{ key: "d_section", label: "Section", defaultValue: "All" },
+			{ key: "d_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "d_strand", label: "Strand", defaultValue: "All" },
+			{ key: "d_institute", label: "Institute", defaultValue: "All" },
+			{ key: "d_program", label: "Program", defaultValue: "All" },
+			{ key: "d_section", label: "Section", defaultValue: "" },
 			{
 				key: "d_libraryList",
 				label: "Library",
@@ -963,10 +1042,10 @@ export const renderFiltersUS = (
 	materialList,
 	discussionRoomList,
 	computerList,
-	sectionData,
-	yearData,
-	programData,
-	schoolData
+	tracksData,
+	strandData,
+	instituteData,
+	programData
 ) => {
 	const section = sections.find((s) => s.id === activeSection);
 
@@ -1029,20 +1108,11 @@ export const renderFiltersUS = (
 
 					{filters.b_role === "Patron" && (
 						<>
-							<FilterSchoolSelect
-								value={filters.b_school}
+							<FilterCoursesSelect
+								value={filters.b_courses}
 								onChange={(e) =>
-									setFilters({ ...filters, b_school: e.target.value })
+									setFilters({ ...filters, b_courses: e.target.value })
 								}
-								schoolList={schoolData}
-							/>
-
-							<FilterProgramSelect
-								value={filters.b_program}
-								onChange={(e) =>
-									setFilters({ ...filters, b_program: e.target.value })
-								}
-								programList={programData}
 							/>
 
 							<FilterYearSelect
@@ -1050,15 +1120,53 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, b_year: e.target.value })
 								}
-								yearList={yearData}
+								selectedCourses={filters.b_courses}
 							/>
 
-							<FilterSectionSelect
+							{filters.b_courses != "All" &&
+								(filters.b_courses === "Senior High School" ? (
+									<>
+										<FilterTracksSelect
+											value={filters.b_tracks}
+											onChange={(e) =>
+												setFilters({ ...filters, b_tracks: e.target.value })
+											}
+											trackList={tracksData}
+										/>
+
+										<FilterStrandSelect
+											value={filters.b_strand}
+											onChange={(e) =>
+												setFilters({ ...filters, b_strand: e.target.value })
+											}
+											strandList={strandData}
+										/>
+									</>
+								) : (
+									<>
+										<FilterInstituteSelect
+											value={filters.b_institute}
+											onChange={(e) =>
+												setFilters({ ...filters, b_institute: e.target.value })
+											}
+											instituteList={instituteData}
+										/>
+
+										<FilterProgramSelect
+											value={filters.b_program}
+											onChange={(e) =>
+												setFilters({ ...filters, b_program: e.target.value })
+											}
+											programList={programData}
+										/>
+									</>
+								))}
+
+							<FilterSectionInput
 								value={filters.b_section}
 								onChange={(e) =>
 									setFilters({ ...filters, b_section: e.target.value })
 								}
-								sectionList={sectionData}
 							/>
 						</>
 					)}
@@ -1094,22 +1202,21 @@ export const renderFiltersUS = (
 						}
 						role={filters.c_role}
 					/>
+
+					<StatusSelect
+						label="User Status"
+						value={filters.c_status}
+						onChange={(e) =>
+							setFilters({ ...filters, c_status: e.target.value })
+						}
+					/>
 					{filters.c_role === "Patron" && (
 						<>
-							<FilterSchoolSelect
-								value={filters.c_school}
+							<FilterCoursesSelect
+								value={filters.c_courses}
 								onChange={(e) =>
-									setFilters({ ...filters, c_school: e.target.value })
+									setFilters({ ...filters, c_courses: e.target.value })
 								}
-								schoolList={schoolData}
-							/>
-
-							<FilterProgramSelect
-								value={filters.c_program}
-								onChange={(e) =>
-									setFilters({ ...filters, c_program: e.target.value })
-								}
-								programList={programData}
 							/>
 
 							<FilterYearSelect
@@ -1117,15 +1224,53 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, c_year: e.target.value })
 								}
-								yearList={yearData}
+								selectedCourses={filters.c_courses}
 							/>
 
-							<FilterSectionSelect
+							{filters.c_courses != "All" &&
+								(filters.c_courses === "Senior High School" ? (
+									<>
+										<FilterTracksSelect
+											value={filters.c_tracks}
+											onChange={(e) =>
+												setFilters({ ...filters, c_tracks: e.target.value })
+											}
+											trackList={tracksData}
+										/>
+
+										<FilterStrandSelect
+											value={filters.c_strand}
+											onChange={(e) =>
+												setFilters({ ...filters, c_strand: e.target.value })
+											}
+											strandList={strandData}
+										/>
+									</>
+								) : (
+									<>
+										<FilterInstituteSelect
+											value={filters.c_institute}
+											onChange={(e) =>
+												setFilters({ ...filters, c_institute: e.target.value })
+											}
+											instituteList={instituteData}
+										/>
+
+										<FilterProgramSelect
+											value={filters.c_program}
+											onChange={(e) =>
+												setFilters({ ...filters, c_program: e.target.value })
+											}
+											programList={programData}
+										/>
+									</>
+								))}
+
+							<FilterSectionInput
 								value={filters.c_section}
 								onChange={(e) =>
 									setFilters({ ...filters, c_section: e.target.value })
 								}
-								sectionList={sectionData}
 							/>
 						</>
 					)}
@@ -1230,22 +1375,21 @@ export const renderFiltersUS = (
 						}
 						role={filters.d_role}
 					/>
+
+					<StatusSelect
+						label="User Status"
+						value={filters.d_status}
+						onChange={(e) =>
+							setFilters({ ...filters, d_status: e.target.value })
+						}
+					/>
 					{filters.d_role === "Patron" && (
 						<>
-							<FilterSchoolSelect
-								value={filters.d_school}
+							<FilterCoursesSelect
+								value={filters.d_courses}
 								onChange={(e) =>
-									setFilters({ ...filters, d_school: e.target.value })
+									setFilters({ ...filters, d_courses: e.target.value })
 								}
-								schoolList={schoolData}
-							/>
-
-							<FilterProgramSelect
-								value={filters.d_program}
-								onChange={(e) =>
-									setFilters({ ...filters, d_program: e.target.value })
-								}
-								programList={programData}
 							/>
 
 							<FilterYearSelect
@@ -1253,15 +1397,52 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, d_year: e.target.value })
 								}
-								yearList={yearData}
+								selectedCourses={filters.d_courses}
 							/>
+							{filters.c_courses != "All" &&
+								(filters.d_courses === "Senior High School" ? (
+									<>
+										<FilterTracksSelect
+											value={filters.d_tracks}
+											onChange={(e) =>
+												setFilters({ ...filters, d_tracks: e.target.value })
+											}
+											trackList={tracksData}
+										/>
 
-							<FilterSectionSelect
+										<FilterStrandSelect
+											value={filters.d_strand}
+											onChange={(e) =>
+												setFilters({ ...filters, d_strand: e.target.value })
+											}
+											strandList={strandData}
+										/>
+									</>
+								) : (
+									<>
+										<FilterInstituteSelect
+											value={filters.d_institute}
+											onChange={(e) =>
+												setFilters({ ...filters, d_institute: e.target.value })
+											}
+											instituteList={instituteData}
+										/>
+
+										<FilterProgramSelect
+											value={filters.d_program}
+											onChange={(e) =>
+												setFilters({ ...filters, d_program: e.target.value })
+											}
+											programList={programData}
+										/>
+									</>
+								))}
+
+							<FilterSectionInput
 								value={filters.d_section}
 								onChange={(e) =>
 									setFilters({ ...filters, d_section: e.target.value })
 								}
-								sectionList={sectionData}
 							/>
 						</>
 					)}
@@ -1332,10 +1513,13 @@ export const getActiveFiltersEE = (
 			{ key: "b_role", label: "Role", defaultValue: "" },
 			{ key: "b_userType", label: "User Type", defaultValue: "All" },
 
-			{ key: "b_school", label: "School", defaultValue: "All" },
-			{ key: "b_program", label: "Program", defaultValue: "All" },
+			{ key: "b_courses", label: "Courses", defaultValue: "All" },
 			{ key: "b_year", label: "Year", defaultValue: "All" },
-			{ key: "b_section", label: "Section", defaultValue: "All" },
+			{ key: "b_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "b_strand", label: "Strand", defaultValue: "All" },
+			{ key: "b_institute", label: "Institute", defaultValue: "All" },
+			{ key: "b_program", label: "Program", defaultValue: "All" },
+			{ key: "b_section", label: "Section", defaultValue: "" },
 			{
 				key: "b_libraryList",
 				label: "Library",
@@ -1367,10 +1551,10 @@ export const renderFiltersEE = (
 	sections,
 	activeSection,
 	libraryList,
-	sectionData,
-	yearData,
-	programData,
-	schoolData
+	tracksData,
+	strandData,
+	instituteData,
+	programData
 ) => {
 	const section = sections.find((s) => s.id === activeSection);
 	if (!section) return null;
@@ -1441,20 +1625,11 @@ export const renderFiltersEE = (
 								role={filters.b_role}
 							/>
 
-							<FilterSchoolSelect
-								value={filters.b_school}
+							<FilterCoursesSelect
+								value={filters.b_courses}
 								onChange={(e) =>
-									setFilters({ ...filters, b_school: e.target.value })
+									setFilters({ ...filters, b_courses: e.target.value })
 								}
-								schoolList={schoolData}
-							/>
-
-							<FilterProgramSelect
-								value={filters.b_program}
-								onChange={(e) =>
-									setFilters({ ...filters, b_program: e.target.value })
-								}
-								programList={programData}
 							/>
 
 							<FilterYearSelect
@@ -1462,18 +1637,57 @@ export const renderFiltersEE = (
 								onChange={(e) =>
 									setFilters({ ...filters, b_year: e.target.value })
 								}
-								yearList={yearData}
+								selectedCourses={filters.b_courses}
 							/>
 
-							<FilterSectionSelect
+							{filters.b_courses != "All" &&
+								(filters.b_courses === "Senior High School" ? (
+									<>
+										<FilterTracksSelect
+											value={filters.b_tracks}
+											onChange={(e) =>
+												setFilters({ ...filters, b_tracks: e.target.value })
+											}
+											trackList={tracksData}
+										/>
+
+										<FilterStrandSelect
+											value={filters.b_strand}
+											onChange={(e) =>
+												setFilters({ ...filters, b_strand: e.target.value })
+											}
+											strandList={strandData}
+										/>
+									</>
+								) : (
+									<>
+										<FilterInstituteSelect
+											value={filters.b_institute}
+											onChange={(e) =>
+												setFilters({ ...filters, b_institute: e.target.value })
+											}
+											instituteList={instituteData}
+										/>
+
+										<FilterProgramSelect
+											value={filters.b_program}
+											onChange={(e) =>
+												setFilters({ ...filters, b_program: e.target.value })
+											}
+											programList={programData}
+										/>
+									</>
+								))}
+
+							<FilterSectionInput
 								value={filters.b_section}
 								onChange={(e) =>
 									setFilters({ ...filters, b_section: e.target.value })
 								}
-								sectionList={sectionData}
 							/>
 						</>
 					)}
+
 					<FilterLibrarySelect
 						value={filters.b_dateRangeEnd_libraryList}
 						onChange={(e) =>

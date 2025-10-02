@@ -64,7 +64,7 @@ export async function getPatronList(
 					us_section: raw.us_section || "NA",
 					us_year: raw.us_year || "NA",
 					us_program: raw.us_program || "NA",
-					us_school: raw.us_school || "NA",
+					us_institute: raw.us_institute || "NA",
 					us_photoURL: raw.us_photoURL || "NA",
 				};
 			})

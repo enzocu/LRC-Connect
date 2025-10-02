@@ -15,10 +15,14 @@ export async function getUserReport(
 	setMockData,
 	searchQuery,
 	d_role,
+	d_status,
 	d_userType,
-	d_school,
-	d_program,
+	d_courses,
 	d_year,
+	d_tracks,
+	d_strand,
+	d_institute,
+	d_program,
 	d_section,
 	d_libraryList,
 	d_dateRangeStart,
@@ -31,7 +35,7 @@ export async function getUserReport(
 
 	try {
 		const usRef = collection(db, "users");
-		const conditions = [];
+		const conditions = [where("us_status", "==", d_status)];
 
 		if (d_role === "Patron") {
 			conditions.push(
@@ -50,19 +54,31 @@ export async function getUserReport(
 				conditions.push(where("us_level", "in", ["USR-6", "USR-5"]));
 			}
 
-			if (d_school !== "All") {
-				conditions.push(where("us_school", "==", d_school));
-			}
-
-			if (d_program !== "All") {
-				conditions.push(where("us_program", "==", d_program));
+			if (d_courses !== "All") {
+				conditions.push(where("us_courses", "==", d_courses));
 			}
 
 			if (d_year !== "All") {
 				conditions.push(where("us_year", "==", d_year));
 			}
 
-			if (d_section !== "All") {
+			if (d_tracks !== "All") {
+				conditions.push(where("us_tracks", "==", d_tracks));
+			}
+
+			if (d_strand !== "All") {
+				conditions.push(where("us_strand", "==", d_strand));
+			}
+
+			if (d_institute !== "All") {
+				conditions.push(where("us_institute", "==", d_institute));
+			}
+
+			if (d_program !== "All") {
+				conditions.push(where("us_program", "==", d_program));
+			}
+
+			if (d_section !== "") {
 				conditions.push(where("us_section", "==", d_section));
 			}
 		} else {

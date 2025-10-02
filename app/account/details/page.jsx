@@ -22,6 +22,7 @@ import {
 	fetchCitiesOrMunicipalities,
 	fetchBarangays,
 } from "@/controller/custom/address";
+import { handleCourseSelection } from "@/controller/custom/handleCourseSelection";
 import { getUser } from "../../../controller/firebase/get/getUser";
 import {
 	updateUser,
@@ -48,6 +49,11 @@ export default function AccountDetails() {
 	const [academicData, setAcademicData] = useState({});
 	const [addressData, setAddressData] = useState({});
 	const [associatedLibraries, setAssociatedLibraries] = useState([]);
+
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
+	const [programData, setProgramData] = useState([]);
 	const [provinces, setProvinces] = useState([]);
 	const [municipals, setMunicipals] = useState([]);
 	const [barangays, setBarangays] = useState([]);
@@ -112,6 +118,22 @@ export default function AccountDetails() {
 			return () => unsubscribe && unsubscribe();
 		}
 	}, [id, pathname]);
+
+	useEffect(() => {
+		handleCourseSelection(
+			academicData.us_courses,
+			academicData.us_tracks,
+			academicData.us_institute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
+			setProgramData
+		);
+	}, [
+		academicData.us_courses,
+		academicData.us_tracks,
+		academicData.us_institute,
+	]);
 
 	useEffect(() => {
 		fetchProvinces(setProvinces);
@@ -513,74 +535,179 @@ export default function AccountDetails() {
 												Academic
 											</h2>
 											<p className="text-muted-foreground text-[12px] mb-4">
-												Includes section, year level, and program information.
+												Includes section, year level, and institute information.
 											</p>
 
 											<div className="space-y-4">
+												{/* Courses & Year */}
 												<div className="grid grid-cols-2 gap-4">
 													<div>
 														<label className="block text-foreground font-medium mb-2 text-[12px]">
-															Section
+															Courses
 														</label>
-														<Input
-															name="us_section"
-															value={academicData?.us_section || ""}
+														<select
+															name="us_courses"
+															value={academicData?.us_courses || ""}
 															onChange={(e) => handleChange(e, setAcademicData)}
-															placeholder="ITE 222"
-															className="bg-card border-border text-foreground h-9"
-															style={{ fontSize: "12px" }}
+															className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 															required
 															disabled={editMode == ""}
-														/>
+														>
+															{["Senior High School", "College Courses"].map(
+																(courses) => (
+																	<option key={courses} value={courses}>
+																		{courses}
+																	</option>
+																)
+															)}
+														</select>
 													</div>
 													<div>
 														<label className="block text-foreground font-medium mb-2 text-[12px]">
 															Year
 														</label>
-														<Input
+														<select
 															name="us_year"
 															value={academicData?.us_year || ""}
 															onChange={(e) => handleChange(e, setAcademicData)}
-															placeholder="1st year"
-															className="bg-card border-border text-foreground h-9"
-															style={{ fontSize: "12px" }}
+															className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 															required
 															disabled={editMode == ""}
-														/>
-													</div>
-
-													<div>
-														<label className="block text-foreground font-medium mb-2 text-[12px]">
-															Program
-														</label>
-														<Input
-															name="us_program"
-															value={academicData?.us_program || ""}
-															onChange={(e) => handleChange(e, setAcademicData)}
-															placeholder="BSIT"
-															className="bg-card border-border text-foreground h-9"
-															style={{ fontSize: "12px" }}
-															required
-															disabled={editMode == ""}
-														/>
-													</div>
-													<div>
-														<label className="block text-foreground font-medium mb-2 text-[12px]">
-															School
-														</label>
-														<Input
-															name="us_school"
-															value={academicData?.us_school || ""}
-															onChange={(e) => handleChange(e, setAcademicData)}
-															placeholder="SET"
-															className="bg-card border-border text-foreground h-9"
-															style={{ fontSize: "12px" }}
-															required
-															disabled={editMode == ""}
-														/>
+														>
+															{(academicData?.us_courses ===
+															"Senior High School"
+																? ["Grade 11", "Grade 12"]
+																: [
+																		"1st Year",
+																		"2nd Year",
+																		"3rd Year",
+																		"4th Year",
+																  ]
+															).map((ye, index) => (
+																<option key={index} value={ye}>
+																	{ye}
+																</option>
+															))}
+														</select>
 													</div>
 												</div>
+
+												{/* Show only if Senior High School */}
+												{academicData?.us_courses === "Senior High School" && (
+													<div className="grid grid-cols-2 gap-4">
+														<div>
+															<label className="block text-foreground font-medium mb-2 text-[12px]">
+																Tracks
+															</label>
+															<select
+																name="us_tracks"
+																value={academicData?.us_tracks || ""}
+																onChange={(e) =>
+																	handleChange(e, setAcademicData)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																required
+																disabled={editMode == ""}
+															>
+																{tracksData.map((track, index) => (
+																	<option key={index} value={track}>
+																		{track}
+																	</option>
+																))}
+															</select>
+														</div>
+
+														<div>
+															<label className="block text-foreground font-medium mb-2 text-[12px]">
+																Strand
+															</label>
+															<select
+																name="us_strand"
+																value={academicData?.us_strand || ""}
+																onChange={(e) =>
+																	handleChange(e, setAcademicData)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																required
+																disabled={editMode == ""}
+															>
+																{strandData.map((strand, index) => (
+																	<option key={index} value={strand}>
+																		{strand}
+																	</option>
+																))}
+															</select>
+														</div>
+													</div>
+												)}
+
+												{/* Show only if College Courses */}
+												{academicData?.us_courses === "College Courses" && (
+													<div className="grid grid-cols-2 gap-4">
+														<div>
+															<label className="block text-foreground font-medium mb-2 text-[12px]">
+																Institute
+															</label>
+															<select
+																name="us_institute"
+																value={academicData?.us_institute || ""}
+																onChange={(e) =>
+																	handleChange(e, setAcademicData)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																required
+																disabled={editMode == ""}
+															>
+																{instituteData.map((ins, index) => (
+																	<option key={index} value={ins}>
+																		{ins}
+																	</option>
+																))}
+															</select>
+														</div>
+
+														<div>
+															<label className="block text-foreground font-medium mb-2 text-[12px]">
+																Program
+															</label>
+															<select
+																name="us_program"
+																value={academicData?.us_program || ""}
+																onChange={(e) =>
+																	handleChange(e, setAcademicData)
+																}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																required
+																disabled={editMode == ""}
+															>
+																{programData.map((pro, index) => (
+																	<option key={index} value={pro}>
+																		{pro}
+																	</option>
+																))}
+															</select>
+														</div>
+													</div>
+												)}
+
+												{/* Section (always visible) */}
+												<div>
+													<label className="block text-foreground font-medium mb-2 text-[12px]">
+														Section
+													</label>
+													<Input
+														name="us_section"
+														value={academicData?.us_section || ""}
+														onChange={(e) => handleChange(e, setAcademicData)}
+														placeholder="Enter section"
+														className="bg-card border-border text-foreground h-9"
+														style={{ fontSize: "12px" }}
+														required
+														disabled={editMode == ""}
+													/>
+												</div>
 											</div>
+
 											{superadmin && (
 												<div className="flex gap-3 justify-end mt-8">
 													{editMode != "academic" && (

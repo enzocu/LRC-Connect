@@ -78,10 +78,13 @@ export async function updateAcademic(
 		const userRef = doc(db, "users", userID);
 
 		await updateDoc(userRef, {
-			us_section: academicData.us_section,
-			us_year: academicData.us_year,
-			us_program: academicData.us_program,
-			us_school: academicData.us_school,
+			us_courses: academicData.us_courses || null,
+			us_year: academicData.us_year || null,
+			us_tracks: academicData.us_tracks || null,
+			us_strand: academicData.us_strand,
+			us_institute: academicData.us_institute || null,
+			us_program: academicData.us_program || null,
+			us_section: academicData.us_section || null,
 			us_updatedAt: serverTimestamp(),
 		});
 

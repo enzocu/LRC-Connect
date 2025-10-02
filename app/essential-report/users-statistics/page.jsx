@@ -71,21 +71,28 @@ const defaultFilterValues = {
 	a_orderBy: "Descending",
 
 	b_role: "Patron",
-	b_userType: "All",
 	b_status: "Active",
-	b_school: "All",
-	b_program: "All",
+	b_userType: "All",
+	b_courses: "All",
 	b_year: "All",
-	b_section: "All",
+	b_tracks: "All",
+	b_strand: "All",
+	b_institute: "All",
+	b_program: "All",
+	b_section: "",
 	b_dateRangeStart: "",
 	b_dateRangeEnd: "",
 
 	c_role: "Patron",
+	c_status: "Active",
 	c_userType: "All",
-	c_school: "All",
-	c_program: "All",
+	c_courses: "All",
 	c_year: "All",
-	c_section: "All",
+	c_tracks: "All",
+	c_strand: "All",
+	c_institute: "All",
+	c_program: "All",
+	c_section: "",
 	c_libraryList: "All",
 	c_resourceType: "All",
 	c_materialFormat: "All",
@@ -97,11 +104,15 @@ const defaultFilterValues = {
 	c_orderBy: "Descending",
 
 	d_role: "Patron",
+	d_status: "Active",
 	d_userType: "All",
-	d_school: "All",
-	d_program: "All",
+	d_courses: "All",
 	d_year: "All",
-	d_section: "All",
+	d_tracks: "All",
+	d_strand: "All",
+	d_institute: "All",
+	d_program: "All",
+	d_section: "",
 	d_libraryList: "All",
 	d_dateRangeStart: "",
 	d_dateRangeEnd: "",
@@ -135,14 +146,14 @@ export default function UserStatsEssential() {
 	const [discussionRoomList, setDiscussionRoomList] = useState([]);
 	const [computerList, setComputerList] = useState([]);
 
-	const [sectionData, setSectionData] = useState([]);
-	const [yearData, setYearData] = useState([]);
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
 	const [programData, setProgramData] = useState([]);
-	const [schoolData, setSchoolData] = useState([]);
 
 	//PAGINATION
 	const [pageCursors, setPageCursors] = useState([]);
-	const pageLimit = 3;
+	const pageLimit = 5;
 	const [currentPage, setCurrentPage] = useState(1);
 	const [ctrPages, setCtrPage] = useState(1);
 
@@ -172,10 +183,13 @@ export default function UserStatsEssential() {
 					filters.b_role,
 					filters.b_status,
 					filters.b_userType,
-					filters.b_section,
+					filters.b_courses,
 					filters.b_year,
+					filters.b_tracks,
+					filters.b_strand,
+					filters.b_institute,
 					filters.b_program,
-					filters.b_school,
+					filters.b_section,
 					filters.b_dateRangeStart,
 					filters.b_dateRangeEnd,
 					setLoading,
@@ -193,21 +207,21 @@ export default function UserStatsEssential() {
 					setMockData,
 					searchQuery,
 					filters.c_role,
+					filters.c_status,
 					filters.c_userType,
-
-					filters.c_school,
-					filters.c_program,
+					filters.c_courses,
 					filters.c_year,
+					filters.c_tracks,
+					filters.c_strand,
+					filters.c_institute,
+					filters.c_program,
 					filters.c_section,
-
 					filters.c_libraryList,
 					filters.c_resourceType,
 					filters.c_materialFormat,
-
 					filters.c_materialList,
 					filters.c_drList,
 					filters.c_computerList,
-
 					filters.c_dateRangeStart,
 					filters.c_dateRangeEnd,
 					filters.c_orderBy,
@@ -225,10 +239,14 @@ export default function UserStatsEssential() {
 					setMockData,
 					searchQuery,
 					filters.d_role,
+					filters.d_status,
 					filters.d_userType,
-					filters.d_school,
-					filters.d_program,
+					filters.d_courses,
 					filters.d_year,
+					filters.d_tracks,
+					filters.d_strand,
+					filters.d_institute,
+					filters.d_program,
 					filters.d_section,
 					filters.d_libraryList,
 					filters.d_dateRangeStart,
@@ -254,20 +272,28 @@ export default function UserStatsEssential() {
 		filters.a_orderBy,
 
 		filters.b_role,
-		filters.b_userType,
 		filters.b_status,
-		filters.b_school,
-		filters.b_program,
+		filters.b_userType,
+		filters.b_userType,
+		filters.b_courses,
 		filters.b_year,
+		filters.b_tracks,
+		filters.b_strand,
+		filters.b_institute,
+		filters.b_program,
 		filters.b_section,
 		filters.b_dateRangeStart,
 		filters.b_dateRangeEnd,
 
 		filters.c_role,
+		filters.c_status,
 		filters.c_userType,
-		filters.c_school,
-		filters.c_program,
+		filters.c_courses,
 		filters.c_year,
+		filters.c_tracks,
+		filters.c_strand,
+		filters.c_institute,
+		filters.c_program,
 		filters.c_section,
 		filters.c_libraryList,
 		filters.c_resourceType,
@@ -280,10 +306,14 @@ export default function UserStatsEssential() {
 		filters.c_orderBy,
 
 		filters.d_role,
+		filters.d_status,
 		filters.d_userType,
-		filters.d_school,
-		filters.d_program,
+		filters.d_courses,
 		filters.d_year,
+		filters.d_tracks,
+		filters.d_strand,
+		filters.d_institute,
+		filters.d_program,
 		filters.d_section,
 		filters.d_libraryList,
 		filters.d_dateRangeStart,
@@ -321,19 +351,35 @@ export default function UserStatsEssential() {
 	}, [userDetails]);
 
 	useEffect(() => {
-		if (!userDetails) return;
+		if (!userDetails || !activeSection) return;
+
+		const prefix = activeSection.toLowerCase();
 
 		getUserAttributeFilters(
-			userDetails?.us_liID,
 			null,
 			null,
-			setSectionData,
-			setYearData,
+			filters[`${prefix}_courses`],
+			filters[`${prefix}_tracks`],
+			filters[`${prefix}_institute`],
+			setTracksData,
+			setStrandData,
+			setInstituteData,
 			setProgramData,
-			setSchoolData,
 			Alert
 		);
-	}, [userDetails]);
+	}, [
+		userDetails,
+		activeSection,
+		filters.b_courses,
+		filters.b_tracks,
+		filters.b_institute,
+		filters.c_courses,
+		filters.c_tracks,
+		filters.c_institute,
+		filters.d_courses,
+		filters.d_tracks,
+		filters.d_institute,
+	]);
 
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);
@@ -385,11 +431,22 @@ export default function UserStatsEssential() {
 							<th className={commonHeaderStyle}>Full Name</th>
 							<th className={commonHeaderStyle}>User Type</th>
 							<th className={commonHeaderStyle}>Email Address</th>
-							<th className={commonHeaderStyle}>Section</th>
+
+							<th className={commonHeaderStyle}>Courses</th>
 							<th className={commonHeaderStyle}>Year</th>
-							<th className={commonHeaderStyle}>Program</th>
-							<th className={commonHeaderStyle}>School</th>
-							<th className={commonHeaderStyle}>CreatedAT</th>
+							{filters.b_courses === "Senior High School" ? (
+								<>
+									<th className={commonHeaderStyle}>Tracks</th>
+									<th className={commonHeaderStyle}>Strand</th>
+								</>
+							) : (
+								<>
+									<th className={commonHeaderStyle}>Institute</th>
+									<th className={commonHeaderStyle}>Program</th>
+								</>
+							)}
+							<th className={commonHeaderStyle}>Section</th>
+							<th className={commonHeaderStyle}>Date Added</th>
 						</tr>
 					);
 
@@ -486,10 +543,22 @@ export default function UserStatsEssential() {
 									</Badge>
 								</td>
 								<td className={`${commonCellStyle}`}>{item.us_email}</td>
-								<td className={`${commonCellStyle}`}>{item.us_section}</td>
-								<td className={`${commonCellStyle}`}>{item.us_year}</td>
-								<td className={`${commonCellStyle}`}>{item.us_program}</td>
-								<td className={`${commonCellStyle}`}>{item.us_school}</td>
+								<td className={commonCellStyle}>{item.us_courses}</td>
+								<td className={commonCellStyle}>{item.us_year}</td>
+
+								{filters.b_courses === "Senior High School" ? (
+									<>
+										<td className={commonCellStyle}>{item.us_tracks}</td>
+										<td className={commonCellStyle}>{item.us_strand}</td>
+									</>
+								) : (
+									<>
+										<td className={commonCellStyle}>{item.us_institute}</td>
+										<td className={commonCellStyle}>{item.us_program}</td>
+									</>
+								)}
+
+								<td className={commonCellStyle}>{item.us_section}</td>
 								<td className={`${commonCellStyle}`}>{item.us_createdAt}</td>
 							</tr>
 						);
@@ -675,10 +744,10 @@ export default function UserStatsEssential() {
 												materialList,
 												discussionRoomList,
 												computerList,
-												sectionData,
-												yearData,
-												programData,
-												schoolData
+												tracksData,
+												strandData,
+												instituteData,
+												programData
 											)}
 										</div>
 

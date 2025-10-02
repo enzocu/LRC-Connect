@@ -235,7 +235,7 @@ export function ManualSearchModal({
 										"Section",
 										"Year",
 										"Program",
-										"School",
+										"Institute",
 									].map((header) => (
 										<th
 											key={header}

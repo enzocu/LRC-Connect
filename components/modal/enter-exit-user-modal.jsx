@@ -7,13 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FiCamera } from "react-icons/fi";
 import { ScannerModal } from "@/components/modal/scanner-modal";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { EnterExit } from "@/controller/firebase/update/updateEnterExit";
 
 import { LoadingSpinner } from "@/components/loading";
 
-export function EnterExitUserModal({ isOpen, onClose, li_id, us_id }) {
-	const Alert = useAlertActions();
+export function EntryExitUserModal({ isOpen, onClose, li_id, us_id, Alert }) {
 	const [userId, setUserId] = useState("");
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
 	const [btnLoading, setBtnLoading] = useState(false);

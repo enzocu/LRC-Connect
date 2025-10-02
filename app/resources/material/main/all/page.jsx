@@ -222,9 +222,6 @@ export default function MaterialsPage() {
 										>
 											Import Material from Excel
 										</DropdownMenuItem>
-										<DropdownMenuItem className="cursor-pointer text-[12px]">
-											Export Material Template (Excel)
-										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
 							)}

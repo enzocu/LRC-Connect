@@ -43,10 +43,13 @@ export function ExcelImportModal({ isOpen, onClose, li_id, modifiedBy }) {
 		"Barangay",
 		"Municipal",
 		"Province",
-		"Section",
+		"Courses",
 		"Year",
+		"Tracks",
+		"Strand",
+		"Institute",
 		"Program",
-		"School",
+		"Section",
 	];
 
 	const handleImport = async () => {
@@ -111,9 +114,6 @@ export function ExcelImportModal({ isOpen, onClose, li_id, modifiedBy }) {
 	};
 
 	const allHeaders = userData.length ? Object.keys(userData[0]) : [];
-
-	const capitalizeFirstLetter = (str) =>
-		str.toLowerCase().replace(/^\w/, (c) => c.toUpperCase());
 
 	if (!isOpen) return null;
 

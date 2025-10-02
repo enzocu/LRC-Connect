@@ -85,10 +85,14 @@ export const processExcelFile = async (
 					us_barangay: row[colIndexMap["Barangay"]] ?? null,
 					us_municipal: row[colIndexMap["Municipal"]] ?? ".",
 					us_province: row[colIndexMap["Province"]] ?? null,
-					us_section: row[colIndexMap["Section"]] ?? null,
+
+					us_courses: row[colIndexMap["Courses"]] ?? null,
 					us_year: row[colIndexMap["Year"]] ?? null,
+					us_tracks: row[colIndexMap["Tracks"]] ?? null,
+					us_strand: row[colIndexMap["Strand"]] ?? null,
+					us_institute: row[colIndexMap["Institute"]] ?? null,
 					us_program: row[colIndexMap["Program"]] ?? null,
-					us_school: row[colIndexMap["School"]] ?? null,
+					us_section: row[colIndexMap["Section"]] ?? null,
 				};
 
 				extractedUsers.push(userRow);

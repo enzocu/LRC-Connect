@@ -104,7 +104,7 @@ export function getInactiveUserList(
 							us_section: data.us_section || "",
 							us_year: data.us_year || "",
 							us_program: data.us_program || "",
-							us_school: data.us_school || "",
+							us_institute: data.us_institute || "",
 							us_photoURL: data.us_photoURL || "",
 						};
 					})

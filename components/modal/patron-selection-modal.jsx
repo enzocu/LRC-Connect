@@ -180,7 +180,7 @@ export function PatronSelectionModal({
 									"Section",
 									"Year",
 									"Program",
-									"School",
+									"Institute",
 								].map((header) => (
 									<th
 										key={header}

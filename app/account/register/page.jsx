@@ -17,16 +17,11 @@ import { LoadingSpinner } from "@/components/loading";
 
 import { insertUser } from "@/controller/firebase/insert/insertUser";
 import {
-	getProgramRealtime,
-	getSchoolRealtime,
-} from "../../../controller/firebase/get/getAcademic";
-import {
 	fetchProvinces,
 	fetchCitiesOrMunicipalities,
 	fetchBarangays,
 } from "@/controller/custom/address";
-
-import { ProgramSchoolModal } from "@/components/modal/academic-modal";
+import { handleCourseSelection } from "@/controller/custom/handleCourseSelection";
 
 const defaultValue = {
 	us_type: "",
@@ -44,9 +39,14 @@ const defaultValue = {
 	us_barangay: "",
 	us_municipal: "",
 	us_province: "",
+
+	us_courses: "",
 	us_year: "",
+	us_tracks: "",
+	us_strand: "",
+	us_institute: "",
 	us_program: "",
-	us_school: "",
+	us_section: "",
 	us_photoURL: "",
 };
 
@@ -61,15 +61,13 @@ export default function RegisterAccount() {
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [formData, setFormData] = useState(defaultValue);
 
-	const [acadType, setAcadType] = useState("Program");
-	const [program, setProgram] = useState([]);
-	const [school, setSchool] = useState([]);
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
+	const [programData, setProgramData] = useState([]);
 	const [provinces, setProvinces] = useState([]);
 	const [municipals, setMunicipals] = useState([]);
 	const [barangays, setBarangays] = useState([]);
-
-	//MODAL
-	const [showAcademicModal, setShowAcademicModal] = useState(false);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -84,20 +82,19 @@ export default function RegisterAccount() {
 
 	useEffect(() => {
 		fetchProvinces(setProvinces);
-
-		let unsubscribeProgram;
-		let unsubscribeSchool;
-
-		if (id && type === "patron") {
-			unsubscribeProgram = getProgramRealtime(id, setProgram, Alert);
-			unsubscribeSchool = getSchoolRealtime(id, setSchool, Alert);
-		}
-
-		return () => {
-			if (unsubscribeProgram) unsubscribeProgram();
-			if (unsubscribeSchool) unsubscribeSchool();
-		};
 	}, [id]);
+
+	useEffect(() => {
+		handleCourseSelection(
+			formData.us_courses,
+			formData.us_tracks,
+			formData.us_institute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
+			setProgramData
+		);
+	}, [formData.us_courses, formData.us_tracks, formData.us_institute]);
 
 	useEffect(() => {
 		if (formData?.us_province) {
@@ -369,17 +366,24 @@ export default function RegisterAccount() {
 													<div className="grid grid-cols-2 gap-4">
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Section
+																Courses
 															</label>
-															<Input
-																name="us_section"
-																value={formData?.us_section || ""}
+															<select
+																name="us_courses"
+																value={formData?.us_courses}
 																onChange={(e) => handleChange(e, setFormData)}
-																placeholder="Enter section"
-																className="bg-card border-border text-foreground h-9"
-																style={{ fontSize: "12px" }}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																required
-															/>
+															>
+																<option value="">Select Courses</option>
+																{["Senior High School", "College Courses"].map(
+																	(courses) => (
+																		<option key={courses} value={courses}>
+																			{courses}
+																		</option>
+																	)
+																)}
+															</select>
 														</div>
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
@@ -393,77 +397,124 @@ export default function RegisterAccount() {
 																required
 															>
 																<option value="">Select Year</option>
-																{["1st", "2nd", "3rd", "4th"].map(
-																	(ye, index) => (
-																		<option key={index} value={ye}>
-																			{ye}
-																		</option>
-																	)
-																)}
+																{(formData?.us_courses === "Senior High School"
+																	? ["Grade 11", "Grade 12"]
+																	: [
+																			"1st Year",
+																			"2nd Year",
+																			"3rd Year",
+																			"4th Year",
+																	  ]
+																).map((ye, index) => (
+																	<option key={index} value={ye}>
+																		{ye}
+																	</option>
+																))}
 															</select>
 														</div>
 													</div>
 
-													<div className="grid grid-cols-2 gap-4">
-														<div>
-															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Program
-																<button
-																	type="button"
-																	onClick={() => {
-																		setAcadType("program");
-																		setShowAcademicModal(true);
-																	}}
-																	className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
+													{formData?.us_courses === "Senior High School" && (
+														<div className="grid grid-cols-2 gap-4">
+															<div>
+																<label className="block text-foreground font-medium mb-2 text-[12px]">
+																	Tracks
+																</label>
+																<select
+																	name="us_tracks"
+																	value={formData?.us_tracks}
+																	onChange={(e) => handleChange(e, setFormData)}
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	required
 																>
-																	Register Program
-																</button>
-															</label>
-															<select
-																name="us_program"
-																value={formData?.us_program}
-																onChange={(e) => handleChange(e, setFormData)}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																required
-															>
-																<option value="">Select Program</option>
-																{program.map((pr) => (
-																	<option key={pr.id} value={pr.id}>
-																		{pr.pr_name}
-																	</option>
-																))}
-															</select>
-														</div>
+																	<option value="">Select Track</option>
+																	{tracksData.map((track, index) => (
+																		<option key={index} value={track}>
+																			{track}
+																		</option>
+																	))}
+																</select>
+															</div>
 
-														<div>
-															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																School
-																<button
-																	type="button"
-																	onClick={() => {
-																		setAcadType("school");
-																		setShowAcademicModal(true);
-																	}}
-																	className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
+															<div>
+																<label className="block text-foreground font-medium mb-2 text-[12px]">
+																	Strand
+																</label>
+																<select
+																	name="us_strand"
+																	value={formData?.us_strand}
+																	onChange={(e) => handleChange(e, setFormData)}
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	required
 																>
-																	Register School
-																</button>
-															</label>
-															<select
-																name="us_school"
-																value={formData?.us_school}
-																onChange={(e) => handleChange(e, setFormData)}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																required
-															>
-																<option value="">Select School</option>
-																{school.map((sc) => (
-																	<option key={sc.id} value={sc.id}>
-																		{sc.sc_name}
-																	</option>
-																))}
-															</select>
+																	<option value="">Select Strand</option>
+																	{strandData.map((strand, index) => (
+																		<option key={index} value={strand}>
+																			{strand}
+																		</option>
+																	))}
+																</select>
+															</div>
 														</div>
+													)}
+
+													{formData?.us_courses === "College Courses" && (
+														<div className="grid grid-cols-2 gap-4">
+															<div>
+																<label className="block text-foreground font-medium mb-2 text-[12px]">
+																	Institute
+																</label>
+																<select
+																	name="us_institute"
+																	value={formData?.us_institute}
+																	onChange={(e) => handleChange(e, setFormData)}
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	required
+																>
+																	<option value="">Select Institute</option>
+																	{instituteData.map((ins, index) => (
+																		<option key={index} value={ins}>
+																			{ins}
+																		</option>
+																	))}
+																</select>
+															</div>
+
+															<div>
+																<label className="block text-foreground font-medium mb-2 text-[12px]">
+																	Program
+																</label>
+																<select
+																	name="us_program"
+																	value={formData?.us_program}
+																	onChange={(e) => handleChange(e, setFormData)}
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	required
+																>
+																	<option value="">Select Program</option>
+																	{programData.map((pro, index) => (
+																		<option key={index} value={pro}>
+																			{pro}
+																		</option>
+																	))}
+																</select>
+															</div>
+														</div>
+													)}
+
+													<div>
+														<label className="block text-foreground font-medium mb-2 text-[12px]">
+															Section
+														</label>
+														<Input
+															name="us_section"
+															value={formData?.us_section || ""}
+															onChange={(e) => handleChange(e, setFormData)}
+															placeholder="Enter section"
+															className="bg-card border-border text-foreground h-9"
+															style={{ fontSize: "12px" }}
+															required
+														/>
 													</div>
 												</div>
 											</div>
@@ -611,13 +662,6 @@ export default function RegisterAccount() {
 						</div>
 					</form>
 				</main>
-				<ProgramSchoolModal
-					isOpen={showAcademicModal}
-					onClose={() => setShowAcademicModal(false)}
-					li_id={id}
-					records={acadType == "program" ? program : school}
-					type={acadType}
-				/>
 			</div>
 		</ProtectedRoute>
 	);

@@ -64,10 +64,13 @@ const defaultFilterValues = {
 	b_status: "All",
 	b_role: "Patron",
 	b_userType: "All",
-	b_school: "All",
-	b_program: "All",
+	b_courses: "All",
 	b_year: "All",
-	b_section: "All",
+	b_tracks: "All",
+	b_strand: "All",
+	b_institute: "All",
+	b_program: "All",
+	b_section: "",
 	b_libraryList: "All",
 	b_dateRangeStart: "",
 	b_dateRangeEnd: "",
@@ -96,10 +99,10 @@ export default function EntryExitReports() {
 	const [filters, setFilters] = useState(defaultFilterValues);
 
 	const [libraryList, setLibraryList] = useState([]);
-	const [sectionData, setSectionData] = useState([]);
-	const [yearData, setYearData] = useState([]);
+	const [tracksData, setTracksData] = useState([]);
+	const [strandData, setStrandData] = useState([]);
+	const [instituteData, setInstituteData] = useState([]);
 	const [programData, setProgramData] = useState([]);
-	const [schoolData, setSchoolData] = useState([]);
 
 	//PAGINATION
 	const [pageCursors, setPageCursors] = useState([]);
@@ -135,9 +138,12 @@ export default function EntryExitReports() {
 					filters.b_status,
 					filters.b_role,
 					filters.b_userType,
-					filters.b_school,
-					filters.b_program,
+					filters.b_courses,
 					filters.b_year,
+					filters.b_tracks,
+					filters.b_strand,
+					filters.b_institute,
+					filters.b_program,
 					filters.b_section,
 					filters.b_libraryList,
 					filters.b_dateRangeStart,
@@ -167,9 +173,12 @@ export default function EntryExitReports() {
 		filters.b_status,
 		filters.b_role,
 		filters.b_userType,
-		filters.b_school,
-		filters.b_program,
+		filters.b_courses,
 		filters.b_year,
+		filters.b_tracks,
+		filters.b_strand,
+		filters.b_institute,
+		filters.b_program,
 		filters.b_section,
 		filters.b_libraryList,
 		filters.b_dateRangeStart,
@@ -199,16 +208,18 @@ export default function EntryExitReports() {
 		if (!userDetails) return;
 
 		getUserAttributeFilters(
-			userDetails?.us_liID,
 			null,
 			null,
-			setSectionData,
-			setYearData,
+			filters.b_courses,
+			filters.b_tracks,
+			filters.b_institute,
+			setTracksData,
+			setStrandData,
+			setInstituteData,
 			setProgramData,
-			setSchoolData,
 			Alert
 		);
-	}, [userDetails]);
+	}, [userDetails, filters.b_courses, filters.b_tracks, filters.b_institute]);
 
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);
@@ -451,10 +462,10 @@ export default function EntryExitReports() {
 												sections,
 												activeSection,
 												libraryList,
-												sectionData,
-												yearData,
-												programData,
-												schoolData
+												tracksData,
+												strandData,
+												instituteData,
+												programData
 											)}
 										</div>
 

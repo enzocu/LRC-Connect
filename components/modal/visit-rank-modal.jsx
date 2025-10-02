@@ -9,20 +9,19 @@ import { Button } from "@/components/ui/button";
 import EmptyState from "@/components/tags/empty";
 
 import { FiMonitor, FiMapPin } from "react-icons/fi";
-
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
-
-import PaginationControls from "@/components/tags/pagination";
 import { getRankList } from "@/controller/firebase/get/getRankVisit";
 
-export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
+export function VisitRankModal({
+	isOpen,
+	onClose,
+	showMode,
+	libraryData,
+	userDetails,
+	Alert,
+}) {
 	const pathname = usePathname();
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const { setLoading, setPath, loading } = useLoading();
-
 	const [userData, setUserData] = useState([]);
 	const [selectedLibrary, setSelectedLibrary] = useState(
 		userDetails?.us_liID ? userDetails?.us_liID.id : "All"
@@ -30,11 +29,6 @@ export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
 	const [selectedRole, setSelectedRole] = useState("All");
 	const [showLoggedIn, setShowLoggedIn] = useState(showMode);
 	const [isBelowSm, setIsBelowSm] = useState(false);
-
-	//PAGINATION
-	const pageLimit = 5;
-	const [currentPage, setCurrentPage] = useState(1);
-	const [ctrPages, setCtrPage] = useState(1);
 
 	useEffect(() => {
 		setPath(pathname);
@@ -48,19 +42,9 @@ export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
 			selectedLibrary,
 
 			setLoading,
-			Alert,
-			pageLimit,
-			setCtrPage,
-			currentPage
+			Alert
 		);
-	}, [
-		userDetails,
-		isOpen,
-		currentPage,
-		selectedLibrary,
-		selectedRole,
-		showLoggedIn,
-	]);
+	}, [userDetails, isOpen, selectedLibrary, selectedRole, showLoggedIn]);
 
 	useEffect(() => {
 		setShowLoggedIn(showMode);
@@ -228,12 +212,6 @@ export function VisitRankModal({ isOpen, onClose, showMode, libraryData }) {
 						</div>
 					</div>
 				)}
-
-				<PaginationControls
-					ctrPages={ctrPages}
-					currentPage={currentPage}
-					setCurrentPage={setCurrentPage}
-				/>
 			</div>
 		</Modal>
 	);
