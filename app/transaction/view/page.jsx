@@ -30,7 +30,7 @@ import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
 
 import AssistantPage from "@/components/tags/assistant";
-import { getSingleTransaction } from "../../../controller/firebase/get/getTransactionDetails";
+import { getTransactionDetails } from "../../../controller/firebase/get/getTransactionDetails";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 pdfjs.GlobalWorkerOptions.workerSrc = "/pdfjs/pdf.worker.min.js";
@@ -268,7 +268,7 @@ const ListenPage = () => {
 	useEffect(() => {
 		if (!id) return;
 		setPath(pathname);
-		getSingleTransaction(id, setTransactionData, setLoading, Alert);
+		getTransactionDetails(id, setTransactionData, setLoading, Alert);
 	}, [id]);
 
 	useEffect(() => {
