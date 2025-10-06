@@ -125,7 +125,7 @@ export function PatronSelectionModal({
 							htmlFor="guest-checkbox"
 							className="text-foreground text-[12px]"
 						>
-							Allumni
+							Alumni
 						</label>
 					</div>
 				</div>
