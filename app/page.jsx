@@ -12,13 +12,14 @@ export default function HomePage() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	const handleDownload = () => {
-		// const link = document.createElement("a");
-		// link.href = "/files/my-app.apk";
-		// link.download = "MyLibraryApp.apk";
-		// document.body.appendChild(link);
-		// link.click();
-		// document.body.removeChild(link);
-		alert("wait pre");
+		// Open the app download hosted on Google Drive in a new tab
+		if (typeof window !== "undefined") {
+			window.open(
+				"https://drive.google.com/file/d/1qBdwk49ESFCO6wM05cksMW8NV7hsS8Rd/view?usp=sharing",
+				"_blank",
+				"noopener,noreferrer"
+			);
+		}
 	};
 
 	return (
