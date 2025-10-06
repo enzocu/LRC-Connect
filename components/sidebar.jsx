@@ -33,8 +33,9 @@ import { useUserAuth } from "@/contexts/UserContextAuth";
 import LogoutConfirmationModal from "@/components/modal/logout-confirmation-modal";
 import { PiStudent } from "react-icons/pi";
 import { MdOutlinePerson3 } from "react-icons/md";
+import { useEffect } from "react";
 
-export function Sidebar() {
+export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 	const router = useRouter();
 	const { userDetails } = useUserAuth();
 	const { toggleDarkMode, isDarkMode } = useColor();
@@ -44,11 +45,52 @@ export function Sidebar() {
 	);
 
 	const superadmin = userDetails?.us_level === "USR-1";
+	const [internalOpen, setInternalOpen] = useState(false);
+	const isControlled = typeof propIsOpen !== "undefined" && propSetIsOpen;
+	const isOpen = isControlled ? propIsOpen : internalOpen;
+	const setIsOpen = isControlled ? propSetIsOpen : setInternalOpen;
+
+	useEffect(() => {
+		const handler = () => setIsOpen((v) => !v);
+		if (typeof window !== "undefined")
+			window.addEventListener("sidebar-toggle", handler);
+		return () => {
+			if (typeof window !== "undefined")
+				window.removeEventListener("sidebar-toggle", handler);
+		};
+	}, [setIsOpen]);
+
+	useEffect(() => {
+		const closeHandler = () => setIsOpen(false);
+		if (typeof window !== "undefined")
+			window.addEventListener("sidebar-close", closeHandler);
+		return () => {
+			if (typeof window !== "undefined")
+				window.removeEventListener("sidebar-close", closeHandler);
+		};
+	}, [setIsOpen]);
 
 	return (
 		<>
-			<div className="overflow-y-auto w-64 md:w-64 sm:w-[200px] sm:block hidden no-print flex h-screen flex-col bg-card border-r border-border transition-colors duration-300">
-				<div className="flex-1 px-3 py-4  md:mt-[75px] sm:mt-[95px]">
+			<div
+				className={cn(
+					"fixed inset-0 bg-black/40 z-40 md:hidden transition-opacity duration-300",
+					isOpen
+						? "opacity-100 pointer-events-auto"
+						: "opacity-0 pointer-events-none"
+				)}
+				onClick={() => setIsOpen(false)}
+			/>
+
+			<div
+				className={cn(
+					"fixed top-0 left-0 h-screen z-50 bg-card border-r border-border transition-all duration-300 overflow-y-auto flex flex-col",
+					"md:relative md:top-0 md:left-0 md:block md:w-64 w-64",
+					isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+				)}
+				style={{ width: "16rem" }}
+			>
+				<div className="flex-1 px-3 py-4 mt-[75px] md:mt-[75px] ">
 					{users && !["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 						<button
 							onClick={() => router.push("/users")}
@@ -299,6 +341,11 @@ const SidebarItem = ({
 			)}
 			style={{
 				backgroundColor: isActive ? "var(--color-primary)" : undefined,
+			}}
+			onClick={() => {
+				if (typeof window !== "undefined") {
+					window.dispatchEvent(new CustomEvent("sidebar-close"));
+				}
 			}}
 		>
 			<Icon className={`w-${iconWidth} h-${iconHeight} flex-shrink-0`} />

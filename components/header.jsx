@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FiBell } from "react-icons/fi";
+import { FiBell, FiMenu } from "react-icons/fi";
 import { ScanLine } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import { useUserAuth } from "@/contexts/UserContextAuth";
 import { getScanner } from "@/controller/firebase/get/getScanner";
 import { getScannerCode } from "@/controller/firebase/get/getScannerCode";
 
-export function Header() {
+export function Header({ setIsOpen: externalSetIsOpen }) {
 	const { userDetails } = useUserAuth();
 	const router = useRouter();
 	const Alert = useAlertActions();
@@ -47,19 +47,39 @@ export function Header() {
 	return (
 		<div className="no-print fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-6 px-6 py-4 bg-card border-b border-border transition-all duration-300 opacity-100">
 			<div className="flex items-center gap-2">
-				<div className="w-15 h-9 rounded-lg overflow-hidden flex items-center justify-center ">
-					<img
-						src="/logo.png"
-						alt="BETCH"
-						className="w-full h-full object-cover"
-					/>
-				</div>
-				<span
-					className="font-semibold text-foreground"
-					style={{ fontSize: "14px" }}
+				{/* Mobile menu toggle - only show on small screens */}
+				<Button
+					aria-label="Toggle sidebar"
+					onClick={() => {
+						if (externalSetIsOpen) {
+							externalSetIsOpen((v) => !v);
+						} else if (typeof window !== "undefined") {
+							window.dispatchEvent(new CustomEvent("sidebar-toggle"));
+						}
+					}}
+					variant="ghost"
+					size="sm"
+					className="md:hidden h-9 w-9 p-0 flex items-center justify-center"
 				>
-					Dalubhasaang Politekniko ng Lungsod ng Baliwag
-				</span>
+					<FiMenu className="w-5 h-5 text-foreground" />
+				</Button>
+
+				{/* Logo - hidden on small screens, moved to Sidebar for mobile */}
+				<div className="hidden md:flex items-center gap-2">
+					<div className="w-15 h-9 rounded-lg overflow-hidden flex items-center justify-center ">
+						<img
+							src="/logo.png"
+							alt="BETCH"
+							className="w-full h-full object-cover"
+						/>
+					</div>
+					<span
+						className="font-semibold text-foreground"
+						style={{ fontSize: "14px" }}
+					>
+						Dalubhasaang Politekniko ng Lungsod ng Baliwag
+					</span>
+				</div>
 			</div>
 
 			<div className="flex items-center gap-3">
