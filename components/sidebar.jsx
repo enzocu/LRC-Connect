@@ -24,6 +24,7 @@ import {
 	FiMessageSquare,
 	FiDroplet,
 	FiInfo,
+	Fi,
 } from "react-icons/fi";
 import { SiGoogleclassroom } from "react-icons/si";
 
@@ -134,6 +135,11 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 										label="Personnel"
 									/>
 								</SidebarCollapse>
+								<SidebarItem
+									href="/superadmin/courses"
+									icon={FiBook}
+									label="Courses"
+								/>
 								<SidebarItem
 									href="/audit"
 									icon={FiSettings}
