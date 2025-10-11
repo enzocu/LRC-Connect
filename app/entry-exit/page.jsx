@@ -7,10 +7,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
 import { Badge } from "@/components/ui/badge";
 import EmptyState from "@/components/tags/empty";
-
 import {
 	FiArrowLeft,
 	FiSearch,
@@ -45,6 +43,8 @@ import {
 } from "../../controller/firebase/get/getEntryExitList";
 
 import { secureText } from "../../controller/custom/customFunction.js";
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
 
 export default function EntryExitPage() {
 	const router = useRouter();
@@ -76,12 +76,12 @@ export default function EntryExitPage() {
 	const [selectedProgram, setSelectedProgram] = useState("All");
 	const [selectedSection, setSelectedSection] = useState("");
 
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
+
 	const [liqr, setLibraryQR] = useState("");
 	const [library, setLibraryData] = useState([]);
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
 
 	//SCANNER
 	const [isScannerOpen, setIsScannerOpen] = useState(false);
@@ -162,17 +162,29 @@ export default function EntryExitPage() {
 				userDetails?.us_liID,
 				setLibraryQR,
 				setLibraryData,
-				selectedCourses,
-				selectedTracks,
-				selectedInstitute,
-				setTracksData,
-				setStrandData,
-				setInstituteData,
-				setProgramData,
 				Alert
 			);
 		}
-	}, [userDetails, selectedCourses, selectedTracks, selectedInstitute]);
+	}, [userDetails]);
+
+	//FETCH COURSES
+	useEffect(() => {
+		if (!selectedCourses) return;
+		getFilterCourses(selectedCourses, setFilterCoursesData, Alert);
+	}, [selectedCourses]);
+
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
 
 	return (
 		<ProtectedRoute
@@ -588,85 +600,80 @@ export default function EntryExitPage() {
 													</select>
 												</div>
 
-												{selectedCourses === "Senior High School" ? (
+												{selectedCourses !== "All" && (
 													<>
+														{/* TRACKS / INSTITUTE */}
 														<div className="space-y-2">
-															<label className="block font-medium text-foreground  text-[12px]">
-																Tracks
+															<label className="block font-medium text-foreground text-[12px]">
+																{selectedCourses === "Senior High School"
+																	? "Tracks"
+																	: "Institute"}
 															</label>
 															<select
-																value={selectedTracks}
-																onChange={(e) =>
-																	setSelectedTracks(e.target.value)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+																value={selectedCourseID || ""}
+																onChange={(e) => {
+																	const selectedID = e.target.value;
+
+																	const selectedCourse = filterCoursesData.find(
+																		(course) => course.id === selectedID
+																	);
+
+																	if (
+																		selectedCourse &&
+																		selectedCourses === "Senior High School"
+																	) {
+																		setSelectedTracks(selectedCourse.cs_title);
+																	} else {
+																		setSelectedInstitute(
+																			selectedCourse.cs_title
+																		);
+																	}
+
+																	setSelectedCourseID(selectedID);
+																}}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 															>
-																<option value="All">All</option>
-																{tracksData.map((tracks, index) => (
-																	<option key={index} value={tracks}>
-																		{tracks}
+																<option value="">
+																	{selectedCourses === "Senior High School"
+																		? "Select Track"
+																		: "Select Institute"}
+																</option>
+																{filterCoursesData.map((course) => (
+																	<option key={course.id} value={course.id}>
+																		{course.cs_title}
 																	</option>
 																))}
 															</select>
 														</div>
 
+														{/* STRAND / PROGRAM */}
 														<div className="space-y-2">
-															<label className="block font-medium text-foreground  text-[12px]">
-																Strand
+															<label className="block font-medium text-foreground text-[12px]">
+																{selectedCourses === "Senior High School"
+																	? "Strand"
+																	: "Program"}
 															</label>
 															<select
 																value={selectedProgram}
-																onChange={(e) =>
-																	setSelectedProgram(e.target.value)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
+																onChange={(e) => {
+																	if (
+																		selectedCourses === "Senior High School"
+																	) {
+																		setSelectedStrand(e.target.value);
+																	} else {
+																		setSelectedProgram(e.target.value);
+																	}
+																}}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 															>
-																<option value="All">All</option>
-																{strandData.map((strand, index) => (
-																	<option key={index} value={strand}>
-																		{strand}
-																	</option>
-																))}
-															</select>
-														</div>
-													</>
-												) : (
-													<>
-														<div className="space-y-2">
-															<label className="block font-medium text-foreground  text-[12px]">
-																Institute
-															</label>
-															<select
-																value={selectedInstitute}
-																onChange={(e) =>
-																	setSelectedInstitute(e.target.value)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-															>
-																<option value="All">All</option>
-																{instituteData.map((institute, index) => (
-																	<option key={index} value={institute}>
-																		{institute}
-																	</option>
-																))}
-															</select>
-														</div>
-
-														<div className="space-y-2">
-															<label className="block font-medium text-foreground  text-[12px]">
-																Program
-															</label>
-															<select
-																value={selectedProgram}
-																onChange={(e) =>
-																	setSelectedProgram(e.target.value)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-															>
-																<option value="All">All</option>
-																{programData.map((program, index) => (
-																	<option key={index} value={program}>
-																		{program}
+																<option value="">
+																	{selectedCourses === "Senior High School"
+																		? "Select Strand"
+																		: "Select Program"}
+																</option>
+																{subCoursesData.map((sub, index) => (
+																	<option key={index} value={sub}>
+																		{sub}
 																	</option>
 																))}
 															</select>

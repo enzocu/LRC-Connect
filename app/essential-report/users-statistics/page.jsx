@@ -39,10 +39,7 @@ import { getUserSummary } from "../../../controller/firebase/get/essential-repor
 import { getUserReport } from "../../../controller/firebase/get/essential-report/user-stats/getUserReport";
 import { getTransactionFilter } from "../../../controller/firebase/get/getTransactionList";
 
-import {
-	getUserList,
-	getUserAttributeFilters,
-} from "@/controller/firebase/get/getUserList";
+import { getUserList } from "@/controller/firebase/get/getUserList";
 
 const sections = [
 	{ id: "A", title: "Total Number of Users", key: "totalUsersByType" },
@@ -349,37 +346,6 @@ export default function UserStatsEssential() {
 			}));
 		}
 	}, [userDetails]);
-
-	useEffect(() => {
-		if (!userDetails || !activeSection) return;
-
-		const prefix = activeSection.toLowerCase();
-
-		getUserAttributeFilters(
-			null,
-			null,
-			filters[`${prefix}_courses`],
-			filters[`${prefix}_tracks`],
-			filters[`${prefix}_institute`],
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData,
-			Alert
-		);
-	}, [
-		userDetails,
-		activeSection,
-		filters.b_courses,
-		filters.b_tracks,
-		filters.b_institute,
-		filters.c_courses,
-		filters.c_tracks,
-		filters.c_institute,
-		filters.d_courses,
-		filters.d_tracks,
-		filters.d_institute,
-	]);
 
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);

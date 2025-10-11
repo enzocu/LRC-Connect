@@ -33,12 +33,6 @@ import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
 
-import {
-	getUserList,
-	getUserAttributeFilters,
-	getUserLibraryOptions,
-} from "@/controller/firebase/get/getUserList";
-
 import { getStatusColor } from "@/controller/custom/getStatusColor";
 import BorrowingLimitsModal from "@/components/modal/borrowing-limits-modal";
 import { ManualSearchModal } from "@/components/modal/manual-search-modal";
@@ -47,6 +41,14 @@ import { ExcelImportModal } from "@/components/modal/excel-import-modal";
 import { UserTypeModal } from "@/components/modal/usertype-modal";
 import { ScannerModal } from "@/components/modal/scanner-modal";
 import PaginationControls from "@/components/tags/pagination";
+
+import {
+	getUserList,
+	getUserAttributeFilters,
+	getUserLibraryOptions,
+} from "@/controller/firebase/get/getUserList";
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
 
 export default function AccountList() {
 	const router = useRouter();
@@ -75,12 +77,12 @@ export default function AccountList() {
 	const [selectedProgram, setSelectedProgram] = useState("All");
 	const [selectedSection, setSelectedSection] = useState("");
 
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
+
 	const [libraries, setLibraries] = useState([]);
 	const [typeData, setTypeData] = useState([]);
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
 
 	// MODAL
 	const [showBorrowingLimitModal, setShowBorrowingLimitsModal] =
@@ -159,22 +161,29 @@ export default function AccountList() {
 		selectedLibrary,
 	]);
 
+	//FETCH COURSES
 	useEffect(() => {
-		if (!userDetails || !type) return;
+		if (!selectedCourses) return;
+		getFilterCourses(selectedCourses, setFilterCoursesData, Alert);
+	}, [selectedCourses]);
 
-		getUserAttributeFilters(
-			type,
-			setTypeData,
-			selectedCourses,
-			selectedTracks,
-			selectedInstitute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData,
-			Alert
-		);
-	}, [userDetails, type, selectedCourses, selectedTracks, selectedInstitute]);
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
+
+	useEffect(() => {
+		if (!userDetails) return;
+		getUserAttributeFilters(type, setTypeData, Alert);
+	}, [userDetails]);
 
 	useEffect(() => {
 		if (!userDetails || userDetails?.us_level != "USR-1" || !type) return;
@@ -448,10 +457,10 @@ export default function AccountList() {
 													index % 2 === 0 ? "bg-background" : "bg-muted/10"
 												}`}
 											>
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[120px]">
+												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
 													{user?.us_schoolID}
 												</td>
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[70px]">
+												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
 													<Badge
 														className={`${getStatusColor(
 															user?.us_status
@@ -460,7 +469,7 @@ export default function AccountList() {
 														{user?.us_status}
 													</Badge>
 												</td>
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[100px]">
+												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[150px]">
 													{user?.us_type}
 												</td>
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
@@ -477,27 +486,20 @@ export default function AccountList() {
 													{user?.us_year || "NA"}
 												</td>
 
-												{selectedCourses === "Senior High School" ? (
-													<>
-														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-															{user?.us_tracks || "NA"}
-														</td>
-														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-															{user?.us_strand || "NA"}
-														</td>
-													</>
-												) : (
-													<>
-														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-															{user?.us_institute || "NA"}
-														</td>
-														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-															{user?.us_program || "NA"}
-														</td>
-													</>
-												)}
+												<>
+													<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
+														{selectedCourses === "Senior High School"
+															? user?.us_tracks || "NA"
+															: user?.us_institute || "NA"}
+													</td>
+													<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
+														{selectedCourses === "Senior High School"
+															? user?.us_strand || "NA"
+															: user?.us_program || "NA"}
+													</td>
+												</>
 
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
 													{user?.us_section || "NA"}
 												</td>
 
@@ -682,86 +684,83 @@ export default function AccountList() {
 										</select>
 									</div>
 
-									{selectedCourses != "All" &&
-										(selectedCourses === "Senior High School" ? (
-											<>
-												<div className="space-y-2">
-													<label className="block font-medium text-foreground  text-[12px]">
-														Tracks
-													</label>
-													<select
-														value={selectedTracks}
-														onChange={(e) => setSelectedTracks(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-													>
-														<option value="All">All</option>
-														{tracksData.map((tracks, index) => (
-															<option key={index} value={tracks}>
-																{tracks}
-															</option>
-														))}
-													</select>
-												</div>
+									{selectedCourses !== "All" && (
+										<>
+											{/* TRACKS / INSTITUTE */}
+											<div className="space-y-2">
+												<label className="block font-medium text-foreground text-[12px]">
+													{selectedCourses === "Senior High School"
+														? "Tracks"
+														: "Institute"}
+												</label>
+												<select
+													value={selectedCourseID || ""}
+													onChange={(e) => {
+														const selectedID = e.target.value;
 
-												<div className="space-y-2">
-													<label className="block font-medium text-foreground  text-[12px]">
-														Strand
-													</label>
-													<select
-														value={selectedProgram}
-														onChange={(e) => setSelectedProgram(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-													>
-														<option value="All">All</option>
-														{strandData.map((strand, index) => (
-															<option key={index} value={strand}>
-																{strand}
-															</option>
-														))}
-													</select>
-												</div>
-											</>
-										) : (
-											<>
-												<div className="space-y-2">
-													<label className="block font-medium text-foreground  text-[12px]">
-														Institute
-													</label>
-													<select
-														value={selectedInstitute}
-														onChange={(e) =>
-															setSelectedInstitute(e.target.value)
+														const selectedCourse = filterCoursesData.find(
+															(course) => course.id === selectedID
+														);
+
+														if (
+															selectedCourse &&
+															selectedCourses === "Senior High School"
+														) {
+															setSelectedTracks(selectedCourse.cs_title);
+														} else {
+															setSelectedInstitute(selectedCourse.cs_title);
 														}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-													>
-														<option value="All">All</option>
-														{instituteData.map((institute, index) => (
-															<option key={index} value={institute}>
-																{institute}
-															</option>
-														))}
-													</select>
-												</div>
 
-												<div className="space-y-2">
-													<label className="block font-medium text-foreground  text-[12px]">
-														Program
-													</label>
-													<select
-														value={selectedProgram}
-														onChange={(e) => setSelectedProgram(e.target.value)}
-														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
-													>
-														<option value="All">All</option>
-														{programData.map((program, index) => (
-															<option key={index} value={program}>
-																{program}
-															</option>
-														))}
-													</select>
-												</div>
-											</>
-										))}
+														setSelectedCourseID(selectedID);
+													}}
+													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+												>
+													<option value="">
+														{selectedCourses === "Senior High School"
+															? "Select Track"
+															: "Select Institute"}
+													</option>
+													{filterCoursesData.map((course) => (
+														<option key={course.id} value={course.id}>
+															{course.cs_title}
+														</option>
+													))}
+												</select>
+											</div>
+
+											{/* STRAND / PROGRAM */}
+											<div className="space-y-2">
+												<label className="block font-medium text-foreground text-[12px]">
+													{selectedCourses === "Senior High School"
+														? "Strand"
+														: "Program"}
+												</label>
+												<select
+													value={selectedProgram}
+													onChange={(e) => {
+														if (selectedCourses === "Senior High School") {
+															setSelectedStrand(e.target.value);
+														} else {
+															setSelectedProgram(e.target.value);
+														}
+													}}
+													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+												>
+													<option value="">
+														{selectedCourses === "Senior High School"
+															? "Select Strand"
+															: "Select Program"}
+													</option>
+													{subCoursesData.map((sub, index) => (
+														<option key={index} value={sub}>
+															{sub}
+														</option>
+													))}
+												</select>
+											</div>
+										</>
+									)}
+
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground  text-[12px]">
 											Section

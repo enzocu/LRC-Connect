@@ -283,13 +283,6 @@ export async function getUserFilterData(
 	li_id,
 	setLibraryQR = null,
 	setLibraryData,
-	selectedCourses,
-	selectedTrack,
-	selectedInstitute,
-	setTracksData,
-	setStrandData,
-	setInstituteData,
-	setProgramData,
 	Alert
 ) {
 	try {
@@ -318,16 +311,6 @@ export async function getUserFilterData(
 		}
 
 		setLibraryData(libraries);
-
-		handleCourseSelection(
-			selectedCourses,
-			selectedTrack,
-			selectedInstitute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData
-		);
 
 		if (!isPersonnel) return;
 	} catch (error) {

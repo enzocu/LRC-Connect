@@ -38,7 +38,6 @@ import {
 	getUserBreakdown,
 	getUserBreakdownFilter,
 } from "../../../controller/firebase/get/essential-report/enterexit-stats/getUserBreakdown";
-import { getUserAttributeFilters } from "@/controller/firebase/get/getUserList";
 
 const sections = [
 	{
@@ -203,23 +202,6 @@ export default function EntryExitReports() {
 			}));
 		}
 	}, [userDetails]);
-
-	useEffect(() => {
-		if (!userDetails) return;
-
-		getUserAttributeFilters(
-			null,
-			null,
-			filters.b_courses,
-			filters.b_tracks,
-			filters.b_institute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData,
-			Alert
-		);
-	}, [userDetails, filters.b_courses, filters.b_tracks, filters.b_institute]);
 
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);

@@ -289,13 +289,6 @@ export async function getUserLibraryOptions(
 export async function getUserAttributeFilters(
 	userType,
 	setTypeData = null,
-	selectedCourses,
-	selectedTrack,
-	selectedInstitute,
-	setTracksData,
-	setStrandData,
-	setInstituteData,
-	setProgramData,
 	Alert
 ) {
 	try {
@@ -319,16 +312,6 @@ export async function getUserAttributeFilters(
 				},
 			]);
 		}
-
-		handleCourseSelection(
-			selectedCourses,
-			selectedTrack,
-			selectedInstitute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData
-		);
 	} catch (error) {
 		console.error("[getUserAttributeFilters] Error:", error);
 		Alert.showDanger("Failed to fetch user filters: " + error.message);
