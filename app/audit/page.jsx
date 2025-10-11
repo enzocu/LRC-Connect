@@ -105,7 +105,6 @@ export default function AuditPage() {
 	// FILTER
 	const [showFilters, setShowFilters] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
-
 	const [libraries, setLibraries] = useState([]);
 
 	const [selectedLibrary, setSelectedLibrary] = useState("All");

@@ -9,10 +9,8 @@ import {
 import { db } from "../../../server/firebaseConfig";
 import { formatDateTime } from "../../custom/customFunction";
 
-export async function getDashboardStats(setStatistics, setLoading, Alert) {
+export async function getDashboardStats(setStatistics, Alert) {
 	try {
-		setLoading(true);
-
 		// 🔹 Collection references
 		const usersRef = collection(db, "users");
 		const libraryRef = collection(db, "library");
@@ -76,12 +74,9 @@ export async function getDashboardStats(setStatistics, setLoading, Alert) {
 						? formatDateTime(lastDoc.au_createdAt.toDate())
 						: formatDateTime(new Date()),
 				});
-
-				setLoading(false);
 			},
 			(error) => {
 				console.error("Realtime audit error:", error);
-				setLoading(false);
 				Alert.showDanger(error.message);
 			}
 		);
@@ -89,7 +84,7 @@ export async function getDashboardStats(setStatistics, setLoading, Alert) {
 		return unsubscribe;
 	} catch (error) {
 		console.error("Error fetching dashboard stats:", error);
-		setLoading(false);
+
 		Alert.showDanger(error.message);
 	}
 }

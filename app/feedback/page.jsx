@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Header } from "@/components/header";
 import { Sidebar } from "@/components/sidebar";
 import { Card, CardContent } from "@/components/ui/card";
@@ -32,7 +32,6 @@ import { getFaqsList } from "../../controller/firebase/get/getFaqsList";
 import { updateFeedbackRead } from "../../controller/firebase/update/updateFeedback";
 
 export default function FeedbackAndFAQs() {
-	const router = useRouter();
 	const pathname = usePathname();
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();
@@ -83,6 +82,7 @@ export default function FeedbackAndFAQs() {
 				userDetails?.us_liID,
 				setFeedbackData,
 				searchQuery,
+				"All",
 				setLoading,
 				Alert,
 				pageLimit,

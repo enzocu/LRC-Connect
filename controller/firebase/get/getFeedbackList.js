@@ -1,4 +1,5 @@
 import {
+	doc,
 	collection,
 	query,
 	orderBy,
@@ -16,6 +17,7 @@ export function getFeedbackList(
 	li_id,
 	setData,
 	searchQuery,
+	selectedStatus,
 	setLoading,
 	Alert,
 	pageLimit,
@@ -32,10 +34,22 @@ export function getFeedbackList(
 		const { currentPage, pageCursors } = pagination[typeKey];
 
 		let conditions = [
-			where("fe_liID", "==", li_id),
+			where(
+				"fe_liID",
+				"==",
+				typeof li_id === "object" && li_id.id
+					? li_id
+					: doc(db, "library", li_id)
+			),
 			where("fe_status", "==", "Active"),
 			orderBy("fe_createdAt", "desc"),
 		];
+
+		if (selectedStatus !== "All") {
+			conditions.push(
+				where("fe_isRead", "==", selectedStatus === "unread" ? false : true)
+			);
+		}
 
 		const hasCursor = currentPage > 1 && pageCursors[currentPage - 2];
 		const finalQuery = isSearchEmpty
