@@ -2,54 +2,35 @@
 
 import { useUserAuth } from "../contexts/UserContextAuth";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { useAlertActions } from "../contexts/AlertContext";
 
 export default function ProtectedRoute({ allowedRoles = [], children }) {
 	const { user, userDetails, loading } = useUserAuth();
-	const router = useRouter();
-
-	useEffect(() => {
-		if (!loading) {
-			if (!user || !userDetails) {
-				router.push("/");
-
-				return;
-			}
-
-			if (
-				allowedRoles.length > 0 &&
-				!allowedRoles.includes(userDetails?.us_level)
-			) {
-				router.push("/");
-			}
-		}
-	}, [user, userDetails, loading, router, allowedRoles]);
-
-	return <>{children}</>;
-}
-
-export function useProtectedRoute(allowedRoles = []) {
-	const { user, userDetails, loading } = useUserAuth();
 	const Alert = useAlertActions();
 	const router = useRouter();
-	const [isAllowed, setIsAllowed] = useState(false);
+	const hasChecked = useRef(false);
+
 	useEffect(() => {
-		if (!loading) {
-			if (!user || !userDetails) {
-				Alert.showWarning("You must be logged in to access this page.");
-				router.push("/");
-				return;
-			}
-			if (
-				allowedRoles.length > 0 &&
-				!allowedRoles.includes(userDetails?.us_level)
-			) {
-				Alert.showDanger("You do not have permission to access this page.");
-				router.push("/");
-				return;
-			}
-			setIsAllowed(true);
+		if (loading || hasChecked.current) return;
+
+		hasChecked.current = true;
+
+		if (!user || !userDetails) {
+			Alert.showWarning("You must be logged in to access this page.");
+			router.push("/");
+			return;
 		}
-	}, [user, userDetails, loading, router, allowedRoles]);
-	return isAllowed;
+
+		if (
+			allowedRoles.length > 0 &&
+			!allowedRoles.includes(userDetails?.us_level)
+		) {
+			Alert.showDanger("You do not have permission to access this page.");
+			router.push("/");
+			return;
+		}
+	}, [user, userDetails, loading, router, allowedRoles, Alert]);
+
+	return <>{children}</>;
 }
