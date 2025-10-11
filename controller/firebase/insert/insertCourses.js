@@ -13,23 +13,21 @@ export const insertCourses = async (name, actionData, setBtnLoading, Alert) => {
 		setBtnLoading(true);
 
 		let insertPayload = {};
-		const fieldName = `cs_${actionData.type}`;
 
 		// If adding new track or institute
 		if (["track", "institute"].includes(actionData.type)) {
 			insertPayload["cs_status"] = "Active";
 			insertPayload["cs_type"] =
 				actionData.type === "track" ? "Senior High School" : "College Courses";
-			insertPayload[fieldName] = name;
-			insertPayload[actionData.type === "track" ? "cs_strand" : "cs_program"] =
-				[];
+			insertPayload["cs_title"] = name;
+			insertPayload["cs_sub"] = [];
 			insertPayload["cs_createdAt"] = serverTimestamp();
 
 			await addDoc(collection(db, "courses"), insertPayload);
 		} else if (["strand", "program"].includes(actionData.type)) {
 			const docRef = doc(db, "courses", actionData.id);
 			await updateDoc(docRef, {
-				[fieldName]: arrayUnion(name),
+				["cs_sub"]: arrayUnion(name),
 				cs_updatedAt: serverTimestamp(),
 			});
 		}

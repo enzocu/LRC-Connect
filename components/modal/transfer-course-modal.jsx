@@ -84,7 +84,7 @@ export function TransferCourseModal({
 										value={target.id}
 										style={{ fontSize: "11px" }}
 									>
-										{target.cs_track || target.cs_institute}
+										{target.cs_title}
 									</SelectItem>
 								))}
 						</SelectContent>

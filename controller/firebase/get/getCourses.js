@@ -7,7 +7,6 @@ import {
 	getDocs,
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
-import { fi } from "date-fns/locale";
 
 export function getCoursesRealtime(
 	type,
@@ -23,13 +22,8 @@ export function getCoursesRealtime(
 			collection(db, "courses"),
 			where("cs_status", "==", "Active"),
 			where("cs_type", "==", type),
+			orderBy("cs_title", "asc"),
 		];
-
-		if (type === "Senior High School") {
-			queryParts.push(orderBy("cs_track", "asc"));
-		} else {
-			queryParts.push(orderBy("cs_institute", "asc"));
-		}
 
 		const q = query(...queryParts);
 
@@ -43,8 +37,7 @@ export function getCoursesRealtime(
 
 				const filteredData = searchQuery
 					? data.filter((item) => {
-							const fieldToSearch =
-								`${item.cs_track} ${item.cs_institute}`.toLowerCase();
+							const fieldToSearch = `${item.cs_title}`.toLowerCase();
 							return fieldToSearch.includes(searchQuery.toLowerCase());
 					  })
 					: data;
@@ -87,32 +80,17 @@ export async function getFilterCourses(
 			collection(db, "courses"),
 			where("cs_status", "==", "Active"),
 			where("cs_type", "==", selectedType),
+			orderBy("cs_title", "asc"),
 		];
-
-		if (selectedType === "Senior High School") {
-			queryParts.push(orderBy("cs_track", "asc"));
-		} else {
-			queryParts.push(orderBy("cs_institute", "asc"));
-		}
 
 		const q = query(...queryParts);
 
-		// Fetch documents once
 		const querySnapshot = await getDocs(q);
 
 		const data = querySnapshot.docs.map((doc) => {
-			const course = doc.data();
 			return {
 				id: doc.id,
-				cs_type: course.cs_type,
-				cs_title:
-					course.cs_type === "Senior High School"
-						? course.cs_track
-						: course.cs_institute,
-				cs_subs:
-					course.cs_type === "Senior High School"
-						? course.cs_strand || []
-						: course.cs_program || [],
+				...doc.data(),
 			};
 		});
 
@@ -139,7 +117,7 @@ export function getFilterTrackInstituteCourses(
 			return;
 		}
 
-		setSubCoursesData(filteredData.cs_subs || []);
+		setSubCoursesData(filteredData.cs_sub || []);
 	} catch (error) {
 		console.error("Error in getFilterTrackInstituteCourses:", error);
 		Alert.showDanger(error.message);

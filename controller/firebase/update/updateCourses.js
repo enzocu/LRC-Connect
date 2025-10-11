@@ -13,10 +13,9 @@ export const updateCourses = async (
 
 		const docRef = doc(db, "courses", actionData.id);
 		let updatePayload = {};
-		const fieldName = `cs_${actionData.type}`;
 
 		if (["track", "institute"].includes(actionData.type)) {
-			updatePayload[fieldName] = name;
+			updatePayload["cs_title"] = name;
 			updatePayload["cs_updatedAt"] = serverTimestamp();
 		} else if (["strand", "program"].includes(actionData.type)) {
 			const newData = [...coursesData];
@@ -25,17 +24,17 @@ export const updateCourses = async (
 			if (
 				!newData[index] ||
 				!newData[index].sub[actionData.parentIndex] ||
-				!newData[index].sub[actionData.parentIndex][fieldName]
+				!newData[index].sub[actionData.parentIndex]["cs_sub"]
 			) {
 				throw new Error("Invalid data path for updating course.");
 			}
 
-			newData[index].sub[actionData.parentIndex][fieldName][
+			newData[index].sub[actionData.parentIndex]["cs_sub"][
 				actionData.itemIndex
 			] = name;
 
-			updatePayload[fieldName] =
-				newData[index].sub[actionData.parentIndex][fieldName];
+			updatePayload["cs_sub"] =
+				newData[index].sub[actionData.parentIndex]["cs_sub"];
 			updatePayload["cs_updatedAt"] = serverTimestamp();
 		}
 
@@ -65,7 +64,6 @@ export const deleteCourses = async (
 
 		const docRef = doc(db, "courses", actionData.id);
 		let updatePayload = {};
-		const fieldName = `cs_${actionData.type}`;
 
 		if (["track", "institute"].includes(actionData.type)) {
 			updatePayload["cs_status"] = "Inactive";
@@ -77,18 +75,18 @@ export const deleteCourses = async (
 			if (
 				!newData[index] ||
 				!newData[index].sub[actionData.parentIndex] ||
-				!newData[index].sub[actionData.parentIndex][fieldName]
+				!newData[index].sub[actionData.parentIndex]["cs_sub"]
 			) {
 				throw new Error("Invalid data path for deleting course.");
 			}
 
-			newData[index].sub[actionData.parentIndex][fieldName].splice(
+			newData[index].sub[actionData.parentIndex]["cs_sub"].splice(
 				actionData.itemIndex,
 				1
 			);
 
-			updatePayload[fieldName] =
-				newData[index].sub[actionData.parentIndex][fieldName];
+			updatePayload["cs_sub"] =
+				newData[index].sub[actionData.parentIndex]["cs_sub"];
 			updatePayload["cs_updatedAt"] = serverTimestamp();
 		}
 
@@ -123,22 +121,19 @@ export const transferCourses = async (
 		const senderPayload = {};
 		const destinationPayload = {};
 
-		const relatedField =
-			actionData.type === "strand" ? "cs_strand" : "cs_program";
-
 		const senderData = coursesData.find((c) => c.id === actionData.id);
 		const destinationData = coursesData.find((c) => c.id === destinationID);
 
 		if (["track", "institute"].includes(actionData.type)) {
-			const itemsToTransfer = senderData?.[relatedField] || [];
+			const itemsToTransfer = senderData?.["cs_sub"] || [];
 
-			destinationPayload[relatedField] = [
-				...(destinationData?.[relatedField] || []),
+			destinationPayload["cs_sub"] = [
+				...(destinationData?.["cs_sub"] || []),
 				...itemsToTransfer,
 			];
 
 			senderPayload["cs_status"] = "Inactive";
-			senderPayload[relatedField] = [];
+			senderPayload["cs_sub"] = [];
 			senderPayload["cs_updatedAt"] = serverTimestamp();
 			destinationPayload["cs_updatedAt"] = serverTimestamp();
 
@@ -153,16 +148,16 @@ export const transferCourses = async (
 				} transferred successfully!`
 			);
 		} else if (["strand", "program"].includes(actionData.type)) {
-			const senderItems = [...(senderData?.[relatedField] || [])];
+			const senderItems = [...(senderData?.["cs_sub"] || [])];
 			const itemToTransfer = senderItems[actionData.itemIndex];
 
 			if (!itemToTransfer)
 				throw new Error(`No ${actionData.type} found to transfer.`);
 
 			senderItems.splice(actionData.itemIndex, 1);
-			senderPayload[relatedField] = senderItems;
-			destinationPayload[relatedField] = [
-				...(destinationData?.[relatedField] || []),
+			senderPayload["cs_sub"] = senderItems;
+			destinationPayload["cs_sub"] = [
+				...(destinationData?.["cs_sub"] || []),
 				itemToTransfer,
 			];
 

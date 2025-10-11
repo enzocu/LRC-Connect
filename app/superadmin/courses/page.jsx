@@ -182,7 +182,7 @@ export default function CoursesPage() {
 															className="text-foreground font-medium"
 															style={{ fontSize: "12px" }}
 														>
-															{track.cs_track}
+															{track.cs_title}
 														</span>
 														<DropdownMenu>
 															<DropdownMenuTrigger
@@ -215,7 +215,7 @@ export default function CoursesPage() {
 																			"track",
 																			"edit",
 																			track.id,
-																			track.cs_track,
+																			track.cs_title,
 																			null,
 																			null
 																		);
@@ -232,7 +232,7 @@ export default function CoursesPage() {
 																			"track",
 																			"transfer",
 																			track.id,
-																			track.cs_track,
+																			track.cs_title,
 																			trackIndex,
 																			null
 																		);
@@ -250,7 +250,7 @@ export default function CoursesPage() {
 																			"track",
 																			"delete",
 																			track.id,
-																			track.cs_track,
+																			track.cs_title,
 																			null,
 																			null
 																		);
@@ -265,7 +265,7 @@ export default function CoursesPage() {
 												</AccordionTrigger>
 												<AccordionContent>
 													<div className="space-y-2 pl-4">
-														{track.cs_strand.map((strand, strandIndex) => (
+														{track.cs_sub.map((strand, strandIndex) => (
 															<div
 																key={strandIndex}
 																className="flex items-center justify-between p-2 rounded hover:bg-accent/50 transition-colors"
@@ -412,7 +412,7 @@ export default function CoursesPage() {
 															className="text-foreground font-medium"
 															style={{ fontSize: "12px" }}
 														>
-															{institute.cs_institute}
+															{institute.cs_title}
 														</span>
 														<DropdownMenu>
 															<DropdownMenuTrigger
@@ -445,7 +445,7 @@ export default function CoursesPage() {
 																			"institute",
 																			"edit",
 																			institute.id,
-																			institute.cs_institute,
+																			institute.cs_title,
 																			null,
 																			null
 																		);
@@ -462,7 +462,7 @@ export default function CoursesPage() {
 																			"institute",
 																			"transfer",
 																			institute.id,
-																			institute.cs_institute,
+																			institute.cs_title,
 																			instituteIndex,
 																			null
 																		);
@@ -480,7 +480,7 @@ export default function CoursesPage() {
 																			"institute",
 																			"delete",
 																			institute.id,
-																			institute.cs_institute,
+																			institute.cs_title,
 																			null,
 																			null
 																		);
@@ -495,91 +495,89 @@ export default function CoursesPage() {
 												</AccordionTrigger>
 												<AccordionContent>
 													<div className="space-y-2 pl-4">
-														{institute.cs_program.map(
-															(program, programIndex) => (
-																<div
-																	key={programIndex}
-																	className="flex items-center justify-between p-2 rounded hover:bg-accent/50 transition-colors"
-																>
-																	<div className="flex items-center gap-2">
-																		<span className="text-muted-foreground">
-																			•
-																		</span>
-																		<span
-																			className="text-foreground"
-																			style={{ fontSize: "11px" }}
-																		>
-																			{program}
-																		</span>
-																	</div>
-																	<DropdownMenu>
-																		<DropdownMenuTrigger asChild>
-																			<button
-																				className="p-1 hover:bg-accent rounded transition-colors"
-																				title="More actions"
-																			>
-																				<FiMoreVertical className="w-3 h-3 text-muted-foreground" />
-																			</button>
-																		</DropdownMenuTrigger>
-																		<DropdownMenuContent
-																			align="end"
-																			className="w-40"
-																		>
-																			<DropdownMenuItem
-																				onClick={() =>
-																					openActionModal(
-																						"program",
-																						"edit",
-																						institute.id,
-																						program,
-																						instituteIndex,
-																						programIndex
-																					)
-																				}
-																			>
-																				<FiEdit2 className="w-3 h-3 mr-2 text-blue-600" />
-																				Edit Program
-																			</DropdownMenuItem>
-
-																			<DropdownMenuItem
-																				onClick={(e) => {
-																					e.stopPropagation();
-																					openActionModal(
-																						"program",
-																						"transfer",
-																						institute.id,
-																						program,
-																						instituteIndex,
-																						programIndex
-																					);
-																				}}
-																			>
-																				<FiArrowRight className="w-3.5 h-3.5 mr-2 text-purple-600" />
-																				Transfer Program
-																			</DropdownMenuItem>
-
-																			<DropdownMenuItem
-																				variant="destructive"
-																				onClick={(e) => {
-																					e.stopPropagation();
-																					openActionModal(
-																						"program",
-																						"delete",
-																						institute.id,
-																						program,
-																						instituteIndex,
-																						programIndex
-																					);
-																				}}
-																			>
-																				<FiTrash2 className="w-3.5 h-3.5 mr-2 text-red-600" />
-																				Delete Program
-																			</DropdownMenuItem>
-																		</DropdownMenuContent>
-																	</DropdownMenu>
+														{institute.cs_sub.map((program, programIndex) => (
+															<div
+																key={programIndex}
+																className="flex items-center justify-between p-2 rounded hover:bg-accent/50 transition-colors"
+															>
+																<div className="flex items-center gap-2">
+																	<span className="text-muted-foreground">
+																		•
+																	</span>
+																	<span
+																		className="text-foreground"
+																		style={{ fontSize: "11px" }}
+																	>
+																		{program}
+																	</span>
 																</div>
-															)
-														)}
+																<DropdownMenu>
+																	<DropdownMenuTrigger asChild>
+																		<button
+																			className="p-1 hover:bg-accent rounded transition-colors"
+																			title="More actions"
+																		>
+																			<FiMoreVertical className="w-3 h-3 text-muted-foreground" />
+																		</button>
+																	</DropdownMenuTrigger>
+																	<DropdownMenuContent
+																		align="end"
+																		className="w-40"
+																	>
+																		<DropdownMenuItem
+																			onClick={() =>
+																				openActionModal(
+																					"program",
+																					"edit",
+																					institute.id,
+																					program,
+																					instituteIndex,
+																					programIndex
+																				)
+																			}
+																		>
+																			<FiEdit2 className="w-3 h-3 mr-2 text-blue-600" />
+																			Edit Program
+																		</DropdownMenuItem>
+
+																		<DropdownMenuItem
+																			onClick={(e) => {
+																				e.stopPropagation();
+																				openActionModal(
+																					"program",
+																					"transfer",
+																					institute.id,
+																					program,
+																					instituteIndex,
+																					programIndex
+																				);
+																			}}
+																		>
+																			<FiArrowRight className="w-3.5 h-3.5 mr-2 text-purple-600" />
+																			Transfer Program
+																		</DropdownMenuItem>
+
+																		<DropdownMenuItem
+																			variant="destructive"
+																			onClick={(e) => {
+																				e.stopPropagation();
+																				openActionModal(
+																					"program",
+																					"delete",
+																					institute.id,
+																					program,
+																					instituteIndex,
+																					programIndex
+																				);
+																			}}
+																		>
+																			<FiTrash2 className="w-3.5 h-3.5 mr-2 text-red-600" />
+																			Delete Program
+																		</DropdownMenuItem>
+																	</DropdownMenuContent>
+																</DropdownMenu>
+															</div>
+														))}
 													</div>
 												</AccordionContent>
 											</AccordionItem>
