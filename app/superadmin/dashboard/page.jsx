@@ -226,7 +226,7 @@ export default function Dashboard() {
 													<select
 														value={selectedLibrary}
 														onChange={(e) => setSelectedLibrary(e.target.value)}
-														className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 flex-1 text-[12px]"
+														className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 flex-1 text-[12px] "
 													>
 														{libraries.map((library) => (
 															<option key={library.id} value={library.id}>
@@ -382,7 +382,7 @@ export default function Dashboard() {
 											<p className="text-muted-foreground mb-4 text-[12px]">
 												Most recent system activity
 											</p>
-											<p className="font-semibold text-foreground bg-muted rounded-lg px-4 py-2 inline-block text-[14px]">
+											<p className="font-semibold text-foreground bg-muted rounded-lg px-4 py-2 inline-block text-[12px]">
 												{statistics.lastUpdate}
 											</p>
 										</div>
