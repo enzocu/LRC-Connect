@@ -6,34 +6,43 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
+import { useAlertActions } from "@/contexts/AlertContext";
+import { LoadingSpinner } from "@/components/loading";
+import { updateCourses } from "@/controller/firebase/update/updateCourses.js";
+import { insertCourses } from "@/controller/firebase/insert/insertCourses";
+
 export function AddEditCourseModal({
 	isOpen,
 	onClose,
-	onSave,
 	type,
 	mode = "add",
-	initialData = null,
+	actionData = null,
+	coursesData = null,
 }) {
-	const [formData, setFormData] = useState({
-		name: "",
-	});
+	const Alert = useAlertActions();
+	const [btnLoading, setBtnLoading] = useState(false);
+	const [name, setName] = useState("");
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+
+		if (mode === "add") {
+			await insertCourses(name, actionData, setBtnLoading, Alert);
+		} else if (actionData.id && mode === "edit") {
+			await updateCourses(name, actionData, coursesData, setBtnLoading, Alert);
+		}
+
+		setName("");
+		onClose();
+	};
 
 	useEffect(() => {
-		if (isOpen && mode === "edit" && initialData) {
-			setFormData({ name: initialData.name });
-		} else if (!isOpen) {
-			setFormData({ name: "" });
+		if (isOpen && mode === "edit" && actionData?.title) {
+			setName(actionData.title);
+		} else {
+			setName("");
 		}
-	}, [isOpen, mode, initialData]);
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		if (formData.name.trim()) {
-			onSave(formData);
-			setFormData({ name: "" });
-			onClose();
-		}
-	};
+	}, [isOpen, mode, actionData]);
 
 	const getTitle = () => {
 		if (type === "track") return mode === "add" ? "Add Track" : "Edit Track";
@@ -53,6 +62,8 @@ export function AddEditCourseModal({
 		return "Enter name";
 	};
 
+	if (!isOpen || !["add", "edit"].includes(actionData?.mode)) return null;
+
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title={getTitle()} size="sm">
 			<form onSubmit={handleSubmit} className="p-6 space-y-4">
@@ -64,8 +75,8 @@ export function AddEditCourseModal({
 						Name
 					</Label>
 					<Input
-						value={formData.name}
-						onChange={(e) => setFormData({ name: e.target.value })}
+						value={name}
+						onChange={(e) => setName(e.target.value)}
 						placeholder={getPlaceholder()}
 						className="mt-1 h-9 bg-background border-border text-foreground"
 						style={{ fontSize: "11px" }}
@@ -85,10 +96,11 @@ export function AddEditCourseModal({
 					</Button>
 					<Button
 						type="submit"
-						disabled={!formData.name.trim()}
+						disabled={!name.trim()}
 						className="bg-primary-custom text-white hover:opacity-90 h-9 px-4 disabled:opacity-50 disabled:cursor-not-allowed"
 						style={{ fontSize: "11px" }}
 					>
+						<LoadingSpinner loading={btnLoading} />
 						{mode === "add" ? "Add" : "Save"}
 					</Button>
 				</div>

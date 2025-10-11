@@ -1,20 +1,29 @@
 "use client";
 
+import { useState } from "react";
 import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { FiAlertTriangle } from "react-icons/fi";
 
+import { useAlertActions } from "@/contexts/AlertContext";
+import { LoadingSpinner } from "@/components/loading";
+import { deleteCourses } from "@/controller/firebase/update/updateCourses";
+
 export function DeleteCourseModal({
 	isOpen,
 	onClose,
-	onConfirm,
-	itemName,
-	itemType,
+	actionData = null,
+	coursesData = null,
 }) {
-	const handleConfirm = () => {
-		onConfirm();
+	const Alert = useAlertActions();
+	const [btnLoading, setBtnLoading] = useState(false);
+
+	const handleConfirm = async () => {
+		await deleteCourses(actionData, coursesData, setBtnLoading, Alert);
 		onClose();
 	};
+
+	if (!isOpen || actionData?.mode !== "delete") return null;
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title="Confirm Deletion" size="sm">
@@ -26,7 +35,7 @@ export function DeleteCourseModal({
 					<div className="flex-1">
 						<p className="text-foreground" style={{ fontSize: "11px" }}>
 							Are you sure you want to delete{" "}
-							<span className="font-semibold">{itemName}</span>?
+							<span className="font-semibold">{actionData?.title}</span>?
 						</p>
 						<p
 							className="text-muted-foreground mt-1"
@@ -53,6 +62,7 @@ export function DeleteCourseModal({
 						className="bg-red-600 text-white hover:bg-red-700 h-9 px-4"
 						style={{ fontSize: "11px" }}
 					>
+						<LoadingSpinner loading={btnLoading} />
 						Delete
 					</Button>
 				</div>

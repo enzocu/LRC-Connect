@@ -100,7 +100,6 @@ export default function AuditPage() {
 	const { setLoading, setPath, loading } = useLoading();
 
 	const [auditData, setAuditData] = useState([]);
-
 	const [viewMode, setViewMode] = useState("table");
 
 	// FILTER
