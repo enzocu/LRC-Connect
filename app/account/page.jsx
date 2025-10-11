@@ -653,6 +653,7 @@ export default function AccountList() {
 											onChange={(e) => setSelectedCourses(e.target.value)}
 											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 										>
+											<option value="All">Select Courses</option>
 											{["Senior High School", "College Courses"].map(
 												(courses) => (
 													<option key={courses} value={courses}>

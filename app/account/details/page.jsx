@@ -580,6 +580,7 @@ export default function AccountDetails() {
 															required
 															disabled={editMode == ""}
 														>
+															<option value="All">Select Courses</option>
 															{["Senior High School", "College Courses"].map(
 																(courses) => (
 																	<option key={courses} value={courses}>

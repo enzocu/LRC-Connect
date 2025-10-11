@@ -386,7 +386,7 @@ export default function RegisterAccount() {
 																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																required
 															>
-																<option value="">Select Courses</option>
+																<option value="All">Select Courses</option>
 																{["Senior High School", "College Courses"].map(
 																	(courses) => (
 																		<option key={courses} value={courses}>
