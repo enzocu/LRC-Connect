@@ -4,8 +4,10 @@ import {
 	where,
 	onSnapshot,
 	orderBy,
+	getDocs,
 } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
+import { fi } from "date-fns/locale";
 
 export function getCoursesRealtime(
 	type,
@@ -72,5 +74,74 @@ export function getCoursesRealtime(
 		console.error("Error in getCoursesRealtime:", error);
 		Alert.showDanger(error.message);
 		setLoading(false);
+	}
+}
+
+export async function getFilterCourses(
+	selectedType,
+	setFilterCoursesData,
+	Alert
+) {
+	try {
+		const queryParts = [
+			collection(db, "courses"),
+			where("cs_status", "==", "Active"),
+			where("cs_type", "==", selectedType),
+		];
+
+		if (selectedType === "Senior High School") {
+			queryParts.push(orderBy("cs_track", "asc"));
+		} else {
+			queryParts.push(orderBy("cs_institute", "asc"));
+		}
+
+		const q = query(...queryParts);
+
+		// Fetch documents once
+		const querySnapshot = await getDocs(q);
+
+		const data = querySnapshot.docs.map((doc) => {
+			const course = doc.data();
+			return {
+				id: doc.id,
+				cs_type: course.cs_type,
+				cs_title:
+					course.cs_type === "Senior High School"
+						? course.cs_track
+						: course.cs_institute,
+				cs_subs:
+					course.cs_type === "Senior High School"
+						? course.cs_strand || []
+						: course.cs_program || [],
+			};
+		});
+
+		setFilterCoursesData(data);
+	} catch (error) {
+		console.error("Error in getFilterCourses:", error);
+		Alert.showDanger(error.message);
+	}
+}
+
+export function getFilterTrackInstituteCourses(
+	selectedID,
+	filterCoursesData,
+	setSubCoursesData,
+	Alert
+) {
+	try {
+		const filteredData = filterCoursesData.find(
+			(item) => item.id === selectedID
+		);
+
+		if (!filteredData) {
+			setSubCoursesData([]);
+			return;
+		}
+
+		setSubCoursesData(filteredData.cs_subs || []);
+	} catch (error) {
+		console.error("Error in getFilterTrackInstituteCourses:", error);
+		Alert.showDanger(error.message);
 	}
 }

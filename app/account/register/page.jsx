@@ -21,7 +21,9 @@ import {
 	fetchCitiesOrMunicipalities,
 	fetchBarangays,
 } from "@/controller/custom/address";
-import { handleCourseSelection } from "@/controller/custom/handleCourseSelection";
+
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
 
 const defaultValue = {
 	us_type: "",
@@ -61,10 +63,11 @@ export default function RegisterAccount() {
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [formData, setFormData] = useState(defaultValue);
 
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
+	//ACADEMIC
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
+
 	const [provinces, setProvinces] = useState([]);
 	const [municipals, setMunicipals] = useState([]);
 	const [barangays, setBarangays] = useState([]);
@@ -80,21 +83,29 @@ export default function RegisterAccount() {
 		router.back();
 	};
 
+	//FETCH COURSES
+	useEffect(() => {
+		if (!formData?.us_courses) return;
+		getFilterCourses(formData?.us_courses, setFilterCoursesData, Alert);
+	}, [formData?.us_courses]);
+
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
+
+	//FETCH ADDRESS
 	useEffect(() => {
 		fetchProvinces(setProvinces);
 	}, [id]);
-
-	useEffect(() => {
-		handleCourseSelection(
-			formData.us_courses,
-			formData.us_tracks,
-			formData.us_institute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData
-		);
-	}, [formData.us_courses, formData.us_tracks, formData.us_institute]);
 
 	useEffect(() => {
 		if (formData?.us_province) {
@@ -414,23 +425,52 @@ export default function RegisterAccount() {
 														</div>
 													</div>
 
-													{formData?.us_courses === "Senior High School" && (
+													{formData?.us_courses && (
 														<div className="grid grid-cols-2 gap-4">
 															<div>
 																<label className="block text-foreground font-medium mb-2 text-[12px]">
-																	Tracks
+																	{formData.us_courses === "Senior High School"
+																		? "Tracks"
+																		: "Institute"}
 																</label>
 																<select
-																	name="us_tracks"
-																	value={formData?.us_tracks}
-																	onChange={(e) => handleChange(e, setFormData)}
-																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	name={
+																		formData.us_courses === "Senior High School"
+																			? "us_tracks"
+																			: "us_institute"
+																	}
+																	value={selectedCourseID || ""}
+																	onChange={(e) => {
+																		const selectedID = e.target.value;
+
+																		const selectedCourse =
+																			filterCoursesData.find(
+																				(course) => course.id === selectedID
+																			);
+
+																		setFormData((prev) => ({
+																			...prev,
+																			[formData.us_courses ===
+																			"Senior High School"
+																				? "us_tracks"
+																				: "us_institute"]:
+																				selectedCourse?.cs_title || "",
+																		}));
+
+																		setSelectedCourseID(selectedID);
+																	}}
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																	required
 																>
-																	<option value="">Select Track</option>
-																	{tracksData.map((track, index) => (
-																		<option key={index} value={track}>
-																			{track}
+																	<option value="">
+																		{formData.us_courses ===
+																		"Senior High School"
+																			? "Select Track"
+																			: "Select Institute"}
+																	</option>
+																	{filterCoursesData.map((course) => (
+																		<option key={course.id} value={course.id}>
+																			{course.cs_title}
 																		</option>
 																	))}
 																</select>
@@ -438,63 +478,34 @@ export default function RegisterAccount() {
 
 															<div>
 																<label className="block text-foreground font-medium mb-2 text-[12px]">
-																	Strand
+																	{formData.us_courses === "Senior High School"
+																		? "Strand"
+																		: "Program"}
 																</label>
 																<select
-																	name="us_strand"
-																	value={formData?.us_strand}
+																	name={
+																		formData.us_courses === "Senior High School"
+																			? "us_strand"
+																			: "us_program"
+																	}
+																	value={
+																		formData.us_courses === "Senior High School"
+																			? formData?.us_strand
+																			: formData?.us_program
+																	}
 																	onChange={(e) => handleChange(e, setFormData)}
-																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																	required
 																>
-																	<option value="">Select Strand</option>
-																	{strandData.map((strand, index) => (
-																		<option key={index} value={strand}>
-																			{strand}
-																		</option>
-																	))}
-																</select>
-															</div>
-														</div>
-													)}
-
-													{formData?.us_courses === "College Courses" && (
-														<div className="grid grid-cols-2 gap-4">
-															<div>
-																<label className="block text-foreground font-medium mb-2 text-[12px]">
-																	Institute
-																</label>
-																<select
-																	name="us_institute"
-																	value={formData?.us_institute}
-																	onChange={(e) => handleChange(e, setFormData)}
-																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																	required
-																>
-																	<option value="">Select Institute</option>
-																	{instituteData.map((ins, index) => (
-																		<option key={index} value={ins}>
-																			{ins}
-																		</option>
-																	))}
-																</select>
-															</div>
-
-															<div>
-																<label className="block text-foreground font-medium mb-2 text-[12px]">
-																	Program
-																</label>
-																<select
-																	name="us_program"
-																	value={formData?.us_program}
-																	onChange={(e) => handleChange(e, setFormData)}
-																	className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																	required
-																>
-																	<option value="">Select Program</option>
-																	{programData.map((pro, index) => (
-																		<option key={index} value={pro}>
-																			{pro}
+																	<option value="">
+																		{formData.us_courses ===
+																		"Senior High School"
+																			? "Select Strand"
+																			: "Select Program"}
+																	</option>
+																	{subCoursesData.map((subCourses, index) => (
+																		<option key={index} value={subCourses}>
+																			{subCourses}
 																		</option>
 																	))}
 																</select>

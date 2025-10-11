@@ -22,7 +22,6 @@ import {
 	fetchCitiesOrMunicipalities,
 	fetchBarangays,
 } from "@/controller/custom/address";
-import { handleCourseSelection } from "@/controller/custom/handleCourseSelection";
 import { getUser } from "../../../controller/firebase/get/getUser";
 import {
 	updateUser,
@@ -30,6 +29,8 @@ import {
 	updateAddress,
 } from "@/controller/firebase/update/updateUser";
 
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
 export default function AccountDetails() {
 	const router = useRouter();
 	const { userDetails } = useUserAuth();
@@ -50,10 +51,11 @@ export default function AccountDetails() {
 	const [addressData, setAddressData] = useState({});
 	const [associatedLibraries, setAssociatedLibraries] = useState([]);
 
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
+	//ACADEMIC
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
+
 	const [provinces, setProvinces] = useState([]);
 	const [municipals, setMunicipals] = useState([]);
 	const [barangays, setBarangays] = useState([]);
@@ -119,22 +121,47 @@ export default function AccountDetails() {
 		}
 	}, [id, pathname]);
 
+	//FETCH COURSES
 	useEffect(() => {
-		handleCourseSelection(
-			academicData.us_courses,
-			academicData.us_tracks,
-			academicData.us_institute,
-			setTracksData,
-			setStrandData,
-			setInstituteData,
-			setProgramData
-		);
-	}, [
-		academicData.us_courses,
-		academicData.us_tracks,
-		academicData.us_institute,
-	]);
+		if (!academicData?.us_courses) return;
+		getFilterCourses(academicData?.us_courses, setFilterCoursesData, Alert);
+	}, [academicData?.us_courses]);
 
+	useEffect(() => {
+		if (
+			!academicData?.us_courses ||
+			!filterCoursesData.length ||
+			selectedCourseID !== ""
+		)
+			return;
+
+		const course = filterCoursesData.find(
+			(c) =>
+				c.cs_title ===
+				academicData[
+					academicData.us_courses === "Senior High School"
+						? "us_tracks"
+						: "us_institute"
+				]
+		);
+
+		course && setSelectedCourseID(course.id);
+	}, [academicData, filterCoursesData]);
+
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
+
+	//FETCH ADDRESS
 	useEffect(() => {
 		fetchProvinces(setProvinces);
 	}, []);
@@ -592,48 +619,96 @@ export default function AccountDetails() {
 													</div>
 												</div>
 
-												{/* Show only if Senior High School */}
-												{academicData?.us_courses === "Senior High School" && (
+												{academicData?.us_courses && (
 													<div className="grid grid-cols-2 gap-4">
+														{/* Tracks / Institute */}
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Tracks
+																{academicData.us_courses ===
+																"Senior High School"
+																	? "Tracks"
+																	: "Institute"}
 															</label>
 															<select
-																name="us_tracks"
-																value={academicData?.us_tracks || ""}
-																onChange={(e) =>
-																	handleChange(e, setAcademicData)
+																name={
+																	academicData.us_courses ===
+																	"Senior High School"
+																		? "us_tracks"
+																		: "us_institute"
 																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																value={selectedCourseID}
+																onChange={(e) => {
+																	const selectedID = e.target.value;
+																	const selectedCourse = filterCoursesData.find(
+																		(course) => course.id === selectedID
+																	);
+
+																	setAcademicData((prev) => ({
+																		...prev,
+																		[academicData.us_courses ===
+																		"Senior High School"
+																			? "us_tracks"
+																			: "us_institute"]:
+																			selectedCourse?.cs_title || "",
+																	}));
+
+																	setSelectedCourseID(selectedID);
+																}}
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																required
-																disabled={editMode == ""}
+																disabled={editMode === ""}
 															>
-																{tracksData.map((track, index) => (
-																	<option key={index} value={track}>
-																		{track}
+																<option value="">
+																	{academicData.us_courses ===
+																	"Senior High School"
+																		? "Select Track"
+																		: "Select Institute"}
+																</option>
+																{filterCoursesData.map((course) => (
+																	<option key={course.id} value={course.id}>
+																		{course.cs_title}
 																	</option>
 																))}
 															</select>
 														</div>
 
+														{/* Strand / Program */}
 														<div>
 															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Strand
+																{academicData.us_courses ===
+																"Senior High School"
+																	? "Strand"
+																	: "Program"}
 															</label>
 															<select
-																name="us_strand"
-																value={academicData?.us_strand || ""}
+																name={
+																	academicData.us_courses ===
+																	"Senior High School"
+																		? "us_strand"
+																		: "us_program"
+																}
+																value={
+																	academicData.us_courses ===
+																	"Senior High School"
+																		? academicData?.us_strand
+																		: academicData?.us_program
+																}
 																onChange={(e) =>
 																	handleChange(e, setAcademicData)
 																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
+																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 text-[12px]"
 																required
-																disabled={editMode == ""}
+																disabled={editMode === ""}
 															>
-																{strandData.map((strand, index) => (
-																	<option key={index} value={strand}>
-																		{strand}
+																<option value="">
+																	{academicData.us_courses ===
+																	"Senior High School"
+																		? "Select Strand"
+																		: "Select Program"}
+																</option>
+																{subCoursesData.map((subCourse, index) => (
+																	<option key={index} value={subCourse}>
+																		{subCourse}
 																	</option>
 																))}
 															</select>
@@ -641,56 +716,6 @@ export default function AccountDetails() {
 													</div>
 												)}
 
-												{/* Show only if College Courses */}
-												{academicData?.us_courses === "College Courses" && (
-													<div className="grid grid-cols-2 gap-4">
-														<div>
-															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Institute
-															</label>
-															<select
-																name="us_institute"
-																value={academicData?.us_institute || ""}
-																onChange={(e) =>
-																	handleChange(e, setAcademicData)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																required
-																disabled={editMode == ""}
-															>
-																{instituteData.map((ins, index) => (
-																	<option key={index} value={ins}>
-																		{ins}
-																	</option>
-																))}
-															</select>
-														</div>
-
-														<div>
-															<label className="block text-foreground font-medium mb-2 text-[12px]">
-																Program
-															</label>
-															<select
-																name="us_program"
-																value={academicData?.us_program || ""}
-																onChange={(e) =>
-																	handleChange(e, setAcademicData)
-																}
-																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2  h-9 text-[12px]"
-																required
-																disabled={editMode == ""}
-															>
-																{programData.map((pro, index) => (
-																	<option key={index} value={pro}>
-																		{pro}
-																	</option>
-																))}
-															</select>
-														</div>
-													</div>
-												)}
-
-												{/* Section (always visible) */}
 												<div>
 													<label className="block text-foreground font-medium mb-2 text-[12px]">
 														Section
