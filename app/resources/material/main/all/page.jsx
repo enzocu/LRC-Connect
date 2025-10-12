@@ -201,7 +201,7 @@ export default function MaterialsPage() {
 											<FiChevronDown className="w-4 h-4" />
 										</Button>
 									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end" className="w-48">
+									<DropdownMenuContent align="start" className="w-full">
 										<DropdownMenuItem
 											onClick={() =>
 												router.push("/resources/material/main/register/type")
