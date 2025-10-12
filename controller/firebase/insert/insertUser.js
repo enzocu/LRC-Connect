@@ -1,4 +1,12 @@
-import { serverTimestamp, doc, setDoc } from "firebase/firestore";
+import {
+	serverTimestamp,
+	doc,
+	setDoc,
+	collection,
+	query,
+	where,
+	getDocs,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
 	createUserWithEmailAndPassword,
@@ -12,12 +20,25 @@ import { generateQrID } from "../get/getGeneratedQR";
 import { getUserLevel } from "../../../controller/custom/getUserLevel";
 import { convertDateToTimestamp } from "../../custom/customFunction";
 
+import { checkExistingLibrarian } from "../../auth/checkExistingLibrarian";
 import { insertAudit } from "../insert/insertAudit";
 
 export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
 	setBtnLoading(true);
 
 	try {
+		if (
+			userData.us_type === "Chief Librarian" ||
+			userData.us_type === "Head Librarian"
+		) {
+			const exists = await checkExistingLibrarian(
+				userData.us_type,
+				li_id,
+				Alert
+			);
+			if (exists) return;
+		}
+
 		let secondaryApp;
 		if (!getApps().some((app) => app.name === "Secondary")) {
 			secondaryApp = initializeApp(firebaseConfig, "Secondary");
@@ -30,6 +51,7 @@ export async function insertUser(li_id, us_id, userData, setBtnLoading, Alert) {
 			secondaryAuth,
 			userData.us_email
 		);
+
 		if (existingMethods.length > 0) {
 			Alert.showDanger(
 				"Email already registered! You may check it under its associated library."

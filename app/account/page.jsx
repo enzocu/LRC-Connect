@@ -27,6 +27,7 @@ import {
 	FiPlus,
 	FiEdit,
 	FiRepeat,
+	FiDownload,
 } from "react-icons/fi";
 import { ExternalLink } from "lucide-react";
 
@@ -51,6 +52,8 @@ import {
 } from "@/controller/firebase/get/getUserList";
 import { getFilterCourses } from "@/controller/firebase/get/getCourses";
 import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
+
+import { handleDownload } from "@/controller/custom/customFunction";
 
 export default function AccountList() {
 	const router = useRouter();
@@ -292,6 +295,18 @@ export default function AccountList() {
 													>
 														<FiFileText className="w-4 h-4" />
 														Import Account from Excel
+													</DropdownMenuItem>
+													<DropdownMenuItem
+														className="text-[12px]"
+														onClick={() =>
+															handleDownload(
+																"/template/Patron Template.xlsx",
+																"Patron Template.xlsx"
+															)
+														}
+													>
+														<FiDownload className="w-4 h-4" />
+														Download Patron Excel Template
 													</DropdownMenuItem>
 												</DropdownMenuContent>
 											</DropdownMenu>

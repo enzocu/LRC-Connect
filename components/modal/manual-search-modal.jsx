@@ -285,7 +285,7 @@ export function ManualSearchModal({
 												{account?.us_status}
 											</Badge>
 										</td>
-										<td className="py-4 px-6 min-w-[130px] text-[12px] text-foreground">
+										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 											<Badge
 												className={getTypeColor(account?.us_type)}
 												style={{ fontSize: "10px" }}

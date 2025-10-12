@@ -2,6 +2,7 @@ import { updateDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
 
 import { insertAudit } from "../insert/insertAudit";
+import { checkExistingLibrarian } from "../../auth/checkExistingLibrarian";
 
 export async function activateUsers(
 	li_id,
@@ -44,6 +45,15 @@ export async function activateUsers(
 				});
 
 				if (!alreadyExists) {
+					if (usData.us_type === "Head Librarian") {
+						const exists = await checkExistingLibrarian(
+							usData.us_type,
+							li_id,
+							Alert
+						);
+						if (exists) return;
+					}
+
 					const updatedLibrary = [
 						...oldLibraries,
 						{
@@ -64,20 +74,27 @@ export async function activateUsers(
 			}
 		}
 		if (activatedNames.length > 0) {
+			const names = activatedNames.join(", ");
+			const isPlural = activatedNames.length > 1;
+
 			await insertAudit(
 				li_id,
 				us_id,
 				"Update",
-				`Activated users: ${activatedNames.join(", ")}.`,
+				isPlural
+					? `Activated accounts: ${names}.`
+					: `Activated account: ${names}.`,
 				Alert
 			);
 
 			Alert.showSuccess(
-				`Activated the following users: ${activatedNames.join(", ")}`
+				isPlural
+					? `Activated the following accounts: ${names}`
+					: `Activated Account: ${names}`
 			);
 		} else {
 			Alert.showInfo(
-				"No new users were activated because they are already active."
+				"No new accounts were activated because they are already active."
 			);
 		}
 	} catch (error) {

@@ -4,6 +4,7 @@ import { markCancelled } from "./updateMarkCancelled";
 import { getUserLevel } from "../../custom/getUserLevel";
 
 import { insertAudit } from "../insert/insertAudit";
+import { checkExistingLibrarian } from "../../auth/checkExistingLibrarian";
 
 export async function changeUserStatus(
 	li_id,
@@ -138,6 +139,11 @@ export async function transferUserLibrary(
 					`${us_name} is already active in the new library. Old link removed.`
 				);
 			} else {
+				if (us_type === "Chief Librarian" || us_type === "Head Librarian") {
+					const exists = await checkExistingLibrarian(us_type, li_id, Alert);
+					if (exists) return;
+				}
+
 				updatedLibrary.push({
 					us_liID: newLibraryRef,
 					us_level: us_level,
@@ -195,6 +201,11 @@ export async function changeUserType(
 				us_updatedAt: serverTimestamp(),
 			});
 		} else if (["USR-2", "USR-3", "USR-4"].includes(us_level)) {
+			if (us_type === "Chief Librarian" || us_type === "Head Librarian") {
+				const exists = await checkExistingLibrarian(us_type, li_id, Alert);
+				if (exists) return;
+			}
+
 			const updatedLibrary = us_library.map((libEntry) => {
 				const libId = libEntry.us_liID?.id || libEntry.us_liID;
 				if (libId === li_id) {

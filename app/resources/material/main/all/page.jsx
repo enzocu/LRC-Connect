@@ -45,6 +45,8 @@ import {
 	renderMaterialsTable,
 } from "@/components/tags/material";
 
+import { handleDownload } from "@/controller/custom/customFunction";
+
 export default function MaterialsPage() {
 	const router = useRouter();
 	const pathname = usePathname();
@@ -221,6 +223,19 @@ export default function MaterialsPage() {
 											onClick={() => setShowExcelImportModal(true)}
 										>
 											Import Material from Excel
+										</DropdownMenuItem>
+
+										<DropdownMenuItem
+											className="text-[12px]"
+											onClick={() =>
+												handleDownload(
+													"/template/Material Template.xlsx",
+													"Material Template.xlsx"
+												)
+											}
+										>
+											<FiDownload className="w-4 h-4" />
+											Download Material Excel Template
 										</DropdownMenuItem>
 									</DropdownMenuContent>
 								</DropdownMenu>
