@@ -5,11 +5,8 @@ import { Modal } from "./index";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FiAlertTriangle, FiX } from "react-icons/fi";
-
-import { useUserAuth } from "@/contexts/UserContextAuth";
+import { FiAlertTriangle } from "react-icons/fi";
 import { LoadingSpinner } from "@/components/loading";
-import { useAlertActions } from "@/contexts/AlertContext";
 
 import { getLibraryFeatureList } from "@/controller/firebase/get/getLibraryFeatureList";
 import {
@@ -17,11 +14,15 @@ import {
 	transferUserLibrary,
 } from "@/controller/firebase/update/updateUserStatus";
 
-export function RemoveAccountModal({ isOpen, onClose, li_id, userData }) {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
+export function RemoveAccountModal({
+	isOpen,
+	onClose,
+	li_id,
+	userData,
+	userDetails,
+	Alert,
+}) {
 	const [btnLoading, setBtnLoading] = useState(false);
-
 	const [libraryData, setLibraryData] = useState([]);
 	const [reason, setReason] = useState("");
 	const [transferToOtherLibrary, setTransferToOtherLibrary] = useState(false);

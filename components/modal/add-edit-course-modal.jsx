@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { updateCourses } from "@/controller/firebase/update/updateCourses.js";
 import { insertCourses } from "@/controller/firebase/insert/insertCourses";
@@ -18,8 +17,8 @@ export function AddEditCourseModal({
 	mode = "add",
 	actionData = null,
 	coursesData = null,
+	Alert,
 }) {
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [name, setName] = useState("");
 

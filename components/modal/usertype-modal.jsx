@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 
 import { changeUserType } from "@/controller/firebase/update/updateUserStatus";
@@ -14,8 +13,8 @@ export function UserTypeModal({
 	li_id,
 	userData,
 	modifiedBy,
+	Alert,
 }) {
-	const Alert = useAlertActions();
 	const [userType, setUserType] = useState("");
 	const [btnLoading, setBtnLoading] = useState(false);
 

@@ -41,12 +41,11 @@ export function AddNewsAnnouncementModal({
 	onClose,
 	entryType,
 	selectedNewsAnnouncements,
+	userDetails,
+	Alert,
 }) {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [formData, setFormData] = useState(defaultValues);
-
 	const isEmpty = isEmptyObject(selectedNewsAnnouncements);
 
 	const handleSubmit = async (e) => {

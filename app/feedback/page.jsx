@@ -365,6 +365,8 @@ export default function FeedbackAndFAQs() {
 					isOpen={isAddFaqModalOpen}
 					onClose={() => setIsAddFaqModalOpen(false)}
 					selectedFaqs={selectedFaq}
+					userDetails={userDetails}
+					Alert={Alert}
 				/>
 
 				<DeleteConfirmationModal
@@ -374,6 +376,8 @@ export default function FeedbackAndFAQs() {
 					title={"Delete Feedback"}
 					description="Are you sure you want to delete this feedback? This action cannot be undone."
 					id={selectedFaq?.id}
+					userDetails={userDetails}
+					Alert={Alert}
 				/>
 			</div>
 		</ProtectedRoute>

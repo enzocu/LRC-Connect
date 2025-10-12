@@ -302,6 +302,7 @@ export default function RegisterLibrary() {
 						isOpen={showPinModal}
 						onClose={setShowPinModal}
 						setFormData={setFormData}
+						Alert={Alert}
 					/>
 				</main>
 			</div>

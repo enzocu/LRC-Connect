@@ -368,6 +368,8 @@ export default function RegisterDiscussionRoom() {
 						resourceTitle={formData?.dr_name || "Untitled Discussion Room"}
 						resourceStatus={formData?.dr_status}
 						resourceQr={formData?.dr_qr}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				)}
 			</div>

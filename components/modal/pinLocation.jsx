@@ -5,14 +5,10 @@ import { Modal } from "@/components/modal";
 
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "@/components/loading";
-
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
-
-import { useAlertActions } from "@/contexts/AlertContext";
 import { fetchAddress } from "../../controller/api/fetchAddress";
 
-export function PinLocation({ isOpen, onClose, setFormData }) {
-	const Alert = useAlertActions();
+export function PinLocation({ isOpen, onClose, setFormData, Alert }) {
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [currentPosition, setCurrentPosition] = useState(null);
 	const [selectedPosition, setSelectedPosition] = useState(null);

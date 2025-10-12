@@ -11,7 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FiSearch, FiCamera, FiUserPlus, FiChevronDown } from "react-icons/fi";
 
 import { LoadingSpinner } from "@/components/loading";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
 import { ScannerModal } from "@/components/modal/scanner-modal";
 
@@ -24,10 +23,10 @@ export function ManualSearchModal({
 	userType,
 	li_id,
 	modifiedBy,
+	Alert,
 }) {
 	const { setLoading, setPath, loading } = useLoading();
 	const pathname = usePathname();
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const [userData, setUserData] = useState([]);

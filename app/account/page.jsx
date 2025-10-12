@@ -37,6 +37,7 @@ import { useLoading } from "@/contexts/LoadingProvider";
 import { getStatusColor } from "@/controller/custom/getStatusColor";
 import BorrowingLimitsModal from "@/components/modal/borrowing-limits-modal";
 import { ManualSearchModal } from "@/components/modal/manual-search-modal";
+import { ResetPasswordAccountModal } from "@/components/modal/reset-password-modal";
 import { RemoveAccountModal } from "@/components/modal/remove-account-modal";
 import { ExcelImportModal } from "@/components/modal/excel-import-modal";
 import { UserTypeModal } from "@/components/modal/usertype-modal";
@@ -855,6 +856,8 @@ export default function AccountList() {
 					<BorrowingLimitsModal
 						isOpen={showBorrowingLimitModal}
 						onClose={() => setShowBorrowingLimitsModal(false)}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				</>
 			)}
@@ -868,6 +871,7 @@ export default function AccountList() {
 						userType={type}
 						li_id={selectedLibrary}
 						modifiedBy={userDetails?.uid}
+						Alert={Alert}
 					/>
 
 					{/* Excel Import Modal */}
@@ -876,6 +880,7 @@ export default function AccountList() {
 						onClose={() => setShowExcelImportModal(false)}
 						li_id={selectedLibrary}
 						modifiedBy={userDetails?.uid}
+						Alert={Alert}
 					/>
 
 					{/* Type Account Modal */}
@@ -885,6 +890,20 @@ export default function AccountList() {
 						li_id={selectedLibrary}
 						userData={selectedAccount}
 						modifiedBy={userDetails?.uid}
+						Alert={Alert}
+					/>
+
+					{/* Reset Password Modal */}
+					<ResetPasswordAccountModal
+						isOpen={showResetPasswordModal}
+						onClose={() => {
+							setResetPasswordModal(false);
+							setSelectedAccount({});
+						}}
+						userData={selectedAccount}
+						li_id={selectedLibrary}
+						us_id={userDetails?.uid}
+						Alert={Alert}
 					/>
 
 					{/* Remove Account Modal */}
@@ -896,6 +915,8 @@ export default function AccountList() {
 						}}
 						li_id={selectedLibrary}
 						userData={selectedAccount}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				</>
 			)}

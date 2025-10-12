@@ -4,8 +4,6 @@ import { useState } from "react";
 import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { FiTrash2 } from "react-icons/fi";
 
@@ -19,9 +17,9 @@ const DeleteConfirmationModal = ({
 	title,
 	description,
 	id,
+	userDetails,
+	Alert,
 }) => {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const handleConfirm = async (e) => {

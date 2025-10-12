@@ -61,11 +61,10 @@ export function DeactivateResourceModal({
 	resourceStatus,
 	resourceType = "material",
 	resourceQr,
+	userDetails,
+	Alert,
 }) {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
-
 	const [selectedReasons, setSelectedReasons] = useState([]);
 	const [customReason, setCustomReason] = useState("");
 

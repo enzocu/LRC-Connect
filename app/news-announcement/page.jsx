@@ -514,6 +514,8 @@ export default function NewsAnnouncementPage() {
 						onClose={() => setIsModalOpen(false)}
 						entryType={focusMode}
 						selectedNewsAnnouncements={selectedNewsAnnouncements}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 
 					<DeleteConfirmationModal
@@ -523,6 +525,8 @@ export default function NewsAnnouncementPage() {
 						title={`Delete ${focusMode}`}
 						description={`Are you sure you want to delete this ${focusMode}? This action cannot be undone.`}
 						id={selectedNewsAnnouncements?.id}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				</div>
 			</div>

@@ -592,12 +592,14 @@ export default function CoursesPage() {
 					mode={actionModal?.mode}
 					actionData={actionModal}
 					coursesData={coursesData}
+					Alert={Alert}
 				/>
 				<DeleteCourseModal
 					isOpen={actionModal?.isOpen && actionModal?.mode === "delete"}
 					onClose={() => setActionModal({ ...actionModal, isOpen: false })}
 					actionData={actionModal}
 					coursesData={coursesData}
+					Alert={Alert}
 				/>
 				<TransferCourseModal
 					isOpen={actionModal?.isOpen && actionModal?.mode === "transfer"}
@@ -607,6 +609,7 @@ export default function CoursesPage() {
 						coursesData[["track", "strand"].includes(actionModal?.type) ? 0 : 1]
 							?.sub || []
 					}
+					Alert={Alert}
 				/>
 			</div>
 		</ProtectedRoute>

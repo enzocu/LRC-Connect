@@ -400,12 +400,15 @@ export default function LibraryDetails() {
 							resourceTitle={formData?.li_name || "Untitled Library"}
 							resourceStatus={formData?.li_status}
 							resourceQr={formData?.li_qr}
+							userDetails={userDetails}
+							Alert={Alert}
 						/>
 
 						<PinLocation
 							isOpen={showPinModal}
 							onClose={setShowPinModal}
 							setFormData={setFormData}
+							Alert={Alert}
 						/>
 					</>
 				)}

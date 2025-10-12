@@ -1277,6 +1277,8 @@ export default function MaterialRegistrationPage() {
 						isOpen={showShelfModal}
 						onClose={() => setShowShelfModal(false)}
 						shelves={shelves}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				</main>
 
@@ -1294,6 +1296,8 @@ export default function MaterialRegistrationPage() {
 						}
 						resourceStatus={formData.ma_status}
 						resourceQr={formData.ma_qr}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				)}
 			</div>

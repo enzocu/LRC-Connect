@@ -8,9 +8,6 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 
 import { handleChange } from "@/controller/custom/customFunction";
-
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 
 import { insertFaqs } from "../../controller/firebase/insert/insertFaqs";
@@ -18,9 +15,13 @@ import { updateFaqs } from "../../controller/firebase/update/updateFaqs";
 
 import { isEmptyObject } from "../../controller/custom/customFunction";
 
-export function AddFaqModal({ isOpen, onClose, selectedFaqs = null }) {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
+export function AddFaqModal({
+	isOpen,
+	onClose,
+	selectedFaqs = null,
+	userDetails,
+	Alert,
+}) {
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const [formData, setFormData] = useState({

@@ -17,9 +17,13 @@ import {
 	updateShelfStatus,
 } from "@/controller/firebase/update/updateShelfName";
 
-export function ShelfRegistrationModal({ isOpen, onClose, shelves }) {
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
+export function ShelfRegistrationModal({
+	isOpen,
+	onClose,
+	shelves,
+	userDetails,
+	Alert,
+}) {
 	const [newShelf, setNewShelf] = useState("");
 	const [btnLoading, setBtnloading] = useState(false);
 	const [editingShelfId, setEditingShelfId] = useState(null);

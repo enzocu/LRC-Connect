@@ -380,6 +380,8 @@ export default function RegisterComputer() {
 						resourceTitle={formData?.co_name || "Untitled Computer"}
 						resourceStatus={formData?.co_status}
 						resourceQr={formData?.co_qr}
+						userDetails={userDetails}
+						Alert={Alert}
 					/>
 				)}
 			</div>

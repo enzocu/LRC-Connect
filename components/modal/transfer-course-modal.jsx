@@ -12,7 +12,6 @@ import {
 	SelectValue,
 } from "@/components/ui/select";
 
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { transferCourses } from "@/controller/firebase/update/updateCourses";
 
@@ -21,8 +20,9 @@ export function TransferCourseModal({
 	onClose,
 	actionData = null,
 	coursesData = [],
+	Alert,
 }) {
-	const Alert = useAlertActions();
+	
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [selectedTarget, setSelectedTarget] = useState("");
 

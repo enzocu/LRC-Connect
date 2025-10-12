@@ -5,7 +5,6 @@ import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { FiAlertTriangle } from "react-icons/fi";
 
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 import { deleteCourses } from "@/controller/firebase/update/updateCourses";
 
@@ -14,8 +13,8 @@ export function DeleteCourseModal({
 	onClose,
 	actionData = null,
 	coursesData = null,
+	Alert,
 }) {
-	const Alert = useAlertActions();
 	const [btnLoading, setBtnLoading] = useState(false);
 
 	const handleConfirm = async () => {

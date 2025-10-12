@@ -8,18 +8,19 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FiX, FiBookOpen } from "react-icons/fi";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { useLoading } from "@/contexts/LoadingProvider";
 import { LoadingSpinner } from "@/components/loading";
 
 import { updateBorrowingLimit } from "@/controller/firebase/update/updateBorrowingLimit";
 import { getBorrowingLimit } from "@/controller/firebase/get/getBorrowingLimit";
 
-export default function BorrowingLimitsModal({ isOpen, onClose }) {
+export default function BorrowingLimitsModal({
+	isOpen,
+	onClose,
+	userDetails,
+	Alert,
+}) {
 	const pathname = usePathname();
-	const { userDetails } = useUserAuth();
-	const Alert = useAlertActions();
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 

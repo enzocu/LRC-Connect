@@ -11,11 +11,15 @@ import { FiUpload, FiFileText, FiRefreshCw } from "react-icons/fi";
 
 import { getStatusColor } from "@/controller/custom/getStatusColor";
 import { processExcelFile } from "@/controller/custom/processExcelFile";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { insertUserExcel } from "@/controller/firebase/insert/insertUserExcel";
 
-export function ExcelImportModal({ isOpen, onClose, li_id, modifiedBy }) {
-	const Alert = useAlertActions();
+export function ExcelImportModal({
+	isOpen,
+	onClose,
+	li_id,
+	modifiedBy,
+	Alert,
+}) {
 	const [step, setStep] = useState("upload");
 	const [selectedFile, setSelectedFile] = useState(null);
 	const [btnLoading, setBtnloading] = useState(false);
