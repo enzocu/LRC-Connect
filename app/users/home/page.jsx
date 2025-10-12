@@ -691,8 +691,7 @@ export default function HomePage() {
 
 									<div
 										ref={chatContainerRef}
-										className="flex-1 overflow-y-auto pr-2 space-y-6"
-										style={{ paddingBottom: "8px" }}
+										className="flex-1 overflow-y-auto pr-2 space-y-6  pb-6"
 									>
 										{messages.map((message, index) => {
 											if (message.role === "user") {
@@ -713,7 +712,7 @@ export default function HomePage() {
 											return (
 												<div key={index} className="flex justify-start">
 													<div className="max-w-[90%] bg-primary-custom/10 rounded-2xl rounded-tl-sm ">
-														<div className="flex items-center gap-2 mb-2">
+														<div className="flex items-center gap-2 mb-4">
 															<div className="flex items-center gap-2">
 																<div className="w-6 h-6 rounded-full  overflow-hidden flex items-center justify-center">
 																	<img

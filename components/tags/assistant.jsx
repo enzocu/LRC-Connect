@@ -226,7 +226,7 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 				<div className="flex flex-col flex-1">
 					{/* Messages */}
 					<div
-						className="flex-1 overflow-y-auto space-y-6 pr-1 mb-6 "
+						className="flex-1 overflow-y-auto space-y-6 pr-1 pb-6"
 						style={{ minHeight: "350px", maxHeight: "500px" }}
 						ref={messagesEndRef}
 					>
