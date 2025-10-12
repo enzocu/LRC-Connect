@@ -47,7 +47,6 @@ export function Header({ setIsOpen: externalSetIsOpen }) {
 	return (
 		<div className="no-print fixed top-0 left-0 right-0 z-50 flex items-center justify-between gap-6 px-6 py-4 bg-card border-b border-border transition-all duration-300 opacity-100">
 			<div className="flex items-center gap-2">
-				{/* Mobile menu toggle - only show on small screens */}
 				<Button
 					aria-label="Toggle sidebar"
 					onClick={() => {
@@ -64,7 +63,6 @@ export function Header({ setIsOpen: externalSetIsOpen }) {
 					<FiMenu className="w-5 h-5 text-foreground" />
 				</Button>
 
-				{/* Logo - hidden on small screens, moved to Sidebar for mobile */}
 				<div className="hidden md:flex items-center gap-2">
 					<div className="w-15 h-9 rounded-lg overflow-hidden flex items-center justify-center ">
 						<img
@@ -98,7 +96,10 @@ export function Header({ setIsOpen: externalSetIsOpen }) {
 					<span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
 				</Button>
 
-				<div className="flex items-center gap-2">
+				<div
+					className="flex items-center gap-2 cursor-pointer"
+					onClick={() => router.push(`/account/details?id=${userDetails?.uid}`)}
+				>
 					<Avatar className="w-8 h-8">
 						<AvatarImage
 							src={userDetails?.us_photoURL || "/placeholder.svg"}

@@ -134,24 +134,19 @@ export default function CoursesPage() {
 							</p>
 						</div>
 
-						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14">
+						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up">
 							{/* Senior High School Section */}
 							<Card className="bg-card border-border transition-colors duration-300 h-fit">
 								<CardContent className="p-6">
-									<div className="flex items-center justify-between mb-4">
-										<h2
-											className="font-semibold text-foreground"
-											style={{ fontSize: "16px" }}
-										>
+									<div className="flex items-start justify-between mb-4">
+										<h2 className="font-semibold text-foreground text-[16px] leading-none">
 											Senior High School
 										</h2>
 										<Button
 											onClick={() =>
 												openActionModal("track", "add", null, null, null, null)
 											}
-											size="sm"
-											className="h-8 gap-1.5 bg-primary hover:bg-primary/90 text-primary-foreground"
-											style={{ fontSize: "11px" }}
+											className="h-9 bg-primary-custom hover:bg-secondary-custom text-white border-none text-[12px]"
 										>
 											<FiPlus className="w-3.5 h-3.5" />
 											Add Track
@@ -164,7 +159,7 @@ export default function CoursesPage() {
 											value={searchSHS}
 											onChange={(e) => setSearchSHS(e.target.value)}
 											placeholder="Search tracks..."
-											className="pl-9 h-9 bg-background border-border text-foreground"
+											className="pl-10 pr-24 h-9 bg-background border-none text-foreground rounded-md shadow-sm"
 											style={{ fontSize: "12px" }}
 										/>
 									</div>
@@ -178,10 +173,7 @@ export default function CoursesPage() {
 											>
 												<AccordionTrigger className="hover:no-underline">
 													<div className="flex items-center justify-between w-full pr-4">
-														<span
-															className="text-foreground font-medium"
-															style={{ fontSize: "12px" }}
-														>
+														<span className="text-foreground font-medium text-[12px]">
 															{track.cs_title}
 														</span>
 														<DropdownMenu>
@@ -193,6 +185,7 @@ export default function CoursesPage() {
 															</DropdownMenuTrigger>
 															<DropdownMenuContent align="end" className="w-40">
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -209,6 +202,7 @@ export default function CoursesPage() {
 																	Add Strand
 																</DropdownMenuItem>
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -226,6 +220,7 @@ export default function CoursesPage() {
 																</DropdownMenuItem>
 
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -243,6 +238,7 @@ export default function CoursesPage() {
 																</DropdownMenuItem>
 
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	variant="destructive"
 																	onClick={(e) => {
 																		e.stopPropagation();
@@ -268,16 +264,13 @@ export default function CoursesPage() {
 														{track.cs_sub.map((strand, strandIndex) => (
 															<div
 																key={strandIndex}
-																className="flex items-center justify-between p-2 rounded hover:bg-accent/50 transition-colors"
+																className="flex items-center justify-between p-2 rounded hover:bg-accent/90 transition-colors"
 															>
-																<div className="flex items-center gap-2">
+																<div className="flex items-center gap-2 text-[12px]">
 																	<span className="text-muted-foreground">
 																		•
 																	</span>
-																	<span
-																		className="text-foreground"
-																		style={{ fontSize: "11px" }}
-																	>
+																	<span className="text-foreground">
 																		{strand}
 																	</span>
 																</div>
@@ -295,6 +288,7 @@ export default function CoursesPage() {
 																		className="w-40"
 																	>
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			onClick={() =>
 																				openActionModal(
 																					"strand",
@@ -311,6 +305,7 @@ export default function CoursesPage() {
 																		</DropdownMenuItem>
 
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			onClick={(e) => {
 																				e.stopPropagation();
 																				openActionModal(
@@ -328,6 +323,7 @@ export default function CoursesPage() {
 																		</DropdownMenuItem>
 
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			variant="destructive"
 																			onClick={(e) => {
 																				e.stopPropagation();
@@ -361,11 +357,8 @@ export default function CoursesPage() {
 							{/* College Section */}
 							<Card className="bg-card border-border transition-colors duration-300 h-fit">
 								<CardContent className="p-6">
-									<div className="flex items-center justify-between mb-4">
-										<h2
-											className="font-semibold text-foreground"
-											style={{ fontSize: "16px" }}
-										>
+									<div className="flex items-start justify-between mb-4">
+										<h2 className="font-semibold text-foreground text-[16px] leading-none">
 											College Courses
 										</h2>
 										<Button
@@ -379,9 +372,7 @@ export default function CoursesPage() {
 													null
 												)
 											}
-											size="sm"
-											className="h-8 gap-1.5 bg-primary hover:bg-primary/90 text-primary-foreground"
-											style={{ fontSize: "11px" }}
+											className="h-9 bg-primary-custom hover:bg-secondary-custom text-white border-none text-[12px]"
 										>
 											<FiPlus className="w-3.5 h-3.5" />
 											Add Institute
@@ -394,7 +385,7 @@ export default function CoursesPage() {
 											value={searchCollege}
 											onChange={(e) => setSearchCollege(e.target.value)}
 											placeholder="Search institute..."
-											className="pl-9 h-9 bg-background border-border text-foreground"
+											className="pl-10 pr-24 h-9 bg-background border-none text-foreground rounded-md shadow-sm"
 											style={{ fontSize: "12px" }}
 										/>
 									</div>
@@ -408,10 +399,7 @@ export default function CoursesPage() {
 											>
 												<AccordionTrigger className="hover:no-underline">
 													<div className="flex items-center justify-between w-full pr-4">
-														<span
-															className="text-foreground font-medium"
-															style={{ fontSize: "12px" }}
-														>
+														<span className="text-foreground font-medium text-[12px]">
 															{institute.cs_title}
 														</span>
 														<DropdownMenu>
@@ -423,6 +411,7 @@ export default function CoursesPage() {
 															</DropdownMenuTrigger>
 															<DropdownMenuContent align="end" className="w-40">
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -439,6 +428,7 @@ export default function CoursesPage() {
 																	Add Program
 																</DropdownMenuItem>
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -456,6 +446,7 @@ export default function CoursesPage() {
 																</DropdownMenuItem>
 
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	onClick={(e) => {
 																		e.stopPropagation();
 																		openActionModal(
@@ -473,6 +464,7 @@ export default function CoursesPage() {
 																</DropdownMenuItem>
 
 																<DropdownMenuItem
+																	className="text-[12px]"
 																	variant="destructive"
 																	onClick={(e) => {
 																		e.stopPropagation();
@@ -498,16 +490,13 @@ export default function CoursesPage() {
 														{institute.cs_sub.map((program, programIndex) => (
 															<div
 																key={programIndex}
-																className="flex items-center justify-between p-2 rounded hover:bg-accent/50 transition-colors"
+																className="flex items-center justify-between p-2 rounded hover:bg-accent/90 transition-colors"
 															>
-																<div className="flex items-center gap-2">
+																<div className="flex items-center gap-2 text-[12px]">
 																	<span className="text-muted-foreground">
 																		•
 																	</span>
-																	<span
-																		className="text-foreground"
-																		style={{ fontSize: "11px" }}
-																	>
+																	<span className="text-foreground">
 																		{program}
 																	</span>
 																</div>
@@ -525,6 +514,7 @@ export default function CoursesPage() {
 																		className="w-40"
 																	>
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			onClick={() =>
 																				openActionModal(
 																					"program",
@@ -541,6 +531,7 @@ export default function CoursesPage() {
 																		</DropdownMenuItem>
 
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			onClick={(e) => {
 																				e.stopPropagation();
 																				openActionModal(
@@ -558,6 +549,7 @@ export default function CoursesPage() {
 																		</DropdownMenuItem>
 
 																		<DropdownMenuItem
+																			className="text-[12px]"
 																			variant="destructive"
 																			onClick={(e) => {
 																				e.stopPropagation();

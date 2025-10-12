@@ -66,39 +66,34 @@ export function AddEditCourseModal({
 
 	return (
 		<Modal isOpen={isOpen} onClose={onClose} title={getTitle()} size="sm">
-			<form onSubmit={handleSubmit} className="p-6 space-y-4">
-				<div>
-					<Label
-						className="text-foreground font-medium"
-						style={{ fontSize: "11px" }}
-					>
+			<form onSubmit={handleSubmit}>
+				<div className="p-6  space-y-1">
+					<Label className="font-medium text-foreground text-[12px]">
 						Name
 					</Label>
 					<Input
 						value={name}
 						onChange={(e) => setName(e.target.value)}
 						placeholder={getPlaceholder()}
-						className="mt-1 h-9 bg-background border-border text-foreground"
-						style={{ fontSize: "11px" }}
+						className="h-9 bg-background border-border text-foreground"
+						style={{ fontSize: "12px" }}
 						autoFocus
 					/>
 				</div>
 
-				<div className="flex gap-3 justify-end pt-2">
+				<div className="flex items-center justify-end gap-3 px-6 py-4 bg-muted/30 border-t border-border">
 					<Button
 						type="button"
 						onClick={onClose}
 						variant="outline"
-						className="h-9 px-4 border-border text-foreground hover:bg-accent bg-transparent"
-						style={{ fontSize: "11px" }}
+						className="bg-transparent h-10 px-4 text-[12px]"
 					>
 						Cancel
 					</Button>
 					<Button
 						type="submit"
 						disabled={!name.trim()}
-						className="bg-primary-custom text-white hover:opacity-90 h-9 px-4 disabled:opacity-50 disabled:cursor-not-allowed"
-						style={{ fontSize: "11px" }}
+						className="bg-primary-custom hover:bg-secondary-custom text-white text-[12px] h-10 px-4"
 					>
 						<LoadingSpinner loading={btnLoading} />
 						{mode === "add" ? "Add" : "Save"}

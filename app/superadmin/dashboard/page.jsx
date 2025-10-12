@@ -217,7 +217,7 @@ export default function Dashboard() {
 														placeholder="Search feedback..."
 														value={searchQuery}
 														onChange={(e) => setSearchQuery(e.target.value)}
-														className="pl-10 bg-card border-border text-foreground h-9"
+														className="pl-10 pr-24 h-9 bg-background border-none text-foreground rounded-md shadow-sm"
 														style={{ fontSize: "12px" }}
 													/>
 												</div>
@@ -240,7 +240,7 @@ export default function Dashboard() {
 														onChange={(e) => setSelectedStatus(e.target.value)}
 														className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 flex-1 text-[12px]"
 													>
-														<option value="All">All</option>
+														<option value="All">All Status</option>
 														<option value="unread">Unread</option>
 														<option value="read">Read</option>
 													</select>
@@ -362,9 +362,9 @@ export default function Dashboard() {
 										</p>
 
 										<div className="mb-6">
-											<div className="w-40 h-40 rounded-full bg-primary/10 flex items-center justify-center border-2 border-primary/20">
+											<div className="w-40 h-40 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/20 shimmer">
 												<p
-													className="font-bold text-primary"
+													className="font-bold text-primary "
 													style={{ fontSize: "40px", lineHeight: "1" }}
 												>
 													{statistics.todayAuditTrails}
@@ -373,7 +373,7 @@ export default function Dashboard() {
 										</div>
 
 										<div className="w-full pt-6 border-t border-border">
-											<div className="flex items-center justify-center gap-2 mb-2">
+											<div className="flex items-center justify-center gap-2 mb-1">
 												<FiClock className="w-4 h-4 text-muted-foreground" />
 												<h4 className="font-semibold text-foreground text-[14px]">
 													Last Update
@@ -382,7 +382,7 @@ export default function Dashboard() {
 											<p className="text-muted-foreground mb-4 text-[12px]">
 												Most recent system activity
 											</p>
-											<p className="font-semibold text-foreground bg-muted rounded-lg px-4 py-2 inline-block text-[12px]">
+											<p className="font-semibold text-foreground bg-muted rounded-lg px-4 py-2 inline-block text-[14px]">
 												{statistics.lastUpdate}
 											</p>
 										</div>

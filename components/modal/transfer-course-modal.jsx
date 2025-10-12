@@ -57,62 +57,52 @@ export function TransferCourseModal({
 			}`}
 			size="sm"
 		>
-			<div className="p-6 space-y-4">
-				<div>
-					<Label
-						className="text-foreground font-medium"
-						style={{ fontSize: "11px" }}
-					>
-						Transfer <span className="font-semibold">{actionData?.title}</span>{" "}
-						to:
-					</Label>
+			<div className="p-6  space-y-1">
+				<Label className="font-medium text-foreground text-[12px]">
+					Transfer <span className="font-semibold">{actionData?.title}</span>{" "}
+					to:
+				</Label>
 
-					<Select value={selectedTarget} onValueChange={setSelectedTarget}>
-						<SelectTrigger
-							className="mt-2 h-9 bg-background border-border text-foreground"
-							style={{ fontSize: "11px" }}
-						>
-							<SelectValue placeholder="Select destination" />
-						</SelectTrigger>
+				<Select value={selectedTarget} onValueChange={setSelectedTarget}>
+					<SelectTrigger className="h-9 bg-background border-border text-foreground text-[12px]">
+						<SelectValue placeholder="Select destination" />
+					</SelectTrigger>
 
-						<SelectContent>
-							{coursesData
-								.filter((target) => target.id !== actionData?.id)
-								.map((target, index) => (
-									<SelectItem
-										key={index}
-										value={target.id}
-										style={{ fontSize: "11px" }}
-									>
-										{target.cs_title}
-									</SelectItem>
-								))}
-						</SelectContent>
-					</Select>
-				</div>
+					<SelectContent>
+						{coursesData
+							.filter((target) => target.id !== actionData?.id)
+							.map((target, index) => (
+								<SelectItem
+									key={index}
+									value={target.id}
+									className="text-[12px]"
+								>
+									{target.cs_title}
+								</SelectItem>
+							))}
+					</SelectContent>
+				</Select>
+			</div>
 
-				<div className="flex gap-3 justify-end pt-2">
-					<Button
-						type="button"
-						onClick={onClose}
-						variant="outline"
-						className="h-9 px-4 border-border text-foreground hover:bg-accent bg-transparent"
-						style={{ fontSize: "11px" }}
-					>
-						Cancel
-					</Button>
+			<div className="flex items-center justify-end gap-3 px-6 py-4 bg-muted/30 border-t border-border">
+				<Button
+					type="button"
+					onClick={onClose}
+					variant="outline"
+					className="bg-transparent h-10 px-4 text-[12px]"
+				>
+					Cancel
+				</Button>
 
-					<Button
-						type="button"
-						onClick={handleTransfer}
-						disabled={!selectedTarget || btnLoading}
-						className="bg-primary-custom text-white hover:opacity-90 h-9 px-4 disabled:opacity-50 disabled:cursor-not-allowed"
-						style={{ fontSize: "11px" }}
-					>
-						<LoadingSpinner loading={btnLoading} />
-						Transfer
-					</Button>
-				</div>
+				<Button
+					type="button"
+					onClick={handleTransfer}
+					disabled={!selectedTarget || btnLoading}
+					className="bg-primary-custom hover:bg-secondary-custom text-white text-[12px] h-10 px-4"
+				>
+					<LoadingSpinner loading={btnLoading} />
+					Transfer
+				</Button>
 			</div>
 		</Modal>
 	);
