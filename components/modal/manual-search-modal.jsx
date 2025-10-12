@@ -230,17 +230,15 @@ export function ManualSearchModal({
 										"User Type",
 										"Fullname",
 										"Email",
-										...[
-											typeof userType === "string" && userType === "patron"
-												? [
-														"Course",
-														"Year",
-														"Track/Institute",
-														"Strand/Program",
-														"Section",
-												  ]
-												: [],
-										],
+										...(typeof userType === "string" && userType === "patron"
+											? [
+													"Course",
+													"Year",
+													"Track/Institute",
+													"Strand/Program",
+													"Section",
+											  ]
+											: []),
 									].map((header) => (
 										<th
 											key={header}
@@ -279,7 +277,7 @@ export function ManualSearchModal({
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 											{account?.us_schoolID}
 										</td>
-										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
+										<td className="py-4 px-6 min-w-[130px] text-[12px] text-foreground">
 											<Badge
 												className={getStatColor(account?.us_status)}
 												style={{ fontSize: "10px" }}
@@ -287,7 +285,7 @@ export function ManualSearchModal({
 												{account?.us_status}
 											</Badge>
 										</td>
-										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
+										<td className="py-4 px-6 min-w-[130px] text-[12px] text-foreground">
 											<Badge
 												className={getTypeColor(account?.us_type)}
 												style={{ fontSize: "10px" }}

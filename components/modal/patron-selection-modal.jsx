@@ -160,9 +160,9 @@ export function PatronSelectionModal({
 								{[
 									<Checkbox disabled={true} />,
 									"Avatar",
-									"Fullname",
-									"User Type",
 									"School ID",
+									"User Type",
+									"Fullname",
 									"Email",
 									"Course",
 									"Year",
@@ -204,10 +204,10 @@ export function PatronSelectionModal({
 											className="w-12 h-12 rounded-full object-cover bg-gray-100 flex-shrink-0"
 										/>
 									</td>
-									<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
-										{patron?.us_name}
+									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+										{patron?.us_schoolID}
 									</td>
-									<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
+									<td className="py-4 px-6 min-w-[130px] text-[12px] text-foreground">
 										<Badge
 											className={getTypeColor(patron?.us_type)}
 											style={{ fontSize: "10px" }}
@@ -215,9 +215,10 @@ export function PatronSelectionModal({
 											{patron?.us_type}
 										</Badge>
 									</td>
-									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron?.us_schoolID}
+									<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
+										{patron?.us_name}
 									</td>
+
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 										{patron?.us_email}
 									</td>

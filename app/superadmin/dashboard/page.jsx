@@ -362,7 +362,7 @@ export default function Dashboard() {
 										</p>
 
 										<div className="mb-6">
-											<div className="w-40 h-40 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/20 shimmer">
+											<div className="w-32 h-32 rounded-full bg-primary/20 flex items-center justify-center border-2 border-primary/20 shimmer">
 												<p
 													className="font-bold text-primary "
 													style={{ fontSize: "40px", lineHeight: "1" }}
