@@ -226,16 +226,22 @@ export function ManualSearchModal({
 											}}
 										/>,
 										"Avatar",
-										"Fullname",
+										"School ID",
 										"Status",
 										"User Type",
-										"School ID",
+										"Fullname",
 										"Email",
-										"Course",
-										"Year",
-										"Track/Institute",
-										"Strand/Program",
-										"Section",
+										...[
+											typeof userType === "string" && userType === "patron"
+												? [
+														"Course",
+														"Year",
+														"Track/Institute",
+														"Strand/Program",
+														"Section",
+												  ]
+												: [],
+										],
 									].map((header) => (
 										<th
 											key={header}
@@ -271,8 +277,8 @@ export function ManualSearchModal({
 												className="w-12 h-12 rounded-full object-cover bg-gray-100 flex-shrink-0"
 											/>
 										</td>
-										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
-											{account?.us_name}
+										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+											{account?.us_schoolID}
 										</td>
 										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground">
 											<Badge
@@ -290,27 +296,33 @@ export function ManualSearchModal({
 												{account?.us_type}
 											</Badge>
 										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_schoolID}
+										<td className="py-4 px-6 min-w-[200px] text-[12px] text-foreground font-medium">
+											{account?.us_name}
 										</td>
+
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 											{account?.us_email}
 										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_courses}
-										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_year}
-										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_tracks || account?.us_institute}
-										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_strand || account?.us_program}
-										</td>
-										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_section}
-										</td>
+										{userType === "patron" && (
+											<>
+												<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+													{account?.us_courses}
+												</td>
+
+												<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+													{account?.us_year}
+												</td>
+												<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+													{account?.us_tracks || account?.us_institute}
+												</td>
+												<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+													{account?.us_strand || account?.us_program}
+												</td>
+												<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+													{account?.us_section}
+												</td>
+											</>
+										)}
 									</tr>
 								))}
 							</tbody>
@@ -338,7 +350,7 @@ const getTypeColor = (type) => {
 		case "Faculty":
 			return "bg-orange-100 text-orange-800 dark:bg-orange-900/30 dark:text-orange-400";
 		default:
-			return "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400";
+			return "bg-violet-100 text-violet-800 dark:bg-violet-900/30 dark:text-violet-400";
 	}
 };
 

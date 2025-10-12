@@ -20,6 +20,7 @@ import {
 	FiSearch,
 	FiX,
 	FiTrash2,
+	FiKey,
 	FiCamera,
 	FiFileText,
 	FiChevronDown,
@@ -90,6 +91,7 @@ export default function AccountList() {
 	const [showManualSearchModal, setShowManualSearchModal] = useState(false);
 	const [showExcelImportModal, setShowExcelImportModal] = useState(false);
 	const [showTypeModal, setShowTypeModal] = useState(false);
+	const [showResetPasswordModal, setResetPasswordModal] = useState(false);
 	const [showRemoveModal, setShowRemoveModal] = useState(false);
 	const [selectedAccount, setSelectedAccount] = useState({});
 
@@ -432,14 +434,19 @@ export default function AccountList() {
 												"Type",
 												"Fullname",
 												"Email Address",
-												"Course",
-												"Year",
-												...(selectedCourses !== "All"
-													? selectedCourses === "Senior High School"
-														? ["Track", "Strand"]
-														: ["Institute", "Program"]
+												...(type === "patron"
+													? [
+															"Course",
+															"Year",
+															...(selectedCourses !== "All"
+																? selectedCourses === "Senior High School"
+																	? ["Track", "Strand"]
+																	: ["Institute", "Program"]
+																: []),
+															"Section",
+													  ]
 													: []),
-												"Section",
+
 												"Action",
 											].map((header) => (
 												<th
@@ -480,31 +487,36 @@ export default function AccountList() {
 												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
 													{user?.us_email}
 												</td>
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user?.us_courses || "NA"}
-												</td>
 
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
-													{user?.us_year || "NA"}
-												</td>
-												{selectedCourses !== "All" && (
+												{type === "patron" && (
 													<>
-														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
-															{selectedCourses === "Senior High School"
-																? user?.us_tracks || "NA"
-																: user?.us_institute || "NA"}
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_courses || "NA"}
 														</td>
+
+														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[200px]">
+															{user?.us_year || "NA"}
+														</td>
+														{selectedCourses !== "All" && (
+															<>
+																<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
+																	{selectedCourses === "Senior High School"
+																		? user?.us_tracks || "NA"
+																		: user?.us_institute || "NA"}
+																</td>
+																<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
+																	{selectedCourses === "Senior High School"
+																		? user?.us_strand || "NA"
+																		: user?.us_program || "NA"}
+																</td>
+															</>
+														)}
+
 														<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
-															{selectedCourses === "Senior High School"
-																? user?.us_strand || "NA"
-																: user?.us_program || "NA"}
+															{user?.us_section || "NA"}
 														</td>
 													</>
 												)}
-
-												<td className="py-4 px-6 text-left text-foreground text-[12px] min-w-[250px]">
-													{user?.us_section || "NA"}
-												</td>
 
 												<td className="py-3 px-4 text-left">
 													<div className="flex gap-2">
@@ -536,6 +548,19 @@ export default function AccountList() {
 																		title="Change user type"
 																	>
 																		<FiRepeat className="w-4 h-4 text-blue-500" />
+																	</Button>
+
+																	<Button
+																		variant="ghost"
+																		size="sm"
+																		className="hover:bg-accent h-8 w-8 p-0"
+																		onClick={() => {
+																			setResetPasswordModal(true),
+																				setSelectedAccount(user);
+																		}}
+																		title="Reset Password"
+																	>
+																		<FiKey className="w-4 h-4 text-orange-500" />
 																	</Button>
 
 																	<Button

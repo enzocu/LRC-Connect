@@ -103,7 +103,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 					)}
 
 					<div className="space-y-1">
-						<p className="px-3 text-muted-foreground uppercase tracking-wider mb-2 text-[8px]">
+						<p className="px-3 text-muted-foreground uppercase tracking-wider mb-2 text-[11px]">
 							General
 						</p>
 
@@ -282,7 +282,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 					</div>
 
 					<div className="mt-6 space-y-1">
-						<p className="px-3 text-muted-foreground uppercase tracking-wider mb-2 text-[8px]">
+						<p className="px-3 text-muted-foreground uppercase tracking-wider mb-2 text-[11px]">
 							Tools
 						</p>
 
