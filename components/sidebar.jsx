@@ -164,12 +164,12 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 									<SidebarItem
 										href="/resources/discussion"
 										icon={SiGoogleclassroom}
-										label="Discussion Room"
+										label="Discussion Rooms"
 									/>
 									<SidebarItem
 										href="/resources/computer"
 										icon={FiCpu}
-										label="Computer"
+										label="Computers"
 									/>
 								</SidebarCollapse>
 								<SidebarItem

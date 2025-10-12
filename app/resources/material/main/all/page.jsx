@@ -566,14 +566,14 @@ export default function MaterialsPage() {
 
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">
-												Material Type
+												Select a Material Type
 											</label>
 											<select
 												value={selectedType}
 												onChange={(e) => setSelectedType(e.target.value)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 											>
-												<option value="All">Select Material Type</option>
+												<option value="All">All Material Types</option>
 												{materialTypes.map((type, index) => (
 													<option key={index} value={type.id}>
 														{type.mt_name}
@@ -584,14 +584,14 @@ export default function MaterialsPage() {
 
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">
-												Category
+												Select a Category
 											</label>
 											<select
 												value={selectedCategory}
 												onChange={(e) => setSelectedCategory(e.target.value)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 											>
-												<option value="All">Select Category</option>
+												<option value="All">All Categories</option>
 												{categories.map((category, index) => (
 													<option key={index} value={category.id}>
 														{category.ca_name}
@@ -601,14 +601,14 @@ export default function MaterialsPage() {
 										</div>
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">
-												Shelves
+												Select a Shelf
 											</label>
 											<select
 												value={selectedShelf}
 												onChange={(e) => setSelectedShelf(e.target.value)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 											>
-												<option value="All">Select Shelf</option>
+												<option value="All">All Shelves</option>
 												{shelves.map((shelf, index) => (
 													<option key={index} value={shelf.id}>
 														{shelf.sh_name}
@@ -617,22 +617,25 @@ export default function MaterialsPage() {
 											</select>
 										</div>
 
-										<div className="space-y-2">
-											<label className="block font-medium text-foreground text-[12px]">
-												Status
-											</label>
-											<select
-												value={selectedStatus}
-												onChange={(e) => setSelectedStatus(e.target.value)}
-												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-											>
-												{statuses.map((status) => (
-													<option key={status} value={status}>
-														{status}
-													</option>
-												))}
-											</select>
-										</div>
+										{userDetails &&
+											!["USR-5", "USR-6"].includes(userDetails?.us_level) && (
+												<div className="space-y-2">
+													<label className="block font-medium text-foreground text-[12px]">
+														Select a Status
+													</label>
+													<select
+														value={selectedStatus}
+														onChange={(e) => setSelectedStatus(e.target.value)}
+														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+													>
+														{statuses.map((status) => (
+															<option key={status} value={status}>
+																{status}
+															</option>
+														))}
+													</select>
+												</div>
+											)}
 
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">

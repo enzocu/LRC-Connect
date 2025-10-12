@@ -447,7 +447,7 @@ export default function AccountDetails() {
 											{editMode != "basicinfo" && superadmin && (
 												<Button
 													type="button"
-													className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+													className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 													onClick={() => {
 														setEditMode("basicinfo");
 													}}
@@ -459,7 +459,7 @@ export default function AccountDetails() {
 											{editMode === "basicinfo" && (
 												<>
 													<Button
-														className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+														className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 														onClick={() => {}}
 													>
 														<LoadingSpinner loading={btnLoading} />
@@ -469,7 +469,7 @@ export default function AccountDetails() {
 													<Button
 														variant="outline"
 														onClick={() => setEditMode("")}
-														className="w-fit border-border text-foreground hover:bg-accent h-11 text-[12px]"
+														className="w-fit border-border text-foreground hover:bg-accent h-10 text-[12px]"
 													>
 														Cancel
 													</Button>
@@ -739,7 +739,7 @@ export default function AccountDetails() {
 													{editMode != "academic" && (
 														<Button
 															type="button"
-															className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+															className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 															onClick={() => {
 																setEditMode("academic");
 															}}
@@ -751,7 +751,7 @@ export default function AccountDetails() {
 													{editMode === "academic" && (
 														<>
 															<Button
-																className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+																className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 																onClick={() => {}}
 															>
 																<LoadingSpinner loading={btnLoading} />
@@ -761,7 +761,7 @@ export default function AccountDetails() {
 															<Button
 																variant="outline"
 																onClick={() => setEditMode("")}
-																className="w-fit border-border text-foreground hover:bg-accent h-11 text-[12px]"
+																className="w-fit border-border text-foreground hover:bg-accent h-10 text-[12px]"
 															>
 																Cancel
 															</Button>
@@ -859,7 +859,7 @@ export default function AccountDetails() {
 												{editMode != "address" && (
 													<Button
 														type="button"
-														className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+														className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 														onClick={() => {
 															setEditMode("address");
 														}}
@@ -871,7 +871,7 @@ export default function AccountDetails() {
 												{editMode === "address" && (
 													<>
 														<Button
-															className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+															className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 															onClick={() => {}}
 														>
 															<LoadingSpinner loading={btnLoading} />

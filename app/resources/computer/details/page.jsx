@@ -194,7 +194,7 @@ export default function ComputerDetails() {
 											<label className="text-[12px] font-medium text-foreground">
 												School Name
 											</label>
-											<p className="text-[12px] text-muted-foreground">
+											<p className="text-[12px] text-muted-foreground leading-4">
 												{formData?.co_school}
 											</p>
 										</div>
@@ -208,7 +208,7 @@ export default function ComputerDetails() {
 											<label className="text-[12px] font-medium text-foreground">
 												Library Name
 											</label>
-											<p className="text-[12px] text-muted-foreground">
+											<p className="text-[12px] text-muted-foreground leading-4">
 												{formData?.co_library}
 											</p>
 										</div>

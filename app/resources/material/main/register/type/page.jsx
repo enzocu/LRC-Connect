@@ -700,7 +700,7 @@ export default function MaterialTypeRegistrationPage() {
 							<div className="flex gap-3 animate-slide-up-delay-4">
 								<Button
 									onClick={() => handleSave()}
-									className="bg-primary-custom text-white hover:opacity-90 h-11 px-6 flex items-center gap-2 text-[12px]"
+									className="bg-primary-custom text-white hover:opacity-90 h-10 px-6 flex items-center gap-2 text-[12px]"
 									disabled={
 										materialTypeData.length === 0 || materialTypeName == ""
 									}

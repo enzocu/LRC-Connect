@@ -304,7 +304,7 @@ export default function LibraryDetails() {
 											<>
 												<Button
 													type="submit"
-													className="bg-primary-custom hover:bg-secondary-custom text-white h-11 w-fit text-[12px]"
+													className="bg-primary-custom hover:bg-secondary-custom text-white h-10 w-fit text-[12px]"
 													onClick={handleSave}
 												>
 													<LoadingSpinner loading={btnLoading} />
@@ -313,7 +313,7 @@ export default function LibraryDetails() {
 												<Button
 													type="button"
 													variant="outline"
-													className="bg-transparent hover:bg-accent text-foreground h-11 w-fit text-[12px]"
+													className="bg-transparent hover:bg-accent text-foreground h-10 w-fit text-[12px]"
 													onClick={() => setIsEditing(false)}
 												>
 													Cancel
@@ -322,7 +322,7 @@ export default function LibraryDetails() {
 										) : (
 											<Button
 												type="button"
-												className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-11 text-[12px]"
+												className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 text-[12px]"
 												onClick={() => setIsEditing(true)}
 											>
 												Edit Details

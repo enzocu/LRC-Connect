@@ -281,13 +281,13 @@ export default function RegisterLibrary() {
 											type="button"
 											variant="outline"
 											onClick={handleCancel}
-											className="bg-transparent hover:bg-accent text-foreground h-11 w-fit text-[12px]"
+											className="bg-transparent hover:bg-accent text-foreground h-10 w-fit text-[12px]"
 										>
 											Cancel
 										</Button>
 										<Button
 											type="submit"
-											className="bg-primary-custom hover:bg-secondary-custom text-white h-11 w-fit text-[12px]"
+											className="bg-primary-custom hover:bg-secondary-custom text-white h-10 w-fit text-[12px]"
 										>
 											<LoadingSpinner loading={btnLoading} />
 											Register Library

@@ -324,7 +324,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													School Name
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_school}
 												</p>
 											</div>
@@ -338,7 +338,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													Library Name
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_library}
 												</p>
 											</div>
@@ -352,7 +352,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													Call Number
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_callNumber}
 												</p>
 											</div>
@@ -366,7 +366,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													Shelf
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_shelf}
 												</p>
 											</div>
@@ -380,7 +380,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													Material Type
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_materialType}
 												</p>
 											</div>
@@ -394,7 +394,7 @@ export default function MaterialDetailsPage() {
 												<label className="text-[12px] font-medium text-foreground">
 													Category
 												</label>
-												<p className="text-[12px] text-muted-foreground">
+												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_category}
 												</p>
 											</div>

@@ -229,7 +229,7 @@ export default function CongresssPage() {
 								<div className="p-4 space-y-4 overflow-y-auto h-full pb-24">
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
-											Language
+											Select a Language
 										</label>
 										<select
 											value={selectedLanguage}
@@ -246,7 +246,7 @@ export default function CongresssPage() {
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
-											Subject
+											Select a Subject
 										</label>
 										<select
 											value={selectedSubject}
@@ -263,7 +263,7 @@ export default function CongresssPage() {
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
-											Collection
+											Select a Collection
 										</label>
 										<select
 											value={selectedCollection}
