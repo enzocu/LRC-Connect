@@ -39,6 +39,9 @@ import {
 	getUserBreakdownFilter,
 } from "../../../controller/firebase/get/essential-report/enterexit-stats/getUserBreakdown";
 
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
+
 const sections = [
 	{
 		id: "A",
@@ -98,10 +101,9 @@ export default function EntryExitReports() {
 	const [filters, setFilters] = useState(defaultFilterValues);
 
 	const [libraryList, setLibraryList] = useState([]);
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
 
 	//PAGINATION
 	const [pageCursors, setPageCursors] = useState([]);
@@ -202,6 +204,25 @@ export default function EntryExitReports() {
 			}));
 		}
 	}, [userDetails]);
+
+	//FETCH COURSES
+	useEffect(() => {
+		if (filters.b_courses == "All") return;
+		getFilterCourses(filters.b_courses, setFilterCoursesData, Alert);
+	}, [filters.b_courses]);
+
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
 
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);
@@ -307,10 +328,12 @@ export default function EntryExitReports() {
 					return (
 						<tr className="border-b border-border">
 							<th className={commonHeaderStyle}>User ID</th>
-							<th className={commonHeaderStyle}>Name</th>
+							<th className={commonHeaderStyle}>Fullname</th>
 							<th className={commonHeaderStyle}>User Type</th>
 
-							<th className={`${commonHeaderStyle} flex items-center gap-1`}>
+							<th
+								className={`${commonHeaderStyle} flex items-center gap-1 mt-2`}
+							>
 								<span>Total Visits</span>
 								<BiSort
 									style={{ cursor: "pointer" }}
@@ -444,10 +467,10 @@ export default function EntryExitReports() {
 												sections,
 												activeSection,
 												libraryList,
-												tracksData,
-												strandData,
-												instituteData,
-												programData
+												filterCoursesData,
+												subCoursesData,
+												selectedCourseID,
+												setSelectedCourseID
 											)}
 										</div>
 

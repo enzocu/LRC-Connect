@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -41,7 +41,7 @@ const sections = [
 	{ id: "A", title: "Summary of Material Usage", key: "summary" },
 	{
 		id: "B",
-		title: "List of Library Material",
+		title: "List of Library Materials",
 		key: "totalMaterial",
 	},
 ];
@@ -65,7 +65,6 @@ const defaultFilterValues = {
 };
 
 export default function MaterialReports() {
-	const router = useRouter();
 	const pathname = usePathname();
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();

@@ -13,7 +13,7 @@ export const TypeSelect = ({ value, onChange, name }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Type
+				Select a Type
 			</label>
 			<select
 				value={value}
@@ -39,7 +39,7 @@ export const RoleSelect = ({ value, onChange, name }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				User Role
+				Select a Role
 			</label>
 			<select
 				value={value}
@@ -75,7 +75,7 @@ export const UserTypeSelect = ({ value, onChange, name, role = "Patron" }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				User Type
+				Select a User Type
 			</label>
 			<select
 				value={value}
@@ -83,7 +83,7 @@ export const UserTypeSelect = ({ value, onChange, name, role = "Patron" }) => {
 				name={name}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select User Type</option>
+				<option value="All">All User Types</option>
 				{options.map(({ label, options }) => (
 					<optgroup key={label} label={label}>
 						{options.map((opt) => (
@@ -102,7 +102,7 @@ export const MaTypeSelect = ({ value, onChange, name }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Type
+				Select a Material Type
 			</label>
 			<select
 				value={value}
@@ -155,14 +155,14 @@ export const FilterFormatSelect = ({ value, onChange }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Format
+				Select a Format
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Format</option>
+				<option value="All">All Formats</option>
 				<option value="Hard Copy">Hard Copy</option>
 				<option value="Soft Copy">Soft Copy</option>
 				<option value="Audio Copy">Audio Copy</option>
@@ -175,14 +175,14 @@ export const FilterMaterialSelect = ({ value, onChange, materialList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Material
+				Select a Material
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Material</option>
+				<option value="All">All Materials</option>
 				{materialList.map((material) => (
 					<option key={material.id} value={material.id}>
 						{material.ma_qr}
@@ -197,14 +197,14 @@ export const FilterDRSelect = ({ value, onChange, discussionRoomList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				DR List
+				Select a Discussion Room
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Discussion Rooms</option>
+				<option value="All">All Discussion Rooms</option>
 				{discussionRoomList.map((room) => (
 					<option key={room.id} value={room.id}>
 						{room.dr_qr}
@@ -219,14 +219,14 @@ export const FilterComputerSelect = ({ value, onChange, computerList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Computer List
+				Select a Computer
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Computer</option>
+				<option value="All">All Computers</option>
 				{computerList.map((computer) => (
 					<option key={computer.id} value={computer.id}>
 						{computer.co_qr}
@@ -241,14 +241,14 @@ export const FilterLibrarySelect = ({ value, onChange, libraryList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Library List
+				Select a Library
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Library</option>
+				<option value="All">All Libraries</option>
 				{libraryList.map((library) => (
 					<option key={library.id} value={library.id}>
 						{library.li_name}
@@ -263,14 +263,14 @@ export const FilterMaterialTypeSelect = ({ value, onChange, mtList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Material Type List
+				Select a Material Type
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Material Type</option>
+				<option value="All">All Material Types</option>
 				{mtList.map((mt) => (
 					<option key={mt.id} value={mt.id}>
 						{mt.mt_name}
@@ -285,14 +285,14 @@ export const FilterCategorySelect = ({ value, onChange, caList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Category List
+				Select a Category
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Category</option>
+				<option value="All">All Categories</option>
 				{caList.map((ca) => (
 					<option key={ca.id} value={ca.id}>
 						{ca.ca_name}
@@ -307,14 +307,14 @@ export const FilterShelfSelect = ({ value, onChange, shList }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Shelf List
+				Select a Shelf
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Shelf</option>
+				<option value="All">All Shelves</option>
 				{shList.map((sh) => (
 					<option key={sh.id} value={sh.id}>
 						{sh.sh_name}
@@ -325,18 +325,37 @@ export const FilterShelfSelect = ({ value, onChange, shList }) => {
 	);
 };
 
-export const FilterCoursesSelect = ({ value, onChange }) => {
+export const FilterCoursesSelect = ({
+	value,
+	onChange,
+	setFilters,
+	prefix = "b_",
+}) => {
+	const handleCourseChange = (e) => {
+		const selectedCourse = e.target.value;
+		onChange(e);
+		setFilters((prev) => ({
+			...prev,
+			[`${prefix}courses`]: selectedCourse,
+			[`${prefix}year`]: "All",
+			[`${prefix}tracks`]: "All",
+			[`${prefix}institute`]: "All",
+			[`${prefix}strand`]: "All",
+			[`${prefix}program`]: "All",
+		}));
+	};
+
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Courses
+				Select a Course
 			</label>
 			<select
 				value={value}
-				onChange={onChange}
+				onChange={handleCourseChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Courses</option>
+				<option value="All">All Courses</option>
 				{["Senior High School", "College Courses"].map((courses, index) => (
 					<option key={index} value={courses}>
 						{courses}
@@ -351,14 +370,14 @@ export const FilterYearSelect = ({ value, onChange, selectedCourses }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Year
+				Select a Year
 			</label>
 			<select
 				value={value}
 				onChange={onChange}
 				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 			>
-				<option value="All">Select Year</option>
+				<option value="All">All Years</option>
 				{(selectedCourses == "Senior High School"
 					? ["Grade 11", "Grade 12"]
 					: ["1st Year", "2nd Year", "3rd Year", "4th Year"]
@@ -372,91 +391,112 @@ export const FilterYearSelect = ({ value, onChange, selectedCourses }) => {
 	);
 };
 
-export const FilterTracksSelect = ({ value, onChange, trackList }) => {
-	return (
-		<div className="space-y-2">
-			<label className="block font-medium text-foreground text-[12px]">
-				Track List
-			</label>
-			<select
-				value={value}
-				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Track</option>
-				{trackList.map((track, index) => (
-					<option key={index} value={track}>
-						{track}
-					</option>
-				))}
-			</select>
-		</div>
-	);
-};
+export const FilterCourseSelects = ({
+	selectedCourse,
+	filters,
+	setFilters,
+	mainList,
+	subList,
+	prefix = "b_",
+	selectedCourseID,
+	setSelectedCourseID,
+}) => {
+	if (selectedCourse === "All") return null;
 
-export const FilterStrandSelect = ({ value, onChange, strandList }) => {
-	return (
-		<div className="space-y-2">
-			<label className="block font-medium text-foreground text-[12px]">
-				Strand List
-			</label>
-			<select
-				value={value}
-				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Strand</option>
-				{strandList.map((strand, index) => (
-					<option key={index} value={strand}>
-						{strand}
-					</option>
-				))}
-			</select>
-		</div>
-	);
-};
+	const mainKey =
+		selectedCourse === "Senior High School"
+			? `${prefix}tracks`
+			: `${prefix}institute`;
 
-export const FilterInstituteSelect = ({ value, onChange, instituteList }) => {
-	return (
-		<div className="space-y-2">
-			<label className="block font-medium text-foreground text-[12px]">
-				Institute List
-			</label>
-			<select
-				value={value}
-				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Institute</option>
-				{instituteList.map((institute, index) => (
-					<option key={index} value={institute}>
-						{institute}
-					</option>
-				))}
-			</select>
-		</div>
-	);
-};
+	const subKey =
+		selectedCourse === "Senior High School"
+			? `${prefix}strand`
+			: `${prefix}program`;
 
-export const FilterProgramSelect = ({ value, onChange, programList }) => {
 	return (
-		<div className="space-y-2">
-			<label className="block font-medium text-foreground text-[12px]">
-				Program
-			</label>
-			<select
-				value={value}
-				onChange={onChange}
-				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
-			>
-				<option value="All">Select Program</option>
-				{programList.map((program, index) => (
-					<option key={index} value={program}>
-						{program}
+		<>
+			{/* TRACK / INSTITUTE */}
+			<div className="space-y-2">
+				<label className="block font-medium text-foreground text-[12px]">
+					Select a{" "}
+					{selectedCourse === "Senior High School" ? "Track" : "Institute"}
+				</label>
+				<select
+					value={selectedCourseID || ""}
+					onChange={(e) => {
+						const selectedID = e.target.value;
+						setSelectedCourseID(selectedID);
+
+						const selectedItem = mainList.find(
+							(item) => item.id === selectedID
+						);
+
+						if (selectedItem) {
+							if (selectedCourse === "Senior High School") {
+								setFilters({
+									...filters,
+									[mainKey]: selectedItem.cs_title,
+									[subKey]: "All",
+								});
+							} else {
+								setFilters({
+									...filters,
+									[mainKey]: selectedItem.cs_title,
+									[subKey]: "All",
+								});
+							}
+						}
+					}}
+					className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+				>
+					<option value="All">
+						{selectedCourse === "Senior High School"
+							? "All Tracks"
+							: "All Institutes"}
 					</option>
-				))}
-			</select>
-		</div>
+					{mainList.map((course) => (
+						<option key={course.id} value={course.id}>
+							{course.cs_title}
+						</option>
+					))}
+				</select>
+			</div>
+
+			{/* STRAND / PROGRAM */}
+			<div className="space-y-2">
+				<label className="block font-medium text-foreground text-[12px]">
+					Select a{" "}
+					{selectedCourse === "Senior High School" ? "Strand" : "Program"}
+				</label>
+				<select
+					value={
+						selectedCourse === "Senior High School"
+							? filters[`${prefix}strand`] || "All"
+							: filters[`${prefix}program`] || "All"
+					}
+					onChange={(e) => {
+						const val = e.target.value;
+						if (selectedCourse === "Senior High School") {
+							setFilters({ ...filters, [subKey]: val });
+						} else {
+							setFilters({ ...filters, [subKey]: val });
+						}
+					}}
+					className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+				>
+					<option value="All">
+						{selectedCourse === "Senior High School"
+							? "All Strands"
+							: "All Programs"}
+					</option>
+					{subList.map((sub, index) => (
+						<option key={index} value={sub}>
+							{sub}
+						</option>
+					))}
+				</select>
+			</div>
+		</>
 	);
 };
 
@@ -464,7 +504,7 @@ export const FilterSectionInput = ({ value, onChange }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				Section
+				Section Name
 			</label>
 			<Input
 				placeholder="Enter Section..."
@@ -481,7 +521,7 @@ export const StatusSelect = ({ label, value, onChange, all = false }) => {
 	return (
 		<div className="space-y-2">
 			<label className="block font-medium text-foreground text-[12px]">
-				{label}
+				Select {label}
 			</label>
 			<select
 				value={value}
@@ -632,7 +672,7 @@ export const renderFiltersMA = (
 			return (
 				<div className="space-y-4">
 					<StatusSelect
-						label="Material Status"
+						label="a Material Status"
 						value={filters.b_materialStatus}
 						onChange={(e) =>
 							setFilters({ ...filters, b_materialStatus: e.target.value })
@@ -761,7 +801,7 @@ export const renderFiltersDR = (
 			return (
 				<div className="space-y-4">
 					<StatusSelect
-						label="Room Status"
+						label="a Room Status"
 						value={filters.b_roomStatus}
 						onChange={(e) =>
 							setFilters({ ...filters, b_roomStatus: e.target.value })
@@ -870,7 +910,7 @@ export const renderFiltersCO = (
 			return (
 				<div className="space-y-4">
 					<StatusSelect
-						label="Computer Status"
+						label="a Computer Status"
 						value={filters.b_computerStatus}
 						onChange={(e) =>
 							setFilters({ ...filters, b_computerStatus: e.target.value })
@@ -905,7 +945,11 @@ export const getActiveFiltersUS = (
 	libraryList,
 	materialList,
 	discussionRoomList,
-	computerList
+	computerList,
+	filterCoursesData,
+	subCoursesData,
+	selectedCourseID,
+	setSelectedCourseID
 ) => {
 	const activeFilters = [];
 
@@ -933,9 +977,9 @@ export const getActiveFiltersUS = (
 			{ key: "b_role", label: "Role", defaultValue: "" },
 			{ key: "b_userType", label: "User Type", defaultValue: "All" },
 			{ key: "b_status", label: "Status", defaultValue: "Active" },
-			{ key: "b_courses", label: "Courses", defaultValue: "All" },
+			{ key: "b_courses", label: "Course", defaultValue: "All" },
 			{ key: "b_year", label: "Year", defaultValue: "All" },
-			{ key: "b_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "b_tracks", label: "Track", defaultValue: "All" },
 			{ key: "b_strand", label: "Strand", defaultValue: "All" },
 			{ key: "b_institute", label: "Institute", defaultValue: "All" },
 			{ key: "b_program", label: "Program", defaultValue: "All" },
@@ -948,9 +992,9 @@ export const getActiveFiltersUS = (
 			{ key: "c_role", label: "Role", defaultValue: "" },
 			{ key: "c_userType", label: "User Type", defaultValue: "All" },
 			{ key: "c_status", label: "Status", defaultValue: "Active" },
-			{ key: "c_courses", label: "Courses", defaultValue: "All" },
+			{ key: "c_courses", label: "Course", defaultValue: "All" },
 			{ key: "c_year", label: "Year", defaultValue: "All" },
-			{ key: "c_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "c_tracks", label: "Track", defaultValue: "All" },
 			{ key: "c_strand", label: "Strand", defaultValue: "All" },
 			{ key: "c_institute", label: "Institute", defaultValue: "All" },
 			{ key: "c_program", label: "Program", defaultValue: "All" },
@@ -997,9 +1041,9 @@ export const getActiveFiltersUS = (
 			{ key: "d_role", label: "Role", defaultValue: "" },
 			{ key: "d_userType", label: "User Type", defaultValue: "All" },
 			{ key: "d_status", label: "Status", defaultValue: "Active" },
-			{ key: "d_courses", label: "Courses", defaultValue: "All" },
+			{ key: "d_courses", label: "Course", defaultValue: "All" },
 			{ key: "d_year", label: "Year", defaultValue: "All" },
-			{ key: "d_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "d_tracks", label: "Track", defaultValue: "All" },
 			{ key: "d_strand", label: "Strand", defaultValue: "All" },
 			{ key: "d_institute", label: "Institute", defaultValue: "All" },
 			{ key: "d_program", label: "Program", defaultValue: "All" },
@@ -1042,10 +1086,10 @@ export const renderFiltersUS = (
 	materialList,
 	discussionRoomList,
 	computerList,
-	tracksData,
-	strandData,
-	instituteData,
-	programData
+	filterCoursesData,
+	subCoursesData,
+	selectedCourseID,
+	setSelectedCourseID
 ) => {
 	const section = sections.find((s) => s.id === activeSection);
 
@@ -1059,7 +1103,7 @@ export const renderFiltersUS = (
 					/>
 
 					<StatusSelect
-						label="Account Status"
+						label="an Account Status"
 						value={filters.a_status}
 						onChange={(e) =>
 							setFilters({ ...filters, a_status: e.target.value })
@@ -1099,7 +1143,7 @@ export const renderFiltersUS = (
 					/>
 
 					<StatusSelect
-						label="User Status"
+						label="an Account Status"
 						value={filters.b_status}
 						onChange={(e) =>
 							setFilters({ ...filters, b_status: e.target.value })
@@ -1113,6 +1157,8 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, b_courses: e.target.value })
 								}
+								setFilters={setFilters}
+								prefix="b_"
 							/>
 
 							<FilterYearSelect
@@ -1123,44 +1169,18 @@ export const renderFiltersUS = (
 								selectedCourses={filters.b_courses}
 							/>
 
-							{filters.b_courses != "All" &&
-								(filters.b_courses === "Senior High School" ? (
-									<>
-										<FilterTracksSelect
-											value={filters.b_tracks}
-											onChange={(e) =>
-												setFilters({ ...filters, b_tracks: e.target.value })
-											}
-											trackList={tracksData}
-										/>
-
-										<FilterStrandSelect
-											value={filters.b_strand}
-											onChange={(e) =>
-												setFilters({ ...filters, b_strand: e.target.value })
-											}
-											strandList={strandData}
-										/>
-									</>
-								) : (
-									<>
-										<FilterInstituteSelect
-											value={filters.b_institute}
-											onChange={(e) =>
-												setFilters({ ...filters, b_institute: e.target.value })
-											}
-											instituteList={instituteData}
-										/>
-
-										<FilterProgramSelect
-											value={filters.b_program}
-											onChange={(e) =>
-												setFilters({ ...filters, b_program: e.target.value })
-											}
-											programList={programData}
-										/>
-									</>
-								))}
+							{filters.b_courses !== "All" && (
+								<FilterCourseSelects
+									selectedCourse={filters.b_courses}
+									filters={filters}
+									setFilters={setFilters}
+									mainList={filterCoursesData}
+									subList={subCoursesData}
+									prefix="b_"
+									selectedCourseID={selectedCourseID}
+									setSelectedCourseID={setSelectedCourseID}
+								/>
+							)}
 
 							<FilterSectionInput
 								value={filters.b_section}
@@ -1204,7 +1224,7 @@ export const renderFiltersUS = (
 					/>
 
 					<StatusSelect
-						label="User Status"
+						label="an Account Status"
 						value={filters.c_status}
 						onChange={(e) =>
 							setFilters({ ...filters, c_status: e.target.value })
@@ -1217,6 +1237,8 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, c_courses: e.target.value })
 								}
+								setFilters={setFilters}
+								prefix="c_"
 							/>
 
 							<FilterYearSelect
@@ -1227,44 +1249,18 @@ export const renderFiltersUS = (
 								selectedCourses={filters.c_courses}
 							/>
 
-							{filters.c_courses != "All" &&
-								(filters.c_courses === "Senior High School" ? (
-									<>
-										<FilterTracksSelect
-											value={filters.c_tracks}
-											onChange={(e) =>
-												setFilters({ ...filters, c_tracks: e.target.value })
-											}
-											trackList={tracksData}
-										/>
-
-										<FilterStrandSelect
-											value={filters.c_strand}
-											onChange={(e) =>
-												setFilters({ ...filters, c_strand: e.target.value })
-											}
-											strandList={strandData}
-										/>
-									</>
-								) : (
-									<>
-										<FilterInstituteSelect
-											value={filters.c_institute}
-											onChange={(e) =>
-												setFilters({ ...filters, c_institute: e.target.value })
-											}
-											instituteList={instituteData}
-										/>
-
-										<FilterProgramSelect
-											value={filters.c_program}
-											onChange={(e) =>
-												setFilters({ ...filters, c_program: e.target.value })
-											}
-											programList={programData}
-										/>
-									</>
-								))}
+							{filters.c_courses !== "All" && (
+								<FilterCourseSelects
+									selectedCourse={filters.c_courses}
+									filters={filters}
+									setFilters={setFilters}
+									mainList={filterCoursesData}
+									subList={subCoursesData}
+									prefix="c_"
+									selectedCourseID={selectedCourseID}
+									setSelectedCourseID={setSelectedCourseID}
+								/>
+							)}
 
 							<FilterSectionInput
 								value={filters.c_section}
@@ -1377,7 +1373,7 @@ export const renderFiltersUS = (
 					/>
 
 					<StatusSelect
-						label="User Status"
+						label="an Account Status"
 						value={filters.d_status}
 						onChange={(e) =>
 							setFilters({ ...filters, d_status: e.target.value })
@@ -1390,6 +1386,8 @@ export const renderFiltersUS = (
 								onChange={(e) =>
 									setFilters({ ...filters, d_courses: e.target.value })
 								}
+								setFilters={setFilters}
+								prefix="d_"
 							/>
 
 							<FilterYearSelect
@@ -1399,44 +1397,19 @@ export const renderFiltersUS = (
 								}
 								selectedCourses={filters.d_courses}
 							/>
-							{filters.d_courses != "All" &&
-								(filters.d_courses === "Senior High School" ? (
-									<>
-										<FilterTracksSelect
-											value={filters.d_tracks}
-											onChange={(e) =>
-												setFilters({ ...filters, d_tracks: e.target.value })
-											}
-											trackList={tracksData}
-										/>
 
-										<FilterStrandSelect
-											value={filters.d_strand}
-											onChange={(e) =>
-												setFilters({ ...filters, d_strand: e.target.value })
-											}
-											strandList={strandData}
-										/>
-									</>
-								) : (
-									<>
-										<FilterInstituteSelect
-											value={filters.d_institute}
-											onChange={(e) =>
-												setFilters({ ...filters, d_institute: e.target.value })
-											}
-											instituteList={instituteData}
-										/>
-
-										<FilterProgramSelect
-											value={filters.d_program}
-											onChange={(e) =>
-												setFilters({ ...filters, d_program: e.target.value })
-											}
-											programList={programData}
-										/>
-									</>
-								))}
+							{filters.d_courses !== "All" && (
+								<FilterCourseSelects
+									selectedCourse={filters.d_courses}
+									filters={filters}
+									setFilters={setFilters}
+									mainList={filterCoursesData}
+									subList={subCoursesData}
+									prefix="d_"
+									selectedCourseID={selectedCourseID}
+									setSelectedCourseID={setSelectedCourseID}
+								/>
+							)}
 
 							<FilterSectionInput
 								value={filters.d_section}
@@ -1513,9 +1486,9 @@ export const getActiveFiltersEE = (
 			{ key: "b_role", label: "Role", defaultValue: "" },
 			{ key: "b_userType", label: "User Type", defaultValue: "All" },
 
-			{ key: "b_courses", label: "Courses", defaultValue: "All" },
+			{ key: "b_courses", label: "Course", defaultValue: "All" },
 			{ key: "b_year", label: "Year", defaultValue: "All" },
-			{ key: "b_tracks", label: "Tracks", defaultValue: "All" },
+			{ key: "b_tracks", label: "Track", defaultValue: "All" },
 			{ key: "b_strand", label: "Strand", defaultValue: "All" },
 			{ key: "b_institute", label: "Institute", defaultValue: "All" },
 			{ key: "b_program", label: "Program", defaultValue: "All" },
@@ -1551,10 +1524,10 @@ export const renderFiltersEE = (
 	sections,
 	activeSection,
 	libraryList,
-	tracksData,
-	strandData,
-	instituteData,
-	programData
+	filterCoursesData,
+	subCoursesData,
+	selectedCourseID,
+	setSelectedCourseID
 ) => {
 	const section = sections.find((s) => s.id === activeSection);
 	if (!section) return null;
@@ -1564,7 +1537,7 @@ export const renderFiltersEE = (
 			return (
 				<div className="space-y-4">
 					<StatusSelect
-						label="Status"
+						label="a Status"
 						value={filters.a_status}
 						onChange={(e) =>
 							setFilters({ ...filters, a_status: e.target.value })
@@ -1603,7 +1576,7 @@ export const renderFiltersEE = (
 			return (
 				<div className="space-y-4">
 					<StatusSelect
-						label="Status"
+						label="an Account Status"
 						value={filters.b_status}
 						onChange={(e) =>
 							setFilters({ ...filters, b_status: e.target.value })
@@ -1627,9 +1600,11 @@ export const renderFiltersEE = (
 
 							<FilterCoursesSelect
 								value={filters.b_courses}
-								onChange={(e) =>
-									setFilters({ ...filters, b_courses: e.target.value })
-								}
+								onChange={(e) => {
+									setFilters({ ...filters, b_courses: e.target.value });
+								}}
+								setFilters={setFilters}
+								prefix="b_"
 							/>
 
 							<FilterYearSelect
@@ -1640,45 +1615,18 @@ export const renderFiltersEE = (
 								selectedCourses={filters.b_courses}
 							/>
 
-							{filters.b_courses != "All" &&
-								(filters.b_courses === "Senior High School" ? (
-									<>
-										<FilterTracksSelect
-											value={filters.b_tracks}
-											onChange={(e) =>
-												setFilters({ ...filters, b_tracks: e.target.value })
-											}
-											trackList={tracksData}
-										/>
-
-										<FilterStrandSelect
-											value={filters.b_strand}
-											onChange={(e) =>
-												setFilters({ ...filters, b_strand: e.target.value })
-											}
-											strandList={strandData}
-										/>
-									</>
-								) : (
-									<>
-										<FilterInstituteSelect
-											value={filters.b_institute}
-											onChange={(e) =>
-												setFilters({ ...filters, b_institute: e.target.value })
-											}
-											instituteList={instituteData}
-										/>
-
-										<FilterProgramSelect
-											value={filters.b_program}
-											onChange={(e) =>
-												setFilters({ ...filters, b_program: e.target.value })
-											}
-											programList={programData}
-										/>
-									</>
-								))}
-
+							{filters.b_courses !== "All" && (
+								<FilterCourseSelects
+									selectedCourse={filters.b_courses}
+									filters={filters}
+									setFilters={setFilters}
+									mainList={filterCoursesData}
+									subList={subCoursesData}
+									prefix="b_"
+									selectedCourseID={selectedCourseID}
+									setSelectedCourseID={setSelectedCourseID}
+								/>
+							)}
 							<FilterSectionInput
 								value={filters.b_section}
 								onChange={(e) =>

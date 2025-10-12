@@ -12,7 +12,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 import { useLoading } from "@/contexts/LoadingProvider";
 import { getPatronList } from "@/controller/firebase/get/getPatronList";
-
 import { ScannerModal } from "@/components/modal/scanner-modal";
 
 export function PatronSelectionModal({
@@ -35,7 +34,6 @@ export function PatronSelectionModal({
 	const [selectedType, setSelectedType] = useState("Student");
 	const [selectedPatron, setSelectedPatron] = useState(null);
 	const [isGuest, setIsGuest] = useState(false);
-	const [isAlumni, setAllumni] = useState(false);
 
 	useEffect(() => {
 		setPath(pathname);
@@ -44,14 +42,14 @@ export function PatronSelectionModal({
 			getPatronList(
 				isGuest ? null : libraryID,
 				setUserData,
-				!isAlumni ? "Active" : "Inactive",
+				"Active",
 				searchQuery,
 				selectedType,
 				setLoading,
 				Alert
 			);
 		}
-	}, [libraryID, searchQuery, selectedType, isGuest, isAlumni, isOpen]);
+	}, [libraryID, searchQuery, selectedType, isGuest, isOpen]);
 
 	useEffect(() => {
 		setSelectedPatron(null);
@@ -116,17 +114,6 @@ export function PatronSelectionModal({
 						>
 							Guest Patron
 						</label>
-
-						<Checkbox
-							checked={isAlumni}
-							onCheckedChange={() => setAllumni(!isAlumni)}
-						/>
-						<label
-							htmlFor="guest-checkbox"
-							className="text-foreground text-[12px]"
-						>
-							Alumni
-						</label>
 					</div>
 				</div>
 
@@ -177,10 +164,11 @@ export function PatronSelectionModal({
 									"User Type",
 									"School ID",
 									"Email",
-									"Section",
+									"Course",
 									"Year",
-									"Program",
-									"Institute",
+									"Track/Institute",
+									"Strand/Program",
+									"Section",
 								].map((header) => (
 									<th
 										key={header}
@@ -234,16 +222,19 @@ export function PatronSelectionModal({
 										{patron?.us_email}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron?.us_section}
+										{patron?.us_courses}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 										{patron?.us_year}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron?.us_program}
+										{patron?.us_tracks || patron?.us_institute}
 									</td>
 									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-										{patron?.us_institute}
+										{patron?.us_strand || patron?.us_program}
+									</td>
+									<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+										{patron?.us_section}
 									</td>
 								</tr>
 							))}

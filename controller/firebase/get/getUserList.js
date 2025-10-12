@@ -15,7 +15,6 @@ import {
 	formatDate,
 	convertDateToTimestamp,
 } from "../../custom/customFunction";
-import { handleCourseSelection } from "../../custom/handleCourseSelection";
 
 export function getUserList(
 	li_id,

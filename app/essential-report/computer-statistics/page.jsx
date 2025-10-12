@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -38,7 +38,7 @@ const sections = [
 	{ id: "A", title: "Summary of Computer Usage", key: "summary" },
 	{
 		id: "B",
-		title: "List of Library Computers",
+		title: "Library Computers List",
 		key: "totalComputers",
 	},
 ];
@@ -56,7 +56,6 @@ const defaultFilterValues = {
 };
 
 export default function ComputerReports() {
-	const router = useRouter();
 	const pathname = usePathname();
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();
@@ -165,7 +164,7 @@ export default function ComputerReports() {
 
 		const headers = {
 			A: [
-				"Computer Name",
+				"Computer",
 				"Reserved",
 				"Utilized",
 				"Cancelled",
@@ -177,7 +176,7 @@ export default function ComputerReports() {
 			],
 			B: [
 				"Computer ID",
-				"Computer Name",
+				"Computer",
 				"Status",
 				"Asset Tag",
 				"Min Duration",

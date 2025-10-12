@@ -40,6 +40,8 @@ import { getUserReport } from "../../../controller/firebase/get/essential-report
 import { getTransactionFilter } from "../../../controller/firebase/get/getTransactionList";
 
 import { getUserList } from "@/controller/firebase/get/getUserList";
+import { getFilterCourses } from "@/controller/firebase/get/getCourses";
+import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
 
 const sections = [
 	{ id: "A", title: "Total Number of Users", key: "totalUsersByType" },
@@ -50,12 +52,12 @@ const sections = [
 	},
 	{
 		id: "C",
-		title: "Top Users by Transaction Activity",
+		title: "Top Users Based on Transaction Activity",
 		key: "usersWithMostTransaction",
 	},
 	{
 		id: "D",
-		title: "Top Users by Associated Reports",
+		title: "Top Users Based on Associated Reports",
 		key: "usersWithMostReports",
 	},
 ];
@@ -143,10 +145,9 @@ export default function UserStatsEssential() {
 	const [discussionRoomList, setDiscussionRoomList] = useState([]);
 	const [computerList, setComputerList] = useState([]);
 
-	const [tracksData, setTracksData] = useState([]);
-	const [strandData, setStrandData] = useState([]);
-	const [instituteData, setInstituteData] = useState([]);
-	const [programData, setProgramData] = useState([]);
+	const [selectedCourseID, setSelectedCourseID] = useState("");
+	const [filterCoursesData, setFilterCoursesData] = useState([]);
+	const [subCoursesData, setSubCoursesData] = useState([]);
 
 	//PAGINATION
 	const [pageCursors, setPageCursors] = useState([]);
@@ -347,6 +348,42 @@ export default function UserStatsEssential() {
 		}
 	}, [userDetails]);
 
+	//FETCH COURSES
+	useEffect(() => {
+		if (!userDetails || !activeSection) return;
+		const prefix = activeSection.toLowerCase();
+
+		if (
+			filters[`${prefix}_courses`] !== "All" &&
+			filters[`${prefix}_courses`]
+		) {
+			getFilterCourses(
+				filters[`${prefix}_courses`],
+				setFilterCoursesData,
+				Alert
+			);
+		}
+	}, [
+		userDetails,
+		activeSection,
+		filters.b_courses,
+		filters.c_courses,
+		filters.d_courses,
+	]);
+
+	useEffect(() => {
+		if (selectedCourseID) {
+			getFilterTrackInstituteCourses(
+				selectedCourseID,
+				filterCoursesData,
+				setSubCoursesData,
+				Alert
+			);
+		} else {
+			setSubCoursesData([]);
+		}
+	}, [selectedCourseID, filterCoursesData]);
+
 	const getActiveData = () => {
 		const section = sections.find((s) => s.id === activeSection);
 		return mockData[section.key] || [];
@@ -398,19 +435,23 @@ export default function UserStatsEssential() {
 							<th className={commonHeaderStyle}>User Type</th>
 							<th className={commonHeaderStyle}>Email Address</th>
 
-							<th className={commonHeaderStyle}>Courses</th>
+							<th className={commonHeaderStyle}>Course</th>
 							<th className={commonHeaderStyle}>Year</th>
-							{filters.b_courses === "Senior High School" ? (
+							{filters.b_courses !== "All" && (
 								<>
-									<th className={commonHeaderStyle}>Tracks</th>
-									<th className={commonHeaderStyle}>Strand</th>
-								</>
-							) : (
-								<>
-									<th className={commonHeaderStyle}>Institute</th>
-									<th className={commonHeaderStyle}>Program</th>
+									<th className={commonHeaderStyle}>
+										{filters.b_courses === "Senior High School"
+											? "Track"
+											: "Institute"}
+									</th>
+									<th className={commonHeaderStyle}>
+										{filters.b_courses === "Senior High School"
+											? "Strand"
+											: "Program"}
+									</th>
 								</>
 							)}
+
 							<th className={commonHeaderStyle}>Section</th>
 							<th className={commonHeaderStyle}>Date Added</th>
 						</tr>
@@ -444,7 +485,7 @@ export default function UserStatsEssential() {
 							<th className={commonHeaderStyle}>User ID</th>
 							<th className={commonHeaderStyle}>Full Name</th>
 							<th className={commonHeaderStyle}>User Type</th>
-							<th className={commonHeaderStyle}>Total Reports</th>
+							<th className={commonHeaderStyle}>Active Reports</th>
 							<th className={commonHeaderStyle}>Reports Resolved</th>
 							<th className={commonHeaderStyle}>Waived Reports</th>
 							<th className={`${commonHeaderStyle} flex items-center gap-1`}>
@@ -512,15 +553,18 @@ export default function UserStatsEssential() {
 								<td className={commonCellStyle}>{item.us_courses}</td>
 								<td className={commonCellStyle}>{item.us_year}</td>
 
-								{filters.b_courses === "Senior High School" ? (
+								{filters.b_courses !== "All" && (
 									<>
-										<td className={commonCellStyle}>{item.us_tracks}</td>
-										<td className={commonCellStyle}>{item.us_strand}</td>
-									</>
-								) : (
-									<>
-										<td className={commonCellStyle}>{item.us_institute}</td>
-										<td className={commonCellStyle}>{item.us_program}</td>
+										<td className={commonCellStyle}>
+											{filters.b_courses === "Senior High School"
+												? item.us_tracks
+												: item.us_institute}
+										</td>
+										<td className={commonCellStyle}>
+											{filters.b_courses === "Senior High School"
+												? item.us_strand
+												: item.us_program}
+										</td>
 									</>
 								)}
 
@@ -710,10 +754,10 @@ export default function UserStatsEssential() {
 												materialList,
 												discussionRoomList,
 												computerList,
-												tracksData,
-												strandData,
-												instituteData,
-												programData
+												filterCoursesData,
+												subCoursesData,
+												selectedCourseID,
+												setSelectedCourseID
 											)}
 										</div>
 

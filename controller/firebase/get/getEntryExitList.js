@@ -17,7 +17,6 @@ import {
 	formatTime,
 	calculateDuration,
 } from "../../custom/customFunction";
-import { handleCourseSelection } from "../../custom/handleCourseSelection";
 
 export async function getEntryExitList(
 	isPersonnel,

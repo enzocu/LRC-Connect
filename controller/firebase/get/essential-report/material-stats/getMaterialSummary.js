@@ -84,7 +84,7 @@ export async function getMaterialSummary(
 					if (
 						!isSearchEmpty &&
 						!isQRSearch &&
-						!maData.ma_name?.toLowerCase().includes(searchQuery.toLowerCase())
+						!maData.ma_title?.toLowerCase().includes(searchQuery.toLowerCase())
 					) {
 						return null;
 					}
@@ -128,7 +128,7 @@ export async function getMaterialSummary(
 
 					return {
 						id: materialDoc.id,
-						es_type: maData.ma_qr,
+						es_type: maData.ma_title,
 						...result,
 					};
 				})

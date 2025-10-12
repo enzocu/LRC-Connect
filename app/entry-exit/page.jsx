@@ -45,6 +45,7 @@ import {
 import { secureText } from "../../controller/custom/customFunction.js";
 import { getFilterCourses } from "@/controller/firebase/get/getCourses";
 import { getFilterTrackInstituteCourses } from "@/controller/firebase/get/getCourses";
+import { se } from "date-fns/locale";
 
 export default function EntryExitPage() {
 	const router = useRouter();
@@ -387,7 +388,7 @@ export default function EntryExitPage() {
 
 								{selectedCourses !== "All" && (
 									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[12px]">
-										Courses: {selectedCourses}
+										Course: {selectedCourses}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
 											onClick={() => setSelectedCourses("All")}
@@ -407,7 +408,7 @@ export default function EntryExitPage() {
 
 								{selectedTracks !== "All" && (
 									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded  flex items-center gap-1 text-[12px]">
-										Tracks: {selectedTracks}
+										Track: {selectedTracks}
 										<FiX
 											className="w-3 h-3 cursor-pointer"
 											onClick={() => setSelectedTracks("All")}
@@ -481,14 +482,14 @@ export default function EntryExitPage() {
 									<div className="p-4 space-y-4 overflow-y-auto h-full pb-24">
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[11px]">
-												Library
+												Select a Library
 											</label>
 											<select
 												value={selectedLibrary}
 												onChange={(e) => setSelectedLibrary(e.target.value)}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
 											>
-												<option value="All">All</option>
+												<option value="All">All Libraries</option>
 												{library.map((lib) => (
 													<option key={lib.id} value={lib.id}>
 														{lib.li_name}
@@ -500,14 +501,14 @@ export default function EntryExitPage() {
 											<>
 												<div className="space-y-2">
 													<label className="block font-medium text-foreground text-[11px]">
-														User Type
+														Select a User Type
 													</label>
 													<select
 														value={selectedUsType}
 														onChange={(e) => setSelectedUsType(e.target.value)}
 														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
 													>
-														<option value="All">All</option>
+														<option value="All">All User Types</option>
 
 														<optgroup label="Patrons">
 															<option value="Student">Student</option>
@@ -560,35 +561,40 @@ export default function EntryExitPage() {
 											<>
 												<div className="space-y-2">
 													<label className="block font-medium text-foreground text-[12px]">
-														Courses
+														Select a Course
 													</label>
 													<select
 														value={selectedCourses}
-														onChange={(e) => setSelectedCourses(e.target.value)}
+														onChange={(e) => {
+															setSelectedInstitute("All");
+															setSelectedProgram("All");
+															setSelectedStrand("All");
+															setSelectedTracks("All");
+															setSelectedCourses(e.target.value);
+														}}
 														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 													>
-														{[
-															"All",
-															"Senior High School",
-															"College Courses",
-														].map((courses) => (
-															<option key={courses} value={courses}>
-																{courses}
-															</option>
-														))}
+														<option value="All">All Courses</option>
+														{["Senior High School", "College Courses"].map(
+															(courses) => (
+																<option key={courses} value={courses}>
+																	{courses}
+																</option>
+															)
+														)}
 													</select>
 												</div>
 
 												<div className="space-y-2">
 													<label className="block font-medium text-foreground text-[12px]">
-														Year
+														Select a Year
 													</label>
 													<select
 														value={selectedYear}
 														onChange={(e) => setSelectedYear(e.target.value)}
 														className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 													>
-														<option value="All">All</option>
+														<option value="All">All Years</option>
 														{(selectedCourses == "Senior High School"
 															? ["Grade 11", "Grade 12"]
 															: ["1st Year", "2nd Year", "3rd Year", "4th Year"]
@@ -605,8 +611,9 @@ export default function EntryExitPage() {
 														{/* TRACKS / INSTITUTE */}
 														<div className="space-y-2">
 															<label className="block font-medium text-foreground text-[12px]">
+																Select a{" "}
 																{selectedCourses === "Senior High School"
-																	? "Tracks"
+																	? "Track"
 																	: "Institute"}
 															</label>
 															<select
@@ -633,10 +640,10 @@ export default function EntryExitPage() {
 																}}
 																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 															>
-																<option value="">
+																<option value="All">
 																	{selectedCourses === "Senior High School"
-																		? "Select Track"
-																		: "Select Institute"}
+																		? "All Tracks"
+																		: "All Institutes"}
 																</option>
 																{filterCoursesData.map((course) => (
 																	<option key={course.id} value={course.id}>
@@ -649,6 +656,7 @@ export default function EntryExitPage() {
 														{/* STRAND / PROGRAM */}
 														<div className="space-y-2">
 															<label className="block font-medium text-foreground text-[12px]">
+																Select a{" "}
 																{selectedCourses === "Senior High School"
 																	? "Strand"
 																	: "Program"}
@@ -666,10 +674,10 @@ export default function EntryExitPage() {
 																}}
 																className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 															>
-																<option value="">
+																<option value="All">
 																	{selectedCourses === "Senior High School"
-																		? "Select Strand"
-																		: "Select Program"}
+																		? "All Strands"
+																		: "All Programs"}
 																</option>
 																{subCoursesData.map((sub, index) => (
 																	<option key={index} value={sub}>
@@ -683,11 +691,11 @@ export default function EntryExitPage() {
 
 												<div className="space-y-2">
 													<label className="block font-medium text-foreground  text-[12px]">
-														Section
+														Section Name
 													</label>
 
 													<Input
-														placeholder="Enter Sention..."
+														placeholder="Enter Section..."
 														value={selectedSection}
 														onChange={(e) => setSelectedSection(e.target.value)}
 														className="h-9 bg-card text-foreground border-border"

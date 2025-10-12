@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Sidebar } from "@/components/sidebar";
 import { Header } from "@/components/header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -37,7 +37,7 @@ import { getDiscussionList } from "../../../controller/firebase/get/getDicussion
 
 const sections = [
 	{ id: "A", title: "Summary of Discussion Room Usage", key: "summary" },
-	{ id: "B", title: "List of Library Discussion Rooms", key: "totalRooms" },
+	{ id: "B", title: "Library Discussion Rooms List", key: "totalRooms" },
 ];
 
 const defaultFilterValues = {
@@ -53,7 +53,6 @@ const defaultFilterValues = {
 };
 
 export default function DiscussionRoomReports() {
-	const router = useRouter();
 	const pathname = usePathname();
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();
@@ -165,7 +164,7 @@ export default function DiscussionRoomReports() {
 					return (
 						<tr className="border-b border-border">
 							{[
-								"Room Name",
+								"Discussion Room",
 								"Reserved",
 								"Utilized",
 								"Cancelled",
@@ -202,7 +201,7 @@ export default function DiscussionRoomReports() {
 						<tr className="border-b border-border">
 							{[
 								"DR ID",
-								"Room Name",
+								"Discussion Room",
 								"Status",
 								"Capacity",
 								"Min Duration",

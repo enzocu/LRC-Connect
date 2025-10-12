@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import EmptyState from "@/components/tags/empty";
 import { Checkbox } from "@/components/ui/checkbox";
-
 import { FiSearch, FiCamera, FiUserPlus, FiChevronDown } from "react-icons/fi";
 
 import { LoadingSpinner } from "@/components/loading";
@@ -125,7 +124,7 @@ export function ManualSearchModal({
 									>
 										{userType === "patron" ? (
 											<>
-												<option value="All">All Type</option>
+												<option value="All">All User Types</option>
 												<optgroup label="Patrons">
 													<option value="Student">Student</option>
 													<option value="Faculty">Faculty</option>
@@ -163,7 +162,7 @@ export function ManualSearchModal({
 											onChange={(e) => setSelectedStatus(e.target.value)}
 											className="h-full pl-2 pr-6 text-xs border-l border-border focus:outline-none bg-background appearance-none text-[12px]"
 										>
-											<option value="All">All</option>
+											<option value="All">All Account Status</option>
 											<option value="Active">Active</option>
 											<option value="Inactive">Inactive</option>
 										</select>
@@ -232,10 +231,11 @@ export function ManualSearchModal({
 										"User Type",
 										"School ID",
 										"Email",
-										"Section",
+										"Course",
 										"Year",
-										"Program",
-										"Institute",
+										"Track/Institute",
+										"Strand/Program",
+										"Section",
 									].map((header) => (
 										<th
 											key={header}
@@ -297,16 +297,19 @@ export function ManualSearchModal({
 											{account?.us_email}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_section}
+											{account?.us_courses}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
 											{account?.us_year}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_program}
+											{account?.us_tracks || account?.us_institute}
 										</td>
 										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
-											{account?.us_institute}
+											{account?.us_strand || account?.us_program}
+										</td>
+										<td className="py-4 px-6 min-w-[150px] text-[12px] text-foreground">
+											{account?.us_section}
 										</td>
 									</tr>
 								))}

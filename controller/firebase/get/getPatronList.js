@@ -61,10 +61,13 @@ export async function getPatronList(
 					us_name:
 						`${raw.us_fname} ${raw.us_mname} ${raw.us_lname}`.trim() || "",
 					us_email: raw.us_email || "",
-					us_section: raw.us_section || "NA",
-					us_year: raw.us_year || "NA",
-					us_program: raw.us_program || "NA",
-					us_institute: raw.us_institute || "NA",
+					us_courses: data.us_courses || "",
+					us_year: data.us_year || "",
+					us_tracks: data.us_tracks || "",
+					us_strand: data.us_strand || "",
+					us_institute: data.us_institute || "",
+					us_program: data.us_program || "",
+					us_section: data.us_section || "",
 					us_photoURL: raw.us_photoURL || "NA",
 				};
 			})
