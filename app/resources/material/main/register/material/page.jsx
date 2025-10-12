@@ -1047,7 +1047,7 @@ export default function MaterialRegistrationPage() {
 									>
 										<input
 											type="file"
-											accept="image/jpeg,image/png"
+											accept=".jpg, .jpeg, .png"
 											className="hidden"
 											onChange={(e) =>
 												handleInputChange(

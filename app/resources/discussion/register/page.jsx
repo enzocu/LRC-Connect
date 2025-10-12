@@ -248,7 +248,7 @@ export default function RegisterDiscussionRoom() {
 									>
 										<input
 											type="file"
-											accept="image/jpeg,image/png"
+											accept=".jpg, .jpeg, .png"
 											name="dr_photoURL"
 											className="hidden"
 											onChange={(e) => handleChange(e, setFormData)}

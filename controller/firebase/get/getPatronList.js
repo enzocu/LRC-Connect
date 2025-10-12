@@ -54,20 +54,20 @@ export async function getPatronList(
 
 				return {
 					us_id: docSnap.id,
-					us_schoolID: raw.us_schoolID || "",
-					us_qr: raw.us_qr || "",
-					us_status: raw.us_status || "",
-					us_type: raw.us_type || "",
+					us_schoolID: raw.us_schoolID || "NA",
+					us_qr: raw.us_qr || "NA",
+					us_status: raw.us_status || "NA",
+					us_type: raw.us_type || "NA",
 					us_name:
-						`${raw.us_fname} ${raw.us_mname} ${raw.us_lname}`.trim() || "",
-					us_email: raw.us_email || "",
-					us_courses: data.us_courses || "",
-					us_year: data.us_year || "",
-					us_tracks: data.us_tracks || "",
-					us_strand: data.us_strand || "",
-					us_institute: data.us_institute || "",
-					us_program: data.us_program || "",
-					us_section: data.us_section || "",
+						`${raw.us_fname} ${raw.us_mname} ${raw.us_lname}`.trim() || "NA",
+					us_email: raw.us_email || "NA",
+					us_courses: raw.us_courses || "NA",
+					us_year: raw.us_year || "NA",
+					us_tracks: raw.us_tracks || "NA",
+					us_strand: raw.us_strand || "NA",
+					us_institute: raw.us_institute || "NA",
+					us_program: raw.us_program || "NA",
+					us_section: raw.us_section || "NA",
 					us_photoURL: raw.us_photoURL || "NA",
 				};
 			})

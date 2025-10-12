@@ -269,7 +269,7 @@ export default function LibraryDetails() {
 							>
 								<input
 									type="file"
-									accept="image/jpeg,image/png"
+									accept=".jpg, .jpeg, .png"
 									name="li_photoURL"
 									className="hidden"
 									onChange={(e) => handleChange(e, setFormData)}

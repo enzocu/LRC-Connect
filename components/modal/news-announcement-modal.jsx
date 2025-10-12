@@ -122,7 +122,6 @@ export function AddNewsAnnouncementModal({
 						{entryType}.
 					</p>
 
-					{/* Title */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="title"
@@ -141,7 +140,6 @@ export function AddNewsAnnouncementModal({
 						/>
 					</div>
 
-					{/* Content */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="content"
@@ -160,7 +158,6 @@ export function AddNewsAnnouncementModal({
 						/>
 					</div>
 
-					{/* Category */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="category"
@@ -189,7 +186,7 @@ export function AddNewsAnnouncementModal({
 									"Policy Update",
 									"Holiday",
 								].map((item) => (
-									<SelectItem key={item} value={item}>
+									<SelectItem key={item} value={item} className="text-[12px]">
 										{item}
 									</SelectItem>
 								))}
@@ -197,7 +194,6 @@ export function AddNewsAnnouncementModal({
 						</Select>
 					</div>
 
-					{/* Visibility */}
 					<div className="space-y-1">
 						<Label className="text-[12px] font-medium text-foreground">
 							Visibility
@@ -224,7 +220,6 @@ export function AddNewsAnnouncementModal({
 						</RadioGroup>
 					</div>
 
-					{/* Image Upload */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="image-upload"
@@ -267,7 +262,7 @@ export function AddNewsAnnouncementModal({
 										Click or drag to upload image
 									</p>
 									<p className="text-muted-foreground text-[11px]">
-										JPG, PNG, SVG. Max: 2MB
+										JPG, PNG, Max: 2MB
 									</p>
 								</div>
 							)}
@@ -275,14 +270,13 @@ export function AddNewsAnnouncementModal({
 						<input
 							id="image-upload"
 							type="file"
-							accept="image/*"
+							accept=".jpg, .jpeg, .png"
 							name="na_photoURL"
 							onChange={(e) => handleChange(e, setFormData)}
 							className="hidden"
 						/>
 					</div>
 
-					{/* Urgent Checkbox */}
 					{entryType === "Announcements" && (
 						<div className="flex items-center gap-2">
 							<Checkbox

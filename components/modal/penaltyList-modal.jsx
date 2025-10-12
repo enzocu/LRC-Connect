@@ -144,7 +144,7 @@ export function PenaltyListModal({
 										className="h-full pl-2 pr-6 text-xs rounded-l-none border-l border-border focus:outline-none bg-background appearance-none text-[12px]"
 									>
 										<option disabled>Filter</option>
-										<option value="">All</option>
+										<option value="">All Resource Types</option>
 										<option value="Material">Material</option>
 										<option value="Discussion Room">Discussion Room</option>
 										<option value="Computer">Computer</option>

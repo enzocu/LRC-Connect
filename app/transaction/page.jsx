@@ -49,8 +49,8 @@ import {
 	getTransactionFilter,
 } from "../../controller/firebase/get/getTransactionList";
 
-const resourceTypes = ["All", "Material", "Discussion Room", "Computer"];
-const materialFormats = ["All", "Hard Copy", "Soft Copy", "Audio Copy"];
+const resourceTypes = ["Material", "Discussion Room", "Computer"];
+const materialFormats = ["Hard Copy", "Soft Copy", "Audio Copy"];
 
 export default function TransactionPage() {
 	const router = useRouter();
@@ -550,14 +550,14 @@ export default function TransactionPage() {
 								<div className="p-4 space-y-4 overflow-y-auto flex-1 pb-4">
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
-											Library
+											Select a Library
 										</label>
 										<select
 											value={selectedLibrary}
 											onChange={(e) => setSelectedLibrary(e.target.value)}
 											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 										>
-											<option value="All">All</option>
+											<option value="All">All Libraries</option>
 											{libraries.map((library) => (
 												<option key={library.id} value={library.id}>
 													{library.li_name}
@@ -568,7 +568,7 @@ export default function TransactionPage() {
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
-											Resource Type
+											Select a Resource Type
 										</label>
 										<select
 											value={selectedResourceType}
@@ -583,6 +583,7 @@ export default function TransactionPage() {
 											}}
 											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 										>
+											<option value="All">All Resource Types</option>
 											{resourceTypes.map((type) => (
 												<option key={type} value={type}>
 													{type}
@@ -595,7 +596,7 @@ export default function TransactionPage() {
 										<>
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Material List
+													Select a Material
 												</label>
 												<select
 													value={selectedMaterialList}
@@ -604,7 +605,7 @@ export default function TransactionPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 												>
-													<option value="All">All</option>
+													<option value="All">All Materials</option>
 													{materialList.map((material) => (
 														<option key={material.id} value={material.id}>
 															{material.ma_qr}
@@ -615,7 +616,7 @@ export default function TransactionPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Material Format
+													Select a Material Format
 												</label>
 												<select
 													value={selectedMaterialFormat}
@@ -624,6 +625,7 @@ export default function TransactionPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 												>
+													<option value="All">All Formats</option>
 													{materialFormats.map((format) => (
 														<option key={format} value={format}>
 															{format}
@@ -634,7 +636,7 @@ export default function TransactionPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Material Type
+													Select a Material Type
 												</label>
 												<select
 													value={selectedMaterialType}
@@ -643,7 +645,7 @@ export default function TransactionPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 												>
-													<option value="All">All</option>
+													<option value="All">All Material Types</option>
 													{materialTypes.map((type) => (
 														<option key={type.id} value={type.id}>
 															{type.mt_name}
@@ -654,7 +656,7 @@ export default function TransactionPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Material Category
+													Select Category
 												</label>
 												<select
 													value={selectedMaterialCategory}
@@ -663,7 +665,7 @@ export default function TransactionPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 												>
-													<option value="All">All</option>
+													<option value="All">All Categories</option>
 													{materialCategories.map((category) => (
 														<option key={category.id} value={category.id}>
 															{category.ca_name}
@@ -678,7 +680,7 @@ export default function TransactionPage() {
 										<>
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Discussion Room List
+													Select a Discussion Room
 												</label>
 												<select
 													value={selectedDiscussionRoomList}
@@ -687,7 +689,7 @@ export default function TransactionPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 												>
-													<option value="All">All</option>
+													<option value="All">All Discussion Rooms</option>
 													{discussionRoomList.map((room) => (
 														<option key={room.id} value={room.id}>
 															{room.dr_qr}
@@ -701,7 +703,7 @@ export default function TransactionPage() {
 									{selectedResourceType == "Computer" && (
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">
-												Computer List
+												Select a Computer
 											</label>
 											<select
 												value={selectedComputerList}
@@ -710,7 +712,7 @@ export default function TransactionPage() {
 												}
 												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
 											>
-												<option value="All">All</option>
+												<option value="All">All Computers</option>
 												{computerList.map((computer) => (
 													<option key={computer.id} value={computer.id}>
 														{computer.co_qr}

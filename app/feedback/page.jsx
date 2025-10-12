@@ -134,8 +134,8 @@ export default function FeedbackAndFAQs() {
 						</div>
 
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up-delay-1">
-							<Card className="bg-card border-border transition-colors duration-300">
-								<CardContent className="p-6">
+							<Card className="bg-card border-border transition-colors duration-300 h-fit max-h-[1200px] flex flex-col">
+								<CardContent className="p-6 overflow-auto">
 									<h3 className="text-foreground font-semibold text-[16px]">
 										User Feedback
 									</h3>
@@ -261,8 +261,8 @@ export default function FeedbackAndFAQs() {
 								</CardContent>
 							</Card>
 
-							<Card className="bg-card border-border transition-colors duration-300 h-fit">
-								<CardContent className="p-6">
+							<Card className="bg-card border-border transition-colors duration-300 h-fit max-h-[1200px] flex flex-col">
+								<CardContent className="p-6 overflow-auto">
 									<div className="flex items-start justify-between mb-1  gap-6">
 										<div>
 											<h3 className="text-foreground font-semibold text-[16px]">

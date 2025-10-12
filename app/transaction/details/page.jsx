@@ -555,13 +555,17 @@ export const renderPatronDetails = (transaction, router) => {
 						</div>
 
 						<div>
-							<Label className="text-foreground text-[12px]">Academic</Label>
+							<Label className="text-foreground text-[12px]">
+								Academic ({patron?.us_courses})
+							</Label>
 							<p className="text-muted-foreground text-[12px]">
 								{[
-									patron?.us_section,
 									patron?.us_year,
-									patron?.us_program,
-									patron?.us_school,
+									...[
+										patron?.courses == "Senior High School"
+											? [patron?.us_tracks, patron?.us_strand]
+											: [patron?.us_institute, patron?.us_program],
+									],
 								]
 									.filter(Boolean)
 									.join(", ")}

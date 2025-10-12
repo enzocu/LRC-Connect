@@ -541,7 +541,7 @@ export default function RegisterAccount() {
 										Profile Picture
 									</CardTitle>
 									<p className="text-muted-foreground text-[12px]">
-										Note: Format photos SVG, PNG, or JPG Max size 2mb
+										Note: Format photos PNG, or JPG Max size 2mb
 									</p>
 								</CardHeader>
 
@@ -552,7 +552,7 @@ export default function RegisterAccount() {
 									>
 										<input
 											type="file"
-											accept="image/jpeg,image/png"
+											accept=".jpg, .jpeg, .png"
 											name="us_photoURL"
 											className="hidden"
 											onChange={(e) => handleChange(e, setFormData)}

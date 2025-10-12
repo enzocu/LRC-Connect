@@ -537,7 +537,7 @@ export default function AuditPage() {
 											{userDetails?.us_level == "USR-1" && (
 												<div className="space-y-2">
 													<label className="block font-medium text-foreground text-[12px]">
-														Library
+														Select a Library
 													</label>
 													<select
 														value={selectedLibrary}
@@ -555,7 +555,7 @@ export default function AuditPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Student Library
+													Select a Student Library
 												</label>
 												<select
 													value={selectedStudLibrary}
@@ -564,6 +564,7 @@ export default function AuditPage() {
 													}
 													className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent  text-[12px]"
 												>
+													<option value="All">All Libraries</option>
 													{libraries.map((library) => (
 														<option key={library.id} value={library.id}>
 															{library.li_name}
@@ -574,7 +575,7 @@ export default function AuditPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													User Type
+													Select a User Type
 												</label>
 												<select
 													value={selectedusType}
@@ -583,7 +584,7 @@ export default function AuditPage() {
 													style={{ fontSize: "12px" }}
 													required
 												>
-													<option value="All">Select User Type</option>
+													<option value="All">All User Types</option>
 													{userTypes.map((group, idx) => (
 														<optgroup key={idx} label={group.group}>
 															{group.options.map((option, i) => (
@@ -598,7 +599,7 @@ export default function AuditPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground text-[12px]">
-													Action Type
+													Select an Action Type
 												</label>
 												<select
 													value={selectedAction}
@@ -607,7 +608,7 @@ export default function AuditPage() {
 													style={{ fontSize: "12px" }}
 													required
 												>
-													<option value="">Select Action Type</option>
+													<option value="All">All Action Types</option>
 													{actionOptions.map((group, index) => (
 														<optgroup key={index} label={group.label}>
 															{group.options.map((opt) => (
@@ -622,7 +623,7 @@ export default function AuditPage() {
 
 											<div className="space-y-2">
 												<label className="block font-medium text-foreground  text-[12px]">
-													Status
+													Select Severity Level Status
 												</label>
 												<select
 													value={selectedStatus}

@@ -260,7 +260,7 @@ export default function RegisterComputer() {
 									>
 										<input
 											type="file"
-											accept="image/jpeg,image/png"
+											accept=".jpg, .jpeg, .png"
 											name="co_photoURL"
 											className="hidden"
 											onChange={(e) => handleChange(e, setFormData)}

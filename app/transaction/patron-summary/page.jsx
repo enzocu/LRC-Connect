@@ -34,7 +34,6 @@ import {
 } from "../../../controller/firebase/get/getTransactionSummary";
 
 const studentTypes = [
-	"All",
 	"Student",
 	"Student Assistant",
 	"Faculty",
@@ -316,7 +315,7 @@ export default function PatronSummaryPage() {
 								<div className="p-4 space-y-4 overflow-y-auto h-full pb-24">
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground  text-[12px]">
-											Status
+											Select an Account Status
 										</label>
 										<select
 											value={selectedStatus}
@@ -330,13 +329,14 @@ export default function PatronSummaryPage() {
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[11px]">
-											Student Library
+											Select a Student Library
 										</label>
 										<select
 											value={selectedLibrary}
 											onChange={(e) => setSelectedLibrary(e.target.value)}
 											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
 										>
+											<option value="All">All Libraries</option>
 											{libraryData.map((library) => (
 												<option key={library.id} value={library.id}>
 													{library.li_name}
@@ -347,13 +347,14 @@ export default function PatronSummaryPage() {
 
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[11px]">
-											Student Type
+											Select a Patron Type
 										</label>
 										<select
 											value={selectedStudentType}
 											onChange={(e) => setSelectedStudentType(e.target.value)}
 											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[11px]"
 										>
+											<option value="All">All Patron Types</option>
 											{studentTypes.map((type) => (
 												<option key={type} value={type}>
 													{type}
