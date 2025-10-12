@@ -23,6 +23,8 @@ import {
 	FiBook,
 	FiCamera,
 	FiDownload,
+	FiFileText,
+	FiEdit,
 } from "react-icons/fi";
 
 const statuses = ["Active", "Inactive"];
@@ -206,6 +208,7 @@ export default function MaterialsPage() {
 											}
 											className="cursor-pointer text-[12px]"
 										>
+											<FiEdit className="w-4 h-4" />
 											Material Type Registration
 										</DropdownMenuItem>
 										<DropdownMenuItem
@@ -216,6 +219,7 @@ export default function MaterialsPage() {
 											}
 											className="cursor-pointer text-[12px]"
 										>
+											<FiEdit className="w-4 h-4" />
 											Material Registration
 										</DropdownMenuItem>
 
@@ -223,6 +227,7 @@ export default function MaterialsPage() {
 											className="cursor-pointer text-[12px]"
 											onClick={() => setShowExcelImportModal(true)}
 										>
+											<FiFileText className="w-4 h-4" />
 											Import Material from Excel
 										</DropdownMenuItem>
 
