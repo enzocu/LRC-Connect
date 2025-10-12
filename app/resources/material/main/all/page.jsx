@@ -22,6 +22,7 @@ import {
 	FiChevronDown,
 	FiBook,
 	FiCamera,
+	FiDownload,
 } from "react-icons/fi";
 
 const statuses = ["Active", "Inactive"];
