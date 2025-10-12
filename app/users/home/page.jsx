@@ -675,7 +675,7 @@ export default function HomePage() {
 								</>
 							) : (
 								<div className="flex flex-col h-full animate-fade-in">
-									<div className="flex justify-between items-center mb-4">
+									<div className="flex justify-between items-center">
 										<h2 className="text-[18px] font-semibold">AI-Librarian</h2>
 
 										<Button
@@ -865,7 +865,7 @@ export default function HomePage() {
 										)}
 									</div>
 
-									<div className="mt-4">
+									<div>
 										<InputField
 											inputValue={inputValue}
 											setInputValue={setInputValue}
