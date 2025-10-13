@@ -41,7 +41,7 @@ export async function getMaterialWithMarctag(
 			ma_formats: {
 				coverCopy: data.ma_coverQty > 0,
 				softCopy: data.ma_softQty > 0,
-				audioCopy: data.ma_audioQty != 0,
+				audioCopy: data.ma_audioQty > 0,
 			},
 			ma_coverURL: data.ma_coverURL ?? "/placeholder.svg?height=400&width=256",
 			ma_sections: [],
@@ -49,7 +49,6 @@ export async function getMaterialWithMarctag(
 			ma_subjects: [],
 		};
 
-		// 🔹 Check transactions if formats/holdings exist
 		if (
 			transaction &&
 			(data.ma_coverQty > 0 || data.ma_softQty > 0 || data.ma_audioQty > 0)

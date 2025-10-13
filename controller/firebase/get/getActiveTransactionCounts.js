@@ -1,4 +1,10 @@
-import { collection, query, where, getDocs, doc } from "firebase/firestore";
+import {
+	collection,
+	query,
+	where,
+	getCountFromServer,
+	doc,
+} from "firebase/firestore";
 import { db } from "../../../server/firebaseConfig";
 
 export async function getActiveTransactionCount(
@@ -11,23 +17,18 @@ export async function getActiveTransactionCount(
 ) {
 	try {
 		const trRef = collection(db, "transaction");
-		const statuses = ["Reserved", "Utilized"];
-		let totalCount = 0;
 
-		for (const status of statuses) {
-			const q = query(
-				trRef,
-				where("tr_usID", "==", doc(db, "users", userID)),
-				where("tr_liID", "==", libraryID),
-				where("tr_status", "==", status)
-			);
+		const q = query(
+			trRef,
+			where("tr_usID", "==", doc(db, "users", userID)),
+			where("tr_liID", "==", libraryID),
+			where("tr_status", "in", ["Reserved", "Utilized"])
+		);
 
-			const snapshot = await getDocs(q);
-			totalCount += snapshot.size;
-		}
+		const snapshot = await getCountFromServer(q);
+		const totalCount = snapshot.data().count || 0;
 
 		let maxItems = 0;
-
 		if (usType === "Student" || usType === "Student Assistant") {
 			maxItems = liBorrowing?.br_student?.maxItems ?? 0;
 		} else if (usType === "Faculty") {

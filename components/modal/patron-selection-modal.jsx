@@ -186,15 +186,11 @@ export function PatronSelectionModal({
 									className={`border-b border-border hover:bg-accent/30 transition-colors ${
 										index % 2 === 0 ? "bg-background" : "bg-muted/10"
 									}`}
+									onClick={() => setSelectedPatron(patron)}
 								>
 									<td className="py-4 px-6">
 										<Checkbox
 											checked={selectedPatron?.us_id === patron?.us_id}
-											onCheckedChange={() =>
-												selectedPatron
-													? setSelectedPatron(null)
-													: setSelectedPatron(patron)
-											}
 										/>
 									</td>
 									<td className="py-4 px-6 flex">

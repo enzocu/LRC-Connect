@@ -6,20 +6,35 @@ import {
 	differenceInMinutes,
 } from "date-fns";
 
-export function handleSessionSchedule({
-	operatingHours,
-	resourceType,
-	selectedDate = null,
-	sessionStart = null,
-	sessionEnd = null,
-	minTime = null,
-	maxTime = null,
-	setSelectedDate,
-	setSessionStart = () => {},
-	setSessionEnd = () => {},
-	Alert,
-}) {
-	if (!selectedDate || !operatingHours) return;
+export const formatTime = (time) => {
+	const [hourStr, minute] = time.split(":");
+	let hour = parseInt(hourStr, 10);
+	const ampm = hour >= 12 ? " pm" : " am";
+	hour = hour % 12 || 12;
+	return `${hour.toString().padStart(1, "0")}:${minute}${ampm}`;
+};
+
+export function getBorrowDaysByType(li_borrowing, userType) {
+	if (!li_borrowing || !userType) return 0;
+
+	switch (userType) {
+		case "Student":
+		case "Student Assistant":
+			return li_borrowing.br_student?.borrowDays ?? 0;
+
+		case "Faculty":
+			return li_borrowing.br_faculty?.borrowDays ?? 0;
+
+		case "Administrator":
+			return li_borrowing.br_administrator?.borrowDays ?? 0;
+
+		default:
+			return 0;
+	}
+}
+
+export function getOperatingDetails(selectedDate, operatingHours) {
+	if (!selectedDate || !operatingHours) return null;
 
 	const dayMap = [
 		"sunday",
@@ -30,19 +45,77 @@ export function handleSessionSchedule({
 		"friday",
 		"saturday",
 	];
+
 	const dayKey = `oh_${dayMap[selectedDate.getDay()]}`;
 	const operating = operatingHours[dayKey];
 
 	if (!operating || !operating.enabled) {
-		setSelectedDate(null);
-		Alert?.showDanger("Selected date is not available for booking.");
-		return;
+		return {
+			isAvailable: false,
+			message: "Selected date is not available for booking.",
+		};
 	}
 
-	const openStr24 = format(operating.open.toDate(), "HH:mm");
-	const closeStr24 = format(operating.close.toDate(), "HH:mm");
-	const openStr = format(operating.open.toDate(), "h:mm a");
-	const closeStr = format(operating.close.toDate(), "h:mm a");
+	const openDate =
+		typeof operating.open?.toDate === "function"
+			? operating.open.toDate()
+			: null;
+	const closeDate =
+		typeof operating.close?.toDate === "function"
+			? operating.close.toDate()
+			: null;
+
+	if (!openDate || !closeDate) {
+		return {
+			isAvailable: false,
+			message: "Invalid operating hours data.",
+		};
+	}
+
+	return {
+		isAvailable: true,
+		dayKey,
+		open: {
+			_24hr: format(openDate, "HH:mm"),
+			_12hr: format(openDate, "h:mm a"),
+		},
+		close: {
+			_24hr: format(closeDate, "HH:mm"),
+			_12hr: format(closeDate, "h:mm a"),
+		},
+	};
+}
+
+export function handleSessionSchedule({
+	operatingHours,
+	resourceType,
+	selectedDate = null,
+	sessionStart = null,
+	sessionEnd = null,
+	minTime = null,
+	maxTime = null,
+	setSelectedDate,
+	setSelectedEndDate,
+	setSessionStart = () => {},
+	setSessionEnd = () => {},
+	Alert,
+}) {
+	if (!selectedDate || !operatingHours) return null;
+
+	const operatingDetails = getOperatingDetails(selectedDate, operatingHours);
+
+	if (!operatingDetails?.isAvailable) {
+		setSelectedDate(null);
+		setSelectedEndDate(null);
+		Alert?.showDanger(operatingDetails?.message);
+		return operatingDetails;
+	}
+
+	const { open, close } = operatingDetails;
+	const openStr24 = open._24hr;
+	const closeStr24 = close._24hr;
+	const openStr = open._12hr;
+	const closeStr = close._12hr;
 
 	const openTime = parse(openStr24, "HH:mm", selectedDate);
 	const closeTime = parse(closeStr24, "HH:mm", selectedDate);
@@ -60,14 +133,15 @@ export function handleSessionSchedule({
 						setSessionStart(sessionStart);
 					} else {
 						setSessionStart(null);
-						Alert?.showDanger("Start time must be in the future.");
+						Alert?.showWarning("Start time must be in the future.");
 					}
 				} else {
 					setSessionStart(sessionStart);
 				}
 			} else {
 				setSessionStart(null);
-				Alert?.showDanger(
+
+				Alert?.showWarning(
 					`Start time must be within library hours: ${openStr} - ${closeStr}.`
 				);
 			}
@@ -93,13 +167,13 @@ export function handleSessionSchedule({
 					setSessionEnd(sessionEnd);
 				} else {
 					setSessionEnd(null);
-					Alert?.showDanger(
+					Alert?.showWarning(
 						`End time must be between ${minStr} and ${maxStr}, based on your start time.`
 					);
 				}
 			} else {
 				setSessionEnd(null);
-				Alert?.showDanger(
+				Alert?.showWarning(
 					`End time must be within library hours: ${openStr} - ${closeStr}.`
 				);
 			}
@@ -110,6 +184,7 @@ export function handleSessionSchedule({
 }
 
 export function calculateDuration(
+	operatingHours,
 	selectedDate,
 	selectedEndDate,
 	sessionStart,
@@ -117,15 +192,27 @@ export function calculateDuration(
 ) {
 	if (!selectedDate) return null;
 
-	// 🔹 Convert Firestore Timestamps to Date if necessary
 	if (selectedDate?.toDate) selectedDate = selectedDate.toDate();
 	if (selectedEndDate?.toDate) selectedEndDate = selectedEndDate.toDate();
 
 	let totalMinutes = 0;
 
 	if (!sessionStart && !sessionEnd && selectedEndDate) {
-		const diffInMs = selectedEndDate - selectedDate + 24 * 60 * 60 * 1000;
-		totalMinutes = diffInMs / (1000 * 60);
+		if (selectedDate.toDateString() !== selectedEndDate.toDateString()) {
+			const diffInMs = selectedEndDate - selectedDate + 24 * 60 * 60 * 1000;
+			totalMinutes = diffInMs / (1000 * 60);
+		} else {
+			const operating = getOperatingDetails(selectedDate, operatingHours);
+			if (!operating?.isAvailable) return null;
+
+			const now = new Date();
+			const nowStr = format(now, "HH:mm");
+			const nowTime = parse(nowStr, "HH:mm", now);
+
+			const closeTime = parse(operating.close._24hr, "HH:mm", now);
+
+			totalMinutes = differenceInMinutes(closeTime, nowTime);
+		}
 	} else if (sessionStart && sessionEnd) {
 		const baseDate = selectedEndDate || selectedDate;
 		const startTime = parse(sessionStart, "HH:mm", selectedDate);
@@ -171,6 +258,7 @@ export function formatDisplayDate(date) {
 		year: "numeric",
 	});
 }
+
 export function getFormattedBorrowDuration(
 	resourceType,
 	patronType,
@@ -196,31 +284,4 @@ export function getFormattedBorrowDuration(
 	}
 
 	return "N/A";
-}
-
-export const formatTime = (time) => {
-	const [hourStr, minute] = time.split(":");
-	let hour = parseInt(hourStr, 10);
-	const ampm = hour >= 12 ? "pm" : "am";
-	hour = hour % 12 || 12;
-	return `${hour.toString().padStart(1, "0")}:${minute}${ampm}`;
-};
-
-export function getBorrowDaysByType(li_borrowing, userType) {
-	if (!li_borrowing || !userType) return 0;
-
-	switch (userType) {
-		case "Student":
-		case "Student Assistant":
-			return li_borrowing.br_student?.borrowDays ?? 0;
-
-		case "Faculty":
-			return li_borrowing.br_faculty?.borrowDays ?? 0;
-
-		case "Administrator":
-			return li_borrowing.br_administrator?.borrowDays ?? 0;
-
-		default:
-			return 0;
-	}
 }
