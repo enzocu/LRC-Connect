@@ -25,7 +25,7 @@ export const handleLogin = async (
 		const user = userCredential.user;
 
 		if (user.emailVerified) {
-			alert.showSuccess(`Redirecting...`);
+			alert.showSuccess(`Redirecting...`, 2000);
 			setHasTriggered(true);
 		} else {
 			await sendEmailVerification(user);

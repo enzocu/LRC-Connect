@@ -15,7 +15,7 @@ export const useAlert = () => {
 export const AlertProvider = ({ children }) => {
 	const [alerts, setAlerts] = useState([]);
 
-	const showAlert = (type, message, autoClose = true, duration = 5000) => {
+	const showAlert = (type, message, autoClose = true, duration = 4000) => {
 		const id = Math.random().toString(36).substr(2, 9);
 		const newAlert = {
 			id,
