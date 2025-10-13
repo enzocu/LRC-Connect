@@ -623,7 +623,7 @@ export default function ReservationPage() {
 														(!sessionStart || !sessionEnd))))
 										}
 										className={`h-11 w-full ${
-											getButtonText() === "Utilzied"
+											getButtonText() === "Utilize"
 												? "bg-green-600 hover:bg-green-700 text-white"
 												: "bg-primary hover:bg-secondary-custom text-white"
 										} text-white border-none disabled:opacity-50 text-[12px]`}
