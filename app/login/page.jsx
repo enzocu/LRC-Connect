@@ -61,7 +61,7 @@ export default function LoginPage() {
 						<div className="flex items-center justify-center  w-full max-w-[380px] p-0">
 							<div className="w-full">
 								<div className="text-center mb-8 ">
-									<h1 className=" text-[24px] font-bold text-foreground ">
+									<h1 className=" text-[32px] font-bold text-foreground ">
 										Welcome back
 									</h1>
 									<p className="text-muted-foreground text-[15px]">

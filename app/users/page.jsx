@@ -128,7 +128,7 @@ export default function AdminWelcomePage() {
 					</div>
 
 					<div
-						className="mb-24 w-full max-w-6xl animate-slide-up "
+						className="mb-24 w-full max-w-6xl animate-slide-up overflow-hidden  py-6"
 						style={{ animationDelay: "0.2s" }}
 					>
 						<div className="relative flex items-center justify-center">
@@ -163,16 +163,15 @@ export default function AdminWelcomePage() {
 											/>
 										</div>
 
-										{/* Only show text if this is the focused item */}
 										{index === 2 && (
 											<div
 												className="text-center animate-fade-in"
 												style={{ animationDelay: "0.5s" }}
 											>
-												<p className="font-semibold text-foreground mb-1 text-[16px]">
+												<p className="font-semibold text-foreground mb-1 text-[16px] line-clamp-2">
 													{material?.ma_title}
 												</p>
-												<p className="text-muted-foreground text-[14px]">
+												<p className="text-muted-foreground text-[14px] line-clamp-1">
 													{material?.ma_author}
 												</p>
 											</div>
