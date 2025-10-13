@@ -32,7 +32,6 @@ export default function AdminWelcomePage() {
 	const { setLoading, setPath } = useLoading();
 
 	const [currentBookIndex, setCurrentBookIndex] = useState(0);
-
 	const [materialData, setMaterialData] = useState([]);
 	const [libraries, setLibrary] = useState([]);
 
