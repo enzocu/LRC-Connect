@@ -427,3 +427,10 @@ export const handleDownload = (filePath, fileName) => {
 	link.click();
 	document.body.removeChild(link);
 };
+
+export const toPHDate = (date) =>
+	date
+		? new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+				.toISOString()
+				.split("T")[0]
+		: "";

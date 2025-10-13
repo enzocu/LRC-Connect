@@ -30,8 +30,8 @@ import { getLibrary } from "@/controller/firebase/get/getLibrary";
 import { getMaterialWithMarctag } from "@/controller/firebase/get/getMaterialWithMarctag";
 import { getDiscussionroom } from "@/controller/firebase/get/getDiscussionroom";
 import { getComputer } from "@/controller/firebase/get/getComputer";
-
 import { getActiveTransactionCount } from "@/controller/firebase/get/getActiveTransactionCounts";
+import { toPHDate } from "@/controller/custom/customFunction";
 
 import {
 	handleSessionSchedule,
@@ -71,6 +71,7 @@ export default function ReservationPage() {
 	//CALENDAR
 	const [currentMonth, setCurrentMonth] = useState(new Date());
 	const [roomUse, setRoomUse] = useState(false);
+	const [sessionLimits, setSessionLimits] = useState(0);
 	const [showReservationModal, setShowReservationModal] = useState(false);
 	const [showUtilizedModal, setShowUtilizedModal] = useState(false);
 
@@ -146,6 +147,13 @@ export default function ReservationPage() {
 			libraryDetails?.li_borrowing &&
 			patronDetails?.us_type
 		) {
+			setSessionLimits(
+				getBorrowDaysByType(
+					libraryDetails?.li_borrowing,
+					patronDetails?.us_type
+				) || 0
+			);
+
 			getActiveTransactionCount(
 				patronID,
 				userDetails?.us_liID,
@@ -373,12 +381,7 @@ export default function ReservationPage() {
 						<div className="lg:col-span-2 space-y-6">
 							<Card className="bg-card border-border animate-slide-up-delay-1 shadow-sm">
 								<CardContent className="pt-6">
-									{renderCalendar(
-										getBorrowDaysByType(
-											libraryDetails?.li_borrowing,
-											patronDetails?.us_type
-										)
-									)}
+									{renderCalendar(sessionLimits)}
 								</CardContent>
 							</Card>
 
@@ -535,6 +538,39 @@ export default function ReservationPage() {
 													)}
 												</div>
 											</div>
+
+											{["USR-2", "USR-3", "USR-4"].includes(
+												userDetails?.us_level
+											) &&
+												selectedDate &&
+												!roomUse && (
+													<div>
+														<Label className="text-foreground font-medium block mb-2 text-[12px]">
+															End Date (Editable)
+														</Label>
+														<Input
+															type="date"
+															value={toPHDate(selectedEndDate)}
+															onChange={(e) =>
+																setSelectedEndDate(new Date(e.target.value))
+															}
+															disabled={!selectedDate}
+															min={toPHDate(selectedDate)}
+															max={toPHDate(
+																new Date(
+																	selectedDate.getTime() +
+																		(sessionLimits - 1) * 24 * 60 * 60 * 1000
+																)
+															)}
+															className="h-11 border-border text-foreground"
+															style={{ fontSize: "12px" }}
+														/>
+														<p className="text-xs text-gray-500 mt-1">
+															You can adjust the return date within{" "}
+															{sessionLimits} days from start date
+														</p>
+													</div>
+												)}
 										</>
 									)}
 
