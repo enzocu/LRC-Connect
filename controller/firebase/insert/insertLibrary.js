@@ -76,7 +76,6 @@ export async function insertLibrary(us_id, formData, setBtnloading, Alert) {
 			},
 
 			li_operating: li_operating,
-
 			li_createdAt: serverTimestamp(),
 		});
 

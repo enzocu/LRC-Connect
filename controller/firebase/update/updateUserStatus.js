@@ -139,7 +139,7 @@ export async function transferUserLibrary(
 					`${us_name} is already active in the new library. Old link removed.`
 				);
 			} else {
-				if (us_type === "Chief Librarian" || us_type === "Head Librarian") {
+				if (us_type === "Head Librarian") {
 					const exists = await checkExistingLibrarian(us_type, li_id, Alert);
 					if (exists) return;
 				}

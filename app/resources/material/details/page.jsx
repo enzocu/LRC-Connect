@@ -127,6 +127,7 @@ export default function MaterialDetailsPage() {
 								{formData?.ma_operation &&
 									userDetails?.us_level != "USR-1" &&
 									userDetails?.us_liID &&
+									formData?.ma_liStatus == "Active" &&
 									formData?.ma_status == "Active" &&
 									userDetails?.us_status == "Active" && (
 										<Button

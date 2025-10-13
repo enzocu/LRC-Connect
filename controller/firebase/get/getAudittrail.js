@@ -109,6 +109,7 @@ export function getAudittrail(
 					const promises = snapshot.docs.map(async (doc) => {
 						const raw = doc.data();
 
+						if (!raw.au_usID) return null;
 						const userSnap = await getDoc(raw.au_usID);
 						if (!userSnap.exists()) return null;
 

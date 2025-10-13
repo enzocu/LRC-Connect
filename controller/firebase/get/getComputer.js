@@ -40,6 +40,7 @@ export async function getComputer(coID, setComputerData, setLoading, Alert) {
 
 		const liData = liSnap.data() || {};
 
+		ComputerData.co_liStatus = liData.li_status ?? "";
 		ComputerData.co_library = liData.li_name ?? "";
 		ComputerData.co_school = liData.li_schoolname ?? "";
 		ComputerData.co_operation = liData.li_resources?.computer ?? false;

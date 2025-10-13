@@ -264,7 +264,7 @@ export default function LibraryDetails() {
 						</CardHeader>
 						<CardContent className="pt-0 space-y-6">
 							<label
-								htmlFor={isAllowed ? "cover-image-upload" : ""}
+								htmlFor={isAllowed && isEditing ? "cover-image-upload" : ""}
 								className="border-2 border-dashed border-border rounded-lg text-center transition-colors cursor-pointer block"
 							>
 								<input

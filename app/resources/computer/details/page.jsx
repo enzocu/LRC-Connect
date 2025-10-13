@@ -110,6 +110,7 @@ export default function ComputerDetails() {
 
 							<div className="flex gap-3 pt-2">
 								{formData?.co_operation &&
+									formData?.co_liStatus == "Active" &&
 									userDetails?.us_level != "USR-1" &&
 									formData?.co_status == "Active" &&
 									userDetails?.us_status == "Active" && (

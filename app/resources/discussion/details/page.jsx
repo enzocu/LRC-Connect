@@ -113,6 +113,7 @@ export default function DiscussionRoomDetailsPage() {
 							<div className="flex gap-3 pt-2">
 								{formData?.dr_operation &&
 									userDetails?.us_level != "USR-1" &&
+									formData?.dr_liStatus == "Active" &&
 									formData?.dr_status == "Active" &&
 									userDetails?.us_status == "Active" && (
 										<Button

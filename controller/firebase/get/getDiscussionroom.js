@@ -45,6 +45,7 @@ export async function getDiscussionroom(
 
 		const liData = liSnap.data() || {};
 
+		DiscussionData.dr_liStatus = liData.li_status ?? "";
 		DiscussionData.dr_library = liData.li_name ?? "";
 		DiscussionData.dr_school = liData.li_schoolname ?? "";
 		DiscussionData.dr_operation = liData.li_resources?.discussion ?? false;

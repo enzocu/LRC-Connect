@@ -166,6 +166,7 @@ export default function RegisterLibrary() {
 													className="bg-card border-border text-foreground h-9"
 													style={{ fontSize: "12px" }}
 													title="Format must be +639XXXXXXXXX"
+													pattern="^\+639\d{9}$"
 												/>
 											</div>
 										</div>
@@ -182,6 +183,7 @@ export default function RegisterLibrary() {
 												rows={3}
 												className="bg-card border-border text-foreground"
 												style={{ fontSize: "12px" }}
+												required
 											/>
 										</div>
 

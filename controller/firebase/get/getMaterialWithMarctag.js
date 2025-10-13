@@ -206,6 +206,7 @@ export async function getMaterialWithMarctag(
 			}
 			const liData = liSnap.data() || {};
 
+			MaterialData.ma_liStatus = liData.li_status ?? "";
 			MaterialData.ma_library = liData.li_name ?? "";
 			MaterialData.ma_school = liData.li_schoolname ?? "";
 			MaterialData.ma_operation = liData.li_resources?.material ?? false;
