@@ -239,13 +239,13 @@ export default function ReservationPage() {
 		}
 
 		if (resourceType === "Material") {
-			return isToday(selectedDate) ? "Utilized" : "Reserve";
+			return isToday(selectedDate) ? "Utilize" : "Reserve";
 		} else if (
 			resourceType === "Computer" ||
 			resourceType === "Discussion Room"
 		) {
 			return isToday(selectedDate) && isCurrentTime(sessionStart)
-				? "Utilized"
+				? "Utilize"
 				: "Reserve";
 		}
 	};
@@ -608,7 +608,7 @@ export default function ReservationPage() {
 
 									<Button
 										onClick={() =>
-											getButtonText() === "Reserved"
+											getButtonText() === "Reserve"
 												? setShowReservationModal(true)
 												: setShowUtilizedModal(true)
 										}
@@ -623,7 +623,7 @@ export default function ReservationPage() {
 														(!sessionStart || !sessionEnd))))
 										}
 										className={`h-11 w-full ${
-											getButtonText() === "Utilized"
+											getButtonText() === "Utilzied"
 												? "bg-green-600 hover:bg-green-700 text-white"
 												: "bg-primary hover:bg-secondary-custom text-white"
 										} text-white border-none disabled:opacity-50 text-[12px]`}
