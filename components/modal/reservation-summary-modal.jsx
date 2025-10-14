@@ -266,10 +266,8 @@ export function ReservationSummaryModal({
 							<p className="text-[12px]">
 								<span className="font-semibold text-red-600">Note:</span>{" "}
 								<span className="text-red-700">
-									Reserved resource may be
-									<span className="font-medium">
-										cancelled or reassigned
-									</span>{" "}
+									Reserved resource may be{" "}
+									<span className="font-medium">cancelled or reassigned</span>{" "}
 									if not claimed on time. All reservations follow a first-come,
 									first-served policy.
 								</span>

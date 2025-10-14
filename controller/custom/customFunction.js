@@ -455,9 +455,17 @@ export const combineDateAndTimeToTimestamp = (dateSource, timeSource) => {
 		dateSource?.toDate?.() ||
 		(dateSource instanceof Date ? dateSource : new Date(dateSource));
 
-	const time =
-		timeSource?.toDate?.() ||
-		(timeSource instanceof Date ? timeSource : new Date(timeSource));
+	let time;
+
+	if (typeof timeSource === "string") {
+		const [hours, minutes, seconds = 0] = timeSource.split(":").map(Number);
+		time = new Date();
+		time.setHours(hours, minutes, seconds, 0);
+	} else {
+		time =
+			timeSource?.toDate?.() ||
+			(timeSource instanceof Date ? timeSource : new Date(timeSource));
+	}
 
 	const merged = new Date(
 		date.getFullYear(),
@@ -465,7 +473,8 @@ export const combineDateAndTimeToTimestamp = (dateSource, timeSource) => {
 		date.getDate(),
 		time.getHours(),
 		time.getMinutes(),
-		time.getSeconds()
+		time.getSeconds(),
+		0
 	);
 
 	return Timestamp.fromDate(merged);
