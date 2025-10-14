@@ -459,56 +459,57 @@ export default function ReservationPage() {
 									</CardTitle>
 								</CardHeader>
 								<CardContent className="space-y-6">
-									{resourceType === "Material" && (
-										<>
-											{["USR-2", "USR-3", "USR-4"].includes(
-												userDetails?.us_level
-											) &&
-												selectedDate &&
-												isToday(selectedDate) && (
-													<div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200 mt-2">
-														<div className="flex-1">
-															<Label className="text-gray-900 font-medium block mb-1 text-[14px]">
-																Room Use
-															</Label>
-															<p className="text-xs text-gray-600">
-																Enable if material will be used within the
-																library premises only
-															</p>
+									{resourceType === "Material" &&
+										selectedFormat == "Hard Copy" && (
+											<>
+												{["USR-2", "USR-3", "USR-4"].includes(
+													userDetails?.us_level
+												) &&
+													selectedDate &&
+													isToday(selectedDate) && (
+														<div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg border border-blue-200 mt-2">
+															<div className="flex-1">
+																<Label className="text-gray-900 font-medium block mb-1 text-[14px]">
+																	Room Use
+																</Label>
+																<p className="text-xs text-gray-600">
+																	Enable if material will be used within the
+																	library premises only
+																</p>
+															</div>
+
+															<Switch
+																checked={roomUse}
+																onCheckedChange={() => {
+																	setRoomUse(!roomUse);
+																	setSelectedEndDate(selectedDate);
+																}}
+																className="ml-4"
+															/>
 														</div>
+													)}
+												<div>
+													<Label className="text-foreground font-medium block mb-2 text-[12px]">
+														Choose a Material Format
+													</Label>
+													<div className="grid  grid-cols-3 gap-3">
+														{["Hard Copy", "Soft Copy", "Audio Copy"].map(
+															(format) => {
+																const formatMap = {
+																	"Hard Copy":
+																		resourceDetails?.ma_formats?.coverCopy,
+																	"Soft Copy":
+																		resourceDetails?.ma_formats?.softCopy,
+																	"Audio Copy":
+																		resourceDetails?.ma_formats?.audioCopy,
+																};
 
-														<Switch
-															checked={roomUse}
-															onCheckedChange={() => {
-																setRoomUse(!roomUse);
-																setSelectedEndDate(selectedDate);
-															}}
-															className="ml-4"
-														/>
-													</div>
-												)}
-											<div>
-												<Label className="text-foreground font-medium block mb-2 text-[12px]">
-													Choose a Material Format
-												</Label>
-												<div className="grid  grid-cols-3 gap-3">
-													{["Hard Copy", "Soft Copy", "Audio Copy"].map(
-														(format) => {
-															const formatMap = {
-																"Hard Copy":
-																	resourceDetails?.ma_formats?.coverCopy,
-																"Soft Copy":
-																	resourceDetails?.ma_formats?.softCopy,
-																"Audio Copy":
-																	resourceDetails?.ma_formats?.audioCopy,
-															};
+																const isDisabled = !formatMap[format];
 
-															const isDisabled = !formatMap[format];
-
-															return (
-																<label
-																	key={format}
-																	className={`h-11 flex items-center gap-3 p-4 rounded-lg border-2 transition-all duration-200
+																return (
+																	<label
+																		key={format}
+																		className={`h-11 flex items-center gap-3 p-4 rounded-lg border-2 transition-all duration-200
 																${
 																	isDisabled
 																		? "border-border bg-muted cursor-not-allowed opacity-50"
@@ -516,62 +517,62 @@ export default function ReservationPage() {
 																		? "border-primary-custom bg-primary-custom/5"
 																		: "border-border cursor-pointer hover:border-primary-custom/50 hover:bg-accent/50"
 																}`}
-																>
-																	<input
-																		type="radio"
-																		name="format"
-																		value={format}
-																		checked={selectedFormat === format}
-																		onChange={(e) =>
-																			setSelectedFormat(e.target.value)
-																		}
-																		className="w-4 h-4 text-primary border-gray-400 checked:bg-primary checked:border-primary focus:ring-primary"
-																		disabled={isDisabled}
-																	/>
-																	<span className="text-foreground font-medium text-[12px]">
-																		{format}
-																	</span>
-																</label>
-															);
-														}
-													)}
-												</div>
-											</div>
-
-											{["USR-2", "USR-3", "USR-4"].includes(
-												userDetails?.us_level
-											) &&
-												selectedDate &&
-												!roomUse && (
-													<div>
-														<Label className="text-foreground font-medium block mb-2 text-[12px]">
-															End Date (Editable)
-														</Label>
-														<Input
-															type="date"
-															value={toPHDate(selectedEndDate)}
-															onChange={(e) =>
-																setSelectedEndDate(new Date(e.target.value))
+																	>
+																		<input
+																			type="radio"
+																			name="format"
+																			value={format}
+																			checked={selectedFormat === format}
+																			onChange={(e) =>
+																				setSelectedFormat(e.target.value)
+																			}
+																			className="w-4 h-4 text-primary border-gray-400 checked:bg-primary checked:border-primary focus:ring-primary"
+																			disabled={isDisabled}
+																		/>
+																		<span className="text-foreground font-medium text-[12px]">
+																			{format}
+																		</span>
+																	</label>
+																);
 															}
-															disabled={!selectedDate}
-															min={toPHDate(selectedDate)}
-															max={toPHDate(
-																new Date(
-																	selectedDate.getTime() +
-																		(sessionLimits - 1) * 24 * 60 * 60 * 1000
-																)
-															)}
-															className="h-11 border-border text-foreground"
-															style={{ fontSize: "12px" }}
-														/>
-														<p className="text-xs text-gray-500 mt-1">
-															You can adjust the return date within{" "}
-															{sessionLimits} days from start date
-														</p>
+														)}
 													</div>
-												)}
-										</>
-									)}
+												</div>
+
+												{["USR-2", "USR-3", "USR-4"].includes(
+													userDetails?.us_level
+												) &&
+													selectedDate &&
+													!roomUse && (
+														<div>
+															<Label className="text-foreground font-medium block mb-2 text-[12px]">
+																End Date (Editable)
+															</Label>
+															<Input
+																type="date"
+																value={toPHDate(selectedEndDate)}
+																onChange={(e) =>
+																	setSelectedEndDate(new Date(e.target.value))
+																}
+																disabled={!selectedDate}
+																min={toPHDate(selectedDate)}
+																max={toPHDate(
+																	new Date(
+																		selectedDate.getTime() +
+																			(sessionLimits - 1) * 24 * 60 * 60 * 1000
+																	)
+																)}
+																className="h-11 border-border text-foreground"
+																style={{ fontSize: "12px" }}
+															/>
+															<p className="text-xs text-gray-500 mt-1">
+																You can adjust the return date within{" "}
+																{sessionLimits} days from start date
+															</p>
+														</div>
+													)}
+											</>
+										)}
 
 									{(resourceType === "Discussion Room" ||
 										resourceType === "Computer") && (

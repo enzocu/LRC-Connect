@@ -146,7 +146,8 @@ export async function handleAffectedCancellations(affected, us_id, Alert) {
 			}
 		}
 
-		Alert.showSuccess("All affected reservations have been cancelled.");
+		if (affected.length > 0)
+			Alert.showSuccess("All affected reservations have been cancelled.");
 	} catch (error) {
 		console.error("Error cancelling affected reservations:", error);
 		Alert.showDanger("Failed to cancel some affected reservations.");
