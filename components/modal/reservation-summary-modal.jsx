@@ -416,7 +416,8 @@ export function ReservationSummaryModal({
 							onClick={handleReserve}
 							disabled={
 								!available ||
-								(selectedAccession == "" &&
+								(transactionType == "Utilize" &&
+									selectedAccession == "" &&
 									resourceType === "Material" &&
 									transactionDetails.format === "Hard Copy")
 							}
