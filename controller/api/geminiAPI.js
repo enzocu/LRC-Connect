@@ -352,10 +352,10 @@ const guideMessage = (saveTag, type) => {
 					🔗 lawrencecunanan77@gmail.com  
 
 					- Jared Campana – Project Manager  
-					🔗 lorenzanthonyramirez@gmail.com 
+					🔗 jaredcampanaa@gmail.com 
 
 					- Lorenz Ramirez – Documentation Lead  
-					🔗 jaredcampanaa@gmail.com 
+					🔗 lorenzanthonyramirez@gmail.com 
 
 					- John Meynard Infantado – Documentation Assistant  
 					🔗 https://www.facebook.com/jm.infantado  

@@ -244,11 +244,11 @@ export function RenewTransactionModal({
 					{renderCalendar()}
 
 					{selectedDate && (
-						<Card className="bg-gradient-to-r from-primary-custom/5 to-accent-custom/5 border-primary-custom/20 animate-slide-up-delay-2">
+						<Card className="border-border animate-slide-up-delay-2">
 							<CardContent className="p-6">
 								<div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 									<div className="flex items-center gap-3 flex-1">
-										<div className="w-10 h-10 bg-primary-custom rounded-full flex items-center justify-center flex-shrink-0">
+										<div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
 											<FiCalendar
 												className=" text-white"
 												style={{ fontSize: "17px" }}
@@ -265,7 +265,7 @@ export function RenewTransactionModal({
 									</div>
 
 									<div className="flex items-center gap-3 flex-1">
-										<div className="w-10 h-10 bg-secondary-custom rounded-full flex items-center justify-center flex-shrink-0">
+										<div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
 											<FiCalendar
 												className="text-white"
 												style={{ fontSize: "17px" }}
@@ -282,7 +282,7 @@ export function RenewTransactionModal({
 									</div>
 
 									<div className="flex items-center gap-3 flex-1">
-										<div className="w-10 h-10 bg-accent-custom rounded-full flex items-center justify-center flex-shrink-0">
+										<div className="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
 											<FiClock
 												className=" text-white"
 												style={{ fontSize: "17px" }}

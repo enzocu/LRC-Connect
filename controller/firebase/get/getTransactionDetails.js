@@ -103,6 +103,7 @@ export async function getTransactionDetails(
 			tr_accession: data.tr_accession,
 			tr_remarks: data.tr_remarks || "",
 			tr_library: libraryData.li_name || "",
+			tr_schoolName: libraryData.li_schoolName || "",
 			tr_resource,
 			tr_patron: {
 				id: data.tr_usID.id,

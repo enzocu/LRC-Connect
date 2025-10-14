@@ -45,10 +45,8 @@ export async function renewTransaction(
 		const newDueTimestamp = convertDateToTimestamp(newDateDue);
 		const now = new Date();
 
-		// flag to check if overdue
 		let isOverdue = false;
 
-		// Check if overdue before renewal
 		if (transaction.tr_dateDue && now > transaction.tr_dateDue?.toDate()) {
 			isOverdue = true;
 
