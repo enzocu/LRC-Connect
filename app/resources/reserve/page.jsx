@@ -73,7 +73,6 @@ export default function ReservationPage() {
 	const [roomUse, setRoomUse] = useState(false);
 	const [sessionLimits, setSessionLimits] = useState(0);
 	const [showReservationModal, setShowReservationModal] = useState(false);
-	const [showUtilizedModal, setShowUtilizedModal] = useState(false);
 
 	useEffect(() => {
 		setPath(pathname);
