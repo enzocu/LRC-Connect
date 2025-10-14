@@ -556,7 +556,10 @@ export const renderPatronDetails = (transaction, router) => {
 
 						<div>
 							<Label className="text-foreground text-[12px]">
-								Academic ({patron?.us_courses})
+								Academic{" "}
+								{["Student", "Student Assistant"].includes(patron.us_type)
+									? `(${patron?.us_courses})`
+									: ""}
 							</Label>
 							<p className="text-muted-foreground text-[12px]">
 								{[
