@@ -1,6 +1,7 @@
 "use client";
 
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 
 export const toggleFilterOrderBy = (key, setFilters) => {
 	setFilters((prev) => ({
@@ -572,6 +573,7 @@ export const getActiveFiltersMA = (
 	const sectionMap = {
 		A: [
 			{ key: "a_type", label: "Type", defaultValue: "" },
+			{ key: "a_roomOnly", label: "Room Only", defaultValue: false },
 			{ key: "a_userType", label: "User Type", defaultValue: "All" },
 			{ key: "a_dateRangeStart", label: "Start Date", defaultValue: "" },
 			{ key: "a_dateRangeEnd", label: "End Date", defaultValue: "" },
@@ -582,6 +584,11 @@ export const getActiveFiltersMA = (
 				key: "b_materialStatus",
 				label: "Material Status",
 				defaultValue: "",
+			},
+			{
+				key: "b_materialFormat",
+				label: "Material Format",
+				defaultValue: "All",
 			},
 			{
 				key: "b_materialType",
@@ -645,6 +652,21 @@ export const renderFiltersMA = (
 						value={filters.a_type}
 						onChange={(e) => setFilters({ ...filters, a_type: e.target.value })}
 					/>
+
+					<div className="space-y-2">
+						<label className="flex items-center gap-2 cursor-pointer text-[11px]">
+							<Checkbox
+								checked={filters.a_roomOnly}
+								onCheckedChange={(checked) =>
+									setFilters({ ...filters, a_roomOnly: checked })
+								}
+							/>
+							<span className="text-foreground text-[11px]">
+								Show only materials used in Library
+							</span>
+						</label>
+					</div>
+
 					<UserTypeSelect
 						value={filters.a_userType}
 						onChange={(e) =>
@@ -676,6 +698,16 @@ export const renderFiltersMA = (
 						value={filters.b_materialStatus}
 						onChange={(e) =>
 							setFilters({ ...filters, b_materialStatus: e.target.value })
+						}
+					/>
+
+					<FilterFormatSelect
+						value={filters.b_materialFormat}
+						onChange={(e) =>
+							setFilters({
+								...filters,
+								b_materialFormat: e.target.value,
+							})
 						}
 					/>
 
@@ -945,11 +977,7 @@ export const getActiveFiltersUS = (
 	libraryList,
 	materialList,
 	discussionRoomList,
-	computerList,
-	filterCoursesData,
-	subCoursesData,
-	selectedCourseID,
-	setSelectedCourseID
+	computerList
 ) => {
 	const activeFilters = [];
 

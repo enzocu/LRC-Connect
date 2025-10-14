@@ -20,6 +20,7 @@ export async function getMaterialSummary(
 	setMockData,
 	searchQuery,
 	a_type,
+	a_roomOnly,
 	a_userType,
 	a_dateRangeStart,
 	a_dateRangeEnd,
@@ -51,7 +52,7 @@ export async function getMaterialSummary(
 			}
 
 			const hasSearchFilters =
-				(isQRSearch || isSearchEmpty) && a_userType == "All";
+				(isQRSearch || isSearchEmpty) && a_userType == "All" && !a_roomOnly;
 
 			let finalQuery;
 			if (hasSearchFilters) {
@@ -121,7 +122,8 @@ export async function getMaterialSummary(
 					const result = await computeTransactionStats(
 						transSnap,
 						now,
-						a_userType
+						a_userType,
+						a_roomOnly
 					);
 
 					if (!result) return null;
@@ -179,7 +181,8 @@ export async function getMaterialSummary(
 					const result = await computeTransactionStats(
 						transSnap,
 						now,
-						a_userType
+						a_userType,
+						a_roomOnly
 					);
 
 					if (!result) return null;
@@ -212,7 +215,7 @@ export async function getMaterialSummary(
 	}
 }
 
-async function computeTransactionStats(transSnap, now, a_userType) {
+async function computeTransactionStats(transSnap, now, a_userType, a_roomOnly) {
 	const counts = {
 		es_reserved: 0,
 		es_utilized: 0,
@@ -229,6 +232,19 @@ async function computeTransactionStats(transSnap, now, a_userType) {
 			const usSnap = await getDoc(tr_usID);
 			const usData = usSnap.exists() ? usSnap.data() : null;
 			if (!usData || usData.us_type !== a_userType) continue;
+		}
+
+		if (a_roomOnly) {
+			const useDate = t.tr_useDate?.toDate?.();
+			const dueDate = t.tr_dateDue?.toDate?.();
+			if (!useDate || !dueDate) continue;
+
+			const isSameDay =
+				useDate.getFullYear() === dueDate.getFullYear() &&
+				useDate.getMonth() === dueDate.getMonth() &&
+				useDate.getDate() === dueDate.getDate();
+
+			if (!isSameDay) continue;
 		}
 
 		if (tr_status === "Reserved") counts.es_reserved++;

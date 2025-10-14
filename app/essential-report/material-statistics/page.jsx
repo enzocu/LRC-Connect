@@ -49,6 +49,7 @@ const sections = [
 const defaultFilterValues = {
 	// Section A filters
 	a_type: "Material",
+	a_roomOnly: false,
 	a_userType: "All",
 	a_dateRangeStart: "",
 	a_dateRangeEnd: "",
@@ -56,6 +57,7 @@ const defaultFilterValues = {
 
 	// Section B filters
 	b_materialStatus: "Active",
+	b_materialFormat: "All",
 	b_materialType: "All",
 	b_category: "All",
 	b_shelf: "All",
@@ -103,6 +105,7 @@ export default function MaterialReports() {
 					setMockData,
 					searchQuery,
 					filters.a_type,
+					filters.a_roomOnly,
 					filters.a_userType,
 					filters.a_dateRangeStart,
 					filters.a_dateRangeEnd,
@@ -118,6 +121,7 @@ export default function MaterialReports() {
 			} else if (section.key == "totalMaterial") {
 				getMaterialList(
 					userDetails?.us_liID,
+					filters.b_materialFormat,
 					filters.b_materialType,
 					filters.b_category,
 					filters.b_shelf,
@@ -145,11 +149,13 @@ export default function MaterialReports() {
 		userDetails,
 		searchQuery,
 		filters.a_type,
+		filters.a_roomOnly,
 		filters.a_userType,
 		filters.a_dateRangeStart,
 		filters.a_dateRangeEnd,
 		filters.a_orderBy,
 
+		filters.b_materialFormat,
 		filters.b_materialType,
 		filters.b_category,
 		filters.b_shelf,

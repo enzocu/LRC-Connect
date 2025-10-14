@@ -70,6 +70,7 @@ export default function MaterialsPage() {
 	const [showFilters, setShowFilters] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedStatus, setSelectedStatus] = useState("Active");
+	const [selectedFormat, setSelectedFormat] = useState("All");
 	const [selectedType, setSelectedType] = useState("All");
 	const [selectedCategory, setSelectedCategory] = useState("All");
 	const [selectedShelf, setSelectedShelf] = useState("All");
@@ -116,6 +117,7 @@ export default function MaterialsPage() {
 		if (userDetails && userDetails?.us_liID) {
 			getMaterialList(
 				userDetails?.us_liID,
+				selectedFormat,
 				selectedType,
 				selectedCategory,
 				selectedShelf,
@@ -150,6 +152,7 @@ export default function MaterialsPage() {
 		copyrightYearEnd,
 		matchType,
 		showExcelImportModal,
+		selectedFormat,
 	]);
 
 	useEffect(() => {
@@ -325,7 +328,8 @@ export default function MaterialsPage() {
 							</div>
 						</div>
 
-						{(selectedType !== "All" ||
+						{(selectedFormat !== "All" ||
+							selectedType !== "All" ||
 							selectedCategory !== "All" ||
 							selectedStatus !== "All" ||
 							selectedShelf !== "All") && (
@@ -333,6 +337,22 @@ export default function MaterialsPage() {
 								<span className="text-muted-foreground text-[11px]">
 									Active Filters:
 								</span>
+								{selectedStatus !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
+										Status: {selectedStatus}
+									</span>
+								)}
+
+								{selectedFormat !== "All" && (
+									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
+										Format: {selectedFormat || "Unknown"}
+										<FiX
+											className="w-3 h-3 cursor-pointer"
+											onClick={() => setSelectedFormat("All")}
+										/>
+									</span>
+								)}
+
 								{selectedType !== "All" && (
 									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
 										Type:{" "}
@@ -366,11 +386,6 @@ export default function MaterialsPage() {
 											className="w-3 h-3 cursor-pointer"
 											onClick={() => setSelectedShelf("All")}
 										/>
-									</span>
-								)}
-								{selectedStatus !== "All" && (
-									<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
-										Status: {selectedStatus}
 									</span>
 								)}
 
@@ -587,6 +602,26 @@ export default function MaterialsPage() {
 
 										<div className="space-y-2">
 											<label className="block font-medium text-foreground text-[12px]">
+												Select a Material Format
+											</label>
+											<select
+												value={selectedFormat}
+												onChange={(e) => setSelectedFormat(e.target.value)}
+												className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+											>
+												<option value="All">All Material Formats</option>
+												{["Hard Copy", "Soft Copy", "Audio Copy"].map(
+													(format, index) => (
+														<option key={index} value={format}>
+															{format}
+														</option>
+													)
+												)}
+											</select>
+										</div>
+
+										<div className="space-y-2">
+											<label className="block font-medium text-foreground text-[12px]">
 												Select a Material Type
 											</label>
 											<select
@@ -701,6 +736,7 @@ export default function MaterialsPage() {
 												onClick={() => {
 													setPageCursors([]);
 													setCurrentPage(1);
+													setSelectedFormat("All");
 													setSelectedType("All");
 													setSelectedCategory("All");
 													setSelectedStatus("Active");

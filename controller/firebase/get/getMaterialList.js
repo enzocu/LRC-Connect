@@ -19,6 +19,7 @@ import {
 
 export async function getMaterialList(
 	li_id,
+	format,
 	mt_id,
 	ca_id,
 	sh_id,
@@ -59,6 +60,15 @@ export async function getMaterialList(
 		}
 
 		// Filters
+		if (format && format !== "All") {
+			if (format === "Hard Copy") {
+				conditions.push(where("ma_coverQty", ">", 0));
+			} else if (format === "Soft Copy") {
+				conditions.push(where("ma_softQty", ">", 0));
+			} else if (format === "Audio Copy") {
+				conditions.push(where("ma_audioQty", ">", 0));
+			}
+		}
 		if (mt_id && mt_id !== "All")
 			conditions.push(where("ma_mtID", "==", doc(db, "materialType", mt_id)));
 		if (ca_id && ca_id !== "All")
