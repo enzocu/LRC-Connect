@@ -83,7 +83,7 @@ export function DamageReportModal({
 					<div className="flex items-start gap-3">
 						<FiAlertTriangle className="w-5 h-5 text-red-600 mt-0.5 flex-shrink-0" />
 						<div>
-							<p className="font-medium text-red-800 mb-1 text-[12px]">
+							<p className="font-bold text-red-800 mb-1 text-[12px]">
 								Damage Report Summary
 							</p>
 							<p className="text-red-700 text-[11px]">
@@ -91,10 +91,10 @@ export function DamageReportModal({
 								borrowed material. The item must be returned to the library for
 								further inspection and appropriate action. <br />
 								<br />
-								<strong>
+								<span className="font-medium">
 									Any applicable fines or repair procedures will be determined
 									after assessment.
-								</strong>
+								</span>
 							</p>
 						</div>
 					</div>

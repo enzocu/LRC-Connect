@@ -30,7 +30,7 @@ export async function getMaterialWithMarctag(
 		const data = docSnap.data();
 
 		const MaterialData = {
-			ma_id: docSnap.id,
+			id: docSnap.id,
 			ma_qr: data.ma_qr,
 			ma_liID: data.ma_liID,
 			ma_status: data.ma_status || "NA",
@@ -43,6 +43,10 @@ export async function getMaterialWithMarctag(
 				softCopy: data.ma_softQty > 0,
 				audioCopy: data.ma_audioQty > 0,
 			},
+
+			ma_coverQty: data.ma_coverQty || 0,
+			ma_softQty: data.ma_softQty || 0,
+			ma_audioCopy: data.ma_audioQty || 0,
 			ma_coverURL: data.ma_coverURL ?? "/placeholder.svg?height=400&width=256",
 			ma_sections: [],
 			ma_holdings: data.ma_holdings || [],
@@ -63,7 +67,6 @@ export async function getMaterialWithMarctag(
 			const snapshot = await getDocs(q);
 			const transactions = snapshot.docs.map((d) => d.data());
 
-			// --- 🔹 Adjust holdings for Hard Copy
 			MaterialData.ma_holdings = (data.ma_holdings || []).map((holding) => {
 				const used = transactions.find(
 					(t) =>
@@ -75,7 +78,6 @@ export async function getMaterialWithMarctag(
 				};
 			});
 
-			// --- 🔹 Compute available copies properly
 			const softUsed = transactions.filter(
 				(t) => t.tr_format === "Soft Copy"
 			).length;

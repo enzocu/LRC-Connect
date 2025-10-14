@@ -26,6 +26,7 @@ export async function getDiscussionroom(
 
 		const DiscussionData = {
 			...data,
+			id: drID,
 			dr_minDuration: formatTimeField(data.dr_minDuration),
 			dr_maxDuration: formatTimeField(data.dr_maxDuration),
 			dr_minDurationFormatted: formatDuration(data.dr_minDuration),
@@ -33,7 +34,6 @@ export async function getDiscussionroom(
 			dr_minDurationDate: data.dr_minDuration,
 			dr_maxDurationDate: data.dr_maxDuration,
 			dr_createdAtDATE: formatDate(data.dr_createdAt),
-			id: drID,
 		};
 
 		const liSnap = await getDoc(data.dr_liID);

@@ -21,6 +21,7 @@ export async function getComputer(coID, setComputerData, setLoading, Alert) {
 
 		const ComputerData = {
 			...data,
+			id: coID,
 			co_date: formatDateField(data.co_date),
 			co_minDuration: formatTimeField(data.co_minDuration),
 			co_maxDuration: formatTimeField(data.co_maxDuration),
@@ -28,7 +29,6 @@ export async function getComputer(coID, setComputerData, setLoading, Alert) {
 			co_maxDurationFormatted: formatDuration(data.co_maxDuration),
 			co_minDurationDate: data.co_minDuration,
 			co_maxDurationDate: data.co_maxDuration,
-			id: coID,
 		};
 
 		const liSnap = await getDoc(data.co_liID);

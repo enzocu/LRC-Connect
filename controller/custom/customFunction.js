@@ -150,20 +150,6 @@ export const convertTimeToTimestamp = (timeStr) => {
 	return Timestamp.fromDate(now);
 };
 
-export const convertDateToTimestamp = (dateStr) => {
-	if (!dateStr) return null;
-	return Timestamp.fromDate(new Date(dateStr));
-};
-
-export const combineDateAndTimeToTimestamp = (dateTimestamp, timeStr) => {
-	if (!dateTimestamp || !timeStr) return null;
-	const date = dateTimestamp.toDate();
-	const [hour, minute] = timeStr.split(":").map(Number);
-	return Timestamp.fromDate(
-		new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute)
-	);
-};
-
 export const timeStringToTimestamp = (timeStr) => {
 	const [hour, minute] = timeStr.split(":").map(Number);
 	const now = new Date();
@@ -434,3 +420,53 @@ export const toPHDate = (date) =>
 				.toISOString()
 				.split("T")[0]
 		: "";
+
+export const convertDateToTimestamp = (value) => {
+	if (!value) return null;
+
+	if (value?.seconds) {
+		const dateOnly = value.toDate();
+		dateOnly.setHours(0, 0, 0, 0);
+		return Timestamp.fromDate(dateOnly);
+	}
+
+	if (value instanceof Date) {
+		const dateOnly = new Date(
+			value.getFullYear(),
+			value.getMonth(),
+			value.getDate()
+		);
+		return Timestamp.fromDate(dateOnly);
+	}
+
+	const parsed = new Date(value);
+	const dateOnly = new Date(
+		parsed.getFullYear(),
+		parsed.getMonth(),
+		parsed.getDate()
+	);
+	return Timestamp.fromDate(dateOnly);
+};
+
+export const combineDateAndTimeToTimestamp = (dateSource, timeSource) => {
+	if (!dateSource || !timeSource) return null;
+
+	const date =
+		dateSource?.toDate?.() ||
+		(dateSource instanceof Date ? dateSource : new Date(dateSource));
+
+	const time =
+		timeSource?.toDate?.() ||
+		(timeSource instanceof Date ? timeSource : new Date(timeSource));
+
+	const merged = new Date(
+		date.getFullYear(),
+		date.getMonth(),
+		date.getDate(),
+		time.getHours(),
+		time.getMinutes(),
+		time.getSeconds()
+	);
+
+	return Timestamp.fromDate(merged);
+};

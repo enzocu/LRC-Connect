@@ -1,30 +1,43 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { format } from "date-fns";
 import { useRouter } from "next/navigation";
 import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { AlertTriangle } from "lucide-react";
 
 import Lottie from "lottie-react";
 import successAnimation from "@/public/lottie/success.json";
 import { LoadingSpinner } from "@/components/loading";
+import { useLoading } from "@/contexts/LoadingProvider";
 
 import { insertTransaction } from "@/controller/firebase/insert/insertTransaction";
+import { getAffectedList } from "../../controller/firebase/get/getAffected";
+import { getAvailableHoldings } from "../../controller/firebase/get/getTransactionList";
+
 export function ReservationSummaryModal({
 	isOpen,
 	onClose,
-	transactionDetails,
 	resourceType,
+	transactionType,
+	transactionDetails,
 	resourceData,
 	patronData,
 	userDetails,
 	Alert,
 }) {
 	const router = useRouter();
+	const pathname = usePathname();
+	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 	const [success, setSuccess] = useState(false);
+	const [available, setAvailable] = useState(true);
+	const [selectedAccession, setSelectedAccession] = useState("");
+	const [availableHoldings, setAvailableHoldings] = useState([]);
+	const [hasAffectedTransactions, setAffectedTransactions] = useState([]);
 
 	const handleReserve = async () => {
 		if (!userDetails?.uid) null;
@@ -32,9 +45,12 @@ export function ReservationSummaryModal({
 		await insertTransaction(
 			userDetails?.uid,
 			resourceType,
+			transactionType,
+			selectedAccession,
 			transactionDetails,
 			resourceData,
 			patronData,
+			hasAffectedTransactions,
 			setBtnLoading,
 			Alert,
 			router,
@@ -42,13 +58,53 @@ export function ReservationSummaryModal({
 		);
 	};
 
+	useEffect(() => {
+		setPath(pathname);
+		if (isOpen && transactionDetails && transactionType == "Utilize") {
+			getAffectedList(
+				"",
+				resourceData?.ma_liID || resourceData?.dr_liID || resourceData?.co_liID,
+				resourceType,
+				resourceData.id,
+				transactionDetails.format,
+				transactionDetails.date,
+				transactionDetails.dateDue,
+				transactionDetails.sessionStart,
+				transactionDetails.sessionEnd,
+				resourceData,
+				setAffectedTransactions,
+				setAvailable,
+				setLoading,
+				Alert
+			);
+
+			if (
+				resourceType == "Material" &&
+				transactionDetails.format == "Hard Copy" &&
+				resourceData?.ma_holdings?.length > 0
+			) {
+				getAvailableHoldings(
+					resourceData.id,
+					resourceData.ma_holdings || [],
+					setAvailableHoldings,
+					setLoading,
+					Alert
+				);
+			}
+		}
+	}, [isOpen]);
+
 	if (!isOpen) return null;
 
 	return (
 		<Modal
 			isOpen={isOpen}
 			onClose={onClose}
-			title="Reservation Review"
+			title={
+				transactionType == "Reserve"
+					? `Reservation Review`
+					: `Utilization Review`
+			}
 			size="md"
 		>
 			<>
@@ -205,18 +261,148 @@ export function ReservationSummaryModal({
 							</div>
 						</div>
 					</div>
+					{transactionType == "Reserve" ? (
+						<div className="bg-red-50 border border-red-200 rounded-lg p-4">
+							<p className="text-[12px]">
+								<span className="font-semibold text-red-600">Note:</span>{" "}
+								<span className="text-red-700">
+									Reserved resource may be
+									<span className="font-medium">
+										cancelled or reassigned
+									</span>{" "}
+									if not claimed on time. All reservations follow a first-come,
+									first-served policy.
+								</span>
+							</p>
+						</div>
+					) : (
+						<>
+							{resourceType === "Material" &&
+								transactionDetails.format === "Hard Copy" &&
+								available &&
+								availableHoldings.length > 0 && (
+									<div>
+										<h3 className="font-medium text-foreground text-[16px] mb-2">
+											Select Accession
+										</h3>
+										<select
+											className="w-full border border-gray-300 rounded-md p-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+											value={selectedAccession}
+											onChange={(e) => setSelectedAccession(e.target.value)}
+										>
+											<option value="" disabled>
+												Choose accession...
+											</option>
+											{availableHoldings.map((holding) => (
+												<option key={holding} value={holding}>
+													{holding}
+												</option>
+											))}
+										</select>
+									</div>
+								)}
 
-					<div className="bg-red-50 border border-red-200 rounded-lg p-4">
-						<p className="text-[12px]">
-							<span className="font-semibold text-red-600">Note:</span>{" "}
-							<span className="text-red-700">
-								Reserved resource may be
-								<span className="font-medium">cancelled or reassigned</span> if
-								not claimed on time. All reservations follow a first-come,
-								first-served policy.
-							</span>
-						</p>
-					</div>
+							{hasAffectedTransactions?.length > 0 && (
+								<div className="space-y-3">
+									<div className="flex items-center space-x-2">
+										<AlertTriangle className="w-4 h-4 text-amber-500" />
+										<p className="font-medium text-foreground text-[12px]">
+											The following transactions will be cancelled:
+										</p>
+									</div>
+
+									<div className="border border-gray-200 rounded-lg overflow-hidden">
+										<div className="max-h-48 overflow-y-auto">
+											<table className="min-w-full divide-y divide-gray-200">
+												<thead className="bg-gray-50">
+													<tr>
+														<th
+															scope="col"
+															className="px-4 py-3 text-left text-foreground  font-medium text-[12px]"
+														>
+															Transaction ID
+														</th>
+														<th
+															scope="col"
+															className="px-4 py-3 text-left text-foreground  font-medium text-[12px]"
+														>
+															Date of Use
+														</th>
+														{resourceType == "Material" && (
+															<th
+																scope="col"
+																className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
+															>
+																Due Date
+															</th>
+														)}
+														{resourceType !== "Material" && (
+															<>
+																<th
+																	scope="col"
+																	className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
+																>
+																	Session Start
+																</th>
+
+																<th
+																	scope="col"
+																	className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
+																>
+																	Session End
+																</th>
+															</>
+														)}
+													</tr>
+												</thead>
+												<tbody className="bg-white divide-y divide-gray-200">
+													{hasAffectedTransactions?.map((transaction) => (
+														<tr key={transaction?.id}>
+															<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
+																{transaction?.tr_qr}
+															</td>
+															<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
+																{transaction?.tr_date}
+															</td>
+															{resourceType == "Material" && (
+																<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
+																	{transaction?.tr_dateDue}
+																</td>
+															)}
+															{resourceType !== "Material" && (
+																<>
+																	<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
+																		{transaction?.tr_sessionStart}
+																	</td>
+																	<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
+																		{transaction?.tr_sessionEnd}
+																	</td>
+																</>
+															)}
+														</tr>
+													))}
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							)}
+
+							<div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+								<p className="text-[12px]">
+									<span className="font-semibold text-blue-600">Note:</span>{" "}
+									<span className="text-blue-700">
+										A resource marked as{" "}
+										<span className="font-medium">Utilized</span> indicates that
+										it is currently in use and temporarily unavailable for
+										reservation. Please update its status to{" "}
+										<span className="font-medium">Completed</span> once it has
+										been released or completed.
+									</span>
+								</p>
+							</div>
+						</>
+					)}
 
 					<div className="flex gap-3 justify-end">
 						<Button
@@ -228,10 +414,22 @@ export function ReservationSummaryModal({
 						</Button>
 						<Button
 							onClick={handleReserve}
-							className="w-fit bg-primary-custom hover:bg-secondary-custom text-white h-10 font-medium text-[12px] "
+							disabled={
+								!available ||
+								(selectedAccession == "" &&
+									resourceType === "Material" &&
+									transactionDetails.format === "Hard Copy")
+							}
+							className={`h-10 ${
+								transactionType === "Utilize"
+									? "bg-green-600 hover:bg-green-700 text-white"
+									: "bg-primary hover:bg-secondary-custom text-white"
+							} text-white border-none disabled:opacity-50 text-[12px]`}
 						>
 							<LoadingSpinner loading={btnLoading} />
-							Reserve
+							{transactionType === "Reserve"
+								? "Confirm Reservation"
+								: "Mark as Utilized"}
 						</Button>
 					</div>
 				</div>

@@ -294,6 +294,7 @@ export function RenewTransactionModal({
 											</p>
 											<h4 className="font-medium text-foreground text-[14px]">
 												{calculateDuration(
+													[],
 													transaction?.tr_date,
 													selectedDate,
 													null,

@@ -222,36 +222,8 @@ export async function getTransactionList(
 											ma_coverQty: resData.ma_coverQty || 0,
 											ma_softQty: resData.ma_softQty || 0,
 											ma_audioQty: resData.ma_audioQty || 0,
+											ma_holdings: resData.ma_holdings || [],
 										};
-
-										if (
-											data.tr_format === "Hard Copy" &&
-											status === "Reserved"
-										) {
-											const utilizedQuery = query(
-												collection(db, "transaction"),
-												where("tr_status", "==", "Utilized"),
-												where("tr_maID", "==", data.tr_maID),
-												where("tr_format", "==", "Hard Copy")
-											);
-
-											const utilizedSnap = await getDocs(utilizedQuery);
-											const utilizedAccessions = utilizedSnap.docs.map(
-												(d) => d.data().tr_accession
-											);
-
-											const availableHoldings = (resData.ma_holdings || [])
-												.filter(
-													(holding) =>
-														!utilizedAccessions.includes(holding.ho_access)
-												)
-												.map((holding) => holding.ho_access);
-
-											tr_resource = {
-												...tr_resource,
-												ma_holdings: availableHoldings,
-											};
-										}
 									}
 								}
 							} else if (data.tr_type === "Discussion Room") {
@@ -507,5 +479,38 @@ export async function getTransactionFilter(
 	} catch (error) {
 		console.error("Error fetching transaction filters:", error);
 		Alert.showDanger(error.message || "Failed to fetch filters.");
+	}
+}
+
+export async function getAvailableHoldings(
+	ma_id,
+	ma_holdings,
+	setAvailableHoldings,
+	Alert
+) {
+	try {
+		const maRef =
+			typeof ma_id === "string" ? doc(db, "material", ma_id) : ma_id;
+
+		const utilizedQuery = query(
+			collection(db, "transaction"),
+			where("tr_status", "==", "Utilized"),
+			where("tr_maID", "==", maRef),
+			where("tr_format", "==", "Hard Copy")
+		);
+
+		const utilizedSnap = await getDocs(utilizedQuery);
+		const utilizedAccessions = utilizedSnap.docs.map(
+			(d) => d.data().tr_accession
+		);
+
+		const availableHoldings = (ma_holdings || [])
+			.filter((h) => h?.ho_access && !utilizedAccessions.includes(h.ho_access))
+			.map((h) => h.ho_access);
+
+		setAvailableHoldings(availableHoldings);
+	} catch (error) {
+		console.error("Error fetching available holdings:", error);
+		Alert.showDanger(error.message || "Failed to fetch available holdings.");
 	}
 }

@@ -77,9 +77,7 @@ export async function markCompletedWithReport(
 		await sendEmail(
 			"Reservation Completed (Report Filed)",
 			patronName,
-			`Hi ${patronName},
-
-			Reservation (ID: ${
+			`Reservation (ID: ${
 				transaction.tr_qr
 			}) has been successfully marked as 'Completed'.
 

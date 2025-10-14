@@ -137,7 +137,7 @@ export default function MaterialDetailsPage() {
 													: handleProceedWithReservation(
 															router,
 															"Material",
-															formData?.ma_id,
+															formData?.id,
 															userDetails?.uid
 													  );
 											}}
@@ -495,7 +495,7 @@ export default function MaterialDetailsPage() {
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}
 				resourceType="Material"
-				resourceID={formData?.ma_id}
+				resourceID={formData?.id}
 				libraryID={userDetails?.us_liID}
 				Alert
 			/>

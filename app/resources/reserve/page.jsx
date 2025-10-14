@@ -439,7 +439,7 @@ export default function ReservationPage() {
 													</p>
 													<h4 className="font-medium text-foreground text-[14px]">
 														{calculateDuration(
-															libraryDetails?.li_operating,
+															libraryDetails?.li_operating || [],
 															selectedDate,
 															selectedEndDate,
 															sessionStart,
@@ -607,20 +607,16 @@ export default function ReservationPage() {
 									)}
 
 									<Button
-										onClick={() =>
-											getButtonText() === "Reserve"
-												? setShowReservationModal(true)
-												: setShowUtilizedModal(true)
-										}
+										onClick={() => setShowReservationModal(true)}
 										disabled={
+											!resourceDetails ||
+											!libraryDetails ||
+											!patronDetails ||
 											trnCount?.remaining <= 0 ||
-											(trnCount?.remaining > 0 &&
-												(!selectedDate ||
-													(resourceType === "Material" && !selectedFormat) ||
-													(["Discussion Room", "Computer"].includes(
-														resourceType
-													) &&
-														(!sessionStart || !sessionEnd))))
+											!selectedDate ||
+											(resourceType === "Material" && !selectedFormat) ||
+											(["Discussion Room", "Computer"].includes(resourceType) &&
+												(!sessionStart || !sessionEnd))
 										}
 										className={`h-11 w-full ${
 											getButtonText() === "Utilize"
@@ -746,6 +742,25 @@ export default function ReservationPage() {
 							</Card>
 						</div>
 					</div>
+
+					{/* Reservation Summary Modal */}
+					<ReservationSummaryModal
+						isOpen={showReservationModal}
+						onClose={() => setShowReservationModal(false)}
+						transactionType={getButtonText()}
+						resourceType={resourceType}
+						transactionDetails={{
+							format: selectedFormat,
+							date: selectedDate,
+							dateDue: selectedEndDate,
+							sessionStart: sessionStart,
+							sessionEnd: sessionEnd,
+						}}
+						resourceData={resourceDetails}
+						patronData={patronDetails}
+						userDetails={userDetails}
+						Alert={Alert}
+					/>
 				</main>
 			</div>
 		</ProtectedRoute>

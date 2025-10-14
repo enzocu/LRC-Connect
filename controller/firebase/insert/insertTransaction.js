@@ -6,15 +6,18 @@ import {
 	convertDateToTimestamp,
 	combineDateAndTimeToTimestamp,
 } from "../../custom/customFunction";
-
 import { insertAudit } from "../insert/insertAudit";
+import { handleAffectedCancellations } from "../../firebase/update/updateMarkUtilized";
 
 export async function insertTransaction(
 	us_id,
 	resourceType,
+	transactionType,
+	accession,
 	transactionDetails,
 	resourceData,
 	patronData,
+	affected = [],
 	setBtnloading,
 	Alert,
 	router,
@@ -43,7 +46,6 @@ export async function insertTransaction(
 			tr_sessionStart: sessionStart,
 			tr_sessionEnd: sessionEnd,
 			tr_type: resourceType,
-			tr_status: "Reserved",
 			tr_qr: tr_id,
 			tr_createdAt: serverTimestamp(),
 			tr_usID: doc(db, "users", patronData?.id),
@@ -52,7 +54,7 @@ export async function insertTransaction(
 
 		if (resourceType === "Material") {
 			payload.tr_liID = resourceData.ma_liID;
-			payload.tr_maID = doc(db, "material", resourceData.ma_id);
+			payload.tr_maID = doc(db, "material", resourceData.id);
 		} else if (resourceType === "Discussion Room") {
 			payload.tr_liID = resourceData.dr_liID;
 			payload.tr_drID = doc(db, "discussionrooms", resourceData.id);
@@ -61,28 +63,52 @@ export async function insertTransaction(
 			payload.tr_coID = doc(db, "computers", resourceData.id);
 		}
 
+		const isUtilized = transactionType === "Utilize";
+		payload.tr_status = isUtilized ? "Utilized" : "Reserved";
+
+		if (isUtilized) {
+			payload.tr_updatedAt = serverTimestamp();
+
+			if (
+				resourceType === "Material" &&
+				transactionDetails?.format === "Hard Copy" &&
+				accession
+			) {
+				payload.tr_accession = accession;
+			}
+
+			await handleAffectedCancellations(affected, us_id, Alert);
+		}
+
 		const docRef = await addDoc(collection(db, "transaction"), payload);
 
-		const userName = `${patronData?.us_fname} ${patronData?.us_mname}. ${patronData?.us_lname}`;
+		const userName = `${patronData?.us_fname} ${
+			patronData?.us_mname ? patronData.us_mname + " " : ""
+		}${patronData?.us_lname}`.trim();
 		const userEmail = patronData?.us_email;
 
-		await insertAudit(
-			payload.tr_liID,
-			us_id,
-			"Reserved",
-			`A new ${resourceType} reservation was reserved with ID '${tr_id}'.`,
-			Alert
-		);
+		const action = isUtilized ? "Utilized" : "Reserved";
+		const auditMessage = isUtilized
+			? `Reservation (ID: '${tr_id}') was marked as utilized${
+					accession ? ` with Accession: ${accession}` : ""
+			  }.`
+			: `A new ${resourceType} reservation was created with ID '${tr_id}'.`;
 
-		await sendEmail(
-			"Reservation Confirmed",
-			userName || "User",
-			`Your ${resourceType} reservation with ID ${tr_id} has been reserved successfully. Please make sure to pick up or use your reservation on time.`,
-			userEmail,
-			Alert
-		);
+		const emailSubject = isUtilized
+			? "Reservation Utilized"
+			: "Reservation Confirmed";
+		const emailMessage = isUtilized
+			? `Your reservation (ID: ${tr_id}) has been marked as utilized. Thank you for using our library system.${
+					accession ? `\n\nAssigned Accession: ${accession}` : ""
+			  }`
+			: `Your ${resourceType} reservation (ID: ${tr_id}) has been reserved successfully. Please make sure to use or claim it on time.`;
 
-		Alert.showSuccess("Transaction reserved and email sent!");
+		await insertAudit(payload.tr_liID, us_id, action, auditMessage, Alert);
+		await sendEmail(emailSubject, userName, emailMessage, userEmail, Alert);
+
+		Alert.showSuccess(
+			`Transaction ${isUtilized ? "utilized" : "reserved"} and email sent!`
+		);
 		setSuccess(true);
 
 		setTimeout(() => {
@@ -93,5 +119,7 @@ export async function insertTransaction(
 	} catch (error) {
 		console.error("Insert Error:", error);
 		Alert.showDanger(error.message || "Failed to insert transaction.");
+	} finally {
+		setBtnloading(false);
 	}
 }

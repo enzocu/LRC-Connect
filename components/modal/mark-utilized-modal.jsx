@@ -16,6 +16,7 @@ import { useLoading } from "@/contexts/LoadingProvider";
 
 import { getAffectedList } from "../../controller/firebase/get/getAffected";
 import { markUtilized } from "../../controller/firebase/update/updateMarkUtilized";
+import { getAvailableHoldings } from "../../controller/firebase/get/getTransactionList";
 
 const MarkUtilizedModal = ({
 	isOpen,
@@ -31,6 +32,7 @@ const MarkUtilizedModal = ({
 
 	const [available, setAvailable] = useState(true);
 	const [selectedAccession, setSelectedAccession] = useState("");
+	const [availableHoldings, setAvailableHoldings] = useState([]);
 	const [hasAffectedTransactions, setAffectedTransactions] = useState([]);
 
 	const handleConfirm = async () => {
@@ -52,12 +54,35 @@ const MarkUtilizedModal = ({
 		setPath(pathname);
 		if (isOpen && transaction && transaction?.tr_status == "Reserved") {
 			getAffectedList(
-				transaction,
+				transaction.id,
+				transaction.tr_liID,
+				transaction.tr_type,
+				transaction.tr_resource.id,
+				transaction.tr_format,
+				transaction.tr_date,
+				transaction.tr_dateDue,
+				transaction.tr_sessionStart,
+				transaction.tr_sessionEnd,
+				transaction.tr_resource,
 				setAffectedTransactions,
 				setAvailable,
 				setLoading,
 				Alert
 			);
+
+			if (
+				transaction.tr_type == "Material" &&
+				transaction.tr_format == "Hard Copy" &&
+				transaction?.tr_resource?.ma_holdings?.length > 0
+			) {
+				getAvailableHoldings(
+					transaction?.tr_resource.id,
+					transaction?.tr_resource.ma_holdings,
+					setAvailableHoldings,
+					setLoading,
+					Alert
+				);
+			}
 		}
 	}, [transaction, isOpen]);
 
@@ -94,7 +119,7 @@ const MarkUtilizedModal = ({
 				{transaction?.tr_type === "Material" &&
 					transaction?.tr_format === "Hard Copy" &&
 					available &&
-					transaction?.tr_resource?.ma_holdings?.length > 0 && (
+					availableHoldings.length > 0 && (
 						<div>
 							<h5 className="font-medium text-foreground mb-2 text-[13px]">
 								Select Accession
@@ -107,7 +132,7 @@ const MarkUtilizedModal = ({
 								<option value="" disabled>
 									Choose accession...
 								</option>
-								{transaction?.tr_resource.ma_holdings.map((holding) => (
+								{availableHoldings.map((holding) => (
 									<option key={holding} value={holding}>
 										{holding}
 									</option>
@@ -132,20 +157,20 @@ const MarkUtilizedModal = ({
 										<tr>
 											<th
 												scope="col"
-												className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
+												className="px-4 py-3 text-left text-foreground  font-medium text-[12px]"
 											>
 												Transaction ID
 											</th>
 											<th
 												scope="col"
-												className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
+												className="px-4 py-3 text-left text-foreground  font-medium text-[12px]"
 											>
 												Date of Use
 											</th>
 											{transaction?.tr_type == "Material" && (
 												<th
 													scope="col"
-													className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
+													className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
 												>
 													Due Date
 												</th>
@@ -154,14 +179,14 @@ const MarkUtilizedModal = ({
 												<>
 													<th
 														scope="col"
-														className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
+														className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
 													>
 														Session Start
 													</th>
 
 													<th
 														scope="col"
-														className="px-4 py-3 text-left text-gray-500 font-medium text-[12px]"
+														className="px-4 py-3 text-left text-foreground font-medium text-[12px]"
 													>
 														Session End
 													</th>
@@ -172,23 +197,23 @@ const MarkUtilizedModal = ({
 									<tbody className="bg-white divide-y divide-gray-200">
 										{hasAffectedTransactions?.map((transaction) => (
 											<tr key={transaction?.id}>
-												<td className="px-4 py-2 whitespace-nowrap text-gray-900 text-[12px]">
+												<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
 													{transaction?.tr_qr}
 												</td>
-												<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
+												<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
 													{transaction?.tr_date}
 												</td>
 												{transaction?.tr_type == "Material" && (
-													<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
+													<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
 														{transaction?.tr_dateDue}
 													</td>
 												)}
 												{transaction?.tr_type !== "Material" && (
 													<>
-														<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
+														<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
 															{transaction?.tr_sessionStart}
 														</td>
-														<td className="px-4 py-2 whitespace-nowrap text-gray-600 text-[12px]">
+														<td className="px-4 py-2 whitespace-nowrap text-foreground text-[12px]">
 															{transaction?.tr_sessionEnd}
 														</td>
 													</>
