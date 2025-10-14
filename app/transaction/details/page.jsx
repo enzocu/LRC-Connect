@@ -272,7 +272,7 @@ export function TransactionStatusBar(status) {
 export function TransactionDetailsCard(transaction) {
 	return (
 		<div className="p-6">
-			<h2 className="font-semibold text-foreground text-[16px] flex items-center gap-2 mb-4">
+			<h2 className="font-semibold text-foreground text-[16px] flex items-center gap-2 mb-3">
 				<div className="flex items-start gap-2">
 					<FiBookOpen className="w-4 h-4 flex-shrink-0 mt-1" />
 					{transaction?.tr_library || "Library"}
