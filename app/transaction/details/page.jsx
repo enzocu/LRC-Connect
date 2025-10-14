@@ -275,8 +275,7 @@ export function TransactionDetailsCard(transaction) {
 			<h2 className="font-semibold text-foreground text-[16px] flex items-center gap-2 mb-4">
 				<div className="flex items-start gap-2">
 					<FiBookOpen className="w-4 h-4 flex-shrink-0 mt-1" />
-					{transaction?.tr_library || "Library"} {" • "}
-					{transaction?.tr_schoolName || "School Name"}
+					{transaction?.tr_library || "Library"}
 				</div>
 			</h2>
 
