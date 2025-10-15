@@ -57,6 +57,7 @@ export default function BranchPage() {
 	const [showFilters, setShowFilters] = useState(false);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedBranch, setSelectedBranch] = useState("All");
+	const [selectedFormat, setSelectedFormat] = useState("All");
 	const [selectedType, setSelectedType] = useState("All");
 	const [selectedCategory, setSelectedCategory] = useState("All");
 	const [selectedStatus, setSelectedStatus] = useState("Active");
@@ -102,6 +103,7 @@ export default function BranchPage() {
 		if (userDetails) {
 			getMaterialList(
 				null,
+				selectedFormat,
 				selectedType,
 				selectedCategory,
 				selectedShelf,
@@ -256,7 +258,8 @@ export default function BranchPage() {
 						selectedCategory !== "All" ||
 						selectedStatus !== "All" ||
 						selectedShelf !== "All" ||
-						selectedBranch !== "All") && (
+						selectedBranch !== "All" ||
+						selectedFormat !== "All") && (
 						<div className="flex items-center gap-2 mb-4">
 							<span className="text-muted-foreground text-[11px]">
 								Active Filters:
@@ -269,6 +272,15 @@ export default function BranchPage() {
 									<FiX
 										className="w-3 h-3 cursor-pointer"
 										onClick={() => setSelectedBranch("All")}
+									/>
+								</span>
+							)}
+							{selectedFormat !== "All" && (
+								<span className="px-2 py-1 bg-primary-custom/10 text-primary-custom rounded flex items-center gap-1 text-[11px]">
+									Format: {selectedFormat || "Unknown"}
+									<FiX
+										className="w-3 h-3 cursor-pointer"
+										onClick={() => setSelectedFormat("All")}
 									/>
 								</span>
 							)}
@@ -541,6 +553,25 @@ export default function BranchPage() {
 									</div>
 									<div className="space-y-2">
 										<label className="block font-medium text-foreground text-[12px]">
+											Select a Material Format
+										</label>
+										<select
+											value={selectedFormat}
+											onChange={(e) => setSelectedFormat(e.target.value)}
+											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+										>
+											<option value="All">All Material Formats</option>
+											{["Hard Copy", "Soft Copy", "Audio Copy"].map(
+												(format, index) => (
+													<option key={index} value={format}>
+														{format}
+													</option>
+												)
+											)}
+										</select>
+									</div>
+									<div className="space-y-2">
+										<label className="block font-medium text-foreground text-[12px]">
 											Select a Material Type
 										</label>
 										<select
@@ -647,6 +678,8 @@ export default function BranchPage() {
 											onClick={() => {
 												setPageCursors([]);
 												setCurrentPage(1);
+												setSelectedBranch("All");
+												setSelectedFormat("All");
 												setSelectedType("All");
 												setSelectedCategory("All");
 												setSelectedStatus("Active");
