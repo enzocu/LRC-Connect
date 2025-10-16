@@ -77,7 +77,7 @@ export async function getAffectedList(
 				),
 				where("tr_status", "==", "Utilized"),
 				where("tr_type", "==", resourceType),
-				where("tr_sessionEnd", ">=", convertedStart)
+				where("tr_sessionEnd", "<=", convertedStart)
 			);
 			const snapshot = await getCountFromServer(utilizedQuery);
 			utilizedCount = snapshot.data().count;

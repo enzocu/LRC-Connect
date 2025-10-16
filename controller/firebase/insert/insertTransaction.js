@@ -76,11 +76,13 @@ export async function insertTransaction(
 			) {
 				payload.tr_accession = accession;
 			}
-
-			await handleAffectedCancellations(affected, us_id, Alert);
 		}
 
 		const docRef = await addDoc(collection(db, "transaction"), payload);
+
+		if (isUtilized) {
+			await handleAffectedCancellations(affected, us_id, Alert);
+		}
 
 		const userName = `${patronData?.us_fname} ${
 			patronData?.us_mname ? patronData.us_mname + " " : ""
