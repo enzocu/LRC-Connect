@@ -676,7 +676,7 @@ export default function HomePage() {
 							) : (
 								<div className="flex flex-col h-full animate-fade-in">
 									<div className="flex justify-between items-center">
-										<h2 className="text-[18px] font-semibold">AI-Librarian</h2>
+										<h2 className="text-[18px] font-semibold">Butch AI</h2>
 
 										<Button
 											variant="ghost"
@@ -717,12 +717,12 @@ export default function HomePage() {
 																<div className="w-6 h-6 rounded-full  overflow-hidden flex items-center justify-center">
 																	<img
 																		src="/AI.png"
-																		alt="AI-Librarian"
+																		alt="Butch AI"
 																		className="w-full h-full object-cover"
 																	/>
 																</div>
 																<div className="text-[14px] font-medium">
-																	AI-Librarian
+																	Butch AI
 																</div>
 															</div>
 														</div>
@@ -844,7 +844,7 @@ export default function HomePage() {
 														<div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center">
 															<img
 																src="/AI.png"
-																alt="AI-Librarian"
+																alt="Butch AI"
 																className="w-full h-full object-cover"
 															/>
 														</div>
@@ -852,7 +852,7 @@ export default function HomePage() {
 													<span className="text-[13px]">
 														{isFetching != null
 															? isFetching
-															: "AI-Librarian is thinking"}
+															: "Butch AI is thinking"}
 													</span>
 												</div>
 												<div className="flex text-2xl leading-none">

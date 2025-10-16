@@ -254,13 +254,11 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 												<div className="w-6 h-6 rounded-full  overflow-hidden flex items-center justify-center">
 													<img
 														src="/AI.png"
-														alt="AI-Librarian"
+														alt="Butch AI"
 														className="w-full h-full object-cover"
 													/>
 												</div>
-												<div className="font-medium text-[14px]">
-													AI-Librarian
-												</div>
+												<div className="font-medium text-[14px]">Butch AI</div>
 											</div>
 										</div>
 
@@ -363,15 +361,13 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 										<div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center">
 											<img
 												src="/AI.png"
-												alt="AI-Librarian"
+												alt="Butch AI"
 												className="w-full h-full object-cover"
 											/>
 										</div>
 									</div>
 									<span className="text-[13px]">
-										{isFetching != null
-											? isFetching
-											: "AI-Librarian is thinking"}
+										{isFetching != null ? isFetching : "Butch AI is thinking"}
 									</span>
 								</div>
 								<div className="flex text-2xl leading-none">
