@@ -413,11 +413,11 @@ export function ReservationSummaryModal({
 						<Button
 							onClick={handleReserve}
 							disabled={
-								!available ||
-								(transactionType == "Utilize" &&
-									selectedAccession == "" &&
-									resourceType === "Material" &&
-									transactionDetails.format === "Hard Copy")
+								transactionType == "Utilize" &&
+								(!available ||
+									(selectedAccession == "" &&
+										resourceType === "Material" &&
+										transactionDetails.format === "Hard Copy"))
 							}
 							className={`h-10 ${
 								transactionType === "Utilize"
