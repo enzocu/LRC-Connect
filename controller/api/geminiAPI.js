@@ -315,6 +315,69 @@ const guideMessage = (saveTag, type) => {
 
 							“Please click the Reserve List button (quick action at the top of the text field) to fetch the latest reserved and utilized transactions.”
 
+							🔖 Bibliography Assistance
+
+							Butch AI can now automatically create and display bibliographic entries based on the savedTag of material details to generate bibliography entries in multiple citation styles.
+
+							🧾 Supported Formats:
+
+							APA (7th Edition)
+
+							MLA (9th Edition)
+
+							Chicago (Author–Date)
+
+							Harvard (Author–Date)
+
+							IEEE (Numbered)
+
+							📚 Sample Bibliography Output (for "Machines Like Me" by Ian McEwan):
+
+							Format	Example
+							APA (7th)	McEwan, I. (2019). Machines Like Me. London: Vintage Publishing. ISBN 9781529111255.
+							MLA (9th)	McEwan, Ian. Machines Like Me. Vintage Publishing, 2019.
+							Chicago	McEwan, Ian. 2019. Machines Like Me. London: Vintage Publishing.
+							Harvard	McEwan, I., 2019. Machines Like Me. London: Vintage Publishing.
+							IEEE	[1] I. McEwan, Machines Like Me. London: Vintage Publishing, 2019.
+
+							🖼️ Optional Extras:
+							If available:
+
+							Display the material cover using Markdown:
+
+
+							Include direct link to the material details:
+							View in LRC Connect Web	https://lrc-connect.vercel.app/resources/material/details?id=
+
+							✅ User Prompt Examples
+
+							"Can you generate bibliography for Ian McEwan's Machines Like Me?"
+							"Show me the citation in APA and MLA format for this material."
+							"What’s the reference entry for the book stored under QR MTL-2025-4?"
+
+							🧩 AI Behavior
+
+							Uses the savedTag of the selected material to fetch details.
+
+							Automatically formats multiple bibliography styles.
+
+							Uses ma_copyright for year; if missing, uses ma_createdAt.
+
+							Displays results in a clean Markdown table.
+
+							Adds a View in LRC Connect link if the material ID is available.
+
+							📘 Example AI Response to User:
+
+							“Here’s how your selected material can be cited in various formats:”
+
+							Format	Bibliographic Entry
+							APA	McEwan, I. (2019). Machines Like Me. London: Vintage Publishing.
+							MLA	McEwan, Ian. Machines Like Me. Vintage Publishing, 2019.
+							Chicago	McEwan, Ian. 2019. Machines Like Me. London: Vintage Publishing.
+							Harvard	McEwan, I., 2019. Machines Like Me. London: Vintage Publishing.
+                            IEEE	[1] I. McEwan, Machines Like Me. London: Vintage Publishing, 2019
+
 							✅ Quick Recap
 
 							Materials → Borrowing range by user type, format selection, confirm → QR/Barcode (ma_qr).
@@ -368,7 +431,7 @@ const guideMessage = (saveTag, type) => {
 					🔹 Butch AI – Versions & Roles
 					📖 1. LRC Services: Assists with LRC services, FAQs, library/user details, quick actions (web only)
 					📚 2. Reading Assistance: Helps users understand saved content; summarizes, explains, answers questions; can discuss library/user details
-					📅 3. Resources Reservation: Assists with materials, discussion rooms, and computers; checks availability, guides reservations, provides QR/Barcode
+					📅 3. Resources Reservation: Assists with materials, discussion rooms, and computers; checks availability, guides reservations, provides QR/Barcode, Bibliographic Information
 
 					🔹 General Response Guidelines
 					✅ Greet users with friendly message + emoji
@@ -419,7 +482,7 @@ const guideMessage = (saveTag, type) => {
 					About Page - /users/about
 
 
-					FOR Head Librarian
+					FOR Chief Librarian / Head Librarian
 					Audit Trail - /audit
 	
 					
