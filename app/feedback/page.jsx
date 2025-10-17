@@ -38,6 +38,7 @@ export default function FeedbackAndFAQs() {
 	const { setLoading, setPath, loading } = useLoading();
 
 	const [searchQuery, setSearchQuery] = useState("");
+	const [selectedStatus, setSelectedStatus] = useState("All");
 	const [feedbackData, setFeedbackData] = useState([]);
 	const [faqData, setFaqData] = useState([]);
 
@@ -82,7 +83,7 @@ export default function FeedbackAndFAQs() {
 				userDetails?.us_liID,
 				setFeedbackData,
 				searchQuery,
-				"All",
+				selectedStatus,
 				setLoading,
 				Alert,
 				pageLimit,
@@ -144,16 +145,28 @@ export default function FeedbackAndFAQs() {
 										application.
 									</p>
 
-									<div className="relative mb-6">
-										<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-										<Input
-											type="text"
-											placeholder="Search feedback..."
-											value={searchQuery}
-											onChange={(e) => setSearchQuery(e.target.value)}
-											className="pl-10 bg-card border-border text-foreground h-9"
-											style={{ fontSize: "12px" }}
-										/>
+									<div className=" mb-6 flex  items-center gap-4">
+										<div className="relative mb-6">
+											<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+											<Input
+												type="text"
+												placeholder="Search feedback..."
+												value={searchQuery}
+												onChange={(e) => setSearchQuery(e.target.value)}
+												className="pl-10 bg-card border-border text-foreground h-9"
+												style={{ fontSize: "12px" }}
+											/>
+										</div>
+
+										<select
+											value={selectedStatus}
+											onChange={(e) => setSelectedStatus(e.target.value)}
+											className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 flex-1 text-[12px]"
+										>
+											<option value="All">All Status</option>
+											<option value="unread">Unread</option>
+											<option value="read">Read</option>
+										</select>
 									</div>
 
 									<div className="space-y-4">
