@@ -166,7 +166,7 @@ export default function FeedbackAndFAQs() {
 										<select
 											value={selectedStatus}
 											onChange={(e) => setSelectedStatus(e.target.value)}
-											className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 flex-1 text-[12px]"
+											className="border border-border bg-card text-foreground rounded-md px-3 py-1.5 h-9 text-[12px]"
 										>
 											<option value="All">All Status</option>
 											<option value="unread">Unread</option>
