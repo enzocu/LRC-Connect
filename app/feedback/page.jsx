@@ -95,7 +95,12 @@ export default function FeedbackAndFAQs() {
 		return () => {
 			if (unsubscribe) unsubscribe();
 		};
-	}, [userDetails?.us_liID, searchQuery, pagination.feedback?.currentPage]);
+	}, [
+		userDetails?.us_liID,
+		searchQuery,
+		pagination.feedback?.currentPage,
+		selectedStatus,
+	]);
 
 	useEffect(() => {
 		let unsubscribe;
@@ -145,8 +150,8 @@ export default function FeedbackAndFAQs() {
 										application.
 									</p>
 
-									<div className=" mb-6 flex  items-center gap-4">
-										<div className="relative mb-6">
+									<div className="mb-6 flex  items-center gap-4">
+										<div className="relative flex-1">
 											<FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
 											<Input
 												type="text"
