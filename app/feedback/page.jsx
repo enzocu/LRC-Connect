@@ -47,7 +47,7 @@ export default function FeedbackAndFAQs() {
 	const [selectedFaq, setSelectedFaq] = useState(null);
 
 	//PAGINATION
-	const pageLimit = 5;
+	const pageLimit = 10;
 	const [pagination, setPagination] = useState({
 		feedback: {
 			currentPage: 1,
