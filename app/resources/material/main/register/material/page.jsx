@@ -1148,7 +1148,7 @@ export default function MaterialRegistrationPage() {
 												}
 												className="text-red-500 text-xs mt-2 hover:underline cursor-pointer"
 											>
-												Remove this audio file
+												Remove this PDF file
 											</p>
 										)}
 									</CardContent>
