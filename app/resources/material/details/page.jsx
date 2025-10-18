@@ -21,6 +21,7 @@ import {
 import { QrCode, Sparkles, Building2, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PatronSelectionModal } from "@/components/modal/patron-selection-modal";
+import { AIResourcesModal } from "@/components/modal/AIResourcesModal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -45,6 +46,7 @@ export default function MaterialDetailsPage() {
 	const [isCodeOpen, setCodeOpen] = useState(false);
 	const [showMarcTags, setShowMarcTags] = useState(false);
 	const [patronSelectionOpen, setPatronSelectionOpen] = useState(false);
+	const [isAiModalOpen, setAiModalOpen] = useState(false);
 
 	const [formData, setFormData] = useState({});
 
@@ -198,7 +200,7 @@ export default function MaterialDetailsPage() {
 						</div>
 
 						<Tabs defaultValue="details" className="w-full">
-							<TabsList className="grid w-full grid-cols-4 mb-6 bg-muted">
+							<TabsList className="grid w-full grid-cols-3 mb-6 bg-muted">
 								<TabsTrigger value="details" className="text-[12px]">
 									Material Details
 								</TabsTrigger>
@@ -207,9 +209,6 @@ export default function MaterialDetailsPage() {
 								</TabsTrigger>
 								<TabsTrigger value="location" className="text-[12px]">
 									Location
-								</TabsTrigger>
-								<TabsTrigger value="citation" className="text-[12px]">
-									Citation
 								</TabsTrigger>
 							</TabsList>
 
@@ -403,45 +402,6 @@ export default function MaterialDetailsPage() {
 									</div>
 								</div>
 							</TabsContent>
-
-							<TabsContent value="citation">
-								<div className="rounded-lg p-6 shadow-sm border border-border">
-									<div className="space-y-6">
-										<div className="space-y-3">
-											<h3 className="font-medium text-foreground text-[16px]">
-												Citation Format
-											</h3>
-											<div className="flex gap-2">
-												{["APA", "MLA", "Chicago"].map((format) => (
-													<Button
-														key={format}
-														variant={true ? "default" : "outline"}
-														size="sm"
-														className="text-[12px]"
-													>
-														{format}
-													</Button>
-												))}
-											</div>
-										</div>
-
-										<div className="bg-secondary p-4 rounded-lg border border-border">
-											<div className="flex items-start justify-between gap-4">
-												<p className="text-[12px] font-mono leading-relaxed flex-1 text-muted-foreground">
-													Waw APA
-												</p>
-												<Button
-													variant="ghost"
-													size="sm"
-													className="shrink-0 hover:text-primary"
-												>
-													<FiCopy className="w-4 h-4" />
-												</Button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</TabsContent>
 						</Tabs>
 
 						<div className="rounded-lg p-4 shadow-sm border border-border">
@@ -461,7 +421,10 @@ export default function MaterialDetailsPage() {
 								</div>
 
 								<div className="flex gap-3">
-									<Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700  shadow-sm text-[12px] h-9 shimmer">
+									<Button
+										onClick={() => setAiModalOpen(true)}
+										className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700  shadow-sm text-[12px] h-9 shimmer"
+									>
 										<Sparkles className="w-4 h-4 mr-1" />
 										AI Assistant
 									</Button>
@@ -489,6 +452,12 @@ export default function MaterialDetailsPage() {
 					</div>
 				</div>
 			</main>
+
+			<AIResourcesModal
+				open={isAiModalOpen}
+				close={() => setAiModalOpen(false)}
+				resourceDetails={formData}
+			/>
 
 			{/* Patron Selection Modal */}
 			<PatronSelectionModal

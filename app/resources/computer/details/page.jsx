@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { FiArrowLeft, FiEdit3 } from "react-icons/fi";
 import { QrCode, Sparkles, Building2, GraduationCap } from "lucide-react";
 import { PatronSelectionModal } from "@/components/modal/patron-selection-modal";
+import { AIResourcesModal } from "@/components/modal/AIResourcesModal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -32,6 +33,7 @@ export default function ComputerDetails() {
 
 	const [isCodeOpen, setCodeOpen] = useState(false);
 	const [patronSelectionOpen, setPatronSelectionOpen] = useState(false);
+	const [isAiModalOpen, setAiModalOpen] = useState(false);
 
 	const [formData, setFormData] = useState({});
 
@@ -217,7 +219,10 @@ export default function ComputerDetails() {
 								</div>
 
 								<div className="flex gap-3 mt-6 justify-end border-t  pt-4">
-									<Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700  shadow-sm text-[12px] h-9 shimmer">
+									<Button
+										onClick={() => setAiModalOpen(true)}
+										className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700  shadow-sm text-[12px] h-9 shimmer"
+									>
 										<Sparkles className="w-4 h-4 mr-1" />
 										AI Assistant
 									</Button>
@@ -244,6 +249,12 @@ export default function ComputerDetails() {
 					</div>
 				</div>
 			</main>
+
+			<AIResourcesModal
+				open={isAiModalOpen}
+				close={() => setAiModalOpen(false)}
+				resourceDetails={formData}
+			/>
 
 			{/* Patron Selection Modal */}
 			<PatronSelectionModal
