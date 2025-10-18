@@ -22,40 +22,36 @@ export function AIResourcesModal({ open, close, resourceDetails }) {
 
 	const quickActions = [
 		{
-			title: "Summarize Text",
-			sub: "Provide a short summary of the current material or chapter.",
+			title: "Resource Full Details",
+			sub: "Show me complete information about this resource.",
 		},
 		{
-			title: "Explain a Word or Phrase",
-			sub: "Define or explain the meaning of a specific word or sentence.",
+			title: "Borrowing Policy",
+			sub: "What’s my borrowing limit as a student or faculty?",
 		},
 		{
-			title: "Answer a Question",
-			sub: "Respond to a question based on the reading content.",
+			title: "Library Hours",
+			sub: "What time does the library open and close?",
 		},
 		{
-			title: "Highlight Key Points",
-			sub: "Show the main ideas or important concepts from the text.",
+			title: "About Reservation Steps",
+			sub: "How do I reserve materials, computers, or rooms?",
 		},
 		{
-			title: "Show Related Picture",
-			sub: "Display the image related to the current reading material.",
+			title: "Generate Bibliography",
+			sub: "Create citations for a specific material in APA, MLA, etc.",
 		},
 		{
-			title: "Author Information",
-			sub: "Tell me who wrote this material.",
+			title: "Sample Bibliography",
+			sub: "Show example citations for this material title.",
 		},
 		{
-			title: "Quote from the Text",
-			sub: "Show an important or meaningful quote from this material.",
+			title: "Resource QR and Barcode",
+			sub: "Generate QR and barcodes for this resource.",
 		},
 		{
-			title: "Reading Summary with Picture",
-			sub: "Summarize the content and include related images if available.",
-		},
-		{
-			title: "Check Material Source",
-			sub: "Display details about where this content came from.",
+			title: "Cover Picture",
+			sub: "Display the cover picture of this resource.",
 		},
 	];
 
@@ -322,7 +318,7 @@ export function AIResourcesModal({ open, close, resourceDetails }) {
 						{quickActions.map((action, index) => (
 							<button
 								key={index}
-								onClick={() => handleQuickActionClick(action.title)}
+								onClick={() => handleQuickActionClick(action.sub)}
 								className="px-2 py-1 text-xs bg-muted hover:bg-accent text-muted-foreground hover:text-foreground rounded-md border border-border transition-colors"
 								title={action.sub}
 							>
