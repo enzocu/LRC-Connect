@@ -27,6 +27,8 @@ import { FiTrash2 } from "react-icons/fi";
 
 import { DeactivateResourceModal } from "@/components/modal/deactivate-resource-modal";
 import { ShelfRegistrationModal } from "@/components/modal/shelf-registration-modal";
+import { AddDonorModal } from "@/components/modal/add-donor-modal";
+import { DeactivateAccessionModal } from "@/components/modal/deactivate-accession-modal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -68,6 +70,9 @@ export default function MaterialRegistrationPage() {
 		ma_materialType: "",
 		ma_materialCategory: "",
 		ma_shelf: "",
+		ma_acquisitionType: "Donated",
+		ma_donor: "",
+		ma_pricePerItem: "",
 	});
 	const [selectedMaterialType, setSelectedMaterialType] = useState(null);
 	const [holdings, setHoldings] = useState([]);
@@ -95,6 +100,7 @@ export default function MaterialRegistrationPage() {
 		ho_access: "",
 		ho_volume: "",
 		ho_copy: "",
+		ho_status: "Active",
 	});
 
 	const [subjectData, setSubjectData] = useState({
@@ -105,7 +111,11 @@ export default function MaterialRegistrationPage() {
 
 	//MODAL
 	const [showShelfModal, setShowShelfModal] = useState(false);
+	const [showAddDonorModal, setShowAddDonorModal] = useState(false);
 	const [showDeactivateModal, setShowDeactivateModal] = useState(false);
+	const [showDeactivateAccessionModal, setShowDeactivateAccessionModal] =
+		useState(false);
+	const [accessionToDeactivate, setAccessionToDeactivate] = useState(null);
 
 	const handleInputChange = (setField, field, value) => {
 		setField((prev) => ({ ...prev, [field]: value }));
@@ -146,18 +156,19 @@ export default function MaterialRegistrationPage() {
 			setHoldings([
 				...holdings,
 				{
-					ho_access: holdingData.ho_access,
+					ho_access: "Love you",
 					ho_volume: holdingData.ho_volume,
 					ho_copy: holdingData.ho_copy,
+					ho_status: "Active",
 				},
 			]);
 		} else if (holdingData.ho_action === "Update") {
 			const updated = holdings.map((h, idx) =>
 				idx === holdingData.ho_index
 					? {
-							ho_access: holdingData.ho_access,
 							ho_volume: holdingData.ho_volume,
 							ho_copy: holdingData.ho_copy,
+							ho_status: h.ho_status,
 					  }
 					: h
 			);
@@ -176,6 +187,7 @@ export default function MaterialRegistrationPage() {
 			ho_access: "",
 			ho_volume: "",
 			ho_copy: "",
+			ho_status: "Active",
 		});
 	};
 
@@ -499,7 +511,93 @@ export default function MaterialRegistrationPage() {
 													>
 														{index == 0 && (
 															<div>
-																<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+																<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6 border-b border-border">
+																	<div>
+																		<Label className="text-foreground font-medium text-[12px]">
+																			Type
+																		</Label>
+																		<select
+																			value={formData.ma_acquisitionType}
+																			onChange={(e) =>
+																				handleInputChange(
+																					setFormData,
+																					"ma_acquisitionType",
+																					e.target.value
+																				)
+																			}
+																			className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
+																			style={{ fontSize: "11px" }}
+																		>
+																			<option value="Donated">Donated</option>
+																			<option value="Bought">Bought</option>
+																		</select>
+																	</div>
+
+																	{formData.ma_acquisitionType === "Donated" ? (
+																		<div>
+																			<Label className="text-foreground font-medium text-[12px]">
+																				Donor
+																				<button
+																					onClick={() =>
+																						setShowAddDonorModal(true)
+																					}
+																					className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
+																				>
+																					Add New Donor
+																				</button>
+																			</Label>
+																			<select
+																				value={formData.ma_donor}
+																				onChange={(e) =>
+																					handleInputChange(
+																						setFormData,
+																						"ma_donor",
+																						e.target.value
+																					)
+																				}
+																				className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
+																				style={{ fontSize: "12px" }}
+																			>
+																				<option value="">Select Donor</option>
+																				{[
+																					{ id: 1, do_name: "John Doe" },
+																					{ id: 2, do_name: "Jane Smith" },
+																				].map((donor) => (
+																					<option
+																						key={donor.id}
+																						value={donor.do_name}
+																					>
+																						{donor.do_name}
+																					</option>
+																				))}
+																			</select>
+																		</div>
+																	) : (
+																		<div>
+																			<Label className="text-foreground font-medium text-[12px]">
+																				Price per Item
+																			</Label>
+																			<Input
+																				type="number"
+																				placeholder="e.g., 25.99"
+																				value={formData.ma_pricePerItem}
+																				onChange={(e) =>
+																					handleInputChange(
+																						setFormData,
+																						"ma_pricePerItem",
+																						e.target.value
+																					)
+																				}
+																				className="mt-1 h-9 bg-background border-border text-foreground w-full"
+																				style={{ fontSize: "12px" }}
+																				step="0.01"
+																				min="0"
+																			/>
+																		</div>
+																	)}
+																</div>
+
+																<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mt-6 mb-6">
 																	<div>
 																		<Label className="text-foreground font-medium text-[12px]">
 																			Soft Copy
@@ -550,14 +648,8 @@ export default function MaterialRegistrationPage() {
 																		placeholder="Accession No."
 																		className=" h-9 bg-background border-border text-foreground w-full"
 																		style={{ fontSize: "12px" }}
-																		value={holdingData.ho_access || ""}
-																		onChange={(e) =>
-																			handleInputChange(
-																				setHoldingData,
-																				"ho_access",
-																				e.target.value
-																			)
-																		}
+																		value={"Auto-generated"}
+																		readOnly
 																	/>
 																	<Input
 																		placeholder="Volume/Part"
@@ -588,7 +680,6 @@ export default function MaterialRegistrationPage() {
 																	<Button
 																		className="bg-primary text-white hover:opacity-90 h-9 px-4 flex items-center  w-full gap-2 text-[12px]"
 																		disabled={
-																			holdingData.ho_access == "" ||
 																			holdingData.ho_volume == "" ||
 																			holdingData.ho_copy == ""
 																		}
@@ -629,6 +720,9 @@ export default function MaterialRegistrationPage() {
 																						Copy #
 																					</th>
 																					<th className="text-left py-3 text-foreground font-medium text-[12px]">
+																						Status
+																					</th>
+																					<th className="text-left py-3 text-foreground font-medium text-[12px]">
 																						Action
 																					</th>
 																				</tr>
@@ -639,25 +733,27 @@ export default function MaterialRegistrationPage() {
 																						key={idx}
 																						className="border-b border-border/50 hover:bg-muted/20 transition-colors duration-200 cursor-pointer"
 																					>
-																						<td
-																							className="py-3 text-foreground text-[12px]"
-																							style={{ width: "30%" }}
-																						>
+																						<td className="py-3 text-foreground text-[12px]">
 																							{holding.ho_access}
 																						</td>
 
-																						<td
-																							className="py-3 text-foreground text-[12px]"
-																							style={{ width: "30%" }}
-																						>
+																						<td className="py-3 text-foreground text-[12px]">
 																							{holding.ho_volume}
 																						</td>
 
-																						<td
-																							className="py-3 text-foreground text-[12px]"
-																							style={{ width: "auto" }}
-																						>
+																						<td className="py-3 text-foreground text-[12px]">
 																							{holding.ho_copy}
+																						</td>
+																						<td className="py-3 text-foreground text-[12px]">
+																							<span
+																								className={`px-2 py-1 rounded-full text-xs font-medium ${
+																									holding.ho_status === "Active"
+																										? "bg-green-100 text-green-800"
+																										: "bg-red-100 text-red-800"
+																								}`}
+																							>
+																								{holding.ho_status || "Active"}
+																							</span>
 																						</td>
 
 																						<td
@@ -665,20 +761,19 @@ export default function MaterialRegistrationPage() {
 																							style={{ width: "50px" }}
 																						>
 																							<span className="flex items-center ml-auto gap-1">
-																								{/* EDIT BUTTON */}
 																								<Button
 																									variant="ghost"
 																									size="sm"
 																									className="text-primary-custom hover:text-secondary-custom h-6 w-6 p-0"
 																									onClick={() =>
 																										setHoldingData({
-																											ho_access:
-																												holding.ho_access,
 																											ho_volume:
 																												holding.ho_volume,
 																											ho_copy: holding.ho_copy,
 																											ho_action: "Update",
 																											ho_index: idx,
+																											ho_status:
+																												holding.ho_status,
 																										})
 																									}
 																									title="Edit Accession"
@@ -690,18 +785,29 @@ export default function MaterialRegistrationPage() {
 																									variant="ghost"
 																									size="sm"
 																									className="text-red-500 hover:text-red-700 hover:bg-red-50 h-6 w-6 p-0"
-																									onClick={() =>
-																										handleHoldings(
-																											{
-																												...holding,
-																												ho_action: "Delete",
-																												ho_index: idx,
-																											},
-																											setHoldingData,
-																											holdings,
-																											setHoldings
-																										)
-																									}
+																									onClick={() => {
+																										if (type === "edit") {
+																											setAccessionToDeactivate({
+																												index: idx,
+																												holding,
+																											});
+
+																											setShowDeactivateAccessionModal(
+																												true
+																											);
+																										} else {
+																											handleHoldings(
+																												{
+																													...holding,
+																													ho_action: "Delete",
+																													ho_index: idx,
+																												},
+																												setHoldingData,
+																												holdings,
+																												setHoldings
+																											);
+																										}
+																									}}
 																									title="Delete Accession"
 																								>
 																									<FiX className="w-3 h-3" />
@@ -990,6 +1096,8 @@ export default function MaterialRegistrationPage() {
 										formData?.ma_materialType.trim() === "" ||
 										formData?.ma_materialCategory.trim() === "" ||
 										formData?.ma_shelf.trim() === "" ||
+										(formData?.ma_pricePerItem?.trim() === "" &&
+											formData?.ma_donor?.trim() === "") ||
 										selectedMaterialType?.mt_section?.every((section) =>
 											section?.mt_fields.every(
 												(field) => (field?.mt_value ?? "").trim() === ""
@@ -1280,6 +1388,13 @@ export default function MaterialRegistrationPage() {
 						userDetails={userDetails}
 						Alert={Alert}
 					/>
+
+					{showAddDonorModal && (
+						<AddDonorModal
+							isOpen={showAddDonorModal}
+							onClose={() => setShowAddDonorModal(false)}
+						/>
+					)}
 				</main>
 
 				{/* Deactivate Resource Modal */}
@@ -1298,6 +1413,19 @@ export default function MaterialRegistrationPage() {
 						resourceQr={formData.ma_qr}
 						userDetails={userDetails}
 						Alert={Alert}
+					/>
+				)}
+
+				{/* Deactivate Accession Modal */}
+				{showDeactivateAccessionModal && accessionToDeactivate && (
+					<DeactivateAccessionModal
+						isOpen={showDeactivateAccessionModal}
+						onClose={() => {
+							setShowDeactivateAccessionModal(false);
+							setAccessionToDeactivate(null);
+						}}
+						accessionNumber={accessionToDeactivate.ho_access}
+						status={accessionToDeactivate.ho_status}
 					/>
 				)}
 			</div>
