@@ -37,17 +37,15 @@ export default function HomePage() {
 
 					{/* Desktop Nav */}
 					<nav className="hidden md:flex items-center space-x-6">
-						{["Features", "Materials", "AI Assistants", "Mobile App"].map(
-							(item) => (
-								<Link
-									key={item}
-									href={`#${item.toLowerCase().replace(" ", "")}`}
-									className="relative text-white text-[14px] transition-colors duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
-								>
-									{item}
-								</Link>
-							)
-						)}
+						{["Resources", "AI Assistants", "About", "Contact"].map((item) => (
+							<Link
+								key={item}
+								href={`#${item.toLowerCase().replace(" ", "")}`}
+								className="relative text-white text-[14px] transition-colors duration-300 hover:text-yellow-400 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:w-0 after:h-[2px] after:bg-yellow-400 after:transition-all after:duration-300 hover:after:w-full"
+							>
+								{item}
+							</Link>
+						))}
 					</nav>
 
 					{/* Mobile Menu Button */}
