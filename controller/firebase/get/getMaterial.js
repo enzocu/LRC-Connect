@@ -37,6 +37,9 @@ export async function getMaterial(
 			ma_materialType: data.ma_mtID.id,
 			ma_materialCategory: data.ma_caID.id,
 			ma_shelf: data.ma_shID.id,
+			ma_acquisitionType: data.ma_acquisitionType || "Donated",
+			ma_donor: data.ma_donor || "",
+			ma_pricePerItem: data.ma_pricePerItem || "",
 		});
 
 		setSubjects(data.ma_subjects);
@@ -68,7 +71,6 @@ export async function getMaterial(
 				},
 			]);
 
-			// --- Build MaterialType with mt_section
 			let MaterialType = {
 				mt_id: mtDocSnap.id,
 				...mtData,

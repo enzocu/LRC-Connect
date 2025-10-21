@@ -6,9 +6,8 @@ import { Modal } from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import EmptyState from "@/components/tags/empty";
 
-import { useUserAuth } from "@/contexts/UserContextAuth";
-import { useAlertActions } from "@/contexts/AlertContext";
 import { LoadingSpinner } from "@/components/loading";
 
 import { insertShelf } from "@/controller/firebase/insert/insertShelf";
@@ -23,6 +22,7 @@ export function ShelfRegistrationModal({
 	shelves,
 	userDetails,
 	Alert,
+	loading,
 }) {
 	const [newShelf, setNewShelf] = useState("");
 	const [btnLoading, setBtnloading] = useState(false);
@@ -123,38 +123,40 @@ export function ShelfRegistrationModal({
 					<Label className="text-foreground font-medium text-[12px]">
 						Existing Shelves
 					</Label>
-					{shelves.map((item, index) => (
-						<div
-							key={index}
-							className="flex items-center justify-between p-2 bg-muted/30 rounded hover:bg-muted/50 transition-colors duration-200"
-						>
-							<span className="text-foreground text-[12px]">
-								{item.sh_name}
-							</span>
-							<span>
-								<Button
-									type="button"
-									variant="ghost"
-									size="sm"
-									className="text-primary-custom hover:text-secondary-custom h-6 w-6 p-0"
-									onClick={() => handleEdit(item)}
-								>
-									<FiEdit className="w-3 h-3" />
-								</Button>
-								<Button
-									type="button"
-									variant="ghost"
-									size="sm"
-									className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
-									onClick={() =>
-										handleDeactivateShelf(item.sh_id, item.sh_name)
-									}
-								>
-									<FiX className="w-3 h-3" />
-								</Button>
-							</span>
-						</div>
-					))}
+					{shelves?.length > 0 &&
+						shelves?.map((item, index) => (
+							<div
+								key={index}
+								className="flex items-center justify-between p-2 bg-muted/30 rounded hover:bg-muted/50 transition-colors duration-200"
+							>
+								<span className="text-foreground text-[12px]">
+									{item.sh_name}
+								</span>
+								<span>
+									<Button
+										type="button"
+										variant="ghost"
+										size="sm"
+										className="text-primary-custom hover:text-secondary-custom h-6 w-6 p-0"
+										onClick={() => handleEdit(item)}
+									>
+										<FiEdit className="w-3 h-3" />
+									</Button>
+									<Button
+										type="button"
+										variant="ghost"
+										size="sm"
+										className="text-red-500 hover:text-red-700 h-6 w-6 p-0"
+										onClick={() =>
+											handleDeactivateShelf(item.sh_id, item.sh_name)
+										}
+									>
+										<FiX className="w-3 h-3" />
+									</Button>
+								</span>
+							</div>
+						))}
+					<EmptyState data={shelves} loading={loading} />
 				</div>
 
 				<div className="flex gap-3 justify-end pt-2">

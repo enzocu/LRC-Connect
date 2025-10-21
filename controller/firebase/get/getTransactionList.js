@@ -504,7 +504,9 @@ export async function getAvailableHoldings(
 			(d) => d.data().tr_accession
 		);
 
-		const availableHoldings = (ma_holdings || [])
+		const availableHoldings = (
+			ma_holdings.filter((h) => h.ho_status === "Active") || []
+		)
 			.filter((h) => h?.ho_access && !utilizedAccessions.includes(h.ho_access))
 			.map((h) => h.ho_access);
 

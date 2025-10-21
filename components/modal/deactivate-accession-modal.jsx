@@ -31,8 +31,10 @@ const ACCESSION_ACTIVATION_REASONS = [
 export function DeactivateAccessionModal({
 	isOpen,
 	onClose,
-	accessionNumber,
-	status = "Active",
+	accessionToDeactivate,
+	holdings,
+	setHoldings,
+	handleHoldings,
 }) {
 	const [selectedReasons, setSelectedReasons] = useState([]);
 	const [customReason, setCustomReason] = useState("");
@@ -43,7 +45,19 @@ export function DeactivateAccessionModal({
 			...(customReason.trim() ? [`Custom: ${customReason.trim()}`] : []),
 		];
 
-		alert(allReasons.join("; "));
+		await handleHoldings(
+			{
+				ho_index: accessionToDeactivate.ho_index,
+				ho_action: "Status",
+				ho_status:
+					accessionToDeactivate.ho_status === "Active" ? "Inactive" : "Active",
+				ho_reason: allReasons.join("; "),
+			},
+			null,
+			holdings,
+			setHoldings
+		);
+
 		onClose();
 	};
 
@@ -53,7 +67,7 @@ export function DeactivateAccessionModal({
 		onClose();
 	};
 
-	const isDeactivating = status === "Active";
+	const isDeactivating = accessionToDeactivate?.ho_status === "Active";
 	const reasons = isDeactivating
 		? ACCESSION_DEACTIVATION_REASONS
 		: ACCESSION_ACTIVATION_REASONS;
@@ -127,10 +141,10 @@ export function DeactivateAccessionModal({
 					</div>
 				</div>
 
-				{accessionNumber && (
+				{accessionToDeactivate?.ho_access && (
 					<div className="p-3 bg-muted/30 border border-border rounded-md">
 						<p className="text-foreground font-medium text-[12px]">
-							Accession Number: {accessionNumber}
+							Accession Number: {accessionToDeactivate?.ho_access}
 						</p>
 					</div>
 				)}

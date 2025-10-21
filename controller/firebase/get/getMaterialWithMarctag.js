@@ -67,7 +67,9 @@ export async function getMaterialWithMarctag(
 			const snapshot = await getDocs(q);
 			const transactions = snapshot.docs.map((d) => d.data());
 
-			MaterialData.ma_holdings = (data.ma_holdings || []).map((holding) => {
+			MaterialData.ma_holdings = (
+				data.ma_holdings.filter((h) => h.ho_status === "Active") || []
+			).map((holding) => {
 				const used = transactions.find(
 					(t) =>
 						t.tr_format === "Hard Copy" && t.tr_accession === holding.ho_access

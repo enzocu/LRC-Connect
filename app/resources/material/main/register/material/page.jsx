@@ -43,6 +43,8 @@ import { getMaterial } from "@/controller/firebase/get/getMaterial";
 import { getMaterialtypelistRealtime } from "@/controller/firebase/get/getMaterialtypelist";
 import { getCategoryListRealtime } from "@/controller/firebase/get/getCategoryListRealtime";
 import { getShelfListRealtime } from "@/controller/firebase/get/getShelfRealtime";
+import { getDonorListRealtime } from "@/controller/firebase/get/getDonorListRealtime";
+import { getAccession } from "@/controller/firebase/get/getAccessionNumber";
 
 const defaultSection = [
 	{
@@ -60,11 +62,12 @@ export default function MaterialRegistrationPage() {
 	const type = searchParams.get("type");
 	const id = searchParams.get("id");
 
-	const { userDetails } = useUserAuth();
+	const { userDetails, loading } = useUserAuth();
 	const Alert = useAlertActions();
 	const { setLoading, setPath } = useLoading();
 	const [btnLoading, setBtnLoading] = useState(false);
 
+	const [accessionCount, setAccessionCount] = useState(0);
 	const [formData, setFormData] = useState({
 		ma_status: "Active",
 		ma_materialType: "",
@@ -72,7 +75,7 @@ export default function MaterialRegistrationPage() {
 		ma_shelf: "",
 		ma_acquisitionType: "Donated",
 		ma_donor: "",
-		ma_pricePerItem: "",
+		ma_pricePerItem: 0,
 	});
 	const [selectedMaterialType, setSelectedMaterialType] = useState(null);
 	const [holdings, setHoldings] = useState([]);
@@ -94,6 +97,7 @@ export default function MaterialRegistrationPage() {
 	const [materialTypes, setMaterialTypes] = useState([]);
 	const [categories, setCategory] = useState([]);
 	const [shelves, setShelves] = useState([]);
+	const [donors, setDonors] = useState([]);
 	const [holdingData, setHoldingData] = useState({
 		ho_action: "Insert",
 		ho_index: null,
@@ -101,6 +105,7 @@ export default function MaterialRegistrationPage() {
 		ho_volume: "",
 		ho_copy: "",
 		ho_status: "Active",
+		ho_reason: "",
 	});
 
 	const [subjectData, setSubjectData] = useState({
@@ -146,29 +151,52 @@ export default function MaterialRegistrationPage() {
 	};
 
 	// Holdings handler
-	const handleHoldings = (
+	const handleHoldings = async (
 		holdingData,
-		setHoldingData,
+		setHoldingData = null,
 		holdings,
 		setHoldings
 	) => {
 		if (holdingData.ho_action === "Insert") {
+			let nextAccession = accessionCount;
+
+			if (accessionCount === 0) {
+				const count = await getAccession(setAccessionCount, Alert);
+				nextAccession = count;
+			}
+
+			const newAccession = nextAccession + 1;
+
 			setHoldings([
 				...holdings,
 				{
-					ho_access: "Love you",
+					ho_access: newAccession,
 					ho_volume: holdingData.ho_volume,
 					ho_copy: holdingData.ho_copy,
 					ho_status: "Active",
 				},
 			]);
+
+			setAccessionCount(newAccession);
 		} else if (holdingData.ho_action === "Update") {
 			const updated = holdings.map((h, idx) =>
 				idx === holdingData.ho_index
 					? {
+							ho_access: holdingData.ho_access,
 							ho_volume: holdingData.ho_volume,
 							ho_copy: holdingData.ho_copy,
-							ho_status: h.ho_status,
+							ho_status: h.ho_status || "Active",
+					  }
+					: h
+			);
+			setHoldings(updated);
+		} else if (holdingData.ho_action === "Status") {
+			const updated = holdings.map((h, idx) =>
+				idx === holdingData.ho_index
+					? {
+							...h,
+							ho_status: holdingData.ho_status,
+							ho_reason: holdingData.ho_reason,
 					  }
 					: h
 			);
@@ -181,14 +209,16 @@ export default function MaterialRegistrationPage() {
 		}
 
 		// Reset form
-		setHoldingData({
-			ho_action: "Insert",
-			ho_index: null,
-			ho_access: "",
-			ho_volume: "",
-			ho_copy: "",
-			ho_status: "Active",
-		});
+		if (["Insert", "Update"].includes(holdingData.ho_action)) {
+			setHoldingData({
+				ho_action: "Insert",
+				ho_index: null,
+				ho_access: "",
+				ho_volume: "",
+				ho_copy: "",
+				ho_status: "Active",
+			});
+		}
 	};
 
 	// Subjects handler
@@ -232,6 +262,7 @@ export default function MaterialRegistrationPage() {
 				setBtnLoading,
 				Alert
 			);
+			setAccessionCount(0);
 			handleDiscard();
 		} else if (type == "edit" && id) {
 			await updateMaterial(
@@ -349,6 +380,15 @@ export default function MaterialRegistrationPage() {
 				Alert
 			);
 			unsubscribers.push(unsubscribeShelf);
+
+			const unsubscribeDonor = getDonorListRealtime(
+				userDetails.us_liID,
+				setDonors,
+				setLoading,
+				Alert
+			);
+
+			unsubscribers.push(unsubscribeDonor);
 		}
 
 		return () => {
@@ -543,7 +583,7 @@ export default function MaterialRegistrationPage() {
 																					}
 																					className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
 																				>
-																					Add New Donor
+																					Register Donor
 																				</button>
 																			</Label>
 																			<select
@@ -559,13 +599,10 @@ export default function MaterialRegistrationPage() {
 																				style={{ fontSize: "12px" }}
 																			>
 																				<option value="">Select Donor</option>
-																				{[
-																					{ id: 1, do_name: "John Doe" },
-																					{ id: 2, do_name: "Jane Smith" },
-																				].map((donor) => (
+																				{donors.map((donor, index) => (
 																					<option
-																						key={donor.id}
-																						value={donor.do_name}
+																						key={index}
+																						value={donor.do_id}
 																					>
 																						{donor.do_name}
 																					</option>
@@ -767,6 +804,8 @@ export default function MaterialRegistrationPage() {
 																									className="text-primary-custom hover:text-secondary-custom h-6 w-6 p-0"
 																									onClick={() =>
 																										setHoldingData({
+																											ho_access:
+																												holding.ho_access,
 																											ho_volume:
 																												holding.ho_volume,
 																											ho_copy: holding.ho_copy,
@@ -788,8 +827,9 @@ export default function MaterialRegistrationPage() {
 																									onClick={() => {
 																										if (type === "edit") {
 																											setAccessionToDeactivate({
-																												index: idx,
-																												holding,
+																												...holding,
+																												ho_action: "Status",
+																												ho_index: idx,
 																											});
 
 																											setShowDeactivateAccessionModal(
@@ -802,7 +842,7 @@ export default function MaterialRegistrationPage() {
 																													ho_action: "Delete",
 																													ho_index: idx,
 																												},
-																												setHoldingData,
+																												null,
 																												holdings,
 																												setHoldings
 																											);
@@ -1096,7 +1136,7 @@ export default function MaterialRegistrationPage() {
 										formData?.ma_materialType.trim() === "" ||
 										formData?.ma_materialCategory.trim() === "" ||
 										formData?.ma_shelf.trim() === "" ||
-										(formData?.ma_pricePerItem?.trim() === "" &&
+										(formData?.ma_pricePerItem === 0 &&
 											formData?.ma_donor?.trim() === "") ||
 										selectedMaterialType?.mt_section?.every((section) =>
 											section?.mt_fields.every(
@@ -1387,12 +1427,17 @@ export default function MaterialRegistrationPage() {
 						shelves={shelves}
 						userDetails={userDetails}
 						Alert={Alert}
+						loading={loading}
 					/>
 
 					{showAddDonorModal && (
 						<AddDonorModal
 							isOpen={showAddDonorModal}
 							onClose={() => setShowAddDonorModal(false)}
+							donors={donors}
+							userDetails={userDetails}
+							Alert={Alert}
+							loading={loading}
 						/>
 					)}
 				</main>
@@ -1424,8 +1469,10 @@ export default function MaterialRegistrationPage() {
 							setShowDeactivateAccessionModal(false);
 							setAccessionToDeactivate(null);
 						}}
-						accessionNumber={accessionToDeactivate.ho_access}
-						status={accessionToDeactivate.ho_status}
+						accessionToDeactivate={accessionToDeactivate}
+						holdings={holdings}
+						setHoldings={setHoldings}
+						handleHoldings={handleHoldings}
 					/>
 				)}
 			</div>

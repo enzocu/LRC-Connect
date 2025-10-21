@@ -72,6 +72,10 @@ export async function insertMaterial(
 			ma_mtID: doc(db, "materialType", formData.ma_materialType),
 			ma_caID: doc(db, "category", formData.ma_materialCategory),
 			ma_shID: doc(db, "shelves", formData.ma_shelf),
+			ma_shID: doc(db, "shelves", formData.ma_shelf),
+			ma_acquisitionType: formData.ma_acquisitionType || "Bought",
+			ma_donor: doc(db, "donors", formData.ma_donor),
+			ma_pricePerItem: parseFloat(formData.ma_pricePerItem) || 0,
 			ma_status: "Active",
 
 			// Extracted values

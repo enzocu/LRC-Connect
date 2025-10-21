@@ -36,7 +36,7 @@ export async function updateMaterial(
 		};
 
 		const qty = {
-			ma_coverQty: holdings.length || 0,
+			ma_coverQty: holdings.filter((h) => h.ho_status === "Active").length || 0,
 			ma_softQty: stringToNumberIfNumeric(files.ma_softQty) || 0,
 			ma_audioQty: stringToNumberIfNumeric(files.ma_audioQty) || 0,
 		};
@@ -119,6 +119,9 @@ export async function updateMaterial(
 				ma_mtID: doc(db, "materialType", formData.ma_materialType),
 				ma_caID: doc(db, "category", formData.ma_materialCategory),
 				ma_shID: doc(db, "shelves", formData.ma_shelf),
+				ma_acquisitionType: formData.ma_acquisitionType || "Bought",
+				ma_donor: doc(db, "donors", formData.ma_donor),
+				ma_pricePerItem: parseFloat(formData.ma_pricePerItem) || 0,
 				ma_status: formData.ma_status || "Active",
 
 				// Extracted values
@@ -138,7 +141,12 @@ export async function updateMaterial(
 
 				// Others
 				ma_fields: extractFieldsFromSections(selectedMaterialType.mt_section),
-				ma_holdings: holdings,
+				ma_holdings: holdings.map((h) => ({
+					ho_access: h.ho_access,
+					ho_copy: h.ho_copy,
+					ho_volume: h.ho_volume,
+					ho_status: h.ho_status,
+				})),
 				ma_subjects: subjects,
 
 				// File URLs & Quantities
@@ -153,6 +161,18 @@ export async function updateMaterial(
 			},
 			{ merge: true }
 		);
+
+		for (const h of holdings.filter(
+			(h) => h.ho_reason && h.ho_reason.trim() !== ""
+		)) {
+			await insertAudit(
+				li_id,
+				us_id,
+				"Update",
+				`Holding '${h.ho_access}' was updated — Status: ${h.ho_status}, Reason: ${h.ho_reason}`,
+				Alert
+			);
+		}
 
 		// Audit trail
 		await insertAudit(
