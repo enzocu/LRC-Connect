@@ -25,6 +25,9 @@ export async function insertMaterialExcel(
 	materialType,
 	category,
 	shelf,
+	acquisitionType,
+	donor,
+	pricePerItem,
 	setBtnloading,
 	Alert
 ) {
@@ -60,6 +63,9 @@ export async function insertMaterialExcel(
 				ma_mtID: doc(db, "materialType", materialType),
 				ma_caID: doc(db, "category", category),
 				ma_shID: doc(db, "shelves", shelf),
+				ma_acquisitionType: acquisitionType || "Purchased",
+				ma_donor: doc(db, "donors", donor),
+				ma_pricePerItem: parseFloat(pricePerItem) || 0,
 				ma_status: "Active",
 
 				ma_libraryCall: toSafeString(mat.mt_callNo),

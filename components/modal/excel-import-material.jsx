@@ -15,6 +15,7 @@ import { useLoading } from "@/contexts/LoadingProvider";
 import { getMaterialtypelistRealtime } from "@/controller/firebase/get/getMaterialtypelist";
 import { getCategoryListRealtime } from "@/controller/firebase/get/getCategoryListRealtime";
 import { getShelfListRealtime } from "@/controller/firebase/get/getShelfRealtime";
+import { getDonorListRealtime } from "@/controller/firebase/get/getDonorListRealtime";
 import { insertMaterialExcel } from "@/controller/firebase/insert/insertMaterialExcel";
 
 export function ExcelImportModal({
@@ -36,10 +37,14 @@ export function ExcelImportModal({
 	const [materialType, setMaterialType] = useState("");
 	const [category, setCategory] = useState("");
 	const [shelf, setShelf] = useState("");
+	const [acquisitionType, setAcquisitionType] = useState("Donated");
+	const [donor, setDonor] = useState("");
+	const [pricePerItem, setPricePerItem] = useState(0);
 
 	const [materialTypes, setMaterialTypes] = useState([]);
 	const [categories, setCategories] = useState([]);
 	const [shelves, setShelves] = useState([]);
+	const [donors, setDonors] = useState([]);
 
 	const handleFileSelect = (event) => {
 		const file = event.target.files?.[0];
@@ -75,6 +80,9 @@ export function ExcelImportModal({
 				materialType,
 				category,
 				shelf,
+				acquisitionType,
+				donor,
+				pricePerItem,
 				setBtnloading,
 				Alert
 			);
@@ -163,6 +171,15 @@ export function ExcelImportModal({
 				Alert
 			);
 			unsubscribers.push(unsubscribeShelf);
+
+			const unsubscribeDonor = getDonorListRealtime(
+				li_id,
+				setDonors,
+				setLoading,
+				Alert
+			);
+
+			unsubscribers.push(unsubscribeDonor);
 		}
 
 		return () => {
@@ -200,7 +217,7 @@ export function ExcelImportModal({
 								Excel files only (Max 10MB)
 							</p>
 
-							<div className="grid grid-cols-3 gap-4 text-left pt-10">
+							<div className="grid grid-cols-1 sm:grid-cols-5 gap-4 text-left pt-10">
 								<div>
 									<label className="block text-foreground font-medium mb-2 text-[12px]">
 										Material Type <span className="text-red-500">*</span>
@@ -255,6 +272,61 @@ export function ExcelImportModal({
 										))}
 									</select>
 								</div>
+
+								<div>
+									<label className="block text-foreground font-medium mb-2 text-[12px]">
+										Type <span className="text-red-500">*</span>
+									</label>
+									<select
+										className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9"
+										style={{ fontSize: "12px" }}
+										value={acquisitionType}
+										onChange={(e) => setAcquisitionType(e.target.value)}
+									>
+										{["Donated", "Purchased"].map((type, index) => (
+											<option key={index} value={type}>
+												{type}
+											</option>
+										))}
+									</select>
+								</div>
+
+								{acquisitionType === "Donated" ? (
+									<div>
+										<label className="block text-foreground font-medium mb-2 text-[12px]">
+											Donor <span className="text-red-500">*</span>
+										</label>
+										<select
+											className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9"
+											style={{ fontSize: "12px" }}
+											value={donor}
+											onChange={(e) => setDonor(e.target.value)}
+										>
+											<option value="">Select Donor</option>
+											{donors.map((donor, index) => (
+												<option key={index} value={donor.do_id}>
+													{donor.do_name}
+												</option>
+											))}
+										</select>
+									</div>
+								) : (
+									<div>
+										<label className="block text-foreground font-medium mb-2 text-[12px]">
+											Price per Item <span className="text-red-500">*</span>
+										</label>
+										<Input
+											type="number"
+											placeholder="e.g., 25.99"
+											value={pricePerItem}
+											onChange={(e) => setPricePerItem(e.target.value)}
+											className="h-9 bg-background border-border text-foreground w-full"
+											style={{ fontSize: "12px" }}
+											step="0.01"
+											min="0"
+										/>
+									</div>
+								)}
 							</div>
 							<Input
 								type="file"
@@ -296,7 +368,8 @@ export function ExcelImportModal({
 									btnLoading ||
 									materialType == "" ||
 									category == "" ||
-									shelf == ""
+									shelf == "" ||
+									(donor == "" && pricePerItem == 0)
 								}
 								className="bg-primary-custom hover:bg-secondary-custom text-white h-10 w-fit text-[12px]"
 							>

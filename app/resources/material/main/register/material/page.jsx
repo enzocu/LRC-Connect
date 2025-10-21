@@ -432,7 +432,7 @@ export default function MaterialRegistrationPage() {
 									<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 										<div>
 											<Label className="text-foreground font-medium text-[12px] ">
-												Material Type
+												Material Type <span className="text-red-500">*</span>
 											</Label>
 											<select
 												value={formData.ma_materialType}
@@ -443,7 +443,7 @@ export default function MaterialRegistrationPage() {
 														e.target.value
 													)
 												}
-												className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
+												className="mt-2 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
 												disabled={type && type == "edit"}
 											>
 												<option value="">Select material type</option>
@@ -456,7 +456,8 @@ export default function MaterialRegistrationPage() {
 										</div>
 										<div>
 											<Label className="text-foreground font-medium text-[12px]">
-												Material Category
+												Material Category{" "}
+												<span className="text-red-500">*</span>
 											</Label>
 											<select
 												value={formData.ma_materialCategory}
@@ -467,7 +468,7 @@ export default function MaterialRegistrationPage() {
 														e.target.value
 													)
 												}
-												className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
+												className="mt-2 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
 											>
 												<option value="">Select material category</option>
 												{categories.map((category, index) => (
@@ -479,7 +480,7 @@ export default function MaterialRegistrationPage() {
 										</div>
 										<div>
 											<Label className="text-foreground font-medium text-[12px]">
-												Shelf
+												Shelf <span className="text-red-500">*</span>{" "}
 												<button
 													onClick={() => setShowShelfModal(true)}
 													className="text-primary-custom hover:underline transition-colors ml-2 text-[12px]"
@@ -496,7 +497,7 @@ export default function MaterialRegistrationPage() {
 														e.target.value
 													)
 												}
-												className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
+												className="mt-2 h-9 w-full bg-background border border-border text-foreground rounded-md px-3 text-[12px]"
 											>
 												<option value="">Select shelf location</option>
 												{shelves.map((shelf, index) => (
@@ -554,7 +555,8 @@ export default function MaterialRegistrationPage() {
 																<div className="grid grid-cols-1 lg:grid-cols-2 gap-4 pb-6 border-b border-border">
 																	<div>
 																		<Label className="text-foreground font-medium text-[12px]">
-																			Type
+																			Type{" "}
+																			<span className="text-red-500">*</span>
 																		</Label>
 																		<select
 																			value={formData.ma_acquisitionType}
@@ -565,18 +567,24 @@ export default function MaterialRegistrationPage() {
 																					e.target.value
 																				)
 																			}
-																			className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
+																			className="mt-2 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
 																			style={{ fontSize: "11px" }}
 																		>
-																			<option value="Donated">Donated</option>
-																			<option value="Bought">Bought</option>
+																			{["Donated", "Purchased"].map(
+																				(type, index) => (
+																					<option key={index} value={type}>
+																						{type}
+																					</option>
+																				)
+																			)}
 																		</select>
 																	</div>
 
 																	{formData.ma_acquisitionType === "Donated" ? (
 																		<div>
 																			<Label className="text-foreground font-medium text-[12px]">
-																				Donor
+																				Donor{" "}
+																				<span className="text-red-500">*</span>{" "}
 																				<button
 																					onClick={() =>
 																						setShowAddDonorModal(true)
@@ -595,7 +603,7 @@ export default function MaterialRegistrationPage() {
 																						e.target.value
 																					)
 																				}
-																				className="mt-1 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
+																				className="mt-2 h-9 w-full bg-background border border-border text-foreground rounded-md px-3"
 																				style={{ fontSize: "12px" }}
 																			>
 																				<option value="">Select Donor</option>
@@ -625,7 +633,7 @@ export default function MaterialRegistrationPage() {
 																						e.target.value
 																					)
 																				}
-																				className="mt-1 h-9 bg-background border-border text-foreground w-full"
+																				className="mt-2 h-9 bg-background border-border text-foreground w-full"
 																				style={{ fontSize: "12px" }}
 																				step="0.01"
 																				min="0"
@@ -641,7 +649,7 @@ export default function MaterialRegistrationPage() {
 																		</Label>
 																		<Input
 																			placeholder="e.g., 5 copies"
-																			className="mt-1 h-9 bg-background border-border text-foreground"
+																			className="mt-2 h-9 bg-background border-border text-foreground"
 																			style={{ fontSize: "12px" }}
 																			type="number"
 																			min={1}
@@ -661,7 +669,7 @@ export default function MaterialRegistrationPage() {
 																		</Label>
 																		<Input
 																			placeholder="e.g., 3 copies"
-																			className="mt-1 h-9 bg-background border-border text-foreground"
+																			className="mt-2 h-9 bg-background border-border text-foreground"
 																			style={{ fontSize: "12px" }}
 																			type="number"
 																			min={1}
@@ -1248,7 +1256,7 @@ export default function MaterialRegistrationPage() {
 									<CardHeader className="pb-4">
 										<CardTitle className="text-foreground flex items-center gap-2 text-[16px]">
 											<FiFile className="w-4 h-4" />
-											Soft Copy
+											Soft Copy <span className="text-red-500">*</span>
 										</CardTitle>
 										<p className="text-muted-foreground text-[12px]">
 											Upload PDF document (.pdf)
@@ -1308,7 +1316,7 @@ export default function MaterialRegistrationPage() {
 									<CardHeader className="pb-4">
 										<CardTitle className="text-foreground flex items-center gap-2 text-[16px]">
 											<FiMusic className="w-4 h-4" />
-											Audio Copy
+											Audio Copy <span className="text-red-500">*</span>
 										</CardTitle>
 										<p className="text-muted-foreground text-[12px]">
 											Upload audio file (.mp3, .wav)
