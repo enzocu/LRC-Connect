@@ -122,7 +122,7 @@ const MarkUtilizedModal = ({
 					availableHoldings.length > 0 && (
 						<div>
 							<h5 className="font-medium text-foreground mb-2 text-[13px]">
-								Select Accession
+								Choose an accession number
 							</h5>
 							<select
 								className="w-full border border-gray-300 rounded-md p-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500"

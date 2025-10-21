@@ -281,7 +281,7 @@ export function ReservationSummaryModal({
 								availableHoldings.length > 0 && (
 									<div>
 										<h3 className="font-medium text-foreground text-[16px] mb-2">
-											Select Accession
+											Choose an accession number
 										</h3>
 										<select
 											className="w-full border border-gray-300 rounded-md p-2 text-[12px] focus:outline-none focus:ring-2 focus:ring-blue-500"
