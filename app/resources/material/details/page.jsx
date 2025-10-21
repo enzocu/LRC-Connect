@@ -13,10 +13,11 @@ import {
 	FiBookOpen,
 	FiDownload,
 	FiHeadphones,
-	FiCopy,
 	FiMapPin,
 	FiTag,
 	FiGrid,
+	FiPackage,
+	FiShoppingBag,
 } from "react-icons/fi";
 import { QrCode, Sparkles, Building2, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -396,6 +397,38 @@ export default function MaterialDetailsPage() {
 												</label>
 												<p className="text-[12px] text-muted-foreground leading-4">
 													{formData?.ma_category}
+												</p>
+											</div>
+										</div>
+
+										{/* Acquisition Type */}
+										<div className="flex items-start gap-2">
+											<FiPackage className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
+											<span className="text-muted-foreground">|</span>
+											<div className="leading-none space-y-2">
+												<label className="text-[12px] font-medium text-foreground">
+													Acquisition Type
+												</label>
+												<p className="text-[12px] text-muted-foreground leading-4">
+													{formData?.ma_acquisitionType}
+												</p>
+											</div>
+										</div>
+
+										{/* Donor / Price Per Item */}
+										<div className="flex items-start gap-2">
+											<FiShoppingBag className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
+											<span className="text-muted-foreground">|</span>
+											<div className="leading-none space-y-2">
+												<label className="text-[12px] font-medium text-foreground">
+													{formData?.ma_acquisitionType == "Donated"
+														? "Donor"
+														: "Price Per Item"}
+												</label>
+												<p className="text-[12px] text-muted-foreground leading-4">
+													{formData?.ma_acquisitionType == "Donated"
+														? formData?.ma_donor
+														: formData?.ma_pricePerItem}
 												</p>
 											</div>
 										</div>

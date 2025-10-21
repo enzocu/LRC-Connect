@@ -108,6 +108,8 @@ export default function BranchPage() {
 				selectedCategory,
 				selectedShelf,
 				selectedBranch,
+				"All",
+				"All",
 				selectedStatus,
 				copyrightYearStart,
 				copyrightYearEnd,
@@ -148,6 +150,7 @@ export default function BranchPage() {
 				setCategory,
 				setShelves,
 				setBranch,
+				null,
 				Alert
 			);
 		}

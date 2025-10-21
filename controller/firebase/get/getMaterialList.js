@@ -24,6 +24,8 @@ export async function getMaterialList(
 	ca_id,
 	sh_id,
 	br_id,
+	acquisitionType,
+	donor,
 	status,
 	dateRangeStart,
 	dateRangeEnd,
@@ -77,6 +79,14 @@ export async function getMaterialList(
 			conditions.push(where("ma_shID", "==", doc(db, "shelves", sh_id)));
 		if (br_id && br_id !== "All")
 			conditions.push(where("ma_liID", "==", doc(db, "library", br_id)));
+
+		if (acquisitionType && acquisitionType !== "All") {
+			conditions.push(where("ma_acquisitionType", "==", acquisitionType));
+		}
+
+		if (donor && donor !== "All") {
+			conditions.push(where("ma_doID", "==", doc(db, "donors", donor)));
+		}
 
 		if (dateRangeStart !== "" && dateRangeStart.length === 4) {
 			conditions.push(
@@ -287,71 +297,107 @@ export async function getMaterialFilter(
 	setCategory,
 	setShelves,
 	setBranch = null,
+	setDonor = null,
 	Alert
 ) {
 	try {
 		const categoryConditions = [where("ca_status", "==", "Active")];
-		if (li_id) categoryConditions.push(where("ca_liID", "==", li_id));
-
 		const materialTypeConditions = [where("mt_status", "==", "Active")];
-		if (li_id) materialTypeConditions.push(where("mt_liID", "==", li_id));
-
 		const shelfConditions = [where("sh_status", "==", "Active")];
-		if (li_id) shelfConditions.push(where("sh_liID", "==", li_id));
+
+		// Donor made optional
+		const donorConditions = setDonor
+			? [where("do_status", "==", "Active")]
+			: null;
+
+		if (li_id) {
+			categoryConditions.push(where("ca_liID", "==", li_id));
+			materialTypeConditions.push(where("mt_liID", "==", li_id));
+			shelfConditions.push(where("sh_liID", "==", li_id));
+			if (donorConditions) donorConditions.push(where("do_liID", "==", li_id));
+		}
 
 		// Queries
-		const categoryQuery = query(
-			collection(db, "category"),
-			...categoryConditions
-		);
-		const materialTypeQuery = query(
-			collection(db, "materialType"),
-			...materialTypeConditions
-		);
-		const shelfQuery = query(collection(db, "shelves"), ...shelfConditions);
+		const queries = {
+			category: query(collection(db, "category"), ...categoryConditions),
+			materialType: query(
+				collection(db, "materialType"),
+				...materialTypeConditions
+			),
+			shelf: query(collection(db, "shelves"), ...shelfConditions),
+			donor: donorConditions
+				? query(collection(db, "donors"), ...donorConditions)
+				: null,
+		};
 
 		const promises = [
-			getDocs(categoryQuery), // 0
-			getDocs(materialTypeQuery), // 1
-			getDocs(shelfQuery), // 2
+			getDocs(queries.category),
+			getDocs(queries.materialType),
+			getDocs(queries.shelf),
 		];
 
-		if (!li_id) {
+		if (queries.donor) promises.push(getDocs(queries.donor));
+
+		let branchSnap = null;
+		if (!li_id && setBranch) {
 			const branchQuery = query(
 				collection(db, "library"),
 				where("li_status", "==", "Active")
 			);
-			promises.push(getDocs(branchQuery)); // 3
+			promises.push(getDocs(branchQuery));
 		}
 
-		const [categorySnap, materialTypeSnap, shelfSnap, branchSnap] =
-			await Promise.all(promises);
+		const results = await Promise.all(promises);
 
-		const categories = categorySnap.docs.map((d) => ({
-			id: d.id,
-			ca_name: d.data().ca_name,
-		}));
-		setCategory(categories);
+		// Extract based on how many were fetched
+		const [categorySnap, materialTypeSnap, shelfSnap, ...optionalSnaps] =
+			results;
 
-		const materialTypes = materialTypeSnap.docs.map((d) => ({
-			id: d.id,
-			mt_name: d.data().mt_name,
-		}));
-		setMaterialType(materialTypes);
+		let donorSnap = null;
+		let branchSnapResult = null;
 
-		const shelves = shelfSnap.docs.map((d) => ({
-			id: d.id,
-			sh_name: d.data().sh_name,
-			sh_qr: d.data().sh_qr,
-		}));
-		setShelves(shelves);
+		if (optionalSnaps.length === 1) {
+			if (setDonor && !setBranch) donorSnap = optionalSnaps[0];
+			else if (setBranch && !setDonor) branchSnapResult = optionalSnaps[0];
+		} else if (optionalSnaps.length === 2) {
+			[donorSnap, branchSnapResult] = optionalSnaps;
+		}
 
-		if (!li_id && branchSnap) {
-			const branches = branchSnap.docs.map((d) => ({
+		setCategory(
+			categorySnap.docs.map((d) => ({ id: d.id, ca_name: d.data().ca_name }))
+		);
+
+		setMaterialType(
+			materialTypeSnap.docs.map((d) => ({
 				id: d.id,
-				li_name: d.data().li_name,
-			}));
-			setBranch(branches);
+				mt_name: d.data().mt_name,
+			}))
+		);
+
+		setShelves(
+			shelfSnap.docs.map((d) => ({
+				id: d.id,
+				sh_name: d.data().sh_name,
+				sh_qr: d.data().sh_qr,
+			}))
+		);
+
+		if (setDonor && donorSnap) {
+			setDonor(
+				donorSnap.docs.map((d) => ({
+					id: d.id,
+					do_name: d.data().do_name,
+				}))
+			);
+		}
+
+		if (setBranch && branchSnapResult) {
+			setBranch(
+				branchSnapResult.docs.map((d) => ({
+					id: d.id,
+					li_name: d.data().li_name,
+				}))
+			);
 		}
 	} catch (error) {
 		Alert.showDanger(error.message);

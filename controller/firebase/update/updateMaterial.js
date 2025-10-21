@@ -119,8 +119,8 @@ export async function updateMaterial(
 				ma_mtID: doc(db, "materialType", formData.ma_materialType),
 				ma_caID: doc(db, "category", formData.ma_materialCategory),
 				ma_shID: doc(db, "shelves", formData.ma_shelf),
+				ma_doID: doc(db, "donors", formData.ma_donor),
 				ma_acquisitionType: formData.ma_acquisitionType || "Purchased",
-				ma_donor: doc(db, "donors", formData.ma_donor),
 				ma_pricePerItem: parseFloat(formData.ma_pricePerItem) || 0,
 				ma_status: formData.ma_status || "Active",
 

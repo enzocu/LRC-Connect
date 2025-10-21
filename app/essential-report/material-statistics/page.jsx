@@ -61,6 +61,8 @@ const defaultFilterValues = {
 	b_materialType: "All",
 	b_category: "All",
 	b_shelf: "All",
+	b_acquisitionType: "All",
+	b_donor: "All",
 	b_yearRangeStart: "",
 	b_yearRangeEnd: "",
 	b_orderBy: "Descending",
@@ -87,6 +89,7 @@ export default function MaterialReports() {
 	const [materialTypes, setMaterialTypes] = useState([]);
 	const [categories, setCategory] = useState([]);
 	const [shelves, setShelves] = useState([]);
+	const [donors, setDonors] = useState([]);
 
 	//PAGINATION
 	const [pageCursors, setPageCursors] = useState([]);
@@ -126,6 +129,8 @@ export default function MaterialReports() {
 					filters.b_category,
 					filters.b_shelf,
 					"All",
+					filters.b_acquisitionType,
+					filters.b_donor,
 					filters.b_materialStatus,
 					filters.b_yearRangeStart,
 					filters.b_yearRangeEnd,
@@ -159,6 +164,8 @@ export default function MaterialReports() {
 		filters.b_materialType,
 		filters.b_category,
 		filters.b_shelf,
+		filters.b_acquisitionType,
+		filters.b_donor,
 		filters.b_materialStatus,
 		filters.b_materialType,
 		filters.b_category,
@@ -179,6 +186,7 @@ export default function MaterialReports() {
 				setCategory,
 				setShelves,
 				null,
+				setDonors,
 				Alert
 			);
 		}
@@ -345,7 +353,8 @@ export default function MaterialReports() {
 		activeSection,
 		materialTypes,
 		categories,
-		shelves
+		shelves,
+		donors
 	);
 
 	const count = getActiveData().length;
@@ -433,7 +442,8 @@ export default function MaterialReports() {
 												activeSection,
 												materialTypes,
 												categories,
-												shelves
+												shelves,
+												donors
 											)}
 										</div>
 

@@ -34,6 +34,8 @@ export async function getMaterialWithMarctag(
 			ma_qr: data.ma_qr,
 			ma_liID: data.ma_liID,
 			ma_status: data.ma_status || "NA",
+			ma_acquisitionType: data.ma_acquisitionType || "NA",
+			ma_pricePerItem: data.ma_pricePerItem || 0,
 			ma_title: data.ma_title || "NA",
 			ma_author: data.ma_author || "NA",
 			ma_description: data.ma_description || "NA",
@@ -202,17 +204,27 @@ export async function getMaterialWithMarctag(
 		MaterialData.ma_shelf = shSnap.data().sh_name;
 
 		if (transaction) {
-			const liSnap = await getDoc(data.ma_liID);
+			const liPromise = getDoc(data.ma_liID);
+			const doPromise = data.ma_doID
+				? getDoc(data.ma_doID)
+				: Promise.resolve(null);
+
+			const [liSnap, doSnap] = await Promise.all([liPromise, doPromise]);
+
 			if (!liSnap.exists()) {
 				Alert.showDanger("Library not found.");
 				return;
 			}
-			const liData = liSnap.data() || {};
 
+			const liData = liSnap.data() || {};
 			MaterialData.ma_liStatus = liData.li_status ?? "";
 			MaterialData.ma_library = liData.li_name ?? "";
 			MaterialData.ma_school = liData.li_schoolname ?? "";
 			MaterialData.ma_operation = liData.li_resources?.material ?? false;
+
+			if (doSnap && doSnap.exists()) {
+				MaterialData.ma_donor = doSnap.data().do_name ?? "NA";
+			}
 		}
 
 		setMaterialData(MaterialData);

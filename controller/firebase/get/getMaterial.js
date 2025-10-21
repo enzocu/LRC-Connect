@@ -37,8 +37,8 @@ export async function getMaterial(
 			ma_materialType: data.ma_mtID.id,
 			ma_materialCategory: data.ma_caID.id,
 			ma_shelf: data.ma_shID.id,
+			ma_doID: data.ma_doID || "",
 			ma_acquisitionType: data.ma_acquisitionType || "Donated",
-			ma_donor: data.ma_donor || "",
 			ma_pricePerItem: data.ma_pricePerItem || "",
 		});
 

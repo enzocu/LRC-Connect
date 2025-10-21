@@ -172,6 +172,25 @@ export const FilterFormatSelect = ({ value, onChange }) => {
 	);
 };
 
+export const FilterAcquisitionTypeSelect = ({ value, onChange }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Select an Acquisition Type
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">All Acquisition Types</option>
+				<option value="Donated">Donated</option>
+				<option value="Purchased">Purchased</option>
+			</select>
+		</div>
+	);
+};
+
 export const FilterMaterialSelect = ({ value, onChange, materialList }) => {
 	return (
 		<div className="space-y-2">
@@ -319,6 +338,28 @@ export const FilterShelfSelect = ({ value, onChange, shList }) => {
 				{shList.map((sh) => (
 					<option key={sh.id} value={sh.id}>
 						{sh.sh_name}
+					</option>
+				))}
+			</select>
+		</div>
+	);
+};
+
+export const FilterDonorSelect = ({ value, onChange, doList }) => {
+	return (
+		<div className="space-y-2">
+			<label className="block font-medium text-foreground text-[12px]">
+				Select a Donor
+			</label>
+			<select
+				value={value}
+				onChange={onChange}
+				className="w-full border border-border bg-card text-foreground rounded-md px-3 py-2 h-9 focus:ring-2 focus:ring-primary-custom focus:border-transparent text-[12px]"
+			>
+				<option value="All">All Donors</option>
+				{doList.map((dn) => (
+					<option key={dn.id} value={dn.id}>
+						{dn.do_name}
 					</option>
 				))}
 			</select>
@@ -561,7 +602,8 @@ export const getActiveFiltersMA = (
 	activeSection,
 	materialTypes,
 	categories,
-	shelves
+	shelves,
+	donors
 ) => {
 	const activeFilters = [];
 
@@ -611,6 +653,18 @@ export const getActiveFiltersMA = (
 				transform: (id) =>
 					shelves.find((s) => s.id === id)?.sh_name || "Unknown",
 			},
+			{
+				key: "b_acquisitionType",
+				label: "Acquisition Type",
+				defaultValue: "All",
+			},
+			{
+				key: "b_donor",
+				label: "Donor",
+				defaultValue: "All",
+				transform: (id) =>
+					donors.find((d) => d.id === id)?.do_name || "Unknown",
+			},
 			{ key: "b_yearRangeStart", label: "Year Start", defaultValue: "" },
 			{ key: "b_yearRangeEnd", label: "Year End", defaultValue: "" },
 			{ key: "b_orderBy", label: "Order By", defaultValue: "Descending" },
@@ -640,7 +694,8 @@ export const renderFiltersMA = (
 	activeSection,
 	materialTypes,
 	categories,
-	shelves
+	shelves,
+	donors
 ) => {
 	const section = sections.find((s) => s.id === activeSection);
 
@@ -734,6 +789,23 @@ export const renderFiltersMA = (
 						}
 						shList={shelves}
 					/>
+
+					<FilterAcquisitionTypeSelect
+						value={filters.b_acquisitionType}
+						onChange={(e) =>
+							setFilters({ ...filters, b_acquisitionType: e.target.value })
+						}
+					/>
+
+					{filters.b_acquisitionType === "Donated" && (
+						<FilterDonorSelect
+							value={filters.b_donor}
+							onChange={(e) =>
+								setFilters({ ...filters, b_donor: e.target.value })
+							}
+							doList={donors}
+						/>
+					)}
 
 					<YearInput
 						label="Copyright Range - Start"

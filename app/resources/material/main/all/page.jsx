@@ -122,6 +122,8 @@ export default function MaterialsPage() {
 				selectedCategory,
 				selectedShelf,
 				null,
+				"All",
+				"All",
 				selectedStatus,
 				copyrightYearStart,
 				copyrightYearEnd,
@@ -163,6 +165,7 @@ export default function MaterialsPage() {
 				setMaterialTypes,
 				setCategory,
 				setShelves,
+				null,
 				null,
 				Alert
 			);
