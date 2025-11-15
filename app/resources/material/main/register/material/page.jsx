@@ -1135,7 +1135,6 @@ export default function MaterialRegistrationPage() {
 								</Card>
 							)}
 
-							{/* Action Buttons */}
 							<div className="flex gap-3 animate-slide-up-delay-4">
 								<Button
 									onClick={handleSave}
@@ -1184,7 +1183,6 @@ export default function MaterialRegistrationPage() {
 							</div>
 						</div>
 
-						{/* File Uploads Sidebar */}
 						<div className="space-y-8">
 							<Card className="bg-card border-border shadow-sm animate-slide-up-delay-2">
 								<CardHeader className="pb-4">
@@ -1450,7 +1448,6 @@ export default function MaterialRegistrationPage() {
 					)}
 				</main>
 
-				{/* Deactivate Resource Modal */}
 				{showDeactivateModal && (
 					<DeactivateResourceModal
 						isOpen={showDeactivateModal}
@@ -1469,7 +1466,6 @@ export default function MaterialRegistrationPage() {
 					/>
 				)}
 
-				{/* Deactivate Accession Modal */}
 				{showDeactivateAccessionModal && accessionToDeactivate && (
 					<DeactivateAccessionModal
 						isOpen={showDeactivateAccessionModal}

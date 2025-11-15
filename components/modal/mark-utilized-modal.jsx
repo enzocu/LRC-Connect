@@ -102,7 +102,7 @@ const MarkUtilizedModal = ({
 					</h5>
 					{renderResource(transaction)}
 				</div>
-				{/* Patron Details */}
+
 				<div>
 					<h5 className="font-medium text-foreground mb-4 text-[13px]">
 						Patron Details
@@ -247,7 +247,6 @@ const MarkUtilizedModal = ({
 				</div>
 			</div>
 
-			{/* Footer */}
 			<div className="flex items-center justify-end gap-3 px-6 py-4 bg-muted/30 border-t border-border">
 				<Button
 					onClick={() => onClose()}

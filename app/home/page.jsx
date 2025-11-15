@@ -80,7 +80,6 @@ export default function AdminWelcomePage() {
 					</button>
 				</div>
 
-				{/* Main Content */}
 				<div className="flex flex-col items-center justify-center min-h-screen px-6 py-16  overflow-x-hidden">
 					<div className="text-center mb-16 max-w-4xl animate-fade-in">
 						<p className="text-muted-foreground mb-3 text-[14px]">

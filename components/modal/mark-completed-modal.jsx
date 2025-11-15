@@ -46,7 +46,6 @@ const MarkCompletedModal = ({
 			title={`Mark as Completed - ${transaction.tr_qr}`}
 			size="md"
 		>
-			{/* Content */}
 			<div className="flex-1 overflow-y-auto p-6 space-y-6">
 				<div>
 					<h5 className="font-medium text-foreground mb-4 text-[13px]">
@@ -55,7 +54,6 @@ const MarkCompletedModal = ({
 					{renderResource(transaction)}
 				</div>
 
-				{/* Patron Details */}
 				{isPersonnel && (
 					<div>
 						<h5 className="font-medium text-foreground mb-4 text-[13px]">

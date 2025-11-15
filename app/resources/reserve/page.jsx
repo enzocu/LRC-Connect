@@ -376,7 +376,6 @@ export default function ReservationPage() {
 					</div>
 
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-14">
-						{/* Left Side - Calendar */}
 						<div className="lg:col-span-2 space-y-6">
 							<Card className="bg-card border-border animate-slide-up-delay-1 shadow-sm">
 								<CardContent className="pt-6">
@@ -631,7 +630,6 @@ export default function ReservationPage() {
 							</Card>
 						</div>
 
-						{/* Right Side - Information */}
 						<div className="space-y-6">
 							<Card className="bg-card border-border animate-slide-up-delay-1 shadow-sm">
 								<CardHeader className="pb-4">
@@ -744,7 +742,6 @@ export default function ReservationPage() {
 						</div>
 					</div>
 
-					{/* Reservation Summary Modal */}
 					<ReservationSummaryModal
 						isOpen={showReservationModal}
 						onClose={() => setShowReservationModal(false)}

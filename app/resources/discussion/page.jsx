@@ -230,7 +230,6 @@ export default function discussionResourcesPage() {
 								</div>
 							)}
 
-							{/* Table View */}
 							{viewType === "table" && (
 								<Card className="bg-card border-border transition-colors duration-300 animate-slide-up">
 									<CardContent className="p-0 overflow-x-auto">
@@ -333,7 +332,6 @@ export default function discussionResourcesPage() {
 							/>
 						</div>
 
-						{/* {Scanner} */}
 						<ScannerModal
 							isOpen={isScannerOpen}
 							onClose={() => setIsScannerOpen(false)}

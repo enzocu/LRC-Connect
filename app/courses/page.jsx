@@ -38,7 +38,6 @@ import { useLoading } from "@/contexts/LoadingProvider";
 import { AddEditCourseModal } from "@/components/modal/add-edit-course-modal";
 import { DeleteCourseModal } from "@/components/modal/delete-course-modal";
 import { TransferCourseModal } from "@/components/modal/transfer-course-modal";
-
 import { getCoursesRealtime } from "@/controller/firebase/get/getCourses";
 
 export default function CoursesPage() {
@@ -135,7 +134,6 @@ export default function CoursesPage() {
 						</div>
 
 						<div className="grid grid-cols-1 lg:grid-cols-2 gap-14 animate-slide-up">
-							{/* Senior High School Section */}
 							<Card className="bg-card border-border transition-colors duration-300 h-fit">
 								<CardContent className="p-6">
 									<div className="flex items-start justify-between mb-4">
@@ -354,7 +352,6 @@ export default function CoursesPage() {
 								</CardContent>
 							</Card>
 
-							{/* College Section */}
 							<Card className="bg-card border-border transition-colors duration-300 h-fit">
 								<CardContent className="p-6">
 									<div className="flex items-start justify-between mb-4">

@@ -504,7 +504,6 @@ export const FilterCourseSelects = ({
 				</select>
 			</div>
 
-			{/* STRAND / PROGRAM */}
 			<div className="space-y-2">
 				<label className="block font-medium text-foreground text-[12px]">
 					Select a{" "}

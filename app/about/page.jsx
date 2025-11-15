@@ -623,7 +623,6 @@ export default function About() {
 					</div>
 				</main>
 
-				{/* Local Confirmation Modal */}
 				<ConfirmationModal
 					isOpen={confirmationModal.isOpen}
 					onClose={handleConfirmationClose}
@@ -638,12 +637,3 @@ export default function About() {
 		</div>
 	);
 }
-
-const daysOfWeek = [
-	{ key: "monday", label: "Monday" },
-	{ key: "tuesday", label: "Tuesday" },
-	{ key: "wednesday", label: "Wednesday" },
-	{ key: "thursday", label: "Thursday" },
-	{ key: "friday", label: "Friday" },
-	{ key: "saturday", label: "Saturday" },
-];

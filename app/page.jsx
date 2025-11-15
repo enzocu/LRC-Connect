@@ -12,7 +12,6 @@ export default function HomePage() {
 	const [menuOpen, setMenuOpen] = useState(false);
 
 	const handleDownload = () => {
-		// Open the app download hosted on Google Drive in a new tab
 		if (typeof window !== "undefined") {
 			window.open(
 				"https://drive.google.com/file/d/1qBdwk49ESFCO6wM05cksMW8NV7hsS8Rd/view?usp=sharing",
@@ -23,8 +22,7 @@ export default function HomePage() {
 	};
 
 	return (
-		<div className="bg-background text-foreground">
-			{/* HEADER */}
+		<div className="bg-background   h-screen w-full text-foreground">
 			<header className="fixed top-0 left-0 z-50 w-full bg-primary/60 backdrop-blur-lg transition-all duration-300">
 				<div className="py-3 px-6 sm:px-6 md:px-16 lg:px-[100px] xl:px-[150px] flex items-center justify-between">
 					<Image
@@ -35,7 +33,6 @@ export default function HomePage() {
 						className="h-16 w-auto"
 					/>
 
-					{/* Desktop Nav */}
 					<nav className="hidden md:flex items-center space-x-6">
 						{["Resources", "AI Assistants", "About", "Contact"].map((item) => (
 							<Link
@@ -48,7 +45,6 @@ export default function HomePage() {
 						))}
 					</nav>
 
-					{/* Mobile Menu Button */}
 					<button
 						className="md:hidden text-white text-2xl"
 						onClick={() => setMenuOpen(!menuOpen)}
@@ -57,7 +53,6 @@ export default function HomePage() {
 					</button>
 				</div>
 
-				{/* Mobile Menu Dropdown */}
 				{menuOpen && (
 					<div className="md:hidden bg-primary/80 backdrop-blur-md px-6 py-4 space-y-4 shadow-lg">
 						{["Features", "Materials", "AI Assistants", "Mobile App"].map(
@@ -76,8 +71,7 @@ export default function HomePage() {
 				)}
 			</header>
 
-			{/* HERO */}
-			<section className="pt-32 pb-[114px] relative overflow-hidden bg-primary">
+			<section className="h-screen pt-32  relative overflow-hidden bg-primary">
 				<div className="absolute inset-0 overflow-hidden">
 					<svg
 						className="absolute bottom-0 left-0 w-full"
@@ -130,7 +124,6 @@ export default function HomePage() {
 							</div>
 						</motion.div>
 
-						{/* RIGHT IMAGE */}
 						<motion.div
 							initial={{ opacity: 0, y: 20 }}
 							animate={{ opacity: 1, y: 0 }}
@@ -138,7 +131,6 @@ export default function HomePage() {
 							className="relative"
 						>
 							<div className="relative h-[500px] flex justify-center max-w-[600px]">
-								{/* Back phone with floating animation */}
 								<motion.div
 									className="absolute top-0 right-0 w-[290px] h-[600px] rounded-3xl overflow-hidden shadow-2xl transform rotate-6  border-4 border-black/60"
 									animate={{ y: [0, -10, 0], rotate: [6, 8, 6] }}
@@ -157,7 +149,6 @@ export default function HomePage() {
 									/>
 								</motion.div>
 
-								{/* Front phone with floating animation */}
 								<motion.div
 									className="absolute top-10 left-0 w-[290px] h-[600px] rounded-3xl overflow-hidden shadow-2xl transform -rotate-3 border-4 border-black/50"
 									animate={{ y: [0, -8, 0], rotate: [-3, -5, -3] }}

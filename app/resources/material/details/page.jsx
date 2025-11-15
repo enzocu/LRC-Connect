@@ -22,7 +22,7 @@ import {
 import { QrCode, Sparkles, Building2, GraduationCap } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PatronSelectionModal } from "@/components/modal/patron-selection-modal";
-import { AIResourcesModal } from "@/components/modal/AIResourcesModal";
+import { AIResourcesModal } from "@/components/modal/ai-resources-modal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -317,7 +317,6 @@ export default function MaterialDetailsPage() {
 							<TabsContent value="location">
 								<div className="rounded-lg p-6 shadow-sm border border-border">
 									<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-										{/* School Name */}
 										<div className="flex items-start gap-2">
 											<GraduationCap className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -331,7 +330,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Library Name */}
 										<div className="flex items-start gap-2">
 											<Building2 className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -345,7 +343,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Call Number */}
 										<div className="flex items-start gap-2">
 											<FiTag className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -359,7 +356,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Shelf */}
 										<div className="flex items-start gap-2">
 											<FiMapPin className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -373,7 +369,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Material Type */}
 										<div className="flex items-start gap-2">
 											<FiBookOpen className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -387,7 +382,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Category */}
 										<div className="flex items-start gap-2">
 											<FiGrid className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -401,7 +395,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Acquisition Type */}
 										<div className="flex items-start gap-2">
 											<FiPackage className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -415,7 +408,6 @@ export default function MaterialDetailsPage() {
 											</div>
 										</div>
 
-										{/* Donor / Price Per Item */}
 										<div className="flex items-start gap-2">
 											<FiShoppingBag className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 											<span className="text-muted-foreground">|</span>
@@ -492,7 +484,6 @@ export default function MaterialDetailsPage() {
 				resourceDetails={formData}
 			/>
 
-			{/* Patron Selection Modal */}
 			<PatronSelectionModal
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}

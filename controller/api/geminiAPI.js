@@ -479,7 +479,7 @@ const guideMessage = (saveTag, type) => {
 					Discussion List - /resources/discussion
 					Computer List - /resources/computer
 					News & Announcement -  /news-announcement
-					About Page - /users/about
+					About Page - /about
 
 
 					FOR Chief Librarian / Head Librarian

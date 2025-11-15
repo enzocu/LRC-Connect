@@ -108,7 +108,6 @@ export default function TransactionDetailsPage() {
 					)}
 				</div>
 
-				{/* Main Content */}
 				<div className="animate-slide-up-delay-1 grid grid-cols-1 lg:grid-cols-3 gap-14">
 					<div className="lg:col-span-2">
 						<Card className="bg-card border-border overflow-hidden">
@@ -328,7 +327,6 @@ export function TransactionDetailsCard(transaction) {
 								</p>
 							</div>
 
-							{/* Tooltip */}
 							<div
 								className={`absolute top-full right-0 mt-2 px-3 py-2 bg-white dark:bg-[#1e1e1e] text-gray-700 dark:text-gray-200 text-xs rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-10 w-64 shadow-md border border-border`}
 							>

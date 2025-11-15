@@ -167,7 +167,6 @@ export default function ComputerResourcesPage() {
 							</div>
 						</div>
 
-						{/* Main Content */}
 						<div className="flex-1 animate-slide-up-delay-2">
 							{viewType === "grid" && (
 								<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-slide-up">
@@ -226,7 +225,6 @@ export default function ComputerResourcesPage() {
 								</div>
 							)}
 
-							{/* Table View */}
 							{viewType === "table" && (
 								<Card className="bg-card border-border transition-colors duration-300 animate-slide-up">
 									<CardContent className="p-0 overflow-x-auto">

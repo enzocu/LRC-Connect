@@ -457,7 +457,6 @@ const ListenPage = () => {
 								</div>
 							)}
 
-							{/* Content */}
 							{transactionData?.tr_format == "Audio Copy" && (
 								<div className="p-8 flex flex-col items-center justify-center min-h-[520px]">
 									{audioSrc && (
@@ -700,7 +699,6 @@ const ListenPage = () => {
 										</div>
 									</CardContent>
 
-									{/* Footer Info */}
 									<div className="flex items-center flex-wrap lg:justify-between gap-1 text-[11px] text-muted-foreground pt-4 px-6 pb-4 border-t border-border">
 										<div className="flex items-center gap-4">
 											<span>Format: PDF</span>

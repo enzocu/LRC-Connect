@@ -117,7 +117,6 @@ export function PatronSelectionModal({
 					</div>
 				</div>
 
-				{/* Filter Buttons */}
 				<div className="flex flex-wrap gap-2 mb-6">
 					{["Student", "Student Assistant", "Faculty", "Administrator"].map(
 						(type) => (

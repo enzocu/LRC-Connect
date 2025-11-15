@@ -4,23 +4,13 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
-import {
-	Dialog,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
-import { FiArrowLeft, FiMessageCircle, FiExternalLink } from "react-icons/fi";
-import ProtectedRoute from "@/contexts/ProtectedRoute";
+import { FiArrowLeft, FiExternalLink } from "react-icons/fi";
 
 export default function CongressDetailsPage() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const co_url = searchParams.get("co_id");
 	const co_title = searchParams.get("co_title");
-
-	const [showAIDialog, setShowAIDialog] = useState(false);
-	const [aiInput, setAiInput] = useState("");
 
 	if (!co_url) {
 		return (
@@ -64,7 +54,6 @@ export default function CongressDetailsPage() {
 						paddingTop: "20px",
 					}}
 				>
-					{/* Back Navigation */}
 					<div className="mb-6 animate-fade-in">
 						<button
 							onClick={() => router.back()}
@@ -76,7 +65,6 @@ export default function CongressDetailsPage() {
 						</button>
 					</div>
 
-					{/* Page Title and AI Button */}
 					<div className="mb-8 animate-slide-up">
 						<div className="flex items-center justify-between">
 							<div>
@@ -93,20 +81,9 @@ export default function CongressDetailsPage() {
 									Access official Library of Congress resources and archives
 								</p>
 							</div>
-
-							{/* AI Assistant Button */}
-							<Button
-								onClick={() => setShowAIDialog(true)}
-								className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white border-none shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-								style={{ fontSize: "11px" }}
-							>
-								<FiMessageCircle className="w-4 h-4 mr-2" />
-								AI Assistant
-							</Button>
 						</div>
 					</div>
 
-					{/* Resource Title and External Link */}
 					<div className="mb-6 animate-slide-up-delay-1">
 						<div className="flex items-center justify-between p-6 bg-card border border-border rounded-lg shadow-sm">
 							<div>
@@ -164,59 +141,6 @@ export default function CongressDetailsPage() {
 					</div>
 				</div>
 			</main>
-
-			{/* AI Assistant Dialog */}
-			<Dialog open={showAIDialog} onOpenChange={setShowAIDialog}>
-				<DialogContent className="sm:max-w-md bg-card border-border">
-					<DialogHeader>
-						<DialogTitle
-							className="text-foreground"
-							style={{ fontSize: "14px" }}
-						>
-							AI Assistant - Library of Congress
-						</DialogTitle>
-					</DialogHeader>
-					<div className="space-y-4">
-						<div className="space-y-2">
-							<label
-								className="text-sm font-medium text-foreground"
-								style={{ fontSize: "11px" }}
-							>
-								Ask about this Library of Congress resource:
-							</label>
-							<textarea
-								value={aiInput}
-								onChange={(e) => setAiInput(e.target.value)}
-								placeholder="Ask about the content, historical context, related resources, or research guidance..."
-								className="w-full h-24 px-3 py-2 border border-border bg-background text-foreground rounded-md resize-none focus:ring-2 focus:ring-primary-custom focus:border-transparent"
-								style={{ fontSize: "11px" }}
-							/>
-						</div>
-						<div className="flex justify-end space-x-2">
-							<Button
-								variant="outline"
-								onClick={() => setShowAIDialog(false)}
-								className="border-border text-foreground hover:bg-accent"
-								style={{ fontSize: "11px" }}
-							>
-								Cancel
-							</Button>
-							<Button
-								onClick={() => {
-									// Handle AI query here
-									console.log("AI Query:", aiInput);
-									setShowAIDialog(false);
-									setAiInput("");
-								}}
-								className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-								style={{ fontSize: "11px" }}
-							>
-								Ask AI
-							</Button>
-						</div>
-					</div>
-				</DialogContent>
-			</Dialog>
 		</div>
 	);
 }

@@ -23,7 +23,6 @@ import ProtectedRoute from "@/contexts/ProtectedRoute";
 import { useLoading } from "@/contexts/LoadingProvider";
 
 import { LoadingSpinner } from "@/components/loading";
-
 import { MaterialTypeModal } from "@/components/modal/materialtype-modal";
 
 import { insertMaterialtype } from "@/controller/firebase/insert/insertMaterialtype";

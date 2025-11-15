@@ -695,7 +695,6 @@ export default function AuditPage() {
 						</main>
 					</div>
 
-					{/* {Scanner} */}
 					<ScannerModal
 						isOpen={isScannerOpen}
 						onClose={() => setIsScannerOpen(false)}

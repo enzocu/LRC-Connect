@@ -479,3 +479,10 @@ export const combineDateAndTimeToTimestamp = (dateSource, timeSource) => {
 
 	return Timestamp.fromDate(merged);
 };
+
+export const extractProvinceName = (provinceString) => {
+	if (!provinceString) return "";
+	return provinceString.includes("|")
+		? provinceString.split("|")[1]
+		: provinceString;
+};

@@ -2,7 +2,7 @@ import "./globals.css";
 import ClientLayout from "./clientLayout";
 
 export const metadata = {
-	generator: "LACUNANAN.dev",
+	generator: "Developer: Lawrence S. Cunanann - https://lacunanan.vercel.app",
 	title: "LRC Connect",
 	icons: {
 		icon: "/logo.png",

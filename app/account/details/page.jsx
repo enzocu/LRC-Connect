@@ -16,6 +16,7 @@ import { useLoading } from "@/contexts/LoadingProvider";
 import { CodeModal } from "@/components/modal/code-modal";
 import { handleChange } from "@/controller/custom/customFunction";
 import { LoadingSpinner } from "@/components/loading";
+import { extractProvinceName } from "../../../controller/custom/customFunction";
 
 import {
 	fetchProvinces,
@@ -907,10 +908,3 @@ export default function AccountDetails() {
 		</div>
 	);
 }
-
-export const extractProvinceName = (provinceString) => {
-	if (!provinceString) return "";
-	return provinceString.includes("|")
-		? provinceString.split("|")[1]
-		: provinceString;
-};

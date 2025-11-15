@@ -141,7 +141,6 @@ export default function BorrowingLimitsModal({
 					</Tabs>
 				</CardContent>
 
-				{/* Footer */}
 				<div className="flex justify-end gap-3 px-6 pb-6">
 					<Button
 						onClick={() => onClose()}

@@ -56,7 +56,6 @@ export function PinLocation({ isOpen, onClose, setFormData, Alert }) {
 			size="lg"
 		>
 			<form onSubmit={handleSubmit} className="flex flex-col h-[500px]">
-				{/* Map */}
 				<div className="flex-1">
 					{isLoaded && currentPosition ? (
 						<GoogleMap
@@ -88,7 +87,6 @@ export function PinLocation({ isOpen, onClose, setFormData, Alert }) {
 					)}
 				</div>
 
-				{/* Footer */}
 				<div className="flex items-center justify-end gap-3 px-6 py-4 bg-muted/30 border-t border-border">
 					<Button
 						type="button"

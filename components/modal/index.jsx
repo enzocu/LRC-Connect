@@ -45,17 +45,14 @@ export function Modal({ isOpen, onClose, title, children, size = "md" }) {
 
 	return (
 		<div className="fixed inset-0 z-50 flex items-center justify-center">
-			{/* Backdrop */}
 			<div
 				className="fixed inset-0 bg-black/50 transition-opacity"
 				onClick={onClose}
 			/>
 
-			{/* Modal */}
 			<div
 				className={`relative bg-card border border-border rounded-lg shadow-lg w-full mx-4 ${sizeClasses[size]} max-h-[90vh] overflow-hidden transition-colors duration-300`}
 			>
-				{/* Header */}
 				<div className="flex items-center justify-between p-4 border-b border-border">
 					<h2
 						className="font-semibold text-foreground"
@@ -73,7 +70,6 @@ export function Modal({ isOpen, onClose, title, children, size = "md" }) {
 					</Button>
 				</div>
 
-				{/* Content */}
 				<div className="overflow-y-auto max-h-[calc(90vh-80px)]">
 					{children}
 				</div>

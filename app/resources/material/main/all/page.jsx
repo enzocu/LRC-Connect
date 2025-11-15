@@ -436,7 +436,6 @@ export default function MaterialsPage() {
 									</div>
 
 									<div className="p-4 space-y-4 overflow-y-auto h-full pb-44">
-										{/* Advanced Search Toggle */}
 										<div className="space-y-4 pb-4 border-b border-border">
 											<div className="flex items-center space-x-2">
 												<input
@@ -774,7 +773,6 @@ export default function MaterialsPage() {
 							</div>
 						)}
 
-						{/* Main Content */}
 						<div className="flex-1 animate-slide-up-delay-2 overflow-auto">
 							{viewType === "grid" && (
 								<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -845,7 +843,6 @@ export default function MaterialsPage() {
 						}
 					/>
 
-					{/* Excel Import Modal */}
 					<ExcelImportModal
 						isOpen={showExcelImportModal}
 						onClose={() => setShowExcelImportModal(false)}

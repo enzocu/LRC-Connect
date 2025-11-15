@@ -39,8 +39,8 @@ import {
 	copyMessageToClipboard,
 	toggleTextToSpeech,
 	toggleSpeechRecognition,
-} from "../../../controller/custom/customFunction";
-import callGemini from "../../../controller/api/geminiAPI";
+} from "../../controller/custom/customFunction";
+import callGemini from "../../controller/api/geminiAPI";
 
 import { getDefault } from "@/controller/firebase/get/ai-report/default";
 import { getMaterialList } from "@/controller/firebase/get/ai-report/material/getMaterialList";
@@ -53,7 +53,7 @@ import { getActiveReport } from "@/controller/firebase/get/ai-report/reports/get
 import { getStatusCount } from "@/controller/firebase/get/ai-report/entry-exit/getStatus";
 import { getUserTop10 } from "@/controller/firebase/get/ai-report/entry-exit/getUserTop10";
 
-export default function HomePage() {
+export default function ButchPage() {
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();
 

@@ -98,7 +98,6 @@ export function ScannerModal({
 						transition={{ duration: 0.25, ease: "easeOut" }}
 						className="p-6 space-y-6"
 					>
-						{/* Info Box */}
 						<motion.div
 							initial={{ opacity: 0, scale: 0.95 }}
 							animate={{ opacity: 1, scale: 1 }}
@@ -116,7 +115,6 @@ export function ScannerModal({
 							</p>
 						</motion.div>
 
-						{/* QR Scanner Region */}
 						<motion.div
 							initial={{ opacity: 0, scale: 0.95 }}
 							animate={{ opacity: 1, scale: 1 }}

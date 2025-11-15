@@ -44,8 +44,6 @@ export default function LoginPage() {
 	return (
 		<div className="min-h-screen bg-background  duration-300 ">
 			<main className="p-6 sm:pt-20 pb-6 px-6 sm:px-6 md:px-16 lg:px-[100px] xl:px-[150px]">
-				{/* Back to Welcome Button */}
-
 				<div className="mb-8">
 					<button
 						onClick={() => router.push("/")}

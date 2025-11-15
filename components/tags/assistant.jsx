@@ -29,6 +29,24 @@ import {
 	toggleSpeechRecognition,
 } from "../../controller/custom/customFunction";
 
+const recommendations = [
+	"Give me a one-sentence summary",
+	"Highlight important quotes",
+	"Describe the setting in detail",
+	"Explain the character's motivation",
+	"Predict what might happen next",
+	"Break down complex sentences",
+	"List important events in order",
+	"Explain symbolism in the story",
+	"Give background on the author",
+	"Compare this to similar works",
+	"Describe the tone or mood",
+	"List any conflicts so far",
+	"Highlight moral or lesson",
+	"Identify point of view (POV)",
+	"Explain cultural or historical references",
+];
+
 const AssistantPage = ({ transactionData, handleFocusAI }) => {
 	const { userDetails } = useUserAuth();
 	const Alert = useAlertActions();
@@ -49,24 +67,6 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 
 	const [isFetching, setIsFetch] = useState(null);
 	const [quickAction, setQuickAction] = useState({});
-
-	const recommendations = [
-		"Give me a one-sentence summary",
-		"Highlight important quotes",
-		"Describe the setting in detail",
-		"Explain the character's motivation",
-		"Predict what might happen next",
-		"Break down complex sentences",
-		"List important events in order",
-		"Explain symbolism in the story",
-		"Give background on the author",
-		"Compare this to similar works",
-		"Describe the tone or mood",
-		"List any conflicts so far",
-		"Highlight moral or lesson",
-		"Identify point of view (POV)",
-		"Explain cultural or historical references",
-	];
 
 	const messagesEndRef = useRef(null);
 	const recognitionRef = useRef(null);
@@ -224,7 +224,6 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 			</CardHeader>
 			<CardContent className="pt-4 flex-1 flex flex-col">
 				<div className="flex flex-col flex-1">
-					{/* Messages */}
 					<div
 						className="flex-1 overflow-y-auto space-y-6 pr-1 pb-6"
 						style={{ minHeight: "350px", maxHeight: "500px" }}
@@ -378,7 +377,7 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 							</div>
 						)}
 					</div>
-					{/* Input form */}
+
 					<form
 						onSubmit={handleSendMessage}
 						className="relative flex items-center"
@@ -443,12 +442,12 @@ const AssistantPage = ({ transactionData, handleFocusAI }) => {
 							</div>
 						</div>
 					)}
-					{/* Tip */}
+
 					<div className="mt-2 text-muted-foreground text-[12px]">
 						Tip: Try "Summarize the last minute," "Define telemetry," or "List 3
 						key points from this chapter."
 					</div>
-					{/* Recommendations */}
+
 					<div className="mt-6">
 						<div className="flex items-center gap-2 mb-2">
 							<Lightbulb className="w-4 h-4 text-muted-foreground" />

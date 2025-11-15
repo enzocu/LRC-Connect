@@ -192,7 +192,6 @@ export function DeactivateAccessionModal({
 				</div>
 			</div>
 
-			{/* Footer */}
 			<div className="flex items-center justify-end gap-3 px-6 py-4 bg-muted/30 border-t border-border">
 				<Button
 					variant="outline"

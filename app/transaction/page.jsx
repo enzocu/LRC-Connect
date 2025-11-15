@@ -312,7 +312,7 @@ export default function TransactionPage() {
 				<main className="pt-28 pb-6 px-6 sm:px-6 md:px-16 lg:px-[100px] xl:px-[150px]">
 					<div className="mb-6 animate-fade-in">
 						<button
-							onClick={() => router.push(`/users/home`)}
+							onClick={() => router.push(`/butch`)}
 							className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors w-fit text-[11px]"
 						>
 							<FiArrowLeft className="w-4 h-4" />
@@ -875,7 +875,6 @@ export default function TransactionPage() {
 									</div>
 								)}
 
-								{/* Table View */}
 								{viewType === "table" && (
 									<Card className="bg-card border-border transition-colors duration-300 shadow-sm">
 										<CardContent className="p-0 overflow-x-auto">
@@ -979,7 +978,6 @@ export default function TransactionPage() {
 						</TabsContent>
 					</Tabs>
 
-					{/* Cancel Transaction Modal */}
 					<CancelTransactionModal
 						isOpen={showCancelModal}
 						onClose={() => setShowCancelModal(false)}
@@ -989,7 +987,6 @@ export default function TransactionPage() {
 						Alert={Alert}
 					/>
 
-					{/* Mark Completed Modal */}
 					<MarkCompletedModal
 						isOpen={showMarkCompletedModal}
 						onClose={() => setShowMarkCompletedModal(false)}
@@ -1001,7 +998,6 @@ export default function TransactionPage() {
 
 					{isPersonnel && (
 						<>
-							{/* Damage Report Modal*/}
 							<DamageReportModal
 								isOpen={showDamageReportModal}
 								onClose={() => setShowDamageReportModal(false)}
@@ -1011,7 +1007,6 @@ export default function TransactionPage() {
 								Alert={Alert}
 							/>
 
-							{/* Mark Utilized Modal */}
 							<MarkUtilizedModal
 								isOpen={showMarkUtilizedModal}
 								onClose={() => setShowMarkUtilizedModal(false)}
@@ -1046,7 +1041,7 @@ export default function TransactionPage() {
 							Alert={Alert}
 						/>
 					)}
-					{/* {Scanner} */}
+
 					<ScannerModal
 						isOpen={isScannerOpen}
 						onClose={() => setIsScannerOpen(false)}

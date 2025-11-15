@@ -36,7 +36,7 @@ export function UserContextAuthProvider({ children }) {
 			us_liID: doc(db, "library", associated.id),
 		});
 
-		if (pathname === "/users") {
+		if (pathname === "/home") {
 			await EnterExit(
 				newDetails.uid,
 				doc(db, "library", associated.id),
@@ -49,7 +49,7 @@ export function UserContextAuthProvider({ children }) {
 			);
 		}
 
-		router.push("/users/home");
+		router.push("/butch");
 	};
 
 	useEffect(() => {
@@ -77,7 +77,7 @@ export function UserContextAuthProvider({ children }) {
 							) {
 								if (data.us_level === "USR-1") {
 									if (pathname === "/" || pathname === "/login") {
-										router.push("/superadmin/dashboard");
+										router.push("/dashboard");
 									}
 								} else if (
 									data.us_level === "USR-5" ||
@@ -107,7 +107,7 @@ export function UserContextAuthProvider({ children }) {
 													Alert
 												);
 
-												router.push("/users/home");
+												router.push("/butch");
 											}
 										} else {
 											Alert.showDanger(
@@ -149,7 +149,7 @@ export function UserContextAuthProvider({ children }) {
 									pathname === "/login" ||
 									!data?.us_liID
 								) {
-									router.push("/users");
+									router.push("/home");
 								}
 							}
 						} else {

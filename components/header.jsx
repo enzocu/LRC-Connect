@@ -126,7 +126,6 @@ export function Header({ setIsOpen: externalSetIsOpen }) {
 				</div>
 			</div>
 
-			{/* {Scanner} */}
 			<ScannerModal
 				isOpen={isScannerOpen}
 				onClose={() => setIsScannerOpen(false)}

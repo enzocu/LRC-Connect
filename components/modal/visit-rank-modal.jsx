@@ -159,7 +159,6 @@ export function VisitRankModal({
 					</div>
 				</div>
 
-				{/* Rank 4 and Beyond (Scrollable List) */}
 				{userData.slice(!isBelowSm ? 3 : 0).length > 0 && (
 					<div className="max-h-80 rounded-lg shadow-sm">
 						<div className="divide-y divide-border">

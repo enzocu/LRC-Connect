@@ -879,7 +879,6 @@ export default function AccountList() {
 
 			{userDetails?.us_level == "USR-1" && (
 				<>
-					{/* Manual Search Modal */}
 					<ManualSearchModal
 						isOpen={showManualSearchModal}
 						onClose={() => setShowManualSearchModal(false)}
@@ -889,7 +888,6 @@ export default function AccountList() {
 						Alert={Alert}
 					/>
 
-					{/* Excel Import Modal */}
 					<ExcelImportModal
 						isOpen={showExcelImportModal}
 						onClose={() => setShowExcelImportModal(false)}
@@ -898,7 +896,6 @@ export default function AccountList() {
 						Alert={Alert}
 					/>
 
-					{/* Type Account Modal */}
 					<UserTypeModal
 						isOpen={showTypeModal}
 						onClose={() => setShowTypeModal(false)}
@@ -908,7 +905,6 @@ export default function AccountList() {
 						Alert={Alert}
 					/>
 
-					{/* Reset Password Modal */}
 					<ResetPasswordAccountModal
 						isOpen={showResetPasswordModal}
 						onClose={() => {
@@ -921,7 +917,6 @@ export default function AccountList() {
 						Alert={Alert}
 					/>
 
-					{/* Remove Account Modal */}
 					<RemoveAccountModal
 						isOpen={showRemoveModal}
 						onClose={() => {
@@ -935,7 +930,7 @@ export default function AccountList() {
 					/>
 				</>
 			)}
-			{/* {Scanner} */}
+
 			<ScannerModal
 				isOpen={isScannerOpen}
 				onClose={() => setIsScannerOpen(false)}

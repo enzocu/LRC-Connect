@@ -94,7 +94,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 				<div className="flex-1 px-3 py-4 mt-[75px] md:mt-[75px] ">
 					{users && !["USR-5", "USR-6"].includes(userDetails?.us_level) && (
 						<button
-							onClick={() => router.push("/users")}
+							onClick={() => router.push("/home")}
 							className="flex items-center gap-3 px-3 py-2 text-foreground rounded-lg hover:bg-accent transition-colors w-full text-left text-xs mb-4"
 						>
 							<FiArrowLeft className="w-4 h-4" />
@@ -110,7 +110,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 						{superadmin && (
 							<>
 								<SidebarItem
-									href="/superadmin/dashboard"
+									href="/dashboard"
 									icon={FiHome}
 									label="Dashboard"
 								/>
@@ -135,11 +135,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 										label="Personnel"
 									/>
 								</SidebarCollapse>
-								<SidebarItem
-									href="/superadmin/courses"
-									icon={FiTrello}
-									label="Courses"
-								/>
+								<SidebarItem href="/courses" icon={FiTrello} label="Courses" />
 								<SidebarItem
 									href="/audit"
 									icon={FiSettings}
@@ -150,7 +146,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 
 						{users && (
 							<>
-								<SidebarItem href="/users/home" icon={FiHome} label="Home" />
+								<SidebarItem href="/butch" icon={FiHome} label="Butch AI" />
 								<SidebarCollapse
 									label="Resources"
 									icon={FiFileText}
@@ -292,9 +288,7 @@ export function Sidebar({ isOpen: propIsOpen, setIsOpen: propSetIsOpen }) {
 							label="System Appearance"
 						/>
 
-						{users && (
-							<SidebarItem href="/users/about" icon={FiInfo} label="About" />
-						)}
+						{users && <SidebarItem href="/about" icon={FiInfo} label="About" />}
 
 						<button
 							onClick={toggleDarkMode}

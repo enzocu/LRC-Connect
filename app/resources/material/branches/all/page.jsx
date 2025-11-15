@@ -772,6 +772,7 @@ export default function BranchPage() {
 						/>
 					</div>
 				</div>
+
 				<ScannerModal
 					isOpen={isScannerOpen}
 					onClose={() => setIsScannerOpen(false)}

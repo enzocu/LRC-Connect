@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { FiArrowLeft, FiEdit3 } from "react-icons/fi";
 import { QrCode, Sparkles, Building2, GraduationCap } from "lucide-react";
 import { PatronSelectionModal } from "@/components/modal/patron-selection-modal";
-import { AIResourcesModal } from "@/components/modal/AIResourcesModal";
+import { AIResourcesModal } from "@/components/modal/ai-resources-modal";
 
 import { useUserAuth } from "@/contexts/UserContextAuth";
 import { useAlertActions } from "@/contexts/AlertContext";
@@ -189,7 +189,6 @@ export default function ComputerDetails() {
 								</h3>
 
 								<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-									{/* School Name */}
 									<div className="flex items-start gap-2">
 										<GraduationCap className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 										<span className="text-muted-foreground">|</span>
@@ -203,7 +202,6 @@ export default function ComputerDetails() {
 										</div>
 									</div>
 
-									{/* Library Name */}
 									<div className="flex items-start gap-2">
 										<Building2 className="w-4 h-4 text-foreground mt-[2px] flex-shrink-0" />
 										<span className="text-muted-foreground">|</span>
@@ -256,7 +254,6 @@ export default function ComputerDetails() {
 				resourceDetails={formData}
 			/>
 
-			{/* Patron Selection Modal */}
 			<PatronSelectionModal
 				isOpen={patronSelectionOpen}
 				onClose={() => setPatronSelectionOpen(false)}

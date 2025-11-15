@@ -285,7 +285,6 @@ export default function PatronSummaryPage() {
 						)}
 					</div>
 
-					{/* Sidebar Filters */}
 					{showFilters && (
 						<div className="fixed inset-0 z-50 transition-opacity duration-300 opacity-100">
 							<div
@@ -463,9 +462,7 @@ export default function PatronSummaryPage() {
 						</div>
 					)}
 
-					{/* Main Content */}
 					<div className="animate-slide-up-delay-3">
-						{/* Grid View */}
 						{viewType === "grid" && (
 							<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
 								{transactionData?.map((patron) =>
@@ -486,7 +483,6 @@ export default function PatronSummaryPage() {
 						/>
 					</div>
 
-					{/* Penalty Details Modal */}
 					<PenaltyListModal
 						isOpen={showPenaltyModal}
 						onClose={() => setShowPenaltyModal(false)}

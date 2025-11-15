@@ -88,7 +88,6 @@ export function AddDonorModal({
 			size="sm"
 		>
 			<form onSubmit={handleSubmit} className="p-6 space-y-4">
-				{/* Donor input field */}
 				<div>
 					<Label className="text-foreground font-medium text-[12px]">
 						Donor Name
@@ -104,7 +103,6 @@ export function AddDonorModal({
 					/>
 				</div>
 
-				{/* Donor list */}
 				<div className="space-y-2">
 					<Label className="text-foreground font-medium text-[12px]">
 						Registered Donors
@@ -146,7 +144,6 @@ export function AddDonorModal({
 					<EmptyState data={donors} loading={loading} />
 				</div>
 
-				{/* Buttons */}
 				<div className="flex gap-3 justify-end pt-2">
 					<Button
 						type="button"

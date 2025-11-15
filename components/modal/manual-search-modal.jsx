@@ -114,7 +114,6 @@ export function ManualSearchModal({
 								style={{ fontSize: "12px" }}
 							/>
 							<div className="absolute right-0 top-0 h-full flex items-center gap-1 pr-2">
-								{/* User Type Filter */}
 								<div className="relative">
 									<select
 										value={selectedType}
@@ -153,7 +152,6 @@ export function ManualSearchModal({
 									<FiChevronDown className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-muted-foreground w-4 h-4" />
 								</div>
 
-								{/* Status Filter */}
 								{userType !== "patron" && (
 									<div className="relative">
 										<select

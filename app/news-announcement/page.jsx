@@ -509,6 +509,7 @@ export default function NewsAnnouncementPage() {
 							</div>
 						</div>
 					</main>
+
 					<AddNewsAnnouncementModal
 						isOpen={isModalOpen}
 						onClose={() => setIsModalOpen(false)}

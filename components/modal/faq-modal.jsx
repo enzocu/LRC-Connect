@@ -85,7 +85,6 @@ export function AddFaqModal({
 						Enter the question and answer for the FAQ.
 					</p>
 
-					{/* Question */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="faq-question"
@@ -105,7 +104,6 @@ export function AddFaqModal({
 						/>
 					</div>
 
-					{/* Answer */}
 					<div className="space-y-1">
 						<Label
 							htmlFor="faq-answer"

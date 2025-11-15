@@ -40,7 +40,6 @@ export default function DocumentPreviewPage({
 				Alert
 			);
 
-			// Trigger print
 			window.print();
 		} catch (error) {
 			console.error("Print and audit error:", error);
@@ -53,7 +52,6 @@ export default function DocumentPreviewPage({
 			<Header />
 
 			<main className="pt-28 pb-6 px-6 sm:px-6 md:px-16 lg:px-[100px] xl:px-[150px]">
-				{/* Back Navigation */}
 				<div className="no-print mb-6 animate-fade-in">
 					<button
 						onClick={() => setViewMode("table")}
@@ -64,7 +62,6 @@ export default function DocumentPreviewPage({
 					</button>
 				</div>
 
-				{/* Page Title */}
 				<div className="flex items-start justify-between no-print mb-8 animate-slide-up gap-6">
 					<div>
 						<h1 className="font-semibold text-foreground text-[20px]">
@@ -87,14 +84,12 @@ export default function DocumentPreviewPage({
 				</div>
 
 				<div className="relative min-h-[900px]   border border-border rounded-[7px]">
-					{/* Watermark Logo */}
 					<img
 						src="/logo.png"
 						alt="logo"
 						className="absolute inset-0 m-auto w-[400px] opacity-5 z-0 pointer-events-none"
 					/>
 
-					{/* Main Card Content */}
 					<Card className="relative z-10 p-6 bg-transfarent border-none shadow-none  transition-colors duration-300 animate-slide-up animation-delay-400 ">
 						<CardHeader className="p-0">
 							<div className="flex flex-col items-center  text-center mb-[70px]">

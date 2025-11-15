@@ -5,7 +5,6 @@ export const renderResource = (transaction, isTable = false) => {
 	if (!transaction) return;
 	return (
 		<div className="flex gap-4 items-start">
-			{/* Image */}
 			<img
 				src={
 					transaction?.tr_type === "Material"
@@ -22,7 +21,6 @@ export const renderResource = (transaction, isTable = false) => {
 				}`}
 			/>
 
-			{/* Details */}
 			<div className="min-w-0">
 				<h4
 					className={`font-medium text-foreground ${
@@ -84,14 +82,12 @@ export const renderPatron = (transaction, isTable) => {
 	if (!transaction) return;
 	return (
 		<div className="flex items-start gap-4">
-			{/* Patron Image */}
 			<img
 				src={transaction?.us_photoURL || "/placeholder.svg"}
 				alt="Avatar"
 				className="w-10 h-10 rounded-full object-cover bg-gray-100 flex-shrink-0"
 			/>
 
-			{/* Patron Info */}
 			<div>
 				<h4
 					className={`font-medium text-foreground ${
@@ -132,7 +128,6 @@ export const renderSchedule = (transaction) => {
 	return (
 		<>
 			<div className="grid grid-cols-2 gap-4">
-				{/* Date */}
 				<div className="flex items-start gap-3">
 					<FaRegCalendarAlt className="text-foreground text-[15px]  mt-[2px" />
 					<div>
@@ -143,7 +138,6 @@ export const renderSchedule = (transaction) => {
 					</div>
 				</div>
 
-				{/* Due Date (only for Material) */}
 				{transaction?.tr_type === "Material" && (
 					<div className="flex items-start gap-3">
 						<FaRegCalendarAlt className="text-foreground text-[15px]  mt-[2px]" />
@@ -157,10 +151,8 @@ export const renderSchedule = (transaction) => {
 				)}
 			</div>
 
-			{/* Session Start & End (only if not Material) */}
 			{transaction?.tr_type !== "Material" && (
 				<div className="grid grid-cols-2 gap-4 mt-4">
-					{/* Session Start */}
 					<div className="flex items-start gap-3">
 						<FaRegClock className="text-foreground text-[15px] mt-[2px]" />
 						<div>
@@ -171,7 +163,6 @@ export const renderSchedule = (transaction) => {
 						</div>
 					</div>
 
-					{/* Session End */}
 					<div className="flex items-start gap-3">
 						<FaRegClock className="text-foreground text-[15px] mt-[2px]" />
 						<div>

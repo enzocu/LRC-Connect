@@ -167,7 +167,6 @@ export default function LibraryList() {
 					</main>
 				</div>
 
-				{/* {Scanner} */}
 				<ScannerModal
 					isOpen={isScannerOpen}
 					onClose={() => setIsScannerOpen(false)}

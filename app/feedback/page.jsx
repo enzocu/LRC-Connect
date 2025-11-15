@@ -379,6 +379,7 @@ export default function FeedbackAndFAQs() {
 						</div>
 					</main>
 				</div>
+
 				<AddFaqModal
 					isOpen={isAddFaqModalOpen}
 					onClose={() => setIsAddFaqModalOpen(false)}
